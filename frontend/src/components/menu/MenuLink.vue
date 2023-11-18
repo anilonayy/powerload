@@ -1,6 +1,6 @@
 <template>
     <li>
-        <router-link :to="to" class="hover:bg-red-200 p-2">
+        <router-link :to="to" class="hover:underline p-2">
             <slot />
         </router-link>
     </li>

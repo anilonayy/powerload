@@ -1,5 +1,5 @@
 <template>
-  <ButtonCmp :class="defaultClasses">
+  <ButtonCmp class="border-2 border-gray-200">
     <slot />
   </ButtonCmp>
 </template>
@@ -8,11 +8,6 @@
 import ButtonCmp from './ButtonCmp.vue';
 
 export default {
-    data() {
-        return {
-            defaultClasses: 'border-2 border-gray-300'
-        }
-    },
     components: {
         ButtonCmp
     }
