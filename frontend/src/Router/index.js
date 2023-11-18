@@ -12,6 +12,11 @@ const router = createRouter({
       path: '/hakkimizda',
       name: 'about',
       component: () => import('@/Pages/About.vue')
+    },
+    {
+      path: '/giris-yap',
+      name: 'login',
+      component: () => import('@/Pages/Auth/Login.vue')
     }
   ]
 })

@@ -1,11 +1,11 @@
 <template>
-  <ButtonCmp class="border-2 border-gray-200">
+  <button-cmp class="border-2 border-gray-200">
     <slot />
-  </ButtonCmp>
+  </button-cmp>
 </template>
 
 <script>
-import ButtonCmp from './ButtonCmp.vue';
+import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
 
 export default {
     components: {
