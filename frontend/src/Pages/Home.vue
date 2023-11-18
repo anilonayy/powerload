@@ -12,8 +12,8 @@ export default {
 </script>
 
 <template>
-  <user-layout>
-    <layout-container>
+  <UserLayout>
+    <LayoutContainer>
       <div class="h-80 mt-12 rounded-md flex items-center">
         <div class=" w-3/5 p-3">
           <div class="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl">
@@ -96,6 +96,6 @@ export default {
 
     </div>
 
-  </layout-container>
-</user-layout>
+  </LayoutContainer>
+</UserLayout>
 </template>

@@ -1,7 +1,7 @@
 <template>
-    <user-layout>
+    <UserLayout>
         
-    </user-layout>
+    </UserLayout>
 </template>
 
 <script setup>

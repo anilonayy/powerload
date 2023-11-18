@@ -1,7 +1,7 @@
 <template>
-  <button-cmp class="border-2 border-gray-200">
+  <ButtonCmp class="border-2 border-gray-200">
     <slot />
-  </button-cmp>
+  </ButtonCmp>
 </template>
 
 <script>

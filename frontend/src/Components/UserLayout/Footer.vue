@@ -1,9 +1,9 @@
 <template>
     <footer class="mt-auto border-t-2 py-12">
-        <layout-container>
+        <LayoutContainer>
             <div class="grid grid-cols-4">
                 <div class="flex justify-start">
-                    <site-logo />
+                    <SiteLogo />
                 </div>
                 <div>
                     <ul class="flex flex-col gap-1">
@@ -56,7 +56,7 @@
                     </ul>
                 </div>
             </div>
-        </layout-container>
+        </LayoutContainer>
     </footer>
 </template>
 
