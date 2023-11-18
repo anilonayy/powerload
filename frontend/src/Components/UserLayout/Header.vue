@@ -42,11 +42,11 @@
 </template>
 
 <script setup>
-    import SiteLogo from '@/components/SiteLogo.vue'
-    import MenuLink from '@/components/menu/MenuLink.vue';
-    import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
-    import OutlineButton from "@/components/buttons/OutlineButton.vue";
-    import LayoutContainer from "@/components/layout/LayoutContainer.vue";
+    import SiteLogo from '@/Components/SiteLogo.vue'
+    import MenuLink from '@/Components/UserLayout/MenuLink.vue';
+    import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
+    import OutlineButton from "@/Components/buttons/OutlineButton.vue";
+    import LayoutContainer from "@/Components/LayoutContainer.vue";
 </script>
 
 <style lang="scss" scoped>

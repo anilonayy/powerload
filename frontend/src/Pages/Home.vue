@@ -1,6 +1,6 @@
 <script>
-import UserLayout from '@/components/UserLayout.vue';
-import LayoutContainer from '@/components/layout/LayoutContainer.vue';
+import UserLayout from '@/Layouts/UserLayout.vue';
+import LayoutContainer from '@/Components/LayoutContainer.vue';
 
 export default {
   components: {

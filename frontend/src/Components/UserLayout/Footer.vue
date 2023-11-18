@@ -61,8 +61,8 @@
 </template>
 
 <script setup>
-import LayoutContainer from '@/components/layout/LayoutContainer.vue'
-import SiteLogo from '@/components/SiteLogo.vue';
+import LayoutContainer from '@/Components/LayoutContainer.vue'
+import SiteLogo from '@/Components/SiteLogo.vue';
 </script>
 
 <style lang="scss" scoped></style>
