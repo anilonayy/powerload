@@ -1,9 +1,15 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+<script>
+import UserLayout from '../components/UserLayout.vue';
+
+export default {
+  components: {
+    UserLayout
+}
+}
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+    <UserLayout>
+        Hello World
+    </UserLayout>
 </template>
