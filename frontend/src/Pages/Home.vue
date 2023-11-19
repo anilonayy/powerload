@@ -1,17 +1,3 @@
-<script>
-import UserLayout from '@/Layouts/UserLayout.vue';
-import LayoutContainer from '@/Components/LayoutContainer.vue';
-import HeaderText from '@/Components/HeaderText.vue';
-
-export default {
-  components: {
-    UserLayout,
-    LayoutContainer,
-  },
-
-}
-</script>
-
 <template>
   <UserLayout>
     <LayoutContainer>
@@ -30,7 +16,8 @@ export default {
             ağırlıklarınla birlikte büyü!
           </HeaderText>
           <p class="mt-3">Progressive Overload belirli biz dönem içinde sürekli olarak <b>ağırlık/tekrar </b> arttırarak
-            <b>güç ve kas</b> kazanımında fayda sağlayan bir metoddur.</p>
+            <b>güç ve kas</b> kazanımında fayda sağlayan bir metoddur.
+          </p>
           <p class="mt-3">Bu uygulama ile <b>antrenmanlarını</b> ve <b>ağırlıklarını</b> kolayca takip edebiliceksin!</p>
         </div>
         <div class=" w-2/5">
@@ -95,8 +82,14 @@ export default {
           </div>
         </div>
 
-    </div>
+      </div>
 
-  </LayoutContainer>
-</UserLayout>
+    </LayoutContainer>
+  </UserLayout>
 </template>
+
+<script setup>
+  import UserLayout from '@/Layouts/UserLayout.vue';
+  import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
+  import HeaderText from '@/Components/Shared/HeaderText.vue';
+</script>

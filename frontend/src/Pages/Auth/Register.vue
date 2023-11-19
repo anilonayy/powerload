@@ -7,36 +7,44 @@
                     <div>
                         <Label for="name" value="Ad Soyad" />
 
-                        <Input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus
+                        <Input id="name" type="text" class="mt-1 block w-full" v-model="userData.name" autofocus
                             autocomplete="username" />
 
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <div v-if="store.state.formErrors?.name">
+                            <InputError class="mt-2" :message="store.state.formErrors?.name[0]" />
+                        </div>
                     </div>
 
                     <div>
                         <Label for="email" value="E-Posta" />
 
-                        <Input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
+                        <Input id="email" type="email" class="mt-1 block w-full" v-model="userData.email" autofocus
                             autocomplete="username" />
 
-                        <InputError class="mt-2" :message="form.errors.email" />
+                            <div v-if="store.state.formErrors?.email">
+                            <InputError class="mt-2" :message="store.state.formErrors?.email[0]" />
+                        </div>
                     </div>
 
                     <div>
                         <Label for="password" value="Şifre" />
 
-                        <Input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
+                        <Input id="password" type="password" class="mt-1 block w-full" v-model="userData.password"
                             autocomplete="current-password" />
 
-                        <InputError class="mt-2" :message="form.errors.password" />
+                            <div v-if="store.state.formErrors?.password">
+                                <InputError class="mt-2" :message="store.state.formErrors?.password[0]" />
+                            </div>
                     </div>
 
                     <div>
-                        <Label for="passwordConfrim" value="Şifre Onay" />
+                        <Label for="password_confirm" value="Şifre Onay" />
 
-                        <Input id="passwordConfrim" type="password" class="mt-1 block w-full" v-model="form.passwordConfrim" required />
+                        <Input id="password_confirm" type="password" class="mt-1 block w-full" v-model="userData.password_confirm" />
 
-                        <InputError class="mt-2" :message="form.errors.password" />
+                        <div v-if="store.state.formErrors?.password_confirm">
+                                <InputError class="mt-2" :message="store.state.formErrors?.password_confirm[0]" />
+                            </div>
                     </div>
 
                     <div class="flex justify-end">
@@ -65,30 +73,53 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
+import CryptoJs  from 'crypto-js'
 import { useStore } from 'vuex';
+import router from '@/Router';
 import UserLayout from '@/Layouts/UserLayout.vue';
-import LayoutContainer from '@/Components/LayoutContainer.vue';
+import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
 import Panel from '@/Components/Form/Panel.vue';
 import Input from '@/Components/Form/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
 import Label from '@/Components/Form/Label.vue';
-import HeaderText from '@/Components/HeaderText.vue';
+import HeaderText from '@/Components/Shared/HeaderText.vue';
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
 
 const store = useStore();
 
-const form = ref({
+onMounted(() => {
+    store.commit('clearFormErrors')
+});
+
+const saltKey = computed(() => store.getters['_saltKey']);
+
+const userData = ref({
     name: '',
     email: '',
     password: '',
-    errors: {}
+    password_confirm : ''
 });
 
-const formSubmit = (event) => {
+const formSubmit = async(event) => {
     event.preventDefault();
 
-    store.dispatch('register',form.value);
+    let cryptedPassword = '';
+    let cryptedPasswordConfirm = '';
+
+    if(userData.value.password.length > 0 && userData.value.password_confirm ) {
+        cryptedPassword = CryptoJs.HmacSHA1(userData.value.password,saltKey.value).toString();
+        cryptedPasswordConfirm = CryptoJs.HmacSHA1(userData.value.password_confirm,saltKey.value).toString();
+    }
+    
+
+    await store.dispatch('register',{ ...userData.value, password: cryptedPassword, password_confirm: cryptedPasswordConfirm});
+
+    if(store.state.formErrors === null) {
+        Object.keys(userData.value).forEach( field => userData.value[field] = null ); // Remove all values
+
+        router.push('/');
+    }
 }
 </script>
 

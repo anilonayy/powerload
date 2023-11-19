@@ -52,14 +52,13 @@
 
 <script setup>
 import { ref } from 'vue';
-import appAxios from '@/Utils/appAxios'
 import UserLayout from '@/Layouts/UserLayout.vue';
-import LayoutContainer from '@/Components/LayoutContainer.vue';
+import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
 import Panel from '@/Components/Form/Panel.vue';
 import Input from '@/Components/Form/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
 import Label from '@/Components/Form/Label.vue';
-import HeaderText from '@/Components/HeaderText.vue';
+import HeaderText from '@/Components/Shared/HeaderText.vue';
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
 
 
