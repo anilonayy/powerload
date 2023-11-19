@@ -17,6 +17,11 @@ const router = createRouter({
       path: '/giris-yap',
       name: 'login',
       component: () => import('@/Pages/Auth/Login.vue')
+    },
+    {
+      path: '/uye-ol',
+      name: 'register',
+      component: () => import('@/Pages/Auth/Register.vue')
     }
   ]
 })
