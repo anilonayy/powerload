@@ -37,8 +37,6 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  console.log(isAuthenticated);
-  console.log(to);
   if (to.meta.requiresGuest && isAuthenticated) {  
     next('/');
   } else {

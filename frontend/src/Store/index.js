@@ -48,6 +48,15 @@ const actions = {
         console.log(error);
           commit('setFormErrors',error.response.data.errors);
       }
+  } ,
+  async logout({commit}) {
+    try {
+        await appAxios.post('/logout');
+
+        commit('logoutUser');
+    } catch (error) {
+      console.log('Error Occured Logout Action =>', error);
+    }
   }
 };
 
