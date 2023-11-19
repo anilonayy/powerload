@@ -66,7 +66,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import appAxios from '@/Utils/appAxios'
+import { useStore } from 'vuex';
 import UserLayout from '@/Layouts/UserLayout.vue';
 import LayoutContainer from '@/Components/LayoutContainer.vue';
 import Panel from '@/Components/Form/Panel.vue';
@@ -76,6 +76,7 @@ import Label from '@/Components/Form/Label.vue';
 import HeaderText from '@/Components/HeaderText.vue';
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
 
+const store = useStore();
 
 const form = ref({
     name: '',
@@ -87,7 +88,7 @@ const form = ref({
 const formSubmit = (event) => {
     event.preventDefault();
 
-    console.log('Form Submitted');
+    store.dispatch('register',form.value);
 }
 </script>
 
