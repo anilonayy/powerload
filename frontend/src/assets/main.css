@@ -9,6 +9,10 @@
     overflow-x: hidden !important;
 }
 
+input {
+    outline: none !important;
+}
+
 .logo {
     font-family: 'League Spartan', sans-serif;
 }

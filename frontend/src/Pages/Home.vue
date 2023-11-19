@@ -1,6 +1,7 @@
 <script>
 import UserLayout from '@/Layouts/UserLayout.vue';
 import LayoutContainer from '@/Components/LayoutContainer.vue';
+import HeaderText from '@/Components/HeaderText.vue';
 
 export default {
   components: {
@@ -16,7 +17,7 @@ export default {
     <LayoutContainer>
       <div class="h-80 mt-12 rounded-md flex items-center">
         <div class=" w-3/5 p-3">
-          <div class="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl">
+          <HeaderText class="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl">
             <div>
               <p
                 class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
@@ -27,7 +28,7 @@ export default {
             Progressive Overload
             <br>
             ağırlıklarınla birlikte büyü!
-          </div>
+          </HeaderText>
           <p class="mt-3">Progressive Overload belirli biz dönem içinde sürekli olarak <b>ağırlık/tekrar </b> arttırarak
             <b>güç ve kas</b> kazanımında fayda sağlayan bir metoddur.</p>
           <p class="mt-3">Bu uygulama ile <b>antrenmanlarını</b> ve <b>ağırlıklarını</b> kolayca takip edebiliceksin!</p>
