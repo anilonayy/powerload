@@ -1,7 +1,7 @@
 // src/store/index.js
 
 import Vuex from 'vuex';
-import appAxios from '@/Utils/appAxios'
+import axios from '@/Utils/axios.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
 var ls = new SecureLS({ isCompression: true });
@@ -10,68 +10,63 @@ var ls = new SecureLS({ isCompression: true });
 const state = {
   user: null,
   formErrors: null,
+  token: null,
   saltKey: '~~C.QSuperSecretPasswordSaltKey!?Ç!ŞÇQÜŞÇCAQ'
 };
 
 const mutations = {
   setUser(state, user) {
+    state.user = user || {};
+  },
 
-      state.user = user || {};
+  setToken(state, token) {
+    state.token = token || '';
   },
 
   logoutUser(state) {
-      state.user = null;
+    state.user = null;
   },
 
-  setFormErrors(state,errors) {
-      state.formErrors = errors || {};
+  setFormErrors(state, errors) {
+    state.formErrors = errors || {};
   },
 
   clearFormErrors(state) {
-      state.formErrors = null;
-  }
+    state.formErrors = null;
+  },
+
 
 };
 
 const actions = {
   async register({ commit }, userData) {
-      try {
-          await appAxios.post('/register', userData);
+    commit('setUser', {
+      name: userData.name,
+      email: userData.email
+    });
+  },
+  async login({ commit }, userData) {
+    commit('setUser', userData);
+  },
 
-          commit('setUser', {
-              name: userData.name,
-              email: userData.email
-          });
-
-          commit('clearFormErrors');
-      } catch (error) {
-        console.log(error);
-          commit('setFormErrors',error.response.data.errors);
-      }
-  } ,
-  async logout({commit}) {
-    try {
-        await appAxios.post('/logout');
-
-        commit('logoutUser');
-    } catch (error) {
-      console.log('Error Occured Logout Action =>', error);
-    }
+  async logout({ commit }) {
+    commit('logoutUser');
   }
 };
 
 const getters = {
-  _isAuthenticated: state =>  state.user !== null,
+  _isAuthenticated: state => state.user !== null,
   _saltKey: state => state.saltKey,
-  _getCurrentUser: state => state.user
+  _getCurrentUser: state => state.user,
+  _getToken: state => state.token
 };
 
 const plugins = [createPersistedState({
   storage: {
-      getItem: (key) => ls.get(key),
-      setItem: (key, value) => ls.set(key, value),
-      removeItem: (key) => ls.remove(key),
-    }
+    getItem: (key) => ls.get(key),
+    setItem: (key, value) => ls.set(key, value),
+    removeItem: (key) => ls.remove(key),
+  }
 })];
 
 export default new Vuex.Store({

@@ -75,13 +75,14 @@
     import LayoutContainer from "@/Components/Shared/LayoutContainer.vue";
     import { useStore } from 'vuex';
     import { computed, ref } from 'vue';
+    import axios from '@/Utils/axios';
 
     const store =  useStore();
     const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
     const currentUser = computed(() => store.getters['_getCurrentUser']);
 
     const userData = {
-        firstName: currentUser?.value?.name.split(' ')[0],
+        firstName: currentUser?.value?.name?.split(' ')[0],
         email: currentUser?.value?.email
     }
 
@@ -89,11 +90,15 @@
 
 
     const logout = async () => {
-        await store.dispatch('logout');
+
+        try {
+            await axios.post('/logout');
+            await store.dispatch('logout');
+            localStorage.removeItem('_token');
+        } catch (error) {
+            console.log('Error Occured Logout Action =>', error.response.data.message);
+        }
+        
+       
     }
 </script>
-
-<style lang="scss" scoped>
-
-
-</style>

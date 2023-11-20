@@ -32,6 +32,15 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'email.required' => __('validate.email.required'),
+            'email.validate' => __('validate.email.validate'),
+            'password.required' => __('validate.password.required'),
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -48,6 +57,7 @@ class LoginRequest extends FormRequest
                 'email' => __('auth.failed'),
             ]);
         }
+
 
         RateLimiter::clear($this->throttleKey());
     }

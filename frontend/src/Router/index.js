@@ -1,9 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useStore } from 'vuex';
-import { computed } from 'vue';
 
-const store =  useStore();
-const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
 
 
 const router = createRouter({
@@ -35,14 +31,6 @@ const router = createRouter({
   ]
 });
 
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresGuest && isAuthenticated) {  
-    next('/');
-  } else {
-    next();
-  }
-});
 
 
 export default router

@@ -92,4 +92,5 @@
   import UserLayout from '@/Layouts/UserLayout.vue';
   import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
   import HeaderText from '@/Components/Shared/HeaderText.vue';
+
 </script>

@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/pinge', function () {
+    return [
+        'message' => __('auth.failed'),
+        'locale' => app()->getLocale()
+    ];
+});
+
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
