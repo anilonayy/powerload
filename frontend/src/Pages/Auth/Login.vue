@@ -76,6 +76,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import axios from '@/Utils/axios';
+import toastr from 'toastr';
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex';
 import router from '@/Router';
@@ -87,9 +88,6 @@ import InputError from '@/Components/Form/InputError.vue';
 import Label from '@/Components/Form/Label.vue';
 import HeaderText from '@/Components/Shared/HeaderText.vue';
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
-
-
-
 
 
 const store = useStore();
@@ -124,7 +122,7 @@ const formSubmit = async (event) => {
         router.push('/');
     } catch (error) {
         errors.value = error.response.data.data.errors;
+        toastr.error(error.response.data.message);
     }
 }
 </script>
-
