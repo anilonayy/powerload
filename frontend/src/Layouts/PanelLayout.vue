@@ -1,21 +1,15 @@
 <template>
-    <HeaderText class="text-center">#GymSide </HeaderText>
-    <div class="flex gap-4">
+    <HeaderText class="text-center mb-7">#Powerload </HeaderText>
+    <div class="flex gap-4  flex-col md:flex-row">
         <PanelAside/>
-        <Panel class="w-full">
+        <div class="w-full">
             <slot/>
-        </Panel>
-        <div class="main">
-           
         </div>
-        
     </div>
 </template>
 
 <script setup>
-import Panel from "@/Components/Form/Panel.vue";
-import HeaderText from "../Components/Shared/HeaderText.vue";
+import HeaderText from "@/Components/Shared/HeaderText.vue";
 import PanelAside from '@/Components/Panel/PanelAside.vue';
-
 </script>
 

@@ -111,7 +111,7 @@ const formSubmit = async (event) => {
 
         Object.keys(userData.value).forEach(field => userData.value[field] = null); // Remove all values
 
-        router.push('/');
+        router.push({  name: 'dashboard' });
     } catch (error) {
         errors.value = error.response.data.data.errors;
         toastr.error(error.response.data.message);

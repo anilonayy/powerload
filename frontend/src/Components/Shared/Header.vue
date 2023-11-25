@@ -25,12 +25,12 @@
                         <div v-if="isOpen" id="dropdown-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                             <div class="py-2 p-2" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
                                 
-                                <BadgeLink :to="{ name: 'genel-bakis' }"> 
+                                <BadgeLink :to="{ name: 'dashboard' }"> 
                                     <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M17 12h-2l-2 5-2-10-2 5H7"/></svg>
                                     Gym Side
                                 </BadgeLink>
 
-                                <BadgeLink :to="{ name: 'profil-ayarlari' }"> 
+                                <BadgeLink :to="{ name: 'profile' }"> 
                                     <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                                     Profilim
                                 </BadgeLink> 
@@ -73,15 +73,15 @@
 </template>
 
 <script setup>
+    import { computed, ref } from 'vue';
+    import { useStore } from 'vuex';
+    import axios from '@/Utils/axios';
     import SiteLogo from '@/Components/Shared/SiteLogo.vue'
     import MenuLink from '@/Components/Shared/MenuLink.vue';
     import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
     import OutlineButton from "@/Components/buttons/OutlineButton.vue";
     import LayoutContainer from "@/Components/Shared/LayoutContainer.vue";
     import BadgeLink from '@/Components/Shared/BadgeLink.vue';
-    import { useStore } from 'vuex';
-    import { computed, ref } from 'vue';
-    import axios from '@/Utils/axios';
 
     const store =  useStore();
     const isAuthenticated = computed(() => store.getters['_isAuthenticated']);

@@ -33,23 +33,40 @@ const router = createRouter({
     {
       path: '/gym-side',
       name: 'GymSide',
-      children: 
-      [
-        {
+      children:
+        [
+          {
             path: 'genel-bakis',
-            name: 'genel-bakis',
+            name: 'dashboard',
             component: () => import('@/Pages/Panel/Dashboard.vue')
-        },
-        {
+          },
+          {
+            path: 'antrenmanlar',
+            name: 'trainings',
+            component: () => import('@/Pages/Panel/Trainings.vue'),
+            meta: {
+              requiresAuth: true
+            }
+          },
+          {
             path: 'profil-ayarlari',
-            name: 'profil-ayarlari',
+            name: 'profile',
             component: () => import('@/Pages/Panel/ProfileSettings.vue'),
-          meta: {
-            requiresAuth: true
+            meta: {
+              requiresAuth: true
+            }
+          },
+          {
+            path: 'sifre-yenile',
+            name: 'reset-password',
+            component: () => import('@/Pages/Panel/ResetPassword.vue'),
+            meta: {
+              requiresAuth: true
+            }
           }
-        }
-      ]
-}
+          
+        ]
+    }
   ]
 });
 
@@ -59,7 +76,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresGuest && isAuthenticated) {
     next('/');
-  } else if(to.meta.requiresAuth && !isAuthenticated) {
+  } else if (to.meta.requiresAuth && !isAuthenticated) {
     next('/');
   } else {
     next();

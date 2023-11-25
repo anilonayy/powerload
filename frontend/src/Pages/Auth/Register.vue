@@ -96,8 +96,8 @@ import toastr from 'toastr';
 import router from '@/Router';
 import Panel from '@/Components/Form/Panel.vue';
 import Input from '@/Components/Form/Input.vue';
-import InputError from '@/Components/Form/InputError.vue';
 import Label from '@/Components/Form/Label.vue';
+import InputError from '@/Components/Form/InputError.vue';
 import HeaderText from '@/Components/Shared/HeaderText.vue';
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
 
