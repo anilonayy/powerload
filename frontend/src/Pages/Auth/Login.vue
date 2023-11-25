@@ -1,8 +1,6 @@
 <template>
-    <UserLayout>
-        <LayoutContainer>
-            <HeaderText class="text-center"> Giriş Yap </HeaderText>
-            <Panel class="max-w-lg w-full my-16">
+    <HeaderText class="text-center"> Giriş Yap </HeaderText>
+            <Panel class="max-w-lg w-full my-16 p-8">
                 <form @submit="formSubmit($event)">
                     <div>
                         <Label for="email" value="E-Posta" />
@@ -68,9 +66,6 @@
 
                 </form>
             </Panel>
-
-        </LayoutContainer>
-    </UserLayout>
 </template>
 
 <script setup>
@@ -80,8 +75,6 @@ import toastr from 'toastr';
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex';
 import router from '@/Router';
-import UserLayout from '@/Layouts/UserLayout.vue';
-import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
 import Panel from '@/Components/Form/Panel.vue';
 import Input from '@/Components/Form/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
@@ -114,8 +107,7 @@ const formSubmit = async (event) => {
     try {
         const response = await axios.post('/login', { ...userData.value, password: cryptedPassword });
 
-        store.dispatch('login', response.data.user);
-        localStorage.setItem('_token', response.data.token);
+        store.dispatch('login', response.data);
 
         Object.keys(userData.value).forEach(field => userData.value[field] = null); // Remove all values
 

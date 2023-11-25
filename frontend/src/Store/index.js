@@ -39,14 +39,19 @@ const mutations = {
 };
 
 const actions = {
-  async register({ commit }, userData) {
+  async register({ commit }, data) {
     commit('setUser', {
-      name: userData.name,
-      email: userData.email
+      name: data.user.name,
+      email: data.user.email
     });
+
+    localStorage.setItem('_token', data.token);
   },
-  async login({ commit }, userData) {
-    commit('setUser', userData);
+  async login({ commit }, data) {
+    console.log(data);
+    commit('setUser', data.user);
+
+    localStorage.setItem('_token', data.token);
   },
 
   async logout({ commit }) {

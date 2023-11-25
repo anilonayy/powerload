@@ -1,7 +1,6 @@
 <template>
-  <UserLayout>
-    <LayoutContainer>
-      <div class="h-80 mt-12 rounded-md flex items-center">
+      <div>
+        <div class="h-80 mt-12 rounded-md flex items-center">
         <div class=" w-3/5 p-3">
           <HeaderText class="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl">
             <div>
@@ -83,14 +82,9 @@
         </div>
 
       </div>
-
-    </LayoutContainer>
-  </UserLayout>
+      </div>
 </template>
 
 <script setup>
-  import UserLayout from '@/Layouts/UserLayout.vue';
-  import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
   import HeaderText from '@/Components/Shared/HeaderText.vue';
-
 </script>

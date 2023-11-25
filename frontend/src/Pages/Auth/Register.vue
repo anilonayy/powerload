@@ -1,8 +1,7 @@
 <template>
-    <UserLayout>
-        <LayoutContainer>
-            <HeaderText class="text-center"> Üye Ol </HeaderText>
-            <Panel class="max-w-lg w-full my-16">
+     <div>
+        <HeaderText class="text-center"> Üye Ol </HeaderText>
+            <Panel class="max-w-lg w-full my-16 p-8">
                 <form @submit="formSubmit($event)" class="flex flex-col gap-4">
                     <div>
                         <Label for="name" value="Ad Soyad" />
@@ -85,9 +84,7 @@
 
                 </form>
             </Panel>
-
-        </LayoutContainer>
-    </UserLayout>
+     </div>
 </template>
 
 <script setup>
@@ -97,8 +94,6 @@ import axios from '@/Utils/axios';
 import { useStore } from 'vuex';
 import toastr from 'toastr';
 import router from '@/Router';
-import UserLayout from '@/Layouts/UserLayout.vue';
-import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
 import Panel from '@/Components/Form/Panel.vue';
 import Input from '@/Components/Form/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
@@ -133,9 +128,9 @@ const formSubmit = async (event) => {
     try {
         const response = await axios.post('/register', { ...userData.value, password: cryptedPassword, password_confirm: cryptedPasswordConfirm });
 
+        toastr.success("Kayıt Başarılı");
 
-        store.dispatch('register',response.data.user);
-        localStorage.setItem('_token', response.data.token);
+        store.dispatch('register',response.data);
 
         Object.keys(userData.value).forEach(field => userData.value[field] = null); // Remove all values
 

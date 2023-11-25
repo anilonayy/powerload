@@ -24,15 +24,21 @@
                         </button>
                         <div v-if="isOpen" id="dropdown-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                             <div class="py-2 p-2" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
-                                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer" role="menuitem">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>                                    Gym Side
-                                </a>
-                                <a class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer" role="menuitem">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>                                Profilim
-                                </a>
-                                <a @click="logout()" class="flex block rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer " role="menuitem">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>                                Çıkış Yap
-                                </a>
+                                
+                                <BadgeLink :to="{ name: 'genel-bakis' }"> 
+                                    <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M17 12h-2l-2 5-2-10-2 5H7"/></svg>
+                                    Gym Side
+                                </BadgeLink>
+
+                                <BadgeLink :to="{ name: 'profil-ayarlari' }"> 
+                                    <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    Profilim
+                                </BadgeLink> 
+
+                                 <BadgeLink :to="{ name: 'home' }" @click="logout()"  > 
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>                                
+                                    Çıkış Yap
+                                </BadgeLink> 
                             </div>
                         </div>
                     </div>
@@ -58,7 +64,6 @@
                             Üye Ol
                         </ButtonCmp>
                     </router-link>
-                   
                 </div>
                 
             </div>
@@ -73,6 +78,7 @@
     import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
     import OutlineButton from "@/Components/buttons/OutlineButton.vue";
     import LayoutContainer from "@/Components/Shared/LayoutContainer.vue";
+    import BadgeLink from '@/Components/Shared/BadgeLink.vue';
     import { useStore } from 'vuex';
     import { computed, ref } from 'vue';
     import axios from '@/Utils/axios';
@@ -81,13 +87,12 @@
     const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
     const currentUser = computed(() => store.getters['_getCurrentUser']);
 
-    const userData = {
+    const userData = ref({
         firstName: currentUser?.value?.name?.split(' ')[0],
         email: currentUser?.value?.email
-    }
+    });
 
     const isOpen = ref(false);
-
 
     const logout = async () => {
 
