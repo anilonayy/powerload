@@ -85,6 +85,6 @@ class SessionController extends Controller
             Auth::user()->tokens()->where('id', $token->id)->delete();
         }
 
-        return apiResponse('Logout Successfull',200)->toSuccess();
+        return apiResponse('Logout Successful',200)->toSuccess();
     }
 }
