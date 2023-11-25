@@ -12,7 +12,7 @@
 
             <Input
               id="currentPassword"
-              type="text"
+              type="password"
               class="mt-1 block w-full"
               v-model="newPassword.currentPassword"
             />
@@ -27,7 +27,7 @@
 
             <Input
               id="newPassword"
-              type="text"
+              type="password"
               class="mt-1 block w-full"
               v-model="newPassword.newPassword"
             />
@@ -42,7 +42,7 @@
 
             <Input
               id="newPasswordConfirm"
-              type="text"
+              type="password"
               class="mt-1 block w-full"
               v-model="newPassword.newPasswordConfirm"
             />
@@ -65,7 +65,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import axios  from '@/Utils/axios.js';
+import toastr from 'toastr';
+import CryptoJs from 'crypto-js'
+import { useStore } from 'vuex';
 
 import PanelLayout from "@/Layouts/PanelLayout.vue";
 import Panel from "@/Components/Form/Panel.vue";
@@ -75,7 +79,8 @@ import Label from "@/Components/Form/Label.vue";
 import InputError from "@/Components/Form/InputError.vue";
 import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
 
-
+const store = useStore();
+const saltKey = computed(() => store.getters['_saltKey']);
 
 const errors = ref({});
 
@@ -87,11 +92,46 @@ const newPassword = ref({
 });
 
 
-const submitPassword = (event) => {
+const submitPassword = async (event) => {
   event.preventDefault();
+  errors.value = {};
 
-  console.log("event :>> ", event);
+  const payload = newPassword.value;
+
+  if(payload.currentPassword.length === 0) {
+    errors.value.currentPassword = ['Şifre boş olamaz.'];
+  } 
+
+  if(payload.newPassword.length === 0) {
+    errors.value.newPassword = ['Yeni Şifre boş olamaz..'];
+  } 
+
+  if(payload.newPasswordConfirm.length === 0) {
+    errors.value.newPasswordConfirm = ['Yeni Şifre Onayı boş olamaz.'];
+  } else if(payload.newPasswordConfirm !== payload.newPassword) {
+    errors.value.newPasswordConfirm = ['Yeni şifreler uyuşmuyor!'];
+  }
+
+  const cryptedCurrenetPassword = CryptoJs.HmacSHA1(payload.currentPassword, saltKey.value).toString();
+  const cryptedNewPassword = CryptoJs.HmacSHA1(payload.newPassword, saltKey.value).toString();
+
+  if(Object.keys(errors.value).length === 0) {
+   try {
+    const response = await axios.patch('/user/update-password', {
+      currentPassword: cryptedCurrenetPassword,
+      newPassword: cryptedNewPassword,
+      newPasswordConfirm: cryptedNewPassword
+    });
+    
+    toastr.success(response.message);
+
+   } catch (error) {
+    toastr.error(error.message);
+   }
+  }  
 };
+
+
 
 
 </script>

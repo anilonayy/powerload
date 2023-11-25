@@ -113,8 +113,8 @@ const formSubmit = async (event) => {
 
         router.push({  name: 'dashboard' });
     } catch (error) {
-        errors.value = error.response.data.data.errors;
-        toastr.error(error.response.data.message);
+        errors.value = error.errors;
+        toastr.error(error.message);
     }
 }
 </script>

@@ -94,14 +94,15 @@ const submitUserInfo = async (event) => {
     errors.value.name = ['Ad Soyad boş olamaz!'];
   }
 
-  if(!errors.value.email && !errors.value.name) {
+  if(Object.keys(errors.value).length === 0) {
     try {
       const response = await axios.patch('/user',payload);
 
       toastr.success(response.message);
     } catch (error) {
       errors.value = error.errors;
-      console.log('error :>> ', error);
+      
+      toastr.error(error.message);
     }
     
   }
