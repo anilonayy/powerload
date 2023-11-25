@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getCookie  } from '@/Utils/helpers.js';
 
 const createAxiosInstance = () => {
 
@@ -11,7 +12,7 @@ const createAxiosInstance = () => {
  instance.interceptors.request.use(
    config => {
      // Bearer token'ı ekleyin
-     config.headers.Authorization = `Bearer ${ localStorage.getItem('_token') }`;
+     config.headers.Authorization = `Bearer ${ getCookie('_token') }`;
      return config;
    },
    error => {

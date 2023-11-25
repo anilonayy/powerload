@@ -1,7 +1,7 @@
 // src/store/index.js
 
 import Vuex from 'vuex';
-import axios from '@/Utils/axios.js'
+import { setCookie, removeCookie } from '@/Utils/helpers.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
 var ls = new SecureLS({ isCompression: true });
@@ -20,7 +20,12 @@ const mutations = {
   },
 
   setToken(state, token) {
+    setCookie('_token',token,7);
     state.token = token || '';
+  },
+  removeToken(state) {
+    removeCookie('_token');
+    state.token = '';
   },
 
   logoutUser(state) {
@@ -45,17 +50,16 @@ const actions = {
       email: data.user.email
     });
 
-    localStorage.setItem('_token', data.token);
+    commit('setToken',data.token);
   },
   async login({ commit }, data) {
-    console.log(data);
     commit('setUser', data.user);
-
-    localStorage.setItem('_token', data.token);
+    commit('setToken',data.token);
   },
 
   async logout({ commit }) {
     commit('logoutUser');
+    commit('removeToken');
   }
 };
 

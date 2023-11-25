@@ -1,4 +1,6 @@
+import { computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCookie } from '../Utils/helpers';
 
 
 const router = createRouter({
@@ -72,11 +74,11 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('_token');
+const isAuthenticated = computed(() => getCookie('_token'));
 
-  if (to.meta.requiresGuest && isAuthenticated) {
+  if (to.meta.requiresGuest && isAuthenticated.value) {
     next('/');
-  } else if (to.meta.requiresAuth && !isAuthenticated) {
+  } else if (to.meta.requiresAuth && !isAuthenticated.value) {
     next('/');
   } else {
     next();
