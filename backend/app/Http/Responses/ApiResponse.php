@@ -6,25 +6,39 @@ use Illuminate\Contracts\Support\Responsable;
 
 class ApiResponse implements Responsable
 {
-    protected $status;
     protected $code;
     protected $data;
     protected $message;
 
-    public function __construct($status, $code, $message, $data = [])
+    public function __construct($code, $message, $data = [])
     {
-        $this->status = $status;
         $this->code = $code;
-        $this->data = $data;
         $this->message = $message;
+        $this->data = $data;
+    }
+
+    public function toSuccess()
+    {
+        return response()->json([
+            'success' => true,
+            'message' => $this->message,
+            'data' => $this->data,
+        ], $this->code);
+    }
+
+    public function toFail()
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $this->message,
+            'errors' => $this->data,
+        ], $this->code);
     }
 
     public function toResponse($request)
     {
         return response()->json([
-            'status' => $this->status,
             'message' => $this->message,
-            'data' => $this->data,
-        ], $this->code);
+        ]);
     }
 }

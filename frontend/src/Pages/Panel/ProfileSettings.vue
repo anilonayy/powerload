@@ -55,6 +55,9 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import { validateEmail } from '@/Utils/helpers.js';
+import axios  from '@/Utils/axios.js';
+import toastr from 'toastr';
 
 import PanelLayout from "@/Layouts/PanelLayout.vue";
 import Panel from "@/Components/Form/Panel.vue";
@@ -70,16 +73,38 @@ const currentUser = computed(() => store.getters["_getCurrentUser"]);
 
 const userData = ref({
   name: currentUser.value.name,
-  email: currentUser.value.email,
-  password: "",
-  password_confirm: "",
+  email: currentUser.value.email
 });
 
 const errors = ref({});
 
-const submitUserInfo = (event) => {
+const submitUserInfo = async (event) => {
   event.preventDefault();
+  errors.value = {};
 
-  console.log("event :>> ", event);
+  const payload = userData.value;
+
+  if(payload.email.length === 0) {
+    errors.value.email = ['E-Posta adresi boş olamaz.'];
+  } else if (!validateEmail(payload.email)) {
+    errors.value.email = ['Lütfen geçerli bir e-mail adresi girin.']
+  }
+
+  if(payload.name.length === 0) {
+    errors.value.name = ['Ad Soyad boş olamaz!'];
+  }
+
+  if(!errors.value.email && !errors.value.name) {
+    try {
+      const response = await axios.patch('/user',payload);
+
+      toastr.success(response.message);
+    } catch (error) {
+      errors.value = error.errors;
+      console.log('error :>> ', error);
+    }
+    
+  }
+
 };
 </script>

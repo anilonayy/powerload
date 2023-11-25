@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeCookie } from '@/Utils/helpers';
 import { getCookie  } from '@/Utils/helpers.js';
 
 const createAxiosInstance = () => {
@@ -26,13 +27,10 @@ const createAxiosInstance = () => {
      return response.data;
    },
    error => {
-     // Token hatası kontrolü
-     if (error.response.status === 401) {
-       // Token geçerliliğini kaybederse burada işlemleri yapabilirsiniz.
-       // Örneğin, Vuex'taki token'ı temizleyebilir ve kullanıcıyı oturumdan çıkarabilirsiniz.
-       localStorage.removeItem('_token');
+     if (error?.response?.status === 401) {
+       removeCookie('_token');
      }
-     return Promise.reject(error);
+     return Promise.reject(error.response.data);
    }
  );
 

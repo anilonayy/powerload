@@ -6,23 +6,13 @@ if (!function_exists('apiResponse')) {
     /**
      * Create a new ApiResponse instance.
      *
-     * @param mixed $status
+     * @param bool $success
      * @param int $code
      * @param array $data
      * @return ApiResponse
      */
-    function apiResponse($status, $code, $data = [])
+    function apiResponse($message, $code, $data = [])
     {
-        return new ApiResponse($status, $code, $data);
-    }
-
-    function successResponse($code,$message, $data = [])
-    {
-        return new ApiResponse(true, $code,$message, $data);
-    }
-
-    function failResponse($code,$message , $data = [])
-    {
-        return new ApiResponse(false, $code ,$message , $data);
+        return new ApiResponse($code,$message,$data);
     }
 }

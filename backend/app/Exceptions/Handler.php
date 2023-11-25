@@ -43,28 +43,23 @@ class Handler extends ExceptionHandler
     public function render($request, $exception)
     {
 
-        // Laravel ValidationException için özel işlemler
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
 
-        // return failResponse(200,'abc',null);
-
-        // return failResponse(500,'An Error occured',[
-        //     'message' => $exception->getMessage()
-        // ])->toResponse($request);
+        return apiResponse('An Error occured',500,[
+            'message' => $exception->getMessage()
+        ])->toFail();
 
 
-        return parent::render($request, $exception);
+        // return parent::render($request, $exception);
     }
 
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         $errors = $e->validator->errors()->getMessages();
 
-        return failResponse(400,'Validation Failed',[
-            'errors' => $errors
-        ])->toResponse($request);
+        return apiResponse('Validation Failed',400,$errors)->toFail();
     }
 
 }
