@@ -91,10 +91,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import CryptoJs from 'crypto-js'
 import axios from '@/Utils/axios';
 import { useStore } from 'vuex';
+import toastr from 'toastr';
 import router from '@/Router';
 import UserLayout from '@/Layouts/UserLayout.vue';
 import LayoutContainer from '@/Components/Shared/LayoutContainer.vue';
@@ -141,6 +142,7 @@ const formSubmit = async (event) => {
         router.push('/');
     } catch (error) {
         errors.value = error.response.data.data.errors;
+        toastr.error(error.response.data.message);
     }
 
 }
