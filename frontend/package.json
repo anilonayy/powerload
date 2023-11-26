@@ -18,7 +18,9 @@
     "swiper": "^11.0.4",
     "toastr": "^2.1.4",
     "vue": "^3.3.4",
+    "vue-draggable-next": "^2.2.1",
     "vue-router": "^4.2.5",
+    "vuedraggable": "^2.24.3",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"
   },

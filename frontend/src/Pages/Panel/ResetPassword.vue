@@ -125,6 +125,8 @@ const submitPassword = async (event) => {
     
     toastr.success(response.message);
 
+    newPassword.value  = {};
+
    } catch (error) {
     toastr.error(error.message);
    }

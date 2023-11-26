@@ -45,29 +45,27 @@ const router = createRouter({
           {
             path: 'antrenmanlar',
             name: 'trainings',
-            component: () => import('@/Pages/Panel/Trainings.vue'),
-            meta: {
-              requiresAuth: true
-            }
+            component: () => import('@/Pages/Panel/Trainings/Index.vue')
           },
+          {
+            path: 'antrenman-ekle',
+            name: 'add-train',
+            component: () => import('@/Pages/Panel/Trainings/Add.vue'),
+           },
           {
             path: 'profil-ayarlari',
             name: 'profile',
-            component: () => import('@/Pages/Panel/ProfileSettings.vue'),
-            meta: {
-              requiresAuth: true
-            }
+            component: () => import('@/Pages/Panel/ProfileSettings.vue')
           },
           {
             path: 'sifre-yenile',
             name: 'reset-password',
-            component: () => import('@/Pages/Panel/ResetPassword.vue'),
-            meta: {
-              requiresAuth: true
-            }
+            component: () => import('@/Pages/Panel/ResetPassword.vue')
           }
-          
-        ]
+        ],
+        meta: {
+          requiresAuth: true
+        }
     }
   ]
 });
