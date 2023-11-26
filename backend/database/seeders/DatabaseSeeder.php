@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Exercise;
+use App\Models\ExerciseCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $exerciseCategories = require_once(base_path('resources/ExerciseCategories.php'));
+        $exercises = require_once(base_path('resources/Exercises.php'));
+
+        foreach ($exerciseCategories as $category) {
+            ExerciseCategory::factory()->forCategory($category)->create();
+        }
+
+        foreach ($exercises as $exerciseArray) {
+            Exercise::factory()->forExercise($exerciseArray)->create();
+        }
     }
 }

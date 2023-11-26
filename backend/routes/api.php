@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserNewPasswordController;
+use App\Http\Controllers\TrainingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     Route::patch('/user', [UserController::class,'update']);
     Route::patch('/user/update-password', [RegisteredUserNewPasswordController::class,'store']);
+    Route::post('/trainings',[TrainingsController::class,'store']);
 });
 
 
