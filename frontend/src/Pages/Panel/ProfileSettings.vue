@@ -98,11 +98,11 @@ const submitUserInfo = async (event) => {
     try {
       const response = await axios.patch('/user',payload);
 
-      toastr.success(response.message);
+      toastr.success(response.message, response.title);
     } catch (error) {
       errors.value = error.errors;
       
-      toastr.error(error.message);
+      toastr.error(error.message, error.title);
     }
     
   }

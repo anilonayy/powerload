@@ -35,13 +35,13 @@ class SessionController extends Controller
         ]);
 
         if(! Auth::attempt($attributes)) {
-            return apiResponse(__('auth.failed'),400)->toFail();
+            return apiResponse(400,'Hata!',__('auth.failed'))->toFail();
         }
 
         $user = Auth::user();
         $token = $user->createToken('token')->plainTextToken;
 
-        return apiResponse('Success',200,[
+        return apiResponse(200,'Başarılı','Başarıyla giriş yaptınız.',[
             'token' => $token,
             'user' => [
                 'name' => $user->name,
@@ -85,6 +85,6 @@ class SessionController extends Controller
             Auth::user()->tokens()->where('id', $token->id)->delete();
         }
 
-        return apiResponse('Logout Successful',200)->toSuccess();
+        return apiResponse(200,'Başarılı','Güvenli bir şekilde çıkış yaptınız.')->toSuccess();
     }
 }

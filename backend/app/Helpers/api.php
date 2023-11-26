@@ -11,8 +11,8 @@ if (!function_exists('apiResponse')) {
      * @param array $data
      * @return ApiResponse
      */
-    function apiResponse($message, $code, $data = [])
+    function apiResponse($code,$title,$message,$data = [])
     {
-        return new ApiResponse($code,$message,$data);
+        return new ApiResponse($code,$title,$message,$data);
     }
 }

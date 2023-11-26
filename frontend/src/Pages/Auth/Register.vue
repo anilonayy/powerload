@@ -162,16 +162,16 @@ const formSubmit = async (event) => {
       password_confirm: cryptedPasswordConfirm
     })
 
-    toastr.success('Kayıt Başarılı')
 
     store.dispatch('register', response.data)
 
     Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 
+    toastr.success(response.message,response.title);
     router.push('/')
   } catch (error) {
-    errors.value = error.response.data.data.errors
-    toastr.error(error.response.data.message)
+    errors.value = error.errors
+    toastr.error(error.message,error.title)
   }
 }
 </script>

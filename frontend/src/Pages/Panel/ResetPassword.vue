@@ -123,12 +123,12 @@ const submitPassword = async (event) => {
       newPasswordConfirm: cryptedNewPassword
     });
     
-    toastr.success(response.message);
+    toastr.success(response.message, response.title);
 
     newPassword.value  = {};
 
    } catch (error) {
-    toastr.error(error.message);
+    toastr.error(error.message, error.title);
    }
   }  
 };

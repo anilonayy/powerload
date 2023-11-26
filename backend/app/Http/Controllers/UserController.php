@@ -35,7 +35,7 @@ class UserController extends Controller
 
         $user = User::create($attributes);
 
-        return apiResponse('Message',200,[
+        return apiResponse(200,'Başarılı','Başarıyla kayıt oldunuz.',[
             'user' => $user,
             'token' => $user->createToken('token')->plainTextToken
         ])->toSuccess();
@@ -75,7 +75,7 @@ class UserController extends Controller
         $user->save();
 
 
-        return apiResponse('Profiliniz başarıyla güncellendi!',200,[
+        return apiResponse(200,'Başarılı','Profiliniz başarıyla güncellendi!',[
             'name' => $user->name,
             'email' => $user->email
         ])->toSuccess();

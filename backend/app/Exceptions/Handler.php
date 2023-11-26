@@ -47,9 +47,7 @@ class Handler extends ExceptionHandler
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
 
-        return apiResponse('An Error occured',500,[
-            'message' => $exception->getMessage()
-        ])->toFail();
+        return apiResponse(500,'An Error Occured',$exception->getMessage())->toFail();
 
 
         // return parent::render($request, $exception);
@@ -59,7 +57,7 @@ class Handler extends ExceptionHandler
     {
         $errors = $e->validator->errors()->getMessages();
 
-        return apiResponse('Validation Failed',400,$errors)->toFail();
+        return apiResponse(400,'Error','Validation Failed',$errors)->toFail();
     }
 
 }

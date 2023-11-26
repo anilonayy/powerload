@@ -3,14 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 
 class RegisteredUserNewPasswordController extends Controller
 {
@@ -28,11 +23,11 @@ class RegisteredUserNewPasswordController extends Controller
         ]);
 
         if (!Hash::check($request->currentPassword, auth()->user()->password)) {
-            return apiResponse('Güncel şifre yanlış!',400)->toFail();
+            return apiResponse(400,'Hata!','Güncel şifre yanlış!')->toFail();
         }
 
         auth()->user()->update(['password' => Hash::make($request->newPassword)]);
 
-        return apiResponse('Şifre başarıyla güncellendi!',200)->toSuccess();
+        return apiResponse(200,'Başarılı!','Şifre başarıyla güncellendi!')->toSuccess();
     }
 }

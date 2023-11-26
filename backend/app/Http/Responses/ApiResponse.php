@@ -9,10 +9,12 @@ class ApiResponse implements Responsable
     protected $code;
     protected $data;
     protected $message;
+    protected $title;
 
-    public function __construct($code, $message, $data = [])
+    public function __construct($code,$title, $message, $data = [])
     {
         $this->code = $code;
+        $this->title = $title;
         $this->message = $message;
         $this->data = $data;
     }
@@ -21,7 +23,8 @@ class ApiResponse implements Responsable
     {
         return response()->json([
             'success' => true,
-            'message' => $this->message,
+            'title' => $this->title ?? 'Başarılı',
+            'message' => $this->message ?? 'İşlem Başarılı',
             'data' => $this->data,
         ], $this->code);
     }
@@ -30,7 +33,8 @@ class ApiResponse implements Responsable
     {
         return response()->json([
             'success' => false,
-            'message' => $this->message,
+            'title' => $this->title ?? 'Başarısız!',
+            'message' => $this->message ?? 'İşlem Başarısız',
             'errors' => $this->data,
         ], $this->code);
     }
