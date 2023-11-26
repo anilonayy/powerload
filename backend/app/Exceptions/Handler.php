@@ -42,12 +42,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, $exception)
     {
+        $code = 500;
 
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
 
-        return apiResponse(500,'An Error Occured',$exception->getMessage())->toFail();
+        if($exception->getMessage() === 'Unauthenticated.') {
+            $code = 401;
+        }
+
+        return apiResponse($code,'An Error Occured',$exception->getMessage())->toFail();
 
 
         // return parent::render($request, $exception);

@@ -11,7 +11,8 @@ const state = {
   user: null,
   formErrors: null,
   token: null,
-  saltKey: '~~C.QSuperSecretPasswordSaltKey!?Ç!ŞÇQÜŞÇCAQ'
+  saltKey: '~~C.QSuperSecretPasswordSaltKey!?Ç!ŞÇQÜŞÇCAQ',
+  exercises: []
 };
 
 const mutations = {
@@ -40,7 +41,9 @@ const mutations = {
     state.formErrors = null;
   },
 
-
+  setExercises(state,exercisesList) {
+    state.exercises = exercisesList;
+  }
 };
 
 const actions = {
@@ -60,6 +63,10 @@ const actions = {
   async logout({ commit }) {
     commit('logoutUser');
     commit('removeToken');
+  },
+
+  async setExercises({commit},exercisesList) {
+    commit('setExercises',exercisesList);
   }
 };
 
@@ -67,7 +74,8 @@ const getters = {
   _isAuthenticated: state => state.user !== null,
   _saltKey: state => state.saltKey,
   _getCurrentUser: state => state.user,
-  _getToken: state => state.token
+  _getToken: state => state.token,
+  _getExercises: state => state.exercises
 };
 
 const plugins = [createPersistedState({

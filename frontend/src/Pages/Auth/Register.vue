@@ -168,7 +168,7 @@ const formSubmit = async (event) => {
     Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 
     toastr.success(response.message,response.title);
-    router.push('/')
+    router.push('/');
   } catch (error) {
     errors.value = error.errors
     toastr.error(error.message,error.title)
