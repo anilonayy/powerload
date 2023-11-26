@@ -118,9 +118,11 @@ const addDay = () => {
     exercises: [
       {
         id: guid(),
+        excersize_id:0,
         name: '',
         sets: data.value.days[0].exercises[0].sets,
-        reps: data.value.days[0].exercises[0].reps
+        reps: data.value.days[0].exercises[0].reps,
+        disabled: false
       }
     ]
   })
@@ -135,9 +137,11 @@ const addExercise = (day) => {
     if (item.id === day.id) {
       item.exercises.push({
         id: guid(),
+        excersize_id:0,
         name: '',
         sets: item.exercises[0].sets,
-        reps: item.exercises[0].reps
+        reps: item.exercises[0].reps,
+        disabled: false
       })
     }
   })
@@ -155,12 +159,14 @@ const removeExercise = (exerciseId) => {
 const submitTrain = async (event) => {
   event.preventDefault()
 
-  try {
-    const response = await axios.post('/trainings', { train: data.value })
+  console.log('data :>> ', data);
 
-    toastr.success(response.message, response.title)
-  } catch (error) {
-    toastr.error(error.message, error.title)
-  }
+//   try {
+//     const response = await axios.post('/trainings', { train: data.value })
+
+//     toastr.success(response.message, response.title)
+//   } catch (error) {
+//     toastr.error(error.message, error.title)
+//   }
 }
 </script>

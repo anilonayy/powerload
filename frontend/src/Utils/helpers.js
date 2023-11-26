@@ -45,3 +45,21 @@ export const guid = () => {
   //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
+
+export const  getIconName = (categoryName) => {
+  let path = '/images/body/';
+
+  if(categoryName === 'Göğüs') {
+    path += 'chest.png';
+  } else if(categoryName === 'Sırt') {
+    path += 'back.png'
+  } else if ( categoryName === 'Bacak') {
+    path += 'leg.png';
+  } else if( categoryName === 'Ön Kol' ) {
+    path += 'arm.png'
+  } else if (categoryName.includes('Omuz')) {
+    path += 'shoulder.png'
+  }
+
+  return path;
+}

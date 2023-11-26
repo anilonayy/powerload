@@ -75,7 +75,15 @@ const getters = {
   _saltKey: state => state.saltKey,
   _getCurrentUser: state => state.user,
   _getToken: state => state.token,
-  _getExercises: state => state.exercises
+  _getExercises: state => {
+    return state.exercises.map((exercise) => {
+      return {
+        category: exercise.category,
+        value : exercise.id,
+        name: exercise.name
+      }
+    })
+  }
 };
 
 const plugins = [createPersistedState({

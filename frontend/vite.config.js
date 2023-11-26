@@ -5,6 +5,10 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  cache: false,
+  optimizeDeps: {
+    include: ['esm-dep > cjs-dep'],
+  },
   plugins: [
     vue(),
   ],

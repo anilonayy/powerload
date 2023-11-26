@@ -1,12 +1,12 @@
 <template>
    <div class="aside w-100 md:w-72 flex-shrink-0">
       <Panel class="p-4 d-flex gap-3 flex-col">
-               <BadgeLink :to="{ name: 'dashboard' }"  :class="{ active: routeName === 'dashboard' }" > 
+               <BadgeLink :to="{ name: 'dashboard' }"> 
                   <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M17 12h-2l-2 5-2-10-2 5H7"/></svg>
                   Genel Bakış
                </BadgeLink> 
 
-               <BadgeLink :to="{ name: 'trainings' }"  :class="{ active: routeName === 'trainings' }" > 
+               <BadgeLink :to="{ name: 'trainings' }"> 
                  <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
                   Antrenmanlar
                </BadgeLink>

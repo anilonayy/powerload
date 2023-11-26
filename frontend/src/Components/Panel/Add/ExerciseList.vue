@@ -8,14 +8,10 @@
                   <Label
                     :value="exerciseIndex + 1 + '. Egzersiz'"
                     class="text-start w-full text-sm mb-1"
-                  />
-                  <Input
-                    type="text"
-                    v-model="exercise.name"
-                    class="w-full text-sm"
-                    placeholder="Bench Press, Deadlift, Squat vb.."
-                    required
-                  />
+                  />   
+
+               <SearchSelect :options="options" />
+
                 </div>
                 <div
                   class="flex gap-3 lg:grid lg:grid-flow-col lg:w-3/5 max-w-full"
@@ -114,12 +110,26 @@
 
 <script setup>
 
-defineProps(['day']);
+import {  computed, defineEmits } from 'vue';
+import { useStore } from 'vuex';
+import { getIconName } from '@/Utils/helpers'
 
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
 import Input from '@/Components/Form/Input.vue'
 import Label from '@/Components/Form/Label.vue'
+import SearchSelect from '@/Components/Form/SearchSelect.vue';
 
+defineProps(['day']);
+
+
+const store =  useStore();
+const options = computed(() => store.getters['_getExercises']);
+
+const emit = defineEmits(['add-exercise','removeExercise','addDay'])
+
+const onSelect = (option) => {
+  console.log('option :>> ', option);
+}
 </script>
 
 
@@ -127,5 +137,30 @@ import Label from '@/Components/Form/Label.vue'
 .set-repeats-grid {
   max-width: 100% !important;
   grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1fr) !important;
+}
+
+.default {
+  background-color: none;
+}
+
+</style>
+
+<style>
+  input.search{
+  background:Red;
+  color:rgb(180, 176, 176);
+}
+
+.default {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+.menu {
+  width: 200px !important;
+}
+
+.ui.dropdown.selected, .ui.dropdown .menu .selected.item {
+  background-color: rgba(0,0,0,.15);
 }
 </style>
