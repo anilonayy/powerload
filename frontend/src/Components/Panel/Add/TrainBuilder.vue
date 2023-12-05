@@ -12,9 +12,10 @@
             required
             placeholder="Full Body, Split, PPL..."
           />
+          
 
           <div v-if="errors?.trainName && errors?.trainName.length > 0">
-            <InputError class="mt-2" :message="errors.trainName[0]" />
+            <InputError class="mt-2" :message="errors?.trainName[0]" />
           </div>
         </div>
 
@@ -51,25 +52,31 @@
                 class="w-full border-0 border-b-2"
                 placeholder="Göğüs Günü, Sırt Günü, İtiş Günü..."
               />
+              
+              <div v-if="day.errorMessage" class="bg-red-200 text-red-800 rounded-md mt-3 p-2 text-sm font-semibold">
+                  {{ day.errorMessage }}
+              </div>
+         
+
             </div>
-            <div class="inner-side mx-6 flex flex-col gap-2 py-6">
+            <div class="inner-side mx-6 flex flex-col gap-2 pb-6">
                 <ExerciseList :day="day" @removeExercise="removeExercise" @addExercise="addExercise" @addDay="addDay"  />
             </div>
           </div>
           <ButtonCmp
-            class="bg-indigo-400 hover:bg-indigo-300 text-white w-full h-full border-white border-1 border-dashed"
+            class="bg-indigo-600 hover:bg-indigo-500 text-white w-full h-full border-white border-1"
             @click="addDay($event)"
-            >+</ButtonCmp
+            >Antrenman Günü Ekle</ButtonCmp
           >
         </div>
-        <ButtonCmp type="submit" class="text-center mt-6 w-full bg-green-500 hover:bg-green-400 text-white" >ANTRENMANI KAYDET!</ButtonCmp
+        <ButtonCmp type="submit" class="text-center mt-6 w-full bg-black  text-white" >ANTRENMANI KAYDET!</ButtonCmp
         >
       </form>
 </template>
 
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { guid } from '@/Utils/helpers'
 import axios from '@/Utils/axios'
 import toastr from 'toastr'
@@ -93,6 +100,8 @@ onMounted(async () => {
 });
 
 
+
+
 const data = ref({
   trainName: '',
   days: [
@@ -102,14 +111,20 @@ const data = ref({
       exercises: [
         {
           id: guid(),
-          name: '',
+          selected: {
+            name: '',
+            value: 0 
+          },
           sets: 4,
           reps: 10
         }
-      ]
+      ],
+      errorMessage :''
     }
   ]
 })
+
+const errors = ref({});
 
 const addDay = () => {
   data.value.days.push({
@@ -118,13 +133,16 @@ const addDay = () => {
     exercises: [
       {
         id: guid(),
-        excersize_id:0,
-        name: '',
+        selected: {
+          name: 'Name',
+          value: 0
+        },
         sets: data.value.days[0].exercises[0].sets,
         reps: data.value.days[0].exercises[0].reps,
         disabled: false
       }
-    ]
+    ],
+    errorMessage: ''
   })
 }
 
@@ -137,8 +155,10 @@ const addExercise = (day) => {
     if (item.id === day.id) {
       item.exercises.push({
         id: guid(),
-        excersize_id:0,
-        name: '',
+        selected: {
+          name: '',
+          value: 0
+        },
         sets: item.exercises[0].sets,
         reps: item.exercises[0].reps,
         disabled: false
@@ -159,7 +179,8 @@ const removeExercise = (exerciseId) => {
 const submitTrain = async (event) => {
   event.preventDefault()
 
-  console.log('data :>> ', data);
+
+console.log('Submit Data :>> ', data.value);
 
 //   try {
 //     const response = await axios.post('/trainings', { train: data.value })
@@ -169,4 +190,26 @@ const submitTrain = async (event) => {
 //     toastr.error(error.message, error.title)
 //   }
 }
+
+
+watch(data.value,() => {
+  
+    data.value.days.map((day) => {
+      const exerciseIds = [];
+      let hasError = false;
+
+      day.exercises.map((exercise) => {
+        if(!hasError && (exercise.selected?.value || 0) !== 0) {
+          if(exerciseIds.includes(exercise.selected.value)) {
+            day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
+            hasError = true;
+          } else {
+            day.errorMessage = '';
+            exerciseIds.push(exercise.selected.value);
+          }
+        }
+       
+      })
+    })
+})
 </script>

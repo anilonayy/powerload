@@ -10,7 +10,24 @@
                     class="text-start w-full text-sm mb-1"
                   />   
 
-               <SearchSelect :options="options" />
+                <ag-select
+                :options="options"
+                read-text="name"
+                read-value="value"
+                placeholder="Select Exercise"
+                search
+                v-model="exercise.selected"
+              >
+              <template #option="option">
+                    <div class="flex gap-3">
+                      <img :src="getIconName(option.category)"  width="25" class="object-contain">
+                      <div>
+                        {{ option.text }}
+                      </div>
+                    </div>
+              </template>
+              </ag-select>
+            
 
                 </div>
                 <div
@@ -20,7 +37,7 @@
                     'set-repeats-grid': exerciseIndex > 0
                   }"
                 >
-                  <div class="sets w-2/5 lg:w-full" :class="{ 'w-full': exerciseIndex === 0 }">
+                  <div class="sets w-2/5 lg:w-full" :class="{ 'flex-1': exerciseIndex === 0 }">
                     <Label value="Set" class="text-start w-full text-sm" />
 
                     <div class="custom-number-input">
@@ -47,7 +64,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="repeats w-2/5 lg:w-full" :class="{ 'w-full': exerciseIndex === 0 }">
+                  <div class="repeats w-2/5 lg:w-full" :class="{ 'flex-1': exerciseIndex === 0 }">
                     <Label value="Tekrar" class="text-start w-full text-sm" />
                     <div class="custom-number-input h-full">
                       <div class="flex flex-row w-full rounded-lg relative bg-transparent mt-1">
@@ -79,7 +96,7 @@
                     @click="$emit('removeExercise',exercise.id)"
                     class="self-end w-1/5 px-0"
                   >
-                    <ButtonCmp class="bg-red-500 border-white text-white h-9 px-2 lg:px-2"
+                    <ButtonCmp class="bg-red-500 border-white text-white h-9 px-2 lg:px-2" style="padding: 8px !important"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -102,7 +119,7 @@
                 </div>
               </div>
               <ButtonCmp class="bg-indigo-900 text-white w-full" @click="$emit('add-exercise',day)"
-                >+</ButtonCmp
+                > Egzersiz Ekle </ButtonCmp
               >
 </template>
 
@@ -115,21 +132,15 @@ import { useStore } from 'vuex';
 import { getIconName } from '@/Utils/helpers'
 
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
-import Input from '@/Components/Form/Input.vue'
 import Label from '@/Components/Form/Label.vue'
-import SearchSelect from '@/Components/Form/SearchSelect.vue';
+import AgSelect from '@/Components/Shared/AgSelect.vue';
 
 defineProps(['day']);
-
 
 const store =  useStore();
 const options = computed(() => store.getters['_getExercises']);
 
 const emit = defineEmits(['add-exercise','removeExercise','addDay'])
-
-const onSelect = (option) => {
-  console.log('option :>> ', option);
-}
 </script>
 
 
@@ -143,24 +154,4 @@ const onSelect = (option) => {
   background-color: none;
 }
 
-</style>
-
-<style>
-  input.search{
-  background:Red;
-  color:rgb(180, 176, 176);
-}
-
-.default {
-  background-color: transparent !important;
-  color: inherit !important;
-}
-
-.menu {
-  width: 200px !important;
-}
-
-.ui.dropdown.selected, .ui.dropdown .menu .selected.item {
-  background-color: rgba(0,0,0,.15);
-}
 </style>

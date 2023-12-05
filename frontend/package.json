@@ -18,6 +18,7 @@
     "crypto-js": "^4.2.0",
     "jquery": "^3.7.1",
     "secure-ls": "^1.2.6",
+    "select2": "^4.1.0-rc.0",
     "swiper": "^11.0.4",
     "toastr": "^2.1.4",
     "v-select2-component": "^0.4.7",
@@ -39,6 +40,7 @@
     "eslint-plugin-vue": "^9.17.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
+    "sass": "^1.69.5",
     "tailwindcss": "^3.3.5",
     "vite": "^4.4.11"
   },
