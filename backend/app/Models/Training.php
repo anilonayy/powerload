@@ -11,8 +11,15 @@ class Training extends Model
 
     protected $hidden = ['user_id'];
 
+    protected $guarded = [];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function days()
+    {
+        return $this->hasMany(TrainingDay::class);
     }
 }

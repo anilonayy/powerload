@@ -182,13 +182,13 @@ const submitTrain = async (event) => {
 
 console.log('Submit Data :>> ', data.value);
 
-//   try {
-//     const response = await axios.post('/trainings', { train: data.value })
+  try {
+    const response = await axios.post('/trainings', { train: data.value })
 
-//     toastr.success(response.message, response.title)
-//   } catch (error) {
-//     toastr.error(error.message, error.title)
-//   }
+    toastr.success(response.message, response.title)
+  } catch (error) {
+    toastr.error(error.message, error.title)
+  }
 }
 
 
