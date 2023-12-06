@@ -1,10 +1,10 @@
 <template>
     <form method="POST" @submit="submitTrain($event)">
         <div class="mb-8">
-          <Label for="trainName" value="Antrenman Adı" />
+          <Label for="name" value="Antrenman Adı" />
 
           <Input
-            id="trainName"
+            id="name"
             type="text"
             class="mt-1 block w-full"
             v-model="data.name"
@@ -14,14 +14,15 @@
           />
           
 
-          <div v-if="errors?.trainName && errors?.trainName.length > 0">
-            <InputError class="mt-2" :message="errors?.trainName[0]" />
+          <div v-if="errors?.name && errors?.name.length > 0">
+            <InputError class="mt-2" :message="errors?.name[0]" />
           </div>
         </div>
 
+            
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div v-for="(day, index) in data.days" class="border-2" :key="day.id">
-            {{ day }}
+          <div v-for="(day, index) in data.days" class="border-2" :key="index">
             <div class="p-2 inline-block w-full text-center">
               <div class="flex justify-between">
                 <Label :value="'Gün ' + (index + 1)" class="text-start ms-1 mb-2" />
@@ -90,9 +91,9 @@ import Label from '@/Components/Form/Label.vue'
 import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
 
 const store =  useStore();
-const exerciselist = computed(() => store.getters['__getExercises']);
-
 const router = useRoute();
+
+const exerciselist = computed(() => store.getters['__getExercises']);
 
 
 onMounted(async () => {
@@ -100,8 +101,8 @@ onMounted(async () => {
       if (router.params.trainId) {
         const response = await axios.get(`training/${ router.params.trainId }`);
 
-        response.data.days = response.data.days.map((day) => {
-          day.exercises.map((exercise) => {
+        const days = response.data.days.map((day) => {
+          const exercises =  day.exercises.map((exercise) => {
             exercise.selected = {
               name: exercise.exercise.name,
               value: exercise.exercise.id
@@ -109,10 +110,16 @@ onMounted(async () => {
 
             return exercise;
           })
+
+          day.exercises = exercises;
+
+          return day;
         });
 
+        response.data.days = days;
+
+
         data.value = response.data;
-        console.log('data.value :>> ', data.value);
       }
 
       const response = await axios.get('/exercises');
@@ -202,7 +209,7 @@ const submitTrain = async (event) => {
   event.preventDefault()
 
 
-console.log('Submit Data :>> ', data.value);
+  console.log('Submit Data :>> ', data.value);
 
   try {
     const response = await axios.post('/trainings', { train: data.value })

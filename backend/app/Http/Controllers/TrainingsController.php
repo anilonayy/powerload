@@ -67,4 +67,18 @@ class TrainingsController extends Controller
             'payload' => $payload
         ])->toSuccess();
     }
+
+    public function destroy(Training $training)
+    {
+        $user = Auth::user();
+
+        $data = Training::where([
+            ['user_id', $user->id],
+            ['id' , $training->id]
+        ])->first();
+
+
+
+        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı',['object' => $data])->toSuccess();
+    }
 }

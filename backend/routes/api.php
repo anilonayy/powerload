@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     Route::patch('/user/update-password', [RegisteredUserNewPasswordController::class,'store']);
 
     Route::get('/training/{training:id}',[TrainingsController::class,'show']);
+    Route::delete('/training/{training:id}',[TrainingsController::class,'destroy']);
     Route::get('/trainings',[TrainingsController::class,'index']);
     Route::post('/trainings',[TrainingsController::class,'store']);
     Route::get('/exercises',[ExerciseController::class,'index']);

@@ -134,7 +134,7 @@ import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
 import Label from '@/Components/Form/Label.vue'
 import AgSelect from '@/Components/Shared/AgSelect.vue';
 
-defineProps(['day']);
+const props = defineProps(['day']);
 
 const store =  useStore();
 const options = computed(() => store.getters['_getExercises']);
