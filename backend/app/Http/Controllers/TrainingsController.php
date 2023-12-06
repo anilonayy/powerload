@@ -8,13 +8,34 @@ use Auth;
 
 class TrainingsController extends Controller
 {
-    public function store(Request $request) {
 
+    public function index()
+    {
+        $user = Auth::user();
+        $trainings = Training::select('name','id','created_at')->where('user_id', $user->id)->orderBy('id','asc') ->get();
+
+        return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
+    }
+
+    public function show($id)
+    {
+        $user =  Auth::user();
+
+        $training = Training::select('id','name')->with(['days'])->where([
+            ['id','=',$id],
+            ['user_id','=',$user->id]
+        ])->first();
+
+        return apiResponse(200,'','',$training)->toSuccess();
+    }
+
+    public function store(Request $request)
+    {
         $user = Auth::user();
 
         $payload = $request->validate([
             'train' =>  'required',
-            'train.trainName' => 'required|string',
+            'train.name' => 'required|string',
             'train.days' => 'required|array',
             'train.days.*.name' => 'required|string',
             'train.days.*.exercises' => 'required|array',
@@ -25,7 +46,7 @@ class TrainingsController extends Controller
 
         $training =  Training::create([
             'user_id' => $user->id,
-            'name' => $payload['train']['trainName']
+            'name' => $payload['train']['name']
         ]);
 
         foreach($payload['train']['days'] as $day) {

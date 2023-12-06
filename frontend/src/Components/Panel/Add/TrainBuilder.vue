@@ -7,7 +7,7 @@
             id="trainName"
             type="text"
             class="mt-1 block w-full"
-            v-model="data.trainName"
+            v-model="data.name"
             autofocus
             required
             placeholder="Full Body, Split, PPL..."
@@ -21,6 +21,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div v-for="(day, index) in data.days" class="border-2" :key="day.id">
+            {{ day }}
             <div class="p-2 inline-block w-full text-center">
               <div class="flex justify-between">
                 <Label :value="'Gün ' + (index + 1)" class="text-start ms-1 mb-2" />
@@ -56,7 +57,6 @@
               <div v-if="day.errorMessage" class="bg-red-200 text-red-800 rounded-md mt-3 p-2 text-sm font-semibold">
                   {{ day.errorMessage }}
               </div>
-         
 
             </div>
             <div class="inner-side mx-6 flex flex-col gap-2 pb-6">
@@ -81,6 +81,8 @@ import { guid } from '@/Utils/helpers'
 import axios from '@/Utils/axios'
 import toastr from 'toastr'
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router'
+
 
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
 import Input from '@/Components/Form/Input.vue'
@@ -90,8 +92,29 @@ import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
 const store =  useStore();
 const exerciselist = computed(() => store.getters['__getExercises']);
 
+const router = useRoute();
+
+
 onMounted(async () => {
     try {
+      if (router.params.trainId) {
+        const response = await axios.get(`training/${ router.params.trainId }`);
+
+        response.data.days = response.data.days.map((day) => {
+          day.exercises.map((exercise) => {
+            exercise.selected = {
+              name: exercise.exercise.name,
+              value: exercise.exercise.id
+            }
+
+            return exercise;
+          })
+        });
+
+        data.value = response.data;
+        console.log('data.value :>> ', data.value);
+      }
+
       const response = await axios.get('/exercises');
       await store.dispatch('setExercises',response.data);
     } catch (error) {
@@ -101,9 +124,8 @@ onMounted(async () => {
 
 
 
-
 const data = ref({
-  trainName: '',
+  name: '',
   days: [
     {
       id: guid(),
@@ -212,4 +234,6 @@ watch(data.value,() => {
       })
     })
 })
+
+
 </script>

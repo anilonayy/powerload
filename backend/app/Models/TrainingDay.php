@@ -10,6 +10,7 @@ class TrainingDay extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $with = ['exercises'];
 
     public function exercises()
     {

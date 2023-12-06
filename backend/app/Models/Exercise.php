@@ -11,6 +11,7 @@ class Exercise extends Model
     protected $guarded = [];
 
     protected $visible = ['id','name','category'];
+    protected $with = ['category'];
 
     public function category()
     {

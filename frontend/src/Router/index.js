@@ -48,6 +48,11 @@ const router = createRouter({
             component: () => import('@/Pages/Panel/Trainings/Index.vue')
           },
           {
+            path: 'antrenmanlar/:trainId',
+            name: 'training',
+            component: () => import('@/Pages/Panel/Trainings/Show.vue')
+          },
+          {
             path: 'antrenman-ekle',
             name: 'add-train',
             component: () => import('@/Pages/Panel/Trainings/Add.vue'),
