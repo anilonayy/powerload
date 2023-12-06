@@ -50,13 +50,13 @@ const router = createRouter({
           {
             path: 'antrenmanlar/:trainId',
             name: 'training',
-            component: () => import('@/Pages/Panel/Trainings/Show.vue')
+            component: () => import('@/Pages/Panel/Trainings/Edit.vue')
           },
           {
             path: 'antrenman-ekle',
             name: 'add-train',
             component: () => import('@/Pages/Panel/Trainings/Add.vue'),
-           },
+          },
           {
             path: 'profil-ayarlari',
             name: 'profile',

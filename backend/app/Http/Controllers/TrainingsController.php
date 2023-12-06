@@ -70,15 +70,11 @@ class TrainingsController extends Controller
 
     public function destroy(Training $training)
     {
-        $user = Auth::user();
-
-        $data = Training::where([
-            ['user_id', $user->id],
+        Training::where([
+            ['user_id', Auth::user()->id],
             ['id' , $training->id]
-        ])->first();
+        ])->delete();
 
-
-
-        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı',['object' => $data])->toSuccess();
+        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı')->toSuccess();
     }
 }

@@ -12,7 +12,8 @@
           <ButtonCmp class="bg-indigo-800 text-white"> Antrenman Ekle </ButtonCmp>
         </router-link>
 
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <div v-if="trainings.length">
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
@@ -57,6 +58,13 @@
             </tr>
           </tbody>
         </table>
+        </div>
+
+        <div v-else class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6  text-md">
+            Henüz antrenman eklemedin! Antrenman ekleyip gücüne güç katmaya başlayabilirsin!
+        </div>
+
+        
       </div>
     </Panel>
   </PanelLayout>
