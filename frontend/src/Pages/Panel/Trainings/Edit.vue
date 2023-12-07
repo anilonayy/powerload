@@ -1,6 +1,6 @@
 <template>
   <PanelLayout class="p-5">
-    <Panel class="lg:px-8">
+    <Panel>
       <router-link :to="{ name: 'trainings' }">
         <button-cmp class="bg-black text-white">
           Antrenmanlara Dön
@@ -13,7 +13,6 @@
       />
 
       <TrainBuilder :training="training" />
-      
     </Panel>
   </PanelLayout>
 </template>

@@ -63,3 +63,19 @@ export const  getIconName = (categoryName) => {
 
   return path;
 }
+
+
+export const validateTrainBuilderData = (train) => {
+  const response = {
+    success: true,
+    errorMessage: ''
+  };
+
+  if(typeof train.days === 'undefined' || !train.days.length) {
+    response.success = false;
+    response.errorMessage = 'Antrenman günü olmadan antrenman eklenemez!'
+  }
+
+
+  return response;
+}

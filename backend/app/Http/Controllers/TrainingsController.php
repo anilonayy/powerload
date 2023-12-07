@@ -32,8 +32,45 @@ class TrainingsController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $payload = $this->validatePayload($request);
 
-        $payload = $request->validate([
+        $training =  Training::create([
+            'user_id' => $user->id,
+            'name' => $payload['train']['name']
+        ]);
+
+        $this->addTrainingDaysByPayload($training, $payload);
+
+        return apiResponse(200,'Başarılı', 'İşlem Başarılı!')->toSuccess();
+    }
+
+    public function destroy(Training $training)
+    {
+        Training::where([
+            ['user_id', Auth::user()->id],
+            ['id' , $training->id]
+        ])->delete();
+
+        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı')->toSuccess();
+    }
+
+    public function update(Training $training,Request $request)
+    {
+        $payload = $this->validatePayload($request);
+        $training->days()->delete();
+
+
+        $this->addTrainingDaysByPayload($training,$payload);
+
+
+        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı',[
+            'res' => $training->days()
+        ])->toSuccess();
+    }
+
+    public function validatePayload(Request $request)
+    {
+        return $request->validate([
             'train' =>  'required',
             'train.name' => 'required|string',
             'train.days' => 'required|array',
@@ -43,12 +80,10 @@ class TrainingsController extends Controller
             'train.days.*.exercises.*.reps' => 'required|integer',
             'train.days.*.exercises.*.selected.value' => 'required|integer|exists:exercises,id',
         ]);
+    }
 
-        $training =  Training::create([
-            'user_id' => $user->id,
-            'name' => $payload['train']['name']
-        ]);
-
+    public function addTrainingDaysByPayload(Training $training,array $payload):void
+    {
         foreach($payload['train']['days'] as $day) {
             $trainingDay = $training->days()->create([
                 'name' => $day['name']
@@ -62,19 +97,5 @@ class TrainingsController extends Controller
                 ]);
             }
         }
-
-        return apiResponse(200,'Başarılı', 'İşlem Başarılı!',[
-            'payload' => $payload
-        ])->toSuccess();
-    }
-
-    public function destroy(Training $training)
-    {
-        Training::where([
-            ['user_id', Auth::user()->id],
-            ['id' , $training->id]
-        ])->delete();
-
-        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı')->toSuccess();
     }
 }

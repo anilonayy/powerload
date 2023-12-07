@@ -18,10 +18,9 @@
             <InputError class="mt-2" :message="errors?.name[0]" />
           </div>
         </div>
-
             
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
           <div v-for="(day, index) in data.days" class="border-2" :key="index">
             <div class="p-2 inline-block w-full text-center">
               <div class="flex justify-between">
@@ -78,9 +77,10 @@
 
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { guid } from '@/Utils/helpers'
+import { onMounted, ref, watch, inject } from 'vue'
+import { guid, validateTrainBuilderData } from '@/Utils/helpers'
 import axios from '@/Utils/axios'
+import router from '@/Router'
 import toastr from 'toastr'
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router'
@@ -92,15 +92,16 @@ import Label from '@/Components/Form/Label.vue'
 import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
 
 const store =  useStore();
-const router = useRoute();
+const route = useRoute();
+const toast = inject('toast');
 
-const exerciselist = computed(() => store.getters['__getExercises']);
 
+const isUpdatePage = ref(route.params.trainId);
 
 onMounted(async () => {
     try {
-      if (router.params.trainId) {
-        const response = await axios.get(`training/${ router.params.trainId }`);
+      if (isUpdatePage.value) {
+        const response = await axios.get(`trainings/${ route.params.trainId }`);
 
         const days = response.data.days.map((day) => {
           const exercises =  day.exercises.map((exercise) => {
@@ -117,9 +118,24 @@ onMounted(async () => {
           return day;
         });
 
-        response.data.days = days;
 
-
+        response.data.days = days.length ? days : [{
+          id: guid(),
+          name: '',
+          exercises: [
+            {
+              id: guid(),
+              selected: {
+                name: '',
+                value: 0 
+              },
+              sets: 4,
+              reps: 10
+            }
+          ],
+          errorMessage :''
+        }];
+        
         data.value = response.data;
       }
 
@@ -209,15 +225,32 @@ const removeExercise = (exerciseId) => {
 const submitTrain = async (event) => {
   event.preventDefault()
 
-
-  console.log('Submit Data :>> ', data.value);
-
   try {
-    const response = await axios.post('/trainings', { train: data.value })
+    let response;
+    const validationResponse = validateTrainBuilderData(data.value);
 
-    toastr.success(response.message, response.title)
+    if(!validationResponse.success) {
+      toast.fire({
+        icon: 'error',
+        title: validationResponse.errorMessage
+      });
+    } else {
+      response = isUpdatePage.value ? 
+      await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) : 
+      await axios.post('/trainings', { train: data.value })
+
+      toast.fire({
+        icon: 'success',
+        title: response.message
+      });
+
+      router.push({ name: 'trainings' });
+    }
   } catch (error) {
-    toastr.error(error.message, error.title)
+    toast.fire({
+      icon: 'error',
+      title: error.message
+    })
   }
 }
 

@@ -186,13 +186,14 @@ watch(
   >
     <div class="current" @click="onWrapperClick">
       <span
+      class="w-full"
         :class="{ 'is-selected': !!state.selectedOption }"
         @click="onWrapperClick"
         >
         
-        <div class="flex gap-3" v-if="state.selectedOption" @click="state.openList = !state.openList" >
+        <div class="flex gap-3" v-if="state.selectedOption" @click="state.openList = !state.openList" style="" >
           <img :src="getIconName(state.selectedOption.category)"  width="25" class="object-contain">
-          <div>
+          <div class="overflow-hidden text-ellipsis w-full">
               {{ state.selectedOption.text }}
             </div>
         </div>
