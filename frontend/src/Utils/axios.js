@@ -41,4 +41,9 @@ const createAxiosInstance = () => {
  return instance;
 };
 
-export default createAxiosInstance();
+
+export default {
+  install: (app) => {
+      app.provide('axios', createAxiosInstance());
+  }
+};

@@ -9,25 +9,24 @@
                     :value="exerciseIndex + 1 + '. Egzersiz'"
                     class="text-start w-full text-sm mb-1"
                   />   
-
-                <ag-select
-                :options="options"
-                read-text="name"
-                read-value="value"
-                placeholder="Select Exercise"
-                search
-                v-model="exercise.selected"
-              >
-              <template #option="option">
-                    <div class="flex gap-3">
-                      <img :src="getIconName(option.category)"  width="25" class="object-contain">
-                      <div>
-                        {{ option.text }}
-                      </div>
-                    </div>
-              </template>
-              </ag-select>
-
+                  <ag-select
+                    :options="options"
+                    read-text="name"
+                    read-value="value"
+                    placeholder="Select Exercise"
+                    search
+                    v-model="exercise.selected"
+                    :class="{ 'validation-error': exercise.hasError }"
+                  >
+                    <template #option="option">
+                          <div class="flex gap-3">
+                            <img :src="getIconName(option.category)"  width="25" class="object-contain">
+                            <div>
+                              {{ option.text }}
+                            </div>
+                          </div>
+                    </template>
+                  </ag-select>
                 </div>
                 <div
                   class="flex gap-3 lg:grid lg:grid-flow-col lg:w-3/5 max-w-full"
@@ -152,5 +151,4 @@ const emit = defineEmits(['add-exercise','removeExercise','addDay'])
 .default {
   background-color: none;
 }
-
 </style>

@@ -64,11 +64,11 @@ export const  getIconName = (categoryName) => {
   return path;
 }
 
-
 export const validateTrainBuilderData = (train) => {
   const response = {
     success: true,
-    errorMessage: ''
+    errorMessage: '',
+    data: {}
   };
 
   if(typeof train.days === 'undefined' || !train.days.length) {
@@ -76,6 +76,32 @@ export const validateTrainBuilderData = (train) => {
     response.errorMessage = 'Antrenman günü olmadan antrenman eklenemez!'
   }
 
+  train.hasError = Boolean(!train.name);
+  
+  train.days.map((day) => {
+    const exerciseIds = [];
+    let hasError = false;
+
+    day.hasError = Boolean(!day.name);
+
+    day.exercises.map((exercise) => {
+      if(!hasError && (exercise.selected?.value || 0) !== 0) {
+        if(exerciseIds.includes(exercise.selected.value)) {
+          day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
+          hasError = true;
+        } else {
+          day.errorMessage = '';
+          exerciseIds.push(exercise.selected.value);
+        }
+      }
+
+      exercise.hasError = Boolean(!exercise.selected.value)
+    })
+  })
+
+
+
+  response.data = train;
 
   return response;
 }

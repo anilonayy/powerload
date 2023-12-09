@@ -32,16 +32,22 @@
             >
               <th
                 scope="row"
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {{ training.name }}
+               <router-link
+                  :to="{ name: 'training', params: { trainId: training.id } }"
+                  class="text-gray-900 font-bold dark:text-blue-500 hover:underline"
+                >
+                  {{ training.name }}
+                </router-link>
+                
               </th>
               <td class="px-6 py-4">0</td>
               <td class="px-6 py-4">{{ training.created_at }}</td>
               <td class="px-6 py-4 flex gap-3">
                 <router-link
                   :to="{ name: 'training', params: { trainId: training.id } }"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                  class=" text-blue-600 dark:text-blue-500 hover:underline"
                 >
                   <ButtonCmp class="bg-orange-400 text-white border-orange-400 hover:bg-orange-300"
                     >Düzenle</ButtonCmp
@@ -76,11 +82,13 @@ import PanelLayout from '@/Layouts/PanelLayout.vue'
 import Panel from '@/Components/Form/Panel.vue'
 import PanelHeader from '@/Components/Panel/PanelHeader.vue'
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
-import axios from '@/Utils/axios.js'
 
-const trainings = ref([])
+
+const axios = inject('axios');
 const swal = inject('swal');
 const toast = inject('toast');
+
+const trainings = ref([])
 
 onMounted(async () => {
   try {
@@ -88,15 +96,12 @@ onMounted(async () => {
 
     trainings.value = response.data
   } catch (error) {
-    toast.fire({
-      icon: "error",
-      title: error.message
-    });
+    toast.error(error.message);
   }
 })
 
 const removeTraining = async (id) => {
-  swal.fire({
+    swal.fire({
       title: 'Emin misin?',
       text: 'Bu işlem geri alınamaz!',
       icon: 'warning',
@@ -112,15 +117,10 @@ const removeTraining = async (id) => {
 
           trainings.value = trainings.value.filter((training) => training.id !== id);
 
-          toast.fire({
-            icon: "success",
-            title: response.message
-          });
+
+          toast.success(response.message);
         } catch (error) {
-          toast.fire({
-            icon: "error",
-            title: error.message
-          })
+          toast.error(error.message);
         }
       }
     })

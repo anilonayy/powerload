@@ -116,18 +116,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, inject } from 'vue'
 import CryptoJs from 'crypto-js'
-import axios from '@/Utils/axios'
 import { useStore } from 'vuex'
-import toastr from 'toastr'
-import router from '@/Router'
+
 import Panel from '@/Components/Form/Panel.vue'
 import Input from '@/Components/Form/Input.vue'
 import Label from '@/Components/Form/Label.vue'
 import InputError from '@/Components/Form/InputError.vue'
 import HeaderText from '@/Components/Shared/HeaderText.vue'
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
+
+const axios = inject('axios');
+const toast = inject('toast');
+const router = inject('router');
 
 const store = useStore()
 const saltKey = computed(() => store.getters['_saltKey'])
@@ -167,11 +169,11 @@ const formSubmit = async (event) => {
 
     Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 
-    toastr.success(response.message,response.title);
+    toast.success(response.message,);
     router.push('/');
   } catch (error) {
     errors.value = error.errors
-    toastr.error(error.message,error.title)
+    toast.error(error.message)
   }
 }
 </script>

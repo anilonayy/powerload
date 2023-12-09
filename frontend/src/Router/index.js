@@ -53,7 +53,7 @@ const router = createRouter({
             component: () => import('@/Pages/Panel/Trainings/Edit.vue')
           },
           {
-            path: 'antrenman-ekle',
+            path: 'antrenmanlar/ekle',
             name: 'add-train',
             component: () => import('@/Pages/Panel/Trainings/Add.vue'),
           },
@@ -90,7 +90,4 @@ const isAuthenticated = computed(() => getCookie('_token'));
 
 
 
-
-
-
-export default router
+export default router;

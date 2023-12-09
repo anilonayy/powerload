@@ -7,6 +7,7 @@
             id="name"
             type="text"
             class="mt-1 block w-full"
+            :class="{ 'validation-error' : data.hasError }"
             v-model="data.name"
             autofocus
             required
@@ -53,6 +54,7 @@
                 v-model="day.name"
                 class="w-full border-0 border-b-2"
                 placeholder="Göğüs Günü, Sırt Günü, İtiş Günü..."
+                :class="{ 'validation-error' : day.hasError }"
               />
               
               <div v-if="day.errorMessage" class="bg-red-200 text-red-800 rounded-md mt-3 p-2 text-sm font-semibold">
@@ -70,7 +72,7 @@
             >Antrenman Günü Ekle</ButtonCmp
           >
         </div>
-        <ButtonCmp type="submit" class="text-center mt-6 w-full bg-black  text-white" >ANTRENMANI KAYDET!</ButtonCmp
+        <ButtonCmp type="submit" class="text-center mt-6 w-full bg-green-500  text-white" >ANTRENMANI KAYDET!</ButtonCmp
         >
       </form>
 </template>
@@ -79,12 +81,8 @@
 <script setup>
 import { onMounted, ref, watch, inject } from 'vue'
 import { guid, validateTrainBuilderData } from '@/Utils/helpers'
-import axios from '@/Utils/axios'
-import router from '@/Router'
-import toastr from 'toastr'
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router'
-
 
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
 import Input from '@/Components/Form/Input.vue'
@@ -93,8 +91,12 @@ import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
 
 const store =  useStore();
 const route = useRoute();
-const toast = inject('toast');
 
+const toast = inject('toast');
+const axios = inject('axios');
+const router = inject('router');
+
+console.log('router :>> ', router);
 
 const isUpdatePage = ref(route.params.trainId);
 
@@ -142,7 +144,8 @@ onMounted(async () => {
       const response = await axios.get('/exercises');
       await store.dispatch('setExercises',response.data);
     } catch (error) {
-      toastr.error(error.message);
+
+      toast.error(error.message);
     }
 });
 
@@ -226,54 +229,44 @@ const submitTrain = async (event) => {
   event.preventDefault()
 
   try {
-    let response;
     const validationResponse = validateTrainBuilderData(data.value);
 
     if(!validationResponse.success) {
-      toast.fire({
-        icon: 'error',
-        title: validationResponse.errorMessage
-      });
+      toast.error(validationResponse.errorMessage);
     } else {
-      response = isUpdatePage.value ? 
-      await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) : 
-      await axios.post('/trainings', { train: data.value })
+      const response = isUpdatePage.value 
+      ? await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) 
+      : await axios.post('/trainings', { train: data.value })
 
-      toast.fire({
-        icon: 'success',
-        title: response.message
-      });
-
+      toast.success(response.message);
       router.push({ name: 'trainings' });
     }
   } catch (error) {
-    toast.fire({
-      icon: 'error',
-      title: error.message
-    })
+    toast.error(error.message);
   }
 }
 
 
 watch(data.value,() => {
-  
-    data.value.days.map((day) => {
-      const exerciseIds = [];
-      let hasError = false;
 
-      day.exercises.map((exercise) => {
-        if(!hasError && (exercise.selected?.value || 0) !== 0) {
-          if(exerciseIds.includes(exercise.selected.value)) {
-            day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
-            hasError = true;
-          } else {
-            day.errorMessage = '';
-            exerciseIds.push(exercise.selected.value);
-          }
-        }
-       
-      })
-    })
+    data.value = validateTrainBuilderData(data.value).data;
+    console.log('here');
+    // data.value.days.map((day) => {
+    //   const exerciseIds = [];
+    //   let hasError = false;
+
+    //   day.exercises.map((exercise) => {
+    //     if(!hasError && (exercise.selected?.value || 0) !== 0) {
+    //       if(exerciseIds.includes(exercise.selected.value)) {
+    //         day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
+    //         hasError = true;
+    //       } else {
+    //         day.errorMessage = '';
+    //         exerciseIds.push(exercise.selected.value);
+    //       }
+    //     }
+    //   })
+    // })
 })
 
 

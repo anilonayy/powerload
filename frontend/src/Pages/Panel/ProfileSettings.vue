@@ -53,11 +53,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, inject } from "vue";
 import { useStore } from "vuex";
 import { validateEmail } from '@/Utils/helpers.js';
-import axios  from '@/Utils/axios.js';
-import toastr from 'toastr';
 
 import PanelLayout from "@/Layouts/PanelLayout.vue";
 import Panel from "@/Components/Form/Panel.vue";
@@ -66,6 +64,9 @@ import Input from "@/Components/Form/Input.vue";
 import Label from "@/Components/Form/Label.vue";
 import InputError from "@/Components/Form/InputError.vue";
 import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
+
+const axios = inject('axios');
+const toast = inject('toast');
 
 const store = useStore();
 
@@ -96,13 +97,13 @@ const submitUserInfo = async (event) => {
 
   if(Object.keys(errors.value).length === 0) {
     try {
-      const response = await axios.patch('/user',payload);
+      const response = await axios.patch('/user', payload);
 
-      toastr.success(response.message, response.title);
+      toast.success(response.message);
     } catch (error) {
       errors.value = error.errors;
       
-      toastr.error(error.message, error.title);
+      toast.error( error.title);
     }
     
   }
