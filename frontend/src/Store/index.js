@@ -13,7 +13,11 @@ const state = {
   token: null,
   saltKey: '~~C.QSuperSecretPasswordSaltKey!?Ç!ŞÇQÜŞÇCAQ',
   exercises: [],
-  asideOpen: false
+  asideOpen: false,
+  training: {
+    currentTraining: 0,
+    trainingStep: 0,
+  }
 };
 
 const mutations = {
@@ -49,6 +53,12 @@ const mutations = {
   setAsideOpen(state, data) {
     state.asideOpen = data;
   },
+  setTrainingStep (state, data) {
+    state.training.trainingStep = data;
+  },
+  setTraining (state, data) {
+    state.training.currentTraining = data;
+  }
 };
 
 const actions = {
@@ -83,6 +93,14 @@ const actions = {
   updateAsideOpen({ commit }, data) {
     commit('setAsideOpen', data);
   },
+
+  setTraining({ commit }, data) {
+    commit('setTraining', data);
+  },
+
+  updateStep({ commit }, data) {
+    commit('setTrainingStep', data);
+  }
 };
 
 const getters = {
@@ -99,7 +117,9 @@ const getters = {
       }
     })
   },
-  _getAsideOpen: state => state.asideOpen
+  _getAsideOpen: state => state.asideOpen,
+  _getTraining: state => state.training,
+  _getTrainingStep: state => state.training.trainingStep,
 };
 
 const plugins = [createPersistedState({

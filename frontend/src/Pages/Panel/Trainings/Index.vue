@@ -1,5 +1,4 @@
 <template>
-  <PanelLayout class="p-5">
     <Panel>
       <PanelHeader
         class="p-2"
@@ -73,12 +72,10 @@
         
       </div>
     </Panel>
-  </PanelLayout>
 </template>
 
 <script setup>
 import { onMounted, ref, inject } from 'vue'
-import PanelLayout from '@/Layouts/PanelLayout.vue'
 import Panel from '@/Components/Form/Panel.vue'
 import PanelHeader from '@/Components/Panel/PanelHeader.vue'
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'

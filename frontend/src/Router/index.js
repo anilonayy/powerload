@@ -65,6 +65,12 @@ const router = createRouter({
             path: 'sifre-yenile',
             name: 'reset-password',
             component: () => import('@/Pages/Panel/ResetPassword.vue')
+          },
+          {
+            path: 'on-train/:trainId?/:dayId?',
+            name: 'on-train',
+            component: () => import('@/Pages/Panel/OnTrain.vue')
+
           }
         ],
         meta: {

@@ -1,5 +1,4 @@
 <template>
-  <PanelLayout class="mt-0">
     <div class="flex flex-col w-full">
       <Panel class="w-full p-4 mt-0">
         <PanelHeader
@@ -49,7 +48,6 @@
         </form>
       </Panel>
     </div>
-  </PanelLayout>
 </template>
 
 <script setup>
@@ -57,7 +55,6 @@ import { computed, ref, inject } from "vue";
 import { useStore } from "vuex";
 import { validateEmail } from '@/Utils/helpers.js';
 
-import PanelLayout from "@/Layouts/PanelLayout.vue";
 import Panel from "@/Components/Form/Panel.vue";
 import PanelHeader from "@/Components/Panel/PanelHeader.vue";
 import Input from "@/Components/Form/Input.vue";

@@ -1,9 +1,8 @@
 <template>
-    <PanelLayout class="p-6"> 
-    DASHBOARD
-    </PanelLayout>
+    <div>
+        Dashboard
+    </div>
 </template>
 
 <script setup>
-import PanelLayout from "@/Layouts/PanelLayout.vue";
 </script>

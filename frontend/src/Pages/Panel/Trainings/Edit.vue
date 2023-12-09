@@ -1,5 +1,4 @@
 <template>
-  <PanelLayout class="p-5">
     <Panel>
       <router-link :to="{ name: 'trainings' }">
         <button-cmp class="bg-black text-white flex gap-3">
@@ -17,11 +16,9 @@
 
       <TrainBuilder :training="training" />
     </Panel>
-  </PanelLayout>
 </template>
 
 <script setup>
-import PanelLayout from '@/Layouts/PanelLayout.vue'
 import Panel from '@/Components/Form/Panel.vue'
 import PanelHeader from '@/Components/Panel/PanelHeader.vue'
 import TrainBuilder from '@/Components/Panel/Add/TrainBuilder.vue'

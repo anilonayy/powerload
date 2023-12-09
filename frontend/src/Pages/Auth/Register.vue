@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderText class="text-center"> Üye Ol </HeaderText>
-    <Panel class="max-w-lg w-full my-16 p-8">
+    <Panel class="max-w-lg w-full my-8 p-8">
       <form @submit="formSubmit($event)" class="flex flex-col gap-4">
         <div>
           <Label for="name" value="Ad Soyad" />
@@ -12,7 +12,7 @@
             class="mt-1 block w-full"
             v-model="userData.name"
             autofocus
-            autocomplete="username"
+            autocomplete="name"
           />
 
           <div v-if="errors?.name && errors?.name.length > 0">
@@ -28,7 +28,6 @@
             type="email"
             class="mt-1 block w-full"
             v-model="userData.email"
-            autofocus
             autocomplete="username"
           />
 

@@ -1,10 +1,9 @@
 <template>
-    <PanelLayout>
         <Panel class="w-full p-4">
-             <PanelHeader
-          title="Şifre Yenile"
-          description="Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃"
-        />
+          <PanelHeader
+            title="Şifre Yenile"
+            description="Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃"
+          />
 
         <form @submit="submitPassword($event)" method="POST" class="flex flex-col gap-4">
           <div>
@@ -61,7 +60,6 @@
           </ButtonCmp>
         </form>
       </Panel>
-    </PanelLayout>
 </template>
 
 <script setup>
@@ -71,7 +69,6 @@ import toastr from 'toastr';
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex';
 
-import PanelLayout from "@/Layouts/PanelLayout.vue";
 import Panel from "@/Components/Form/Panel.vue";
 import PanelHeader from "@/Components/Panel/PanelHeader.vue";
 import Input from "@/Components/Form/Input.vue";
