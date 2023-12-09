@@ -1,8 +1,8 @@
 <template>
-    <footer class="mt-auto border-t-2 py-12">
+    <footer class="mt-auto border-t-2 py-6">
         <LayoutContainer>
-            <div class="grid grid-cols-4">
-                <div class="flex justify-start">
+            <div class="grid grid-cols-1 md:grid-cols-4 p-3 gap-5">
+                <div class="flex justify-center md:justify-start">
                     <SiteLogo />
                 </div>
                 <div>
@@ -44,12 +44,12 @@
                         <h4 class="font-bold text-xl underline-offset-2 underline mb-3">Uygulamaları İndir</h4>
                         <li>
                             <a href="#">
-                                <img src="/images/app-store.png" class="download-app">
+                                <img src="/images/app-store.png" class="download-app" width="300">
                                 </a>
                         </li>
                         <li>
                             <a href="#">
-                                <img src="/images/google-play.png" class="download-app">
+                                <img src="/images/google-play.png" class="download-app" width="300">
                             </a>
                         </li>
                         

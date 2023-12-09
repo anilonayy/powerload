@@ -1,28 +1,28 @@
 <template>
-      <div>
-        <div class="h-80 mt-12 rounded-md flex items-center">
-        <div class=" w-3/5 p-3">
-          <HeaderText class="mt-6 text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl">
-            <div>
-              <p
-                class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
-                Powerload nedir?
-              </p>
-            </div>
+      <div class="mt-12 h-full flex flex-col gap-5">
+        <div class=" w-full h-full mx-auto mt-0 rounded-md flex flex-col gap-8 md:flex-row items-center p-3">
+          <div class="w-full mb-6 md:w-3/5  md:mb-0">
+            <HeaderText class="text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl mt-0">
+              <div>
+                <p
+                  class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
+                  Powerload nedir?
+                </p>
+              </div>
 
-            Progressive Overload
-            <br>
-            ağırlıklarınla birlikte büyü!
-          </HeaderText>
-          <p class="mt-3">Progressive Overload belirli biz dönem içinde sürekli olarak <b>ağırlık/tekrar </b> arttırarak
-            <b>güç ve kas</b> kazanımında fayda sağlayan bir metoddur.
-          </p>
-          <p class="mt-3">Bu uygulama ile <b>antrenmanlarını</b> ve <b>ağırlıklarını</b> kolayca takip edebiliceksin!</p>
+              Progressive Overload
+              <br>
+              ağırlıklarınla birlikte büyü!
+            </HeaderText>
+            <p class="mt-3">Progressive Overload belirli bir dönem içinde sürekli olarak <b>ağırlık/tekrar </b> arttırarak
+              <b>güç ve kas</b> kazanımında fayda sağlayan bir metoddur.
+            </p>
+            <p class="mt-3">Bu uygulama ile <b>antrenmanlarını</b> ve <b>ağırlıklarını</b> kolayca takip edebiliceksin!</p>
+          </div>
+          <div class="w-full md:w-2/5">
+            <img src="/images/milo-of-croton.jpg">
+          </div>
         </div>
-        <div class=" w-2/5">
-          <img src="/images/milo-of-croton.jpg">
-        </div>
-      </div>
 
       <!-- Step by step -->
       <div class=" py-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl  lg:py-10">
@@ -82,6 +82,20 @@
         </div>
 
       </div>
+
+      <h2 class="text-xl font-semibold">Download on apps</h2>
+      <div class="flex w-100 mt-4">
+        <a href="#">
+          <img src="/images/Google-Play-download-button.svg" class="w-72" alt="Google Play">        
+        </a>
+        <a href="#">
+          <img src="/images/App-Store-download-button.svg" class="w-64" alt="App Store">
+        </a>
+        
+        
+      </div>
+      
+
       </div>
 </template>
 

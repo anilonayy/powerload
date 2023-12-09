@@ -20,9 +20,9 @@
         </div>
             
 
-        <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div v-for="(day, index) in data.days" class="border-2" :key="index">
-            <div class="p-2 inline-block w-full text-center">
+            <div class="p-2 inline-block w-full">
               <div class="flex justify-between">
                 <Label :value="'Gün ' + (index + 1)" class="text-start ms-1 mb-2" />
 
@@ -51,7 +51,7 @@
               <Input
                 type="text"
                 v-model="day.name"
-                class="w-full border-0 border-b-2"
+                class="w-full border-0 border-b-2 max-w-full"
                 placeholder="Göğüs Günü, Sırt Günü, İtiş Günü..."
                 :class="{ 'validation-error' : day.hasError }"
               />
