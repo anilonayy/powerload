@@ -93,6 +93,8 @@ const submitUserInfo = async (event) => {
 
   if(payload.name.length === 0) {
     errors.value.name = ['Ad Soyad boş olamaz!'];
+  } else if (payload.name.length > 40) {
+    errors.value.name = ['Ad soyad 40 karakterden fazla olamaz.']
   }
 
   if(Object.keys(errors.value).length === 0) {

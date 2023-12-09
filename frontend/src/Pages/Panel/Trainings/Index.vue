@@ -15,7 +15,7 @@
         <div v-if="trainings.length">
 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900"
           >
             <tr>
               <th scope="col" class="px-6 py-3">Antrenman Adı</th>

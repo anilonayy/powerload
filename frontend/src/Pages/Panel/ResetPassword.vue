@@ -56,7 +56,7 @@
 
           <ButtonCmp
             type="submit"
-            class="bg-gray-800 hover:bg-gray-600 active:bg-gray-700 text-white mt-4 w-full text-lg w-24"
+            class="bg-gray-800 hover:bg-gray-600 active:bg-gray-700 text-white mt-4 text-lg w-24"
             >Güncelle
           </ButtonCmp>
         </form>
@@ -107,7 +107,7 @@ const submitPassword = async (event) => {
   } 
 
   if(payload.newPasswordConfirm.length === 0) {
-    errors.value.newPasswordConfirm = ['Yeni Şifre Onayı boş olamaz.'];
+    errors.value.newPasswordConfirm = ['Yeni Şifre Onay boş olamaz.'];
   } else if(payload.newPasswordConfirm !== payload.newPassword) {
     errors.value.newPasswordConfirm = ['Yeni şifreler uyuşmuyor!'];
   }
