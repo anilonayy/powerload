@@ -10,8 +10,7 @@
           type="email"
           class="mt-1 block w-full"
           v-model="userData.email"
-          autofocus
-          autocomplete="username"
+          autocomplete="email "
         />
 
         <div v-if="errors?.email && errors?.email.length > 0">
@@ -88,12 +87,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import axios from '@/Utils/axios'
-import toastr from 'toastr'
+import { ref, computed, inject, watch } from 'vue'
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex'
 import router from '@/Router'
+
 import Panel from '@/Components/Form/Panel.vue'
 import Input from '@/Components/Form/Input.vue'
 import InputError from '@/Components/Form/InputError.vue'
@@ -104,10 +102,13 @@ import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
 const store = useStore()
 const saltKey = computed(() => store.getters['_saltKey'])
 
+const axios = inject('axios')
+const toast = inject('toast')
+
 const userData = ref({
   email: '',
   password: ''
-})
+});
 
 const errors = ref({})
 
@@ -121,17 +122,43 @@ const formSubmit = async (event) => {
   }
 
   try {
-    const response = await axios.post('/login', { ...userData.value, password: cryptedPassword })
+    if(validateForm()) {
+      const response = await axios.post('/login', { ...userData.value, password: cryptedPassword })
 
-    store.dispatch('login', response.data)
+      store.dispatch('login', response.data)
 
-    Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
+      Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 
-    router.push({ name: 'dashboard' });
-    toastr.success(response.message,response.title);
+      router.push({ name: 'dashboard' });
+      toast.success(response.message);
+    }
+    
+    
   } catch (error) {
     errors.value = error.errors
-    toastr.error(error.message, error.title)
+    toast.error(error.message)
   }
 }
+
+watch(userData.value, () => {
+  validateForm();
+})
+
+const validateForm = () => {
+  if (isEmpty(userData.value.email)) {
+    errors.value.email = ["E-Mail alanı zorunludur."]
+  } else {
+    errors.value.email = []
+  }
+
+  if (isEmpty(userData.value.password)) {
+    errors.value.password = ["Şifre alanı zorunludur."]
+  } else {
+    errors.value.password = []
+  }
+
+  return Object.keys(errors.value).every((field) => errors.value[field].length === 0 )
+}
+
+const isEmpty = (field) => (field || '').trim().length === 0;
 </script>

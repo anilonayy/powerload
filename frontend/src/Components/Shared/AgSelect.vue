@@ -113,7 +113,11 @@ const onSearchInput = (e) => {
   state.searchVal = e.target.value;
 };
 const onClear = () => {
-  state.selectedOption = null;
+  state.selectedOption = {
+    value: 0,
+    text: '',
+    category : ''
+  };
   emitModel();
 };
 
@@ -318,7 +322,7 @@ watch(
   }
 
   .list-wrapper {
-    width: 250px;
+    width: 100%;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 0 1px rgb(68 68 68 / 11%);

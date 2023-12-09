@@ -10,7 +10,6 @@
             :class="{ 'validation-error' : data.hasError }"
             v-model="data.name"
             autofocus
-            required
             placeholder="Full Body, Split, PPL..."
           />
           
@@ -91,12 +90,10 @@ import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
 
 const store =  useStore();
 const route = useRoute();
+import router from '@/Router'
 
 const toast = inject('toast');
 const axios = inject('axios');
-const router = inject('router');
-
-console.log('router :>> ', router);
 
 const isUpdatePage = ref(route.params.trainId);
 
@@ -231,42 +228,23 @@ const submitTrain = async (event) => {
   try {
     const validationResponse = validateTrainBuilderData(data.value);
 
-    if(!validationResponse.success) {
-      toast.error(validationResponse.errorMessage);
-    } else {
+    if(validationResponse.success) {
       const response = isUpdatePage.value 
-      ? await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) 
-      : await axios.post('/trainings', { train: data.value })
+        ? await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) 
+        : await axios.post('/trainings', { train: data.value })
 
       toast.success(response.message);
-      router.push({ name: 'trainings' });
+      router.push({ name: 'trainings' });      
     }
   } catch (error) {
+    console.log(error);
     toast.error(error.message);
   }
 }
 
 
 watch(data.value,() => {
-
     data.value = validateTrainBuilderData(data.value).data;
-    console.log('here');
-    // data.value.days.map((day) => {
-    //   const exerciseIds = [];
-    //   let hasError = false;
-
-    //   day.exercises.map((exercise) => {
-    //     if(!hasError && (exercise.selected?.value || 0) !== 0) {
-    //       if(exerciseIds.includes(exercise.selected.value)) {
-    //         day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
-    //         hasError = true;
-    //       } else {
-    //         day.errorMessage = '';
-    //         exerciseIds.push(exercise.selected.value);
-    //       }
-    //     }
-    //   })
-    // })
 })
 
 

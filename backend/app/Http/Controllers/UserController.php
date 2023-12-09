@@ -69,11 +69,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,'.$user->id
         ]);
 
-        $user->name = $atttributes['name'];
-        $user->email = $atttributes['email'];
-
-        $user->save();
-
+        $user->update($atttributes);
 
         return apiResponse(200,'Başarılı','Profiliniz başarıyla güncellendi!',[
             'name' => $user->name,

@@ -72,9 +72,8 @@
 </template>
 
 <script setup>
-    import { computed, ref } from 'vue';
+    import { computed, ref, inject, watchEffect } from 'vue';
     import { useStore } from 'vuex';
-    import axios from '@/Utils/axios';
 
     import SiteLogo from '@/Components/Shared/SiteLogo.vue'
     import MenuLink from '@/Components/Shared/MenuLink.vue';
@@ -84,14 +83,14 @@
     import BadgeLink from '@/Components/Shared/BadgeLink.vue';
 
 
-
+    const axios = inject('axios')
     const store =  useStore();
     const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
     const currentUser = computed(() => store.getters['_getCurrentUser']);
 
     const userData = ref({
-        firstName: currentUser?.value?.name?.split(' ')[0],
-        email: currentUser?.value?.email
+        firstName: currentUser.value?.name?.split(' ')[0],
+        email: currentUser.value?.email
     });
 
     const isOpen = ref(false);
@@ -101,10 +100,8 @@
         try {
             await axios.post('/logout');
             await store.dispatch('logout');
-
-            localStorage.removeItem('_token');
         } catch (error) {
-            console.log('Error Occured Logout Action =>', error.response.data.message);
+            console.log('Error Occured Logout Action =>', error.message);
         }
     }
 
@@ -113,4 +110,12 @@
             isOpen.value = false;
         }
     })
+
+
+    watchEffect(() => { // Catch all user updates
+        userData.value = {
+            firstName: currentUser.value?.name?.split(' ')[0],
+            email: currentUser.value?.email
+        };
+    });
 </script>

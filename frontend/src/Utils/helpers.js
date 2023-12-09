@@ -84,19 +84,34 @@ export const validateTrainBuilderData = (train) => {
 
     day.hasError = Boolean(!day.name);
 
-    day.exercises.map((exercise) => {
-      if(!hasError && (exercise.selected?.value || 0) !== 0) {
-        if(exerciseIds.includes(exercise.selected.value)) {
-          day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
-          hasError = true;
-        } else {
-          day.errorMessage = '';
-          exerciseIds.push(exercise.selected.value);
-        }
-      }
+    if(day.name.trim().length === 0) {
+      day.errorMessage = 'Gün adı boş olamaz.'
+      day.hasError = true;
+      response.success = false;
+    } else {
+      day.errorMessage = ''
+      day.hasError = false;
+      response.success = true;
+    }
 
-      exercise.hasError = Boolean(!exercise.selected.value)
-    })
+    if(!day.hasError) {
+      day.exercises.map((exercise) => {
+        if(!hasError && (exercise.selected?.value || 0) !== 0) {
+          if(exerciseIds.includes(exercise.selected.value)) {
+            day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
+            hasError = true;
+          } else {
+            hasError = false;
+            day.errorMessage = '';
+            exerciseIds.push(exercise.selected.value);
+          }
+        }
+  
+        exercise.hasError = Boolean(!exercise.selected.value)
+      })
+    }
+
+    
   })
 
 

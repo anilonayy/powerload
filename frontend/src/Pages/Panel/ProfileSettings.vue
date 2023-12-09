@@ -98,6 +98,7 @@ const submitUserInfo = async (event) => {
   if(Object.keys(errors.value).length === 0) {
     try {
       const response = await axios.patch('/user', payload);
+      await store.dispatch('updateUser', response.data);
 
       toast.success(response.message);
     } catch (error) {

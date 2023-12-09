@@ -101,22 +101,29 @@ onMounted(async () => {
 })
 
 const removeTraining = async (id) => {
-    swal.fire({
+      const swalWithBootstrapButtons = swal.mixin({
+      customClass: {
+        confirmButton: "bg-red-500 text-white py-2 px-4 rounded-md ms-2",
+        cancelButton: "bg-gray-400 text-white py-2 px-4 rounded-md"
+      },
+      buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
       title: 'Emin misin?',
       text: 'Bu işlem geri alınamaz!',
-      icon: 'warning',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Sil',
       cancelButtonText: 'Vazgeçtim',
-      reverseButtons: false
+      reverseButtons: true,
     })
     .then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`/training/${ id }`)
+          const response = await axios.delete(`/trainings/${ id }`)
 
           trainings.value = trainings.value.filter((training) => training.id !== id);
-
 
           toast.success(response.message);
         } catch (error) {

@@ -1,7 +1,7 @@
 // src/store/index.js
 
 import Vuex from 'vuex';
-import { setCookie, removeCookie } from '@/Utils/helpers.js'
+import { setCookie, removeCookie, getCookie } from '@/Utils/helpers.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
 var ls = new SecureLS({ isCompression: true });
@@ -18,6 +18,7 @@ const state = {
 const mutations = {
   setUser(state, user) {
     state.user = user || {};
+    console.log('user :>> ', user);
   },
 
   setToken(state, token) {
@@ -55,6 +56,13 @@ const actions = {
 
     commit('setToken',data.token);
   },
+  async updateUser({commit}, data) {
+    console.log('data :>> ', data);
+    commit('setUser', {
+      name: data.name,
+      email: data.email
+    });
+  },
   async login({ commit }, data) {
     commit('setUser', data.user);
     commit('setToken',data.token);
@@ -71,7 +79,7 @@ const actions = {
 };
 
 const getters = {
-  _isAuthenticated: state => state.user !== null,
+  _isAuthenticated: (state) =>  state.user !== null  && getCookie('_token') !== null,
   _saltKey: state => state.saltKey,
   _getCurrentUser: state => state.user,
   _getToken: state => state.token,
