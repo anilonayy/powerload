@@ -105,6 +105,8 @@ export const validateTrainBuilderData = (train) => {
             day.errorMessage = '';
             exerciseIds.push(exercise.selected.value);
           }
+        } else {
+          response.success = false;
         }
   
         exercise.hasError = Boolean(!exercise.selected.value)

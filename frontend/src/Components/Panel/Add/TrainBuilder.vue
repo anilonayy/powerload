@@ -227,6 +227,7 @@ const submitTrain = async (event) => {
 
   try {
     const validationResponse = validateTrainBuilderData(data.value);
+    console.log('validationResponse :>> ', validationResponse);
 
     if(validationResponse.success) {
       const response = isUpdatePage.value 
