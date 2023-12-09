@@ -1,6 +1,4 @@
-import { computed } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router'
-import { getCookie } from '../Utils/helpers';
 import { useStore } from 'vuex'
 
 
@@ -81,8 +79,9 @@ router.beforeEach((to, from, next) => {
   const store = useStore();
   const isAuthenticated = store.getters['_isAuthenticated']
 
-
-  console.log('isAuthenticated :>> ', isAuthenticated);
+  setTimeout(() => {
+    store.dispatch('updateAsideOpen', false);
+  }, 200);
 
   if (to.meta.requiresGuest && isAuthenticated) {
     next('/');

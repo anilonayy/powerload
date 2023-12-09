@@ -1,11 +1,9 @@
 <template>
-    <HeaderText class="text-center mb-7">#Powerload </HeaderText>
-    <div class="w-full">
+    <div class="w-full mt-8">
         <slot/>
     </div>
 </template>
 
 <script setup>
-import HeaderText from "@/Components/Shared/HeaderText.vue";
-</script>
 
+</script>

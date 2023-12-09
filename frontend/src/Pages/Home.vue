@@ -1,5 +1,5 @@
 <template>
-      <div class="mt-12 h-full flex flex-col gap-5">
+      <div class="h-full flex flex-col gap-5">
         <div class=" w-full h-full mx-auto mt-0 rounded-md flex flex-col gap-8 md:flex-row items-center p-3">
           <div class="w-full mb-6 md:w-3/5  md:mb-0">
             <HeaderText class="text-[1.75rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl mt-0">

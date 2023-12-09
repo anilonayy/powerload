@@ -3,10 +3,3 @@
         <slot />
     </div>
 </template>
-
-
-<style lang="css">
-    .layout-container {
-        min-height: 100vh;
-    }
-</style>
