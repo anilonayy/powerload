@@ -125,10 +125,11 @@ import Label from '@/Components/Form/Label.vue'
 import InputError from '@/Components/Form/InputError.vue'
 import HeaderText from '@/Components/Shared/HeaderText.vue'
 import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
+import router from '@/Router'
 
 const axios = inject('axios');
 const toast = inject('toast');
-const router = inject('router');
+
 
 const store = useStore()
 const saltKey = computed(() => store.getters['_saltKey'])

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Training;
+use App\Models\TrainingDay;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -27,6 +28,30 @@ class TrainingsController extends Controller
         ])->first();
 
         return apiResponse(200,'','',$training)->toSuccess();
+    }
+
+    public function showDays(string $trainingId)
+    {
+        $user =  Auth::user();
+
+        $days = Training::select('id','name')->with(['days'])->where([
+            ['id','=', $trainingId],
+            ['user_id','=', $user->id]
+        ])->first()->days;
+
+        return apiResponse(200,'','',$days)->toSuccess();
+    }
+
+    public function showExercises(string $trainingId, string $dayId)
+    {
+        $user =  Auth::user();
+
+        $exercises = Training::select('id','name')->with(['days'])->where([
+            ['id','=', $trainingId],
+            ['user_id','=', $user->id]
+        ])->first()->days->find($dayId)->exercises;
+
+        return apiResponse(200,'','',$exercises)->toSuccess();
     }
 
     public function store(Request $request)

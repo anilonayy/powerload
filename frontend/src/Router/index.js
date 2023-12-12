@@ -67,7 +67,7 @@ const router = createRouter({
             component: () => import('@/Pages/Panel/ResetPassword.vue')
           },
           {
-            path: 'on-train/:trainId?/:dayId?',
+            path: 'on-train/:trainingLogId',
             name: 'on-train',
             component: () => import('@/Pages/Panel/OnTrain.vue')
 

@@ -15,8 +15,20 @@ const state = {
   exercises: [],
   asideOpen: false,
   training: {
-    currentTraining: 0,
-    trainingStep: 0,
+    id: 0,
+    trainingId: 0,
+    trainingDayId: 0,
+    exercises: [{
+      id: 0,
+      name: '',
+      sets: [{
+        weight: 0,
+        reps: 0
+      }],
+      category: {
+        name : ''
+      }
+    }]
   }
 };
 
@@ -53,11 +65,17 @@ const mutations = {
   setAsideOpen(state, data) {
     state.asideOpen = data;
   },
-  setTrainingStep (state, data) {
-    state.training.trainingStep = data;
-  },
   setTraining (state, data) {
-    state.training.currentTraining = data;
+    state.training = data;
+  },
+  setTrainingId (state, data) {
+    state.training.trainingId = data;
+  },
+  setTrainingLogId (state, data) {
+    state.training.id = data;
+  },
+  setTrainingDayId (state, data) {
+    state.training.trainingDayId = data;
   }
 };
 
@@ -98,8 +116,14 @@ const actions = {
     commit('setTraining', data);
   },
 
-  updateStep({ commit }, data) {
-    commit('setTrainingStep', data);
+  setTrainingId({ commit }, data) {
+    commit('setTrainingId', data);
+  },
+  setTrainingLogId({ commit }, data) {
+    commit('setTrainingLogId', data);
+  },
+  setTrainingDayId({ commit }, data) {
+    commit('setTrainingDayId', data);
   }
 };
 
@@ -119,7 +143,6 @@ const getters = {
   },
   _getAsideOpen: state => state.asideOpen,
   _getTraining: state => state.training,
-  _getTrainingStep: state => state.training.trainingStep,
 };
 
 const plugins = [createPersistedState({
