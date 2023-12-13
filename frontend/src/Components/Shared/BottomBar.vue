@@ -5,7 +5,7 @@
 
     <div class="w-full" @click="handleTraining()">
         <ButtonCmp class="w-full h-full bg-indigo-600 text-white border-indigo-600 rounded-none">
-            <div v-if="training.id === 0">
+            <div v-if="!isTrainingSelected">
                 Antrenmana Başla!
             </div>
             <div v-else>
@@ -30,25 +30,15 @@ const axios = inject('axios');
 const toast = inject('toast');
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
-const training = computed(() => store.getters['_getTraining']);
+const trainingLogId = computed(() => store.getters['_getTrainingLogId']);
+const isTrainingSelected = computed(() => store.getters['_isTrainingSelected']);
 const componentWillShow = ref(route.name  !== "on-train");
 
 
-onMounted(async () => {
-    if(training.value.id === 0) {
-        const response = await axios.get(`training-logs/last`);
-        
-        store.dispatch('setTraining', response.data);
-    } else {
-        console.log('Yenisi oluşmadı dbden çekildi');
-    }
-    
-})
-
 const handleTraining = async () => {
     try {
-        if(training.value.id !== 0) {
-            router.push({ name: 'on-train', params: { trainingLogId: training.value.id} });
+        if(isTrainingSelected.value) {
+            router.push({ name: 'on-train', params: { trainingLogId: trainingLogId.value} });
             return;
         }
 
@@ -58,6 +48,7 @@ const handleTraining = async () => {
         
         router.push({ name: 'on-train', params: { trainingLogId: response.data.id} });
     } catch (error) {
+        console.error(error);
         toast.error('Bir hata oluştu. Lütfen tekrar deneyiniz.')
     }
 }
@@ -65,8 +56,16 @@ const handleTraining = async () => {
 
 watch(
       () => route.fullPath,
-      (newUrl, oldUrl) => {
+      async (newUrl, oldUrl) => {
         componentWillShow.value = !newUrl.includes('on-train');
+
+        if(isAuthenticated.value) {
+            if(! isTrainingSelected.value) {
+                const response = await axios.get(`training-logs/last`);
+
+                store.dispatch('setTrainingLogId', response.data.id);
+            }
+        }
 
       }
     )

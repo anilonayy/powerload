@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('training_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('training_id')->nullable()->default(0);
+            $table->foreignId('training_day_id')->nullable()->default(0);
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });

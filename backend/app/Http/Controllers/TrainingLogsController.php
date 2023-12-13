@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TrainingLogs;
+use App\Models\TrainingExerciseLogs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,9 +36,22 @@ class TrainingLogsController extends Controller
             'user_id' => $user->id
         ]);
 
-        return apiResponse(201, 'Başarılı', 'Log Başarıyla oluşturuldu', [
+        return apiResponse(200, 'Başarılı', 'Log Başarıyla güncellendi', [
             'id' => $trainingLog->id
         ])->toSuccess();
+    }
+
+    public function update(TrainingLogs $trainingLogs, Request $request)
+    {
+        $attributes = $request->validate([
+            'training_day_id' => 'sometimes|exists:training_days,id',
+            'training_id' => 'sometimes|exists:trainings,id',
+            'isCompleted' => 'sometimes|boolean'
+        ]);
+
+        $trainingLogs->update($attributes);
+
+        return apiResponse(201, 'Başarılı', 'Log Başarıyla güncellendi', $trainingLogs)->toSuccess();
     }
 
     /**
@@ -56,13 +70,6 @@ class TrainingLogsController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -86,7 +93,10 @@ class TrainingLogsController extends Controller
         }
 
         return apiResponse(200, 'Başarılı', 'Log bulundu', [
-            'id' => $lastTrainingLog->id
+            'id' => $lastTrainingLog->id,
+            'training_id' => $lastTrainingLog->training_id,
+            'training_day_id' => $lastTrainingLog->training_day_id,
+            'exercises' => TrainingExerciseLogs::where('training_log_id', $lastTrainingLog->id)->get()
         ])->toSuccess();
     }
 }

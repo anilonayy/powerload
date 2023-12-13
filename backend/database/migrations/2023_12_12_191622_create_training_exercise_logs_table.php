@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('training_exercise_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('training_day_log_id');
+            $table->foreignId('training_log_id');
             $table->foreignId('exercise_id');
             $table->integer('weight');
             $table->integer('reps');

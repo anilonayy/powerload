@@ -4,6 +4,8 @@ import Vuex from 'vuex';
 import { setCookie, removeCookie, getCookie } from '@/Utils/helpers.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
+
+
 var ls = new SecureLS({ isCompression: true });
 
 
@@ -21,15 +23,42 @@ const state = {
     exercises: [{
       id: 0,
       name: '',
-      sets: [{
-        weight: 0,
-        reps: 0
-      }],
       category: {
         name : ''
-      }
+      },
+      onTrain: [{
+        id: 0,
+        weight: 0,
+        reps: 0,
+        weightError: false,
+        repsError: false,
+      }]
     }]
-  }
+  },
+  trainLogId: 0,
+  trainings: [{
+    id: 0,
+    isSelected: false,
+    days: [{
+      id: 0,
+      name: '',
+      isSelected: false,
+      exercises: [{
+        id: 0,
+        name: '',
+        category: {
+          name : ''
+        },
+        onTrain: [{
+          id: 0,
+          weight: 0,
+          reps: 0,
+          weightError: false,
+          repsError: false,
+        }]
+      }]
+    }]
+  }]
 };
 
 const mutations = {
@@ -65,17 +94,31 @@ const mutations = {
   setAsideOpen(state, data) {
     state.asideOpen = data;
   },
-  setTraining (state, data) {
-    state.training = data;
+  setTrainings (state, data) {
+    state.trainings = data;
   },
   setTrainingId (state, data) {
     state.training.trainingId = data;
   },
   setTrainingLogId (state, data) {
-    state.training.id = data;
+    state.trainLogId = data;
   },
   setTrainingDayId (state, data) {
     state.training.trainingDayId = data;
+  },
+  
+  setOnTrainData (state, data) {
+    state.trainings.find((training) => training.isSelected).days.find((day) => day.isSelected).exercises.find((exercise) => exercise.id === data.exercise_id).onTrain = data.value;
+  },
+  // data.trainingId
+  selectTraining (state, data) {
+    (state.trainings.find((training) => training.isSelected) || {}).isSelected = false;
+    state.trainings.find((training) => training.id === data.trainingId).isSelected = true;
+  },
+  // data.dayId
+  selectTrainingDay (state, data) {
+    ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.isSelected === true) || {}).isSelected = false;
+    state.trainings.find((training) => training.isSelected).days.find((day) => day.id === data.dayId).isSelected = true;
   }
 };
 
@@ -112,8 +155,8 @@ const actions = {
     commit('setAsideOpen', data);
   },
 
-  setTraining({ commit }, data) {
-    commit('setTraining', data);
+  setTrainings({ commit }, data) {
+    commit('setTrainings', data);
   },
 
   setTrainingId({ commit }, data) {
@@ -124,7 +167,17 @@ const actions = {
   },
   setTrainingDayId({ commit }, data) {
     commit('setTrainingDayId', data);
+  },
+  setOnTrainData({ commit }, data) {
+    commit('setOnTrainData', data);
+  },
+  selectTraining({ commit }, data) {
+    commit('selectTraining', data);
+  },
+  selectTrainingDay({ commit }, data) {
+    commit('selectTrainingDay', data);
   }
+
 };
 
 const getters = {
@@ -142,7 +195,12 @@ const getters = {
     })
   },
   _getAsideOpen: state => state.asideOpen,
-  _getTraining: state => state.training,
+  _getTrainings: state => state.trainings,
+  _getTrainingLogId: state => state.trainLogId,
+  _getSelectedTraining: state => state.trainings.find((training) => Boolean(training.isSelected)),
+  _getSelectedDay: state => state.trainings.find((training) => Boolean(training.isSelected)).days.find((day) => day.isSelected === true),
+  _isTrainingSelected: state => state.trainings.some((training) => Boolean(training.isSelected)),
+  _isTrainingDaySelected: state => state.trainings.some((training) => training.days.some((day) => day.isSelected === true)),
 };
 
 const plugins = [createPersistedState({

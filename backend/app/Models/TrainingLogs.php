@@ -10,4 +10,8 @@ class TrainingLogs extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public function exercises ()
+    {
+        return $this->hasMany(TrainingExerciseLogs::class, 'training_log_id', 'id');
+    }
 }

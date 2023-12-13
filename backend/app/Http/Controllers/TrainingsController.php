@@ -18,6 +18,14 @@ class TrainingsController extends Controller
         return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
     }
 
+    public function indexDetail()
+    {
+        $user = Auth::user();
+        $trainings = Training::with('days')->where('user_id', $user->id)->orderBy('id','asc') ->get();
+
+        return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
+    }
+
     public function show($id)
     {
         $user =  Auth::user();
