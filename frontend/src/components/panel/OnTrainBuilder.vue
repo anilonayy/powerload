@@ -127,15 +127,15 @@ import { onMounted, ref, inject, watch, computed } from "vue";
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { getIconName } from '@/Utils/helpers.js';
-import router from '@/Router';
+import router from '@/router';
 
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
-import LeftIcon from '@/Components/Icons/LeftIcon.vue';
-import RightIcon from '@/Components/Icons/RightIcon.vue';
-import TrashIcon from '@/Components/Icons/TrashIcon.vue';
-import Input from '@/Components/Form/Input.vue';
-import CounterInput from '@/Components/Form/CounterInput.vue';
-import Label from '@/Components/Form/Label.vue';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
+import LeftIcon from '@/components/icons/LeftIcon.vue';
+import RightIcon from '@/components/icons/RightIcon.vue';
+import TrashIcon from '@/components/icons/TrashIcon.vue';
+import Input from '@/components/form/Input.vue';
+import CounterInput from '@/components/form/CounterInput.vue';
+import Label from '@/components/form/Label.vue';
 
 const store = useStore();
 const route = useRoute();

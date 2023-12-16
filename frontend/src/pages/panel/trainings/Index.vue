@@ -76,9 +76,9 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue'
-import Panel from '@/Components/Form/Panel.vue'
-import PanelHeader from '@/Components/Panel/PanelHeader.vue'
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
+import Panel from '@/components/form/Panel.vue'
+import PanelHeader from '@/components/panel/PanelHeader.vue'
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 
 
 const axios = inject('axios');

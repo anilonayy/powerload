@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 
 export default {
     components: {

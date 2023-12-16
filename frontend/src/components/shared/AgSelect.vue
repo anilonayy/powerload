@@ -1,5 +1,5 @@
 <script setup>
-import { getIconName } from '@/Utils/helpers.js'
+import { getIconName } from '@/utils/helpers.js'
 import {
   reactive,
   computed,

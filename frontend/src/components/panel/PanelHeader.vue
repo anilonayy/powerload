@@ -10,7 +10,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import HeaderText from "@/Components/Shared/HeaderText.vue";
+import HeaderText from "@/components/shared/HeaderText.vue";
 
 const props = defineProps(['title','description'])
 </script>

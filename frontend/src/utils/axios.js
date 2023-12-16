@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { removeCookie } from '@/Utils/helpers';
-import { getCookie  } from '@/Utils/helpers.js';
-import router from '@/Router'
+import { removeCookie } from '@/utils/helpers';
+import { getCookie  } from '@/utils/helpers.js';
+import router from '@/router'
 
 const createAxiosInstance = () => {
 

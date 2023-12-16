@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import Sidebar from '@/Components/Shared/Sidebar.vue'
-import LayoutContainer from '@/Components/Shared/LayoutContainer.vue'
-import BottomBar from '@/Components/Shared/BottomBar.vue'
+import Sidebar from '@/components/shared/Sidebar.vue'
+import LayoutContainer from '@/components/shared/LayoutContainer.vue'
+import BottomBar from '@/components/shared/BottomBar.vue'
 </script>

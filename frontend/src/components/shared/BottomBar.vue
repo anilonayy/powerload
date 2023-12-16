@@ -21,8 +21,8 @@
 import { computed, inject, watch, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue';
-import router from '@/Router';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
+import router from '@/router';
 
 const store = useStore();
 const route = useRoute();

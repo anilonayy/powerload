@@ -3,12 +3,11 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import { createApp } from 'vue';
 import App from '@/App.vue';
-import router from '@/Router';
-import store from '@/Store';
-import SweetAlertPlugin from '@/Plugins/SweetAlert';
-import Toast from '@/Plugins/Toast';
-import axios from '@/Utils/axios';
-
+import router from '@/router';
+import store from '@/store';
+import SweetAlertPlugin from '@/plugins/SweetAlert';
+import Toast from '@/plugins/Toast';
+import axios from '@/utils/axios';
 
 const app = createApp(App);
 

@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import { setCookie, removeCookie, getCookie } from '@/Utils/helpers.js'
+import { setCookie, removeCookie, getCookie } from '@/utils/helpers.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
 

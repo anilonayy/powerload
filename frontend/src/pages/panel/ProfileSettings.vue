@@ -53,14 +53,14 @@
 <script setup>
 import { computed, ref, inject } from "vue";
 import { useStore } from "vuex";
-import { validateEmail } from '@/Utils/helpers.js';
+import { validateEmail } from '@/utils/helpers.js';
 
-import Panel from "@/Components/Form/Panel.vue";
-import PanelHeader from "@/Components/Panel/PanelHeader.vue";
-import Input from "@/Components/Form/Input.vue";
-import Label from "@/Components/Form/Label.vue";
-import InputError from "@/Components/Form/InputError.vue";
-import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
+import Panel from "@/components/form/Panel.vue";
+import PanelHeader from "@/components/panel/PanelHeader.vue";
+import Input from "@/components/form/Input.vue";
+import Label from "@/components/form/Label.vue";
+import InputError from "@/components/form/InputError.vue";
+import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
 
 const axios = inject('axios');
 const toast = inject('toast');

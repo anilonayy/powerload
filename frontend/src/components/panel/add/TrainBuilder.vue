@@ -79,18 +79,18 @@
 
 <script setup>
 import { onMounted, ref, watch, inject } from 'vue'
-import { guid, validateTrainBuilderData } from '@/Utils/helpers'
+import { guid, validateTrainBuilderData } from '@/utils/helpers'
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router'
 
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
-import Input from '@/Components/Form/Input.vue'
-import Label from '@/Components/Form/Label.vue'
-import ExerciseList from '@/Components/Panel/Add/ExerciseList.vue';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
+import Input from '@/components/form/Input.vue'
+import Label from '@/components/form/Label.vue'
+import ExerciseList from '@/components/panel/add/ExerciseList.vue';
 
 const store =  useStore();
 const route = useRoute();
-import router from '@/Router'
+import router from '@/router'
 
 const toast = inject('toast');
 const axios = inject('axios');

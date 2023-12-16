@@ -7,5 +7,5 @@
 
 
 <script setup>
-  import UserLayout from '@/Layouts/UserLayout.vue';
+import UserLayout from '@/layouts/UserLayout.vue';
 </script>

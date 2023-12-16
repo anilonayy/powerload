@@ -100,5 +100,5 @@
 </template>
 
 <script setup>
-  import HeaderText from '@/Components/Shared/HeaderText.vue';
+  import HeaderText from '@/components/shared/HeaderText.vue';
 </script>

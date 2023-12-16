@@ -90,14 +90,14 @@
 import { ref, computed, inject, watch } from 'vue'
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex'
-import router from '@/Router'
+import router from '@/router'
 
-import Panel from '@/Components/Form/Panel.vue'
-import Input from '@/Components/Form/Input.vue'
-import InputError from '@/Components/Form/InputError.vue'
-import Label from '@/Components/Form/Label.vue'
-import HeaderText from '@/Components/Shared/HeaderText.vue'
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
+import Panel from '@/components/form/Panel.vue'
+import Input from '@/components/form/Input.vue'
+import InputError from '@/components/form/InputError.vue'
+import Label from '@/components/form/Label.vue'
+import HeaderText from '@/components/shared/HeaderText.vue'
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 
 const store = useStore()
 const saltKey = computed(() => store.getters['_saltKey'])

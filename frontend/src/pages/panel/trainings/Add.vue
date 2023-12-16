@@ -10,17 +10,18 @@
       </router-link>
       <PanelHeader
         class="p-2"
-        title="Antrenmanını Düzenle"
+        title="Antrenman Ekle"
         description="Antrenmanına günler ekleyebilir ,günlere isim verebilir, antrenman anında bu günlere direkt tıklayarak erişebilirsin!"
       />
 
-      <TrainBuilder :training="training" />
+      <TrainBuilder />
+      
     </Panel>
 </template>
 
 <script setup>
-import Panel from '@/Components/Form/Panel.vue'
-import PanelHeader from '@/Components/Panel/PanelHeader.vue'
-import TrainBuilder from '@/Components/Panel/Add/TrainBuilder.vue'
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
+import Panel from '@/components/form/Panel.vue'
+import PanelHeader from '@/components/panel/PanelHeader.vue'
+import TrainBuilder from '@/components/panel/add/TrainBuilder.vue'
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 </script>

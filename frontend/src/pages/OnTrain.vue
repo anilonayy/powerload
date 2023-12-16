@@ -6,5 +6,5 @@
 
 
 <script setup>
-    import OnTrainBuilder from '@/Components/Panel/OnTrainBuilder.vue';
+    import OnTrainBuilder from '@/components/panel/OnTrainBuilder.vue';
 </script>

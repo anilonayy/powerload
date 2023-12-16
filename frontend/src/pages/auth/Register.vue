@@ -119,13 +119,13 @@ import { ref, computed, inject } from 'vue'
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex'
 
-import Panel from '@/Components/Form/Panel.vue'
-import Input from '@/Components/Form/Input.vue'
-import Label from '@/Components/Form/Label.vue'
-import InputError from '@/Components/Form/InputError.vue'
-import HeaderText from '@/Components/Shared/HeaderText.vue'
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
-import router from '@/Router'
+import Panel from '@/components/form/Panel.vue'
+import Input from '@/components/form/Input.vue'
+import Label from '@/components/form/Label.vue'
+import InputError from '@/components/form/InputError.vue'
+import HeaderText from '@/components/shared/HeaderText.vue'
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
+import router from '@/router'
 
 const axios = inject('axios');
 const toast = inject('toast');

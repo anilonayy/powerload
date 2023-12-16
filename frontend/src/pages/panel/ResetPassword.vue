@@ -64,17 +64,17 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import axios  from '@/Utils/axios.js';
+import axios  from '@/utils/axios.js';
 import toastr from 'toastr';
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex';
 
-import Panel from "@/Components/Form/Panel.vue";
-import PanelHeader from "@/Components/Panel/PanelHeader.vue";
-import Input from "@/Components/Form/Input.vue";
-import Label from "@/Components/Form/Label.vue";
-import InputError from "@/Components/Form/InputError.vue";
-import ButtonCmp from "@/Components/buttons/ButtonCmp.vue";
+import Panel from "@/components/form/Panel.vue";
+import PanelHeader from "@/components/panel/PanelHeader.vue";
+import Input from "@/components/form/Input.vue";
+import Label from "@/components/form/Label.vue";
+import InputError from "@/components/form/InputError.vue";
+import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
 
 const store = useStore();
 const saltKey = computed(() => store.getters['_saltKey']);

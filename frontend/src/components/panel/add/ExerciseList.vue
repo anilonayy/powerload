@@ -127,11 +127,11 @@
 
 import {  computed, defineEmits } from 'vue';
 import { useStore } from 'vuex';
-import { getIconName } from '@/Utils/helpers'
+import { getIconName } from '@/utils/helpers'
 
-import ButtonCmp from '@/Components/buttons/ButtonCmp.vue'
-import Label from '@/Components/Form/Label.vue'
-import AgSelect from '@/Components/Shared/AgSelect.vue';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
+import Label from '@/components/form/Label.vue'
+import AgSelect from '@/components/shared/AgSelect.vue';
 
 const props = defineProps(['day']);
 
