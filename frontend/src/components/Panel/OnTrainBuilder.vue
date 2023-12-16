@@ -154,7 +154,6 @@ const pageIndex = ref(0);
 const trainingLog = computed(() => store.getters['_trainingLogId']);
 const selectedTraining = computed(() => store.getters['_selectedTraining']);
 const selectedDay = computed(() => store.getters['_selectedDay']);
-// 0 -> Select Train, 1 -> Select Day, 2 -> 1. exercie ...
 
 
 onMounted(async () => {
