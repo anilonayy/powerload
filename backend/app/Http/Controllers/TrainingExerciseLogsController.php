@@ -33,13 +33,14 @@ class TrainingExerciseLogsController extends Controller
         $trainingLogs->user_id === Auth::user()->id || abort(403, 'Yetkiniz yok');
 
         $responseLogs = [];
+        $exercisesWillDelete = [];
 
         $attributes = $request->validate([
-            'sets' => 'required',
+            'sets' => 'sometimes',
             'sets.*.id' => 'required|numeric',
             'sets.*.weight' => 'required|numeric',
             'sets.*.reps' => 'required|numeric',
-            'exercise_id' => 'required|exists:exercises,id'
+            'exercise_id' => 'required|exists:exercises,id',
         ]);
 
         TrainingExerciseLogs::where([['training_log_id', $trainingLogs->id],['exercise_id', $attributes['exercise_id']]])->delete();
@@ -47,18 +48,6 @@ class TrainingExerciseLogsController extends Controller
         foreach($attributes['sets'] as $set) {
             $set['training_log_id'] = $trainingLogs->id;
             $set['exercise_id'] = $attributes['exercise_id'];
-
-            if($set['id'] != null) {
-                TrainingExerciseLogs::where([
-                    ['id', $set['id']],
-                    ['training_log_id', $trainingLogs->id]
-                ])->update([
-                    'weight' => $set['weight'],
-                    'reps' => $set['reps']
-                ]);
-
-                continue;
-            }
 
             $responseLogs[] = TrainingExerciseLogs::create([
                 'training_log_id' => $trainingLogs->id,

@@ -110,15 +110,15 @@ const mutations = {
   setOnTrainData (state, data) {
     state.trainings.find((training) => training.isSelected).days.find((day) => day.isSelected).exercises.find((exercise) => exercise.id === data.exercise_id).onTrain = data.value;
   },
-  // data.trainingId
+  // data.training_id
   selectTraining (state, data) {
     (state.trainings.find((training) => training.isSelected) || {}).isSelected = false;
-    state.trainings.find((training) => training.id === data.trainingId).isSelected = true;
+    state.trainings.find((training) => training.id === data.training_id).isSelected = true;
   },
-  // data.dayId
+  // data.day_id
   selectTrainingDay (state, data) {
     ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.isSelected === true) || {}).isSelected = false;
-    state.trainings.find((training) => training.isSelected).days.find((day) => day.id === data.dayId).isSelected = true;
+    state.trainings.find((training) => training.isSelected).days.find((day) => day.id === data.day_id).isSelected = true;
   }
 };
 

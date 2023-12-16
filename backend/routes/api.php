@@ -42,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
     // On Train Resources (Training Logs)
     Route::get('/training-logs/last', [TrainingLogsController::class,'last']);
     Route::post('/training-logs', [TrainingLogsController::class,'store']);
+    Route::post('/training-logs/complete', [TrainingLogsController::class,'complete']);
     Route::post('/training-logs/{trainingLogs:id}/exercises', [TrainingExerciseLogsController::class,'store']);
     Route::put('/training-logs/{trainingLogs:id}/', [TrainingLogsController::class,'update']);
 

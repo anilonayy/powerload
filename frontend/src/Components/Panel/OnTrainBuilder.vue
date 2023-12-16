@@ -1,11 +1,12 @@
 <template>
-    <div class="mx-3 relative">
+    <div>
+        <div class="mx-3 relative">
         <div class="h-6  w-full flex justify-between items-center mt-10 relative">
             <div class="previous-exercise absolute left-0 cursor-pointer" v-if="pageIndex !== 0"  @click="handlePreviousStep()">
                 <LeftIcon />
             </div>
 
-            <div class="next-exercise absolute right-0 cursor-pointer" @click="handleNextStep()" v-if="maxIndex > pageIndex">
+            <div class="next-exercise absolute right-0 cursor-pointer" @click="handleNextStep()" v-if="maxIndex != pageIndex">
                 <RightIcon />
             </div>
         </div>
@@ -15,7 +16,7 @@
 
         <div v-if="pageIndex === 0">
             <div v-if="trainings.length">
-                <div v-for="(train, index) in trainings" :key="index" @click="selectTraining(train.id, index)">   
+                <div v-for="(train, index) in trainings" :key="index" @click="selectTraining(train, index)">
                     <ButtonCmp class="w-full py-4 cursor-pointer" :class="{ 'bg-blue-600 text-white': train.isSelected }">
                         {{ train.name }}
                     </ButtonCmp>
@@ -33,7 +34,7 @@
         </div>
 
         <div v-else-if="pageIndex === 1" class="flex flex-col gap-3">
-            <div v-for="(day, index) in selectedTraining.days" :key="index" @click="selectTrainingDay(day.id, index)">
+            <div v-for="(day, index) in selectedTraining?.days" :key="index" @click="selectTrainingDay(day, index)">
                 <div>
                     <ButtonCmp class="w-full py-4 cursor-pointer" :class="{ 'bg-blue-600 text-white': day.isSelected }">
                         {{ day.name }}
@@ -43,16 +44,18 @@
         </div>
 
         <div v-else>
-            <div v-for="(data, index) in selectedDay.exercises" :key="index">
+            <div v-for="(data, index) in selectedDay?.exercises" :key="index">
                 <div v-if="index === pageIndex - 2" class="flex flex-col justify-center items-center gap-5">
+                    <span class="font-bold "> {{ index + 1 }} / {{ selectedDay.exercises.length }} </span>
                     <div class="exercise-info flex items-center justify-center">
-                        <img :src="getIconName(data.category.name || '')" class=" w-16 h-16 object-contain">
-                        <h1 class="font-bold text-center text-6xl"> {{ data.name }} </h1>
+                        <img :src="getIconName(data.category.name || '')" class=" w-10 h-10 object-contain">
+                        <h1 class="font-bold text-center text-4xl"> {{ data.name }} </h1>
                     </div>
 
                     <div class="sets">
                         <div class="flex flex-col">
-                            <div v-for="(trainSet, index) in data.onTrain" :key="index" class="py-10" :class="{ 'border-b border-gray-300': data.onTrain.length -1 !== index }">
+                            <div v-if="data.onTrain.length">
+                                <div v-for="(trainSet, index) in data.onTrain" :key="index" class="py-10" :class="{ 'border-b border-gray-300': data.onTrain.length -1 !== index }">
                                 <div class="flex gap-3 items-end font-bold">
                                     <div class="whitespace-nowrap text-7xl" style="line-height: 0.8">
                                         {{ index + 1 }}.
@@ -62,7 +65,7 @@
 
                                         <Input
                                             id="weight"
-                                            type="weight"
+                                            type="number"
                                             @input="validateCurrentExercise(index)"
                                             :class="{'border-red-600': trainSet.weightError}"
                                             class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
@@ -70,30 +73,19 @@
                                         />
                                     </div>
                                     <div class="flex flex-col">
-                                        <Label for="weight" value="Tekrar" />
-                                        <div class="custom-number-input h-full">
-                                            <div class="flex flex-row w-full rounded-lg relative bg-transparent mt-1">
-                                                <button type="button" @click="trainSet.reps > 1 ? trainSet.reps-- : ''" class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-2/5 rounded-l cursor-pointer outline-none">
-                                                    <span class="m-auto text-2xl font-thin">−</span>
-                                                </button>
-                                                <input
-                                                    v-model="trainSet.reps"
-                                                    type="number"
-                                                    @input="validateCurrentExercise(index)"
-                                                    :class="{'border-red-600': trainSet.repsError}"
-                                                    class="focus:outline-none text-center bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none w-1/5"/>
-                                                <button
-                                                type="button"
-                                                @click="trainSet.reps++"
-                                                class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-2/5 rounded-r cursor-pointer"
-                                                >
-                                                <span class="m-auto text-2xl font-thin">+</span>
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <Label for="reps" value="Tekrar" />
+                                        <CounterInput 
+                                            valueKey="reps" 
+                                            errorKey="repsError"
+                                            :data="trainSet" 
+                                            :index="index"  
+                                            :validateCurrentExercise="validateCurrentExercise"
+                                            @increment="(data) => { data.reps ++ }"
+                                            @decrement="(data) => { data.reps !== 0 ? data.reps -- : '' }"
+                                             />
                                     </div>
 
-                                    <div v-if="index !== 0">
+                                    <div v-if="index !== 0 || true">
                                         <ButtonCmp class="bg-red-600 text-white" @click="removeSet(data,index)">
                                             <TrashIcon class="h-3 p-0" />
                                         </ButtonCmp>
@@ -101,6 +93,13 @@
                                 </div>
                                 
                             </div>
+                            </div>
+                            <div v-else>
+                                <div class="bg-black text-white p-3 ">
+                                    Görünüşe göre bu hareketi pas geçiyorsun 🤔
+                                </div>
+                            </div>
+                            
                             <ButtonCmp class="bg-indigo-900 text-white w-full mt-4" @click="addSet(data)">
                                 Set Ekle
                             </ButtonCmp>
@@ -111,8 +110,15 @@
                 </div>
             </div>
         </div>
-        
-        
+    </div>
+
+    <div 
+        v-if="pageIndex === maxIndex"
+        class="flex items-center justify-center text-lg font-semibold absolute bottom-0 w-full bg-green-500 text-white h-14 cursor-pointer"
+        @click="completeTraining()"
+    >
+        Antrenmanı Tamamla
+    </div>
     </div>
 </template>
 
@@ -128,6 +134,7 @@ import LeftIcon from '@/Components/Icons/LeftIcon.vue';
 import RightIcon from '@/Components/Icons/RightIcon.vue';
 import TrashIcon from '@/Components/Icons/TrashIcon.vue';
 import Input from '@/Components/Form/Input.vue';
+import CounterInput from '@/Components/Form/CounterInput.vue';
 import Label from '@/Components/Form/Label.vue';
 
 const store = useStore();
@@ -138,17 +145,21 @@ const toast = inject('toast');
 
 const headerTitle = ref('Bugün hangi antrenmanı yapacaksın?');
 const trainings = ref(store.getters['_getTrainings'] );
+const isTrainingDaySelected = ref(store.getters['_isTrainingDaySelected']);
+const isTrainingSelected = ref(store.getters['_isTrainingSelected']);
+const hideNextArrow = ref(false);
+const maxIndex = ref(2);
+const pageIndex = ref(0);
+
 const trainingLog = computed(() => store.getters['_getTrainingLogId']);
 const selectedTraining = computed(() => store.getters['_getSelectedTraining']);
 const selectedDay = computed(() => store.getters['_getSelectedDay']);
-const isTrainingDaySelected = ref(store.getters['_isTrainingDaySelected']);
-const maxIndex = ref(2);
-const pageIndex = ref(0);
 // 0 -> Select Train, 1 -> Select Day, 2 -> 1. exercie ...
 
 
 onMounted(async () => {
-    if (! isTrainingDaySelected.value) {
+    if (!isTrainingSelected.value) {
+        console.log('Page 0');
         pageIndex.value = 0;
     } else if(!isTrainingDaySelected.value)  {
         pageIndex.value = 1;
@@ -200,17 +211,13 @@ onMounted(async () => {
         handleNextStep();
     }
 
-    if(!lastTraining.data.training_day_id) {
-        pageIndex.value = 1;
-    } else {
-        trainingData.find((training) => training.isSelected).days.find((day) => day.id === lastTraining.data.training_day_id).isSelected = true;
+    
+    trainingData.find((training) => training.isSelected).days.find((day) => day.id === lastTraining.data.training_day_id).isSelected = true;
 
-        handleNextStep();
-    }
+    handleNextStep();
 
     if(lastTraining.data.exercises.length) {
         trainingData.find((training) => training.isSelected).days.find((day) => day.isSelected).exercises.map((exercise) => {
-            
             const onTrainData = [];
 
             lastTraining.data.exercises.map((exerciseFromDb) => {
@@ -231,8 +238,6 @@ onMounted(async () => {
         })
     }
 
-    console.log('trainingData :>> ', trainingData);
-
     store.dispatch('setTrainings', trainingData);
 
     updateState();
@@ -242,13 +247,16 @@ const updateState = async () => {
     try {
         const index = pageIndex.value;
 
-       if(index === 0) {
+        if(index === 0) {
             headerTitle.value = 'Bugün hangi antrenmanı yapacaksın?';
-       } else if (index === 1) {
+        } else if (index === 1) {
+            console.log('isTrainingDaySelected.value :>> ', isTrainingDaySelected.value);
+            hideNextArrow.value = isTrainingDaySelected.value;
+
             headerTitle.value = 'Hangi gündesin?';
-       } else {
-            maxIndex.value = selectedDay.value.exercises.length + 2;
-       }
+        } else {
+            maxIndex.value = selectedDay.value.exercises.length + 1;
+        }
     } catch (error) {
         console.error(error);
         toast.error('Bir hata oluştu. Lütfen tekrar deneyiniz.')
@@ -259,20 +267,21 @@ const updateState = async () => {
 
 
 watch(
-    () => trainings.value, () => {
+    () => trainings, () => {
         trainings.value = store.getters['_getTrainings'];
-        console.log('TRAINING UPDATED');
     }
 )
 
 
-const selectTraining = async (trainingId) => {
+const selectTraining = async (training) => {
     try {
-        const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
-            training_id: trainingId
-        });
-        
-        store.dispatch('selectTraining', { trainingId });
+        if(!training.isSelected)  {
+            const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
+                training_id: training.id
+            });
+            
+            store.dispatch('selectTraining', { training_id: training.id });
+        }
 
         handleNextStep();
     } catch (error) {
@@ -282,21 +291,23 @@ const selectTraining = async (trainingId) => {
     
 }
 
-const selectTrainingDay = async (dayId) => {
-    try {
-        const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
-            training_day_id: dayId
-        });
+const selectTrainingDay = async (day) => {
 
-        store.dispatch('selectTrainingDay', { dayId });
+    
+    try {
+        if(!day.isSelected) {
+            const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
+                training_day_id: day.id
+            });
+
+            store.dispatch('selectTrainingDay', { day_id:  day.id });
+        }
 
         handleNextStep();
     } catch (error) {
         console.error(error);
         toast.error(error.message);
     }
-
-   
 }
 
 
@@ -317,7 +328,7 @@ const handleNextStep = async () => {
         const validateResult = validateCurrentExercise();
 
         if(validateResult) {
-            toast.error('Lütfen boş alanları doldurunuz.');
+            toast.error('Lütfen eksik veya hatalı alanları düzeltiniz.');
             return;
         }
 
@@ -395,5 +406,35 @@ const validateCurrentExercise = (index = null) => {
     return hasError;
 }
 
+const completeTraining = async () => {
+    const validateResult = validateCurrentExercise();
 
+    if(validateResult) {
+        toast.error('Hatalı alanları doldurun veya seti silin.');
+        return;
+    }
+
+    try {
+
+        const addSetsResponse = await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
+            sets: selectedDay.value.exercises[pageIndex.value - 2].onTrain,
+            exercise_id: selectedDay.value.exercises[pageIndex.value - 2].id,
+        });
+
+        const response = axios.post('training-logs/complete', {
+            training_log_id: trainingLog.value
+        });
+
+        toast.success('Antrenman tamamlandı. Tebrikler!🎉');
+
+        store.dispatch('setTrainingLogId', null);
+        store.dispatch('setSelectedDay', null);
+        store.dispatch('setSelectedTraining', null);
+        store.dispatch('setTrainings', []);
+
+        router.push({ name: 'home' });
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
 </script>

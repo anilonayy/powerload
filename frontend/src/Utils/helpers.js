@@ -111,12 +111,8 @@ export const validateTrainBuilderData = (train) => {
   
         exercise.hasError = Boolean(!exercise.selected.value)
       })
-    }
-
-    
+    }    
   })
-
-
 
   response.data = train;
 

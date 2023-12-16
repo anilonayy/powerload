@@ -79,6 +79,27 @@ class TrainingLogsController extends Controller
         //
     }
 
+    public function complete(Request $request)
+    {
+        $user = Auth::user();
+
+        $trainingLog = TrainingLogs::where([
+            ['id', $request->training_log_id],
+            ['user_id', $user->id],
+            ['is_completed', false]
+        ])->latest()->first();
+
+        if (!$trainingLog) {
+            return apiResponse(404, 'Hata', 'Log bulunamadı')->toFail();
+        }
+
+        $trainingLog->update([
+            'is_completed' => true
+        ]);
+
+        return apiResponse(200, 'Başarılı', 'Log Başarıyla güncellendi', $trainingLog)->toSuccess();
+    }
+
     public function last(TrainingLogs $trainingLogs)
     {
         $user = Auth::user();
