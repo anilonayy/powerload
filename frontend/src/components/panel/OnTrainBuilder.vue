@@ -126,7 +126,7 @@
 import { onMounted, ref, inject, watch, computed } from "vue";
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import { getIconName } from '@/Utils/helpers.js';
+import { getIconName } from '@/utils/helpers.js';
 import router from '@/router';
 
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue';

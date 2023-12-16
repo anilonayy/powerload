@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LogSqlQueries;
+use App\Http\Middleware\RequestLogger;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -16,11 +18,14 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
+        \App\Http\Middleware\RequestLogger::class,
+        \App\Http\Middleware\LogSqlQueries::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+
     ];
     /**
      * The application's route middleware groups.
@@ -40,7 +45,9 @@ class Kernel extends HttpKernel
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            RequestLogger::class,
+            LogSqlQueries::class
         ],
     ];
 

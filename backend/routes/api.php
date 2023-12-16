@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function() {
 
     Route::get('/trainings',[TrainingsController::class,'index']);
     Route::get('/trainings/details',[TrainingsController::class,'indexDetail']);
+    Route::get('/trainings/history',[TrainingsController::class,'history']);
     Route::get('/trainings/{training:id}',[TrainingsController::class,'show']);
     Route::get('/trainings/{training:id}/days',[TrainingsController::class,'showDays']);
     Route::get('/trainings/{training:id}/days/{trainingDay:id}/exercises',[TrainingsController::class,'showExercises']);

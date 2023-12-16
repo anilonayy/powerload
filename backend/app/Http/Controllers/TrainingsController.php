@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Training;
-use App\Models\TrainingDay;
+use App\Models\TrainingLogs;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -16,6 +16,19 @@ class TrainingsController extends Controller
         $trainings = Training::select('name','id','created_at')->where('user_id', $user->id)->orderBy('id','asc') ->get();
 
         return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
+    }
+
+    public function history()
+    {
+        $user = Auth::user();
+
+        $logs = TrainingLogs::with('training','training_day','exercises')->where([
+            ['user_id', $user->id],
+            ['is_completed', 1],
+        ])->orderBy('id','desc')->get();
+
+
+        return apiResponse(200, 'İşlem Başarılı', 'İşlem başarıyla gerçekleştirildi', $logs)->toSuccess();
     }
 
     public function indexDetail()

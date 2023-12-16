@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/pinge', function () {
-    return [
-        'message' => __('auth.failed'),
-        'locale' => app()->getLocale()
-    ];
+Route::get('/ping', function () {
+
 });
 
 Route::get('/', function () {

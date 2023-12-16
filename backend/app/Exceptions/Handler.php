@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,17 +44,24 @@ class Handler extends ExceptionHandler
     public function render($request, $exception)
     {
         $code = 500;
+        $message = 'An error occurred';
 
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
 
-        if($exception->getMessage() === 'Unauthenticated.') {
-            $code = 401;
+        if ($exception instanceof NotFoundHttpException) {
+            $code = 404;
+            $message = 'Resource not found';
         }
 
-        return apiResponse($code,'An Error Occured',$exception->getMessage())->toFail();
+        if ($exception->getMessage() === 'Unauthenticated.') {
+            $code = 401;
+            $message = 'Unauthenticated';
+        }
 
+
+        return apiResponse($code, 'Error', $message, $exception->getMessage())->toFail();
 
         // return parent::render($request, $exception);
     }

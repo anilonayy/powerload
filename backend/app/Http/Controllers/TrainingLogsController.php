@@ -31,13 +31,23 @@ class TrainingLogsController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
+        $responseLog = new TrainingLogs();
 
-        $trainingLog = TrainingLogs::create([
-            'user_id' => $user->id
-        ]);
+        $lastLog = TrainingLogs::where([
+            ['user_id', $user->id],
+            ['is_completed', false]
+        ])->latest()->first();
+
+        if(!$lastLog) {
+            $responseLog = TrainingLogs::create([
+                'user_id' => $user->id
+            ]);
+        } else {
+            $responseLog = $lastLog;
+        }
 
         return apiResponse(200, 'Başarılı', 'Log Başarıyla güncellendi', [
-            'id' => $trainingLog->id
+            'id' => $responseLog->id
         ])->toSuccess();
     }
 

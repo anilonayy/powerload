@@ -42,9 +42,14 @@
             Genel Bakış
           </BadgeLink>
 
-          <BadgeLink :to="{ name: 'trainings' }">
+          <BadgeLink :to="{ name: 'training-list' }">
+            <ListIcon />
+            Antrenman Listesi
+          </BadgeLink>
+
+          <BadgeLink :to="{ name: 'training-history' }">
             <HeadphoneIcon />
-            Antrenmanlar
+            Antrenman Geçmişi
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'reset-password' }">
@@ -154,6 +159,7 @@ import UserSettingIcon from '@/components/icons/UserSettingIcon.vue'
 import UserIcon from '@/components/icons/UserIcon.vue'
 import PowerIcon from '@/components/icons/PowerIcon.vue'
 import AngleDownIcon from '@/components/icons/AngleDownIcon.vue'
+import ListIcon from '@/components/icons/ListIcon.vue'
 
 import { computed, ref, inject, watchEffect } from 'vue'
 import { useStore } from 'vuex'
