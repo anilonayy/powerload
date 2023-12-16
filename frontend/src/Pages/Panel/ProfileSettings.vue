@@ -67,7 +67,7 @@ const toast = inject('toast');
 
 const store = useStore();
 
-const currentUser = computed(() => store.getters["_getCurrentUser"]);
+const currentUser = computed(() => store.getters["_currentUser"]);
 
 const userData = ref({
   name: currentUser.value.name,
@@ -97,13 +97,13 @@ const submitUserInfo = async (event) => {
   if(Object.keys(errors.value).length === 0) {
     try {
       const response = await axios.patch('/user', payload);
-      await store.dispatch('updateUser', response.data);
+      store.dispatch('updateUser', response.data);
 
       toast.success(response.message);
     } catch (error) {
       errors.value = error.errors;
       
-      toast.error( error.title);
+      toast.error(error.title);
     }
     
   }

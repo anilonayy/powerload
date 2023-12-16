@@ -136,7 +136,7 @@ import AgSelect from '@/Components/Shared/AgSelect.vue';
 const props = defineProps(['day']);
 
 const store =  useStore();
-const options = computed(() => store.getters['_getExercises']);
+const options = computed(() => store.getters['_exerciseList']);
 
 const emit = defineEmits(['add-exercise','removeExercise','addDay'])
 </script>

@@ -30,7 +30,7 @@ const axios = inject('axios');
 const toast = inject('toast');
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
-const trainingLogId = computed(() => store.getters['_getTrainingLogId']);
+const trainingLogId = computed(() => store.getters['_trainingLogId']);
 const isTrainingSelected = computed(() => store.getters['_isTrainingSelected']);
 const componentWillShow = ref(route.name  !== "on-train");
 

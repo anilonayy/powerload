@@ -162,8 +162,8 @@ const axios = inject('axios')
 const store = useStore()
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated'])
-const currentUser = computed(() => store.getters['_getCurrentUser'])
-const isAsideOpen = computed(() => store.getters['_getAsideOpen'])
+const currentUser = computed(() => store.getters['_currentUser'])
+const isAsideOpen = computed(() => store.getters['_isAsideOpen'])
 
 const userData = ref({
   firstName: currentUser.value?.name?.split(' ')[0],
@@ -174,8 +174,8 @@ const isOpen = ref(false)
 
 const logout = async () => {
   try {
-    await axios.post('/logout')
-    await store.dispatch('logout')
+    await axios.post('/logout');
+    store.dispatch('logout');
   } catch (error) {
     console.log('Error Occured Logout Action =>', error.message)
   }

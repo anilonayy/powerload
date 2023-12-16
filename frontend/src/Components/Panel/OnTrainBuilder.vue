@@ -144,16 +144,16 @@ const toast = inject('toast');
 
 
 const headerTitle = ref('Bugün hangi antrenmanı yapacaksın?');
-const trainings = ref(store.getters['_getTrainings'] );
+const trainings = ref(store.getters['_userTrainings'] );
 const isTrainingDaySelected = ref(store.getters['_isTrainingDaySelected']);
 const isTrainingSelected = ref(store.getters['_isTrainingSelected']);
 const hideNextArrow = ref(false);
 const maxIndex = ref(2);
 const pageIndex = ref(0);
 
-const trainingLog = computed(() => store.getters['_getTrainingLogId']);
-const selectedTraining = computed(() => store.getters['_getSelectedTraining']);
-const selectedDay = computed(() => store.getters['_getSelectedDay']);
+const trainingLog = computed(() => store.getters['_trainingLogId']);
+const selectedTraining = computed(() => store.getters['_selectedTraining']);
+const selectedDay = computed(() => store.getters['_selectedDay']);
 // 0 -> Select Train, 1 -> Select Day, 2 -> 1. exercie ...
 
 
@@ -268,7 +268,7 @@ const updateState = async () => {
 
 watch(
     () => trainings, () => {
-        trainings.value = store.getters['_getTrainings'];
+        trainings.value = store.getters['_userTrainings'];
     }
 )
 
@@ -415,17 +415,14 @@ const completeTraining = async () => {
     }
 
     try {
-
-        const addSetsResponse = await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
+        await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
             sets: selectedDay.value.exercises[pageIndex.value - 2].onTrain,
             exercise_id: selectedDay.value.exercises[pageIndex.value - 2].id,
         });
 
-        const response = axios.post('training-logs/complete', {
+        await axios.post('training-logs/complete', {
             training_log_id: trainingLog.value
         });
-
-        toast.success('Antrenman tamamlandı. Tebrikler!🎉');
 
         store.dispatch('setTrainingLogId', null);
         store.dispatch('setSelectedDay', null);

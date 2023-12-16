@@ -139,7 +139,7 @@ onMounted(async () => {
       }
 
       const response = await axios.get('/exercises');
-      await store.dispatch('setExercises',response.data);
+      store.dispatch('setExercises',response.data);
     } catch (error) {
 
       toast.error(error.message);
