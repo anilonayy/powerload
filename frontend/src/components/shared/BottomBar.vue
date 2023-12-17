@@ -1,6 +1,6 @@
 <template>
     <div v-if="isAuthenticated && componentWillShow"
-        class="fixed bottom-0 left-0 w-full flex justify-center items-end h-8 lg:hidden"
+        class="fixed bottom-0 left-0 w-full flex justify-center items-end h-8 md:hidden"
     >
 
     <div class="w-full" @click="handleTraining()">

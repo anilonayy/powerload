@@ -22,14 +22,11 @@ class TrainingExerciseLogsController extends Controller
      * @param TrainingLogs $trainingLog
      * @return JsonResponse
      */
-    public function store(CreateLogRequest $request,TrainingLogs $trainingLog): JsonResponse
+    public function store(TrainingLogs $trainingLog,CreateLogRequest $request): JsonResponse
     {
-        if($trainingLog->user_id !== auth()->user()->id) {
-            throw new Exception(ResponseMessageEnums::FORBIDDEN, StatusCodeEnums::FORBIDDEN);
-        }
+        $this->checkLogOwner($trainingLog);
 
         $attributes = $request->validated();
-
         $responseLogs = [];
 
         TrainingExerciseLogs::where([
@@ -45,10 +42,18 @@ class TrainingExerciseLogsController extends Controller
                 'training_log_id' => $trainingLog->id,
                 'exercise_id' => $attributes['exercise_id'],
                 'weight' => $set['weight'],
-                'reps' => $set['reps']
+                'reps' => $set['reps'],
+                'is_passed' => $set['weight'] === 0 || $set['reps'] === 0
             ]);
         }
 
         return response()->json($this->getSuccessMessage($responseLogs));
+    }
+
+    private function checkLogOwner(TrainingLogs $trainingLog): void
+    {
+        if($trainingLog->user_id !== auth()->user()->id) {
+            throw new Exception(ResponseMessageEnums::FORBIDDEN, StatusCodeEnums::FORBIDDEN);
+        }
     }
 }

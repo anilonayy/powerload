@@ -83,9 +83,9 @@ const mutations = {
   },
 
   // data.day_id
-  selectTrainingDay (state, data) {
+  selectTrainingDay (state, day_id) {
     ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.isSelected === true) || {}).isSelected = false;
-    ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.id === data.day_id) || {}).isSelected = true;
+    ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.id == day_id) || {}).isSelected = true;
   }
 };
 
@@ -158,7 +158,7 @@ const getters = {
   _userTrainings: state => state.trainings,
   _trainingLogId: state => state.trainLogId,
   _selectedTraining: state => state.trainings.find((training) => Boolean(training.isSelected)),
-  _selectedDay: state => state.trainings.find((training) => Boolean(training.isSelected)).days.find((day) => day.isSelected === true),
+  _selectedDay: state => ((state.trainings.find((training) => Boolean(training.isSelected)) || {}).days || []).find((day) => day.isSelected === true) || {},
   _isTrainingSelected: state => state.trainings.some((training) => Boolean(training.isSelected)),
   _isTrainingDaySelected: state => state.trainings.some((training) => training.days.some((day) => day.isSelected === true)),
 };

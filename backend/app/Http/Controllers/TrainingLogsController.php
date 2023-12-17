@@ -9,8 +9,6 @@ use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Traits\ResponseMessage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingLogsController extends Controller
@@ -39,13 +37,13 @@ class TrainingLogsController extends Controller
      * @param TrainingLogs $trainingLogs
      * @return JsonResponse
      */
-    public function update(UpdateLogRequest $request, TrainingLogs $trainingLogs): JsonResponse
+    public function update(UpdateLogRequest $request, TrainingLogs $trainingLog): JsonResponse
     {
-        $this->checkIsUsersLog($trainingLogs);
+        $this->checkIsUsersLog($trainingLog);
 
-        $trainingLogs->update($request->validated());
+        $trainingLog->update($request->validated());
 
-        return response()->json($this->getSuccessMessage($trainingLogs));
+        return response()->json($this->getSuccessMessage($trainingLog));
     }
 
     /**
@@ -56,7 +54,10 @@ class TrainingLogsController extends Controller
     {
         $this->checkIsUsersLog($trainingLog);
 
-        $trainingLog->update(['is_completed' => true]);
+        $trainingLog->update([
+            'is_completed' => true,
+            'training_end_time' => now()
+        ]);
 
         return response()->json($this->getSuccessMessage($trainingLog));
     }

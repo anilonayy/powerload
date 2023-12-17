@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="mobile-menu w-full flex lg:hidden justify-between px-4 border-b py-2 fixed top-0 bg-white z-20"
+      class="mobile-menu w-full flex md:hidden justify-between px-4 border-b py-2 fixed top-0 bg-white z-20"
     >
       <SiteLogo />
 
@@ -11,7 +11,7 @@
     </div>
 
     <div
-      class="lg:flex w-full lg:w-72 shrink-0 border-r border-gray-300 flex-col p-4 fixed bg-white overflow-y-scroll md:overflow-auto z-30"
+      class="md:flex w-full md:w-72 shrink-0 border-r border-gray-300 flex-col p-4 fixed bg-white overflow-y-scroll md:overflow-auto z-30"
       style="height: 100vh"
       :class="{ hidden: !isAsideOpen }"
     >

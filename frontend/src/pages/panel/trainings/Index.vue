@@ -99,12 +99,12 @@ onMounted(async () => {
 
 const removeTraining = async (id) => {
       const swalWithBootstrapButtons = swal.mixin({
-      customClass: {
-        confirmButton: "bg-red-500 text-white py-2 px-4 rounded-md ms-2",
-        cancelButton: "bg-gray-400 text-white py-2 px-4 rounded-md"
-      },
-      buttonsStyling: false
-    });
+        customClass: {
+          confirmButton: "bg-red-500 text-white py-2 px-4 rounded-md ms-2",
+          cancelButton: "bg-gray-400 text-white py-2 px-4 rounded-md"
+        },
+        buttonsStyling: false
+      });
 
     swalWithBootstrapButtons.fire({
       title: 'Emin misin?',

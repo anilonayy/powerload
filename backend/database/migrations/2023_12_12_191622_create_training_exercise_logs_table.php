@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('exercise_id');
             $table->integer('weight');
             $table->integer('reps');
+            $table->boolean('is_passed')->default(false);
             $table->timestamps();
         });
     }

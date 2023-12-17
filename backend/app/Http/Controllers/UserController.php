@@ -7,6 +7,7 @@ use App\Http\Requests\User\RegisterRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
+use App\Models\User;
 use Exception;
 
 class UserController extends Controller
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function register (RegisterRequest $request): JsonResponse
     {
-        $user =  auth()->user()->create($request->all());
+        $user = User::create($request->all());
 
         return response()->json($this->getSuccessMessage([
             'user' => $user,

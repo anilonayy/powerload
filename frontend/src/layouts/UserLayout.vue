@@ -1,9 +1,9 @@
 <template>
   
-    <div class="flex flex-col lg:flex-row h-full">
+    <div class="flex flex-col md:flex-row h-full">
       <Sidebar />
       <main
-        class="flex-1 mt-8 lg:mt-0 lg:ms-72 h-full justify-center items-center"
+        class="flex-1 mt-8 md:mt-0 md:ms-72 h-full justify-center items-center"
         id="content-area"
       >
         <LayoutContainer>
