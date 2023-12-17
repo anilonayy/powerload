@@ -4,25 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Traits\ResponseMessage;
 use Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    use ResponseMessage;
 
     public function store (Request $request)
     {
@@ -35,26 +22,10 @@ class UserController extends Controller
 
         $user = User::create($attributes);
 
-        return apiResponse(200,'Başarılı','Başarıyla kayıt oldunuz.',[
+        return response()->json($this->getSuccessMessage([
             'user' => $user,
             'token' => $user->createToken('token')->plainTextToken
-        ])->toSuccess();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        ]));
     }
 
     /**
@@ -71,17 +42,9 @@ class UserController extends Controller
 
         $user->update($atttributes);
 
-        return apiResponse(200,'Başarılı','Profiliniz başarıyla güncellendi!',[
+        return response()->json($this->getSuccessMessage([
             'name' => $user->name,
             'email' => $user->email
-        ])->toSuccess();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        ]));
     }
 }

@@ -3,31 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Session\LoginRequest;
+use Exception;
 use Illuminate\Http\Request;
+use App\Traits\ResponseMessage;
 use Auth;
+use Illuminate\Http\JsonResponse;
 
 class SessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    use ResponseMessage;
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $attributes = $request->validate([
             'email' => 'required|email',
@@ -35,49 +27,27 @@ class SessionController extends Controller
         ]);
 
         if(! Auth::attempt($attributes)) {
-            return apiResponse(400,'Hata!',__('auth.failed'))->toFail();
+            throw new Exception(_('auth.failed'));
         }
 
         $user = Auth::user();
         $token = $user->createToken('token')->plainTextToken;
 
-        return apiResponse(200,'Başarılı','Başarıyla giriş yaptınız.',[
+        return response()->json($this->getSuccessMessage([
             'token' => $token,
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email
             ]
-        ])->toSuccess();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    ]));
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @return JsonResponse
      */
-    public function destroy()
+    public function destroy(): JsonResponse
     {
         $token = Auth::user()->currentAccessToken();
 
@@ -85,6 +55,6 @@ class SessionController extends Controller
             Auth::user()->tokens()->where('id', $token->id)->delete();
         }
 
-        return apiResponse(200,'Başarılı','Güvenli bir şekilde çıkış yaptınız.')->toSuccess();
+        return response()->json($this->getSuccessMessage());
     }
 }

@@ -5,35 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
 use Illuminate\Http\Request;
+use App\Traits\ResponseMessage;
 use Auth;
+use Illuminate\Http\JsonResponse;
 
 class TrainingExerciseLogsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    use ResponseMessage;
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TrainingLogs $trainingLogs, Request $request)
+    public function store(TrainingLogs $trainingLogs, Request $request): JsonResponse
     {
         $trainingLogs->user_id === Auth::user()->id || abort(403, 'Yetkiniz yok');
 
         $responseLogs = [];
-        $exercisesWillDelete = [];
 
         $attributes = $request->validate([
             'sets' => 'sometimes',
@@ -57,38 +44,6 @@ class TrainingExerciseLogsController extends Controller
             ]);
         }
 
-        return apiResponse(200, 'Başarılı', 'Log Başarıyla oluşturuldu',$responseLogs)->toSuccess();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json($this->getSuccessMessage($responseLogs));
     }
 }

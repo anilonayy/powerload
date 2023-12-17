@@ -4,31 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\TrainingLogs;
 use App\Models\TrainingExerciseLogs;
+use Illuminate\Http\JsonResponse;
+use App\Enums\ResponseMessageEnums;
+use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingLogsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    use ResponseMessage;
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $user = Auth::user();
         $responseLog = new TrainingLogs();
@@ -46,9 +36,9 @@ class TrainingLogsController extends Controller
             $responseLog = $lastLog;
         }
 
-        return apiResponse(200, 'Başarılı', 'Log Başarıyla güncellendi', [
+        return response()->json($this->getSuccessMessage([
             'id' => $responseLog->id
-        ])->toSuccess();
+        ]));
     }
 
     public function update(TrainingLogs $trainingLogs, Request $request)
@@ -61,33 +51,10 @@ class TrainingLogsController extends Controller
 
         $trainingLogs->update($attributes);
 
-        return apiResponse(201, 'Başarılı', 'Log Başarıyla güncellendi', $trainingLogs)->toSuccess();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return response()->json($this->getSuccessMessage($trainingLogs));
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
     public function complete(Request $request)
     {
@@ -100,14 +67,14 @@ class TrainingLogsController extends Controller
         ])->latest()->first();
 
         if (!$trainingLog) {
-            return apiResponse(404, 'Hata', 'Log bulunamadı')->toFail();
+            throw new NotFoundHttpException(ResponseMessageEnums::NOT_FOUND);
         }
 
         $trainingLog->update([
             'is_completed' => true
         ]);
 
-        return apiResponse(200, 'Başarılı', 'Log Başarıyla güncellendi', $trainingLog)->toSuccess();
+        return response()->json($this->getSuccessMessage($trainingLog));
     }
 
     public function last(TrainingLogs $trainingLogs)
@@ -120,14 +87,14 @@ class TrainingLogsController extends Controller
         ])->latest()->first();
 
         if (!$lastTrainingLog) {
-            return apiResponse(404, 'Hata', 'Log bulunamadı')->toFail();
+            throw new NotFoundHttpException(ResponseMessageEnums::NOT_FOUND);
         }
 
-        return apiResponse(200, 'Başarılı', 'Log bulundu', [
+        return response()->json($this->getSuccessMessage([
             'id' => $lastTrainingLog->id,
             'training_id' => $lastTrainingLog->training_id,
             'training_day_id' => $lastTrainingLog->training_day_id,
             'exercises' => TrainingExerciseLogs::where('training_log_id', $lastTrainingLog->id)->get()
-        ])->toSuccess();
+        ]));
     }
 }
