@@ -2,15 +2,17 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ResponseMessage;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Enums\ResponseMessageEnums;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ResponseMessage;
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -41,36 +43,44 @@ class Handler extends ExceptionHandler
      * @param \Exception $exception
      * @return Response
      */
-    public function render($request, $exception)
+    public function render($request,Throwable $e): Response|JsonResponse
     {
-        $code = 500;
-        $message = 'An error occurred';
+        if (!$this->isProductionEnv()) {
+            $message = $this->getMessage($e);
+            $statusCode = $this->getStatusCode($e);
 
-        if ($exception instanceof ValidationException) {
-            return $this->convertValidationExceptionToResponse($exception, $request);
+            return response()->json($this->getCustomErrorMessage($message), $statusCode);
         }
 
-        if ($exception instanceof NotFoundHttpException) {
-            $code = 404;
-            $message = 'Resource not found';
-        }
-
-        if ($exception->getMessage() === 'Unauthenticated.') {
-            $code = 401;
-            $message = 'Unauthenticated';
-        }
-
-
-        return apiResponse($code, 'Error', $message, $exception->getMessage())->toFail();
-
-        // return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 
-    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
-    {
-        $errors = $e->validator->errors()->getMessages();
 
-        return apiResponse(400,'Error','Validation Failed',$errors)->toFail();
+    /**
+     * @return bool
+     */
+    protected function isProductionEnv(): bool
+    {
+        return config('app.env') === 'production';
     }
 
+    /**
+     * @param Throwable $e
+     * @return string
+     */
+    protected function getMessage(Throwable $e): string
+    {
+        $message = $e->getMessage();
+
+        return !empty($message) ? $message : ResponseMessageEnums::REQUEST_ERROR;
+    }
+
+    /**
+     * @param Throwable $e
+     * @return string
+     */
+    protected function getStatusCode(Throwable $e): string
+    {
+        return $this->isHttpException($e) ? $e->getCode() : Response::HTTP_EXPECTATION_FAILED;
+    }
 }

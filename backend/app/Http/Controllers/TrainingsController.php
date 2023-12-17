@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ResponseMessageEnums;
 use App\Models\Training;
 use App\Models\TrainingLogs;
+use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingsController extends Controller
 {
+    use ResponseMessage;
 
     public function index()
     {
         $user = Auth::user();
-        $trainings = Training::select('name','id','created_at')->where('user_id', $user->id)->orderBy('id','asc') ->get();
+        $trainings = Training::select('name','id','created_at')
+            ->where('user_id', $user->id)->orderBy('id','asc') ->get();
 
-        return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
+        return response()->json($this->getSuccessMessage($trainings));
     }
 
     public function history()
@@ -27,8 +32,7 @@ class TrainingsController extends Controller
             ['is_completed', 1],
         ])->orderBy('id','desc')->get();
 
-
-        return apiResponse(200, 'İşlem Başarılı', 'İşlem başarıyla gerçekleştirildi', $logs)->toSuccess();
+        return response()->json($this->getSuccessMessage($logs));
     }
 
     public function indexDetail()
@@ -36,7 +40,7 @@ class TrainingsController extends Controller
         $user = Auth::user();
         $trainings = Training::with('days')->where('user_id', $user->id)->orderBy('id','asc') ->get();
 
-        return apiResponse(200,'İşlem Başarılı','İşlem başarıyla gerçekleştirildi', $trainings)->toSuccess();
+        return response()->json($this->getSuccessMessage($trainings));
     }
 
     public function show($id)
@@ -48,7 +52,7 @@ class TrainingsController extends Controller
             ['user_id','=',$user->id]
         ])->first();
 
-        return apiResponse(200,'','',$training)->toSuccess();
+        return response()->json($this->getSuccessMessage($training));
     }
 
     public function showDays(string $trainingId)
@@ -60,7 +64,7 @@ class TrainingsController extends Controller
             ['user_id','=', $user->id]
         ])->first()->days;
 
-        return apiResponse(200,'','',$days)->toSuccess();
+        return response()->json($this->getSuccessMessage($days));
     }
 
     public function showExercises(string $trainingId, string $dayId)
@@ -72,7 +76,7 @@ class TrainingsController extends Controller
             ['user_id','=', $user->id]
         ])->first()->days->find($dayId)->exercises;
 
-        return apiResponse(200,'','',$exercises)->toSuccess();
+        return response()->json($this->getSuccessMessage($exercises));
     }
 
     public function store(Request $request)
@@ -87,7 +91,7 @@ class TrainingsController extends Controller
 
         $this->addTrainingDaysByPayload($training, $payload);
 
-        return apiResponse(200,'Başarılı', 'İşlem Başarılı!')->toSuccess();
+        return response()->json($this->getSuccessMessage($training));
     }
 
     public function destroy(Training $training)
@@ -97,7 +101,7 @@ class TrainingsController extends Controller
             ['id' , $training->id]
         ])->delete();
 
-        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı')->toSuccess();
+        return response()->json($this->getSuccessMessage());
     }
 
     public function update(Training $training,Request $request)
@@ -105,13 +109,9 @@ class TrainingsController extends Controller
         $payload = $this->validatePayload($request);
         $training->days()->delete();
 
-
         $this->addTrainingDaysByPayload($training,$payload);
 
-
-        return apiResponse(200,'Başarılı', 'İşlem başarıyla tamamlandı',[
-            'res' => $training->days()
-        ])->toSuccess();
+        return response()->json($this->getSuccessMessage($training->days()));
     }
 
     public function validatePayload(Request $request)

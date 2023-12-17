@@ -3,63 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exercise;
-use Illuminate\Http\Request;
+use App\Traits\ResponseMessage;
+use Illuminate\Http\JsonResponse;
 
 class ExerciseController extends Controller
 {
+    use ResponseMessage;
+
     /**
      * Display a listing of the resource.
+     *
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return apiResponse(200,'Başarılı','İşlem Başarılı',Exercise::with(['category'])->get())->toSuccess();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json($this->getSuccessMessage(Exercise::with(['category'])->get()));
     }
 }
