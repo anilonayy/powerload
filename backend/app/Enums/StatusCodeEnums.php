@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Enums;
 final class StatusCodeEnums
 {
     const CONTINUE = 100;
@@ -26,6 +27,7 @@ final class StatusCodeEnums
     const CONFLICT = 409;
     const GONE = 410;
     const TOO_MANY_REQUESTS = 429;
+    const UNPROCESSABLE_ENTITY = 422;
 
     const INTERNAL_SERVER_ERROR = 500;
     const NOT_IMPLEMENTED = 501;

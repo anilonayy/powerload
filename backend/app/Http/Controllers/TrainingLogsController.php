@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusCodeEnums;
 use App\Models\TrainingLogs;
 use App\Models\TrainingExerciseLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
+use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,79 +17,59 @@ class TrainingLogsController extends Controller
 {
     use ResponseMessage;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): JsonResponse
+
+    public function store(): JsonResponse
     {
-        $user = Auth::user();
-        $responseLog = new TrainingLogs();
+        $user = auth()->user();
 
         $lastLog = TrainingLogs::where([
             ['user_id', $user->id],
             ['is_completed', false]
         ])->latest()->first();
 
-        if(!$lastLog) {
-            $responseLog = TrainingLogs::create([
-                'user_id' => $user->id
-            ]);
-        } else {
-            $responseLog = $lastLog;
-        }
-
-        return response()->json($this->getSuccessMessage([
-            'id' => $responseLog->id
-        ]));
-    }
-
-    public function update(TrainingLogs $trainingLogs, Request $request)
-    {
-        $attributes = $request->validate([
-            'training_day_id' => 'sometimes|exists:training_days,id',
-            'training_id' => 'sometimes|exists:trainings,id',
-            'isCompleted' => 'sometimes|boolean'
+        $responseLog = $lastLog ?? TrainingLogs::create([
+            'user_id' => $user->id
         ]);
 
-        $trainingLogs->update($attributes);
+        return response()->json($this->getSuccessMessage($responseLog));
+    }
+
+    /**
+     * @param UpdateLogRequest $request
+     * @param TrainingLogs $trainingLogs
+     * @return JsonResponse
+     */
+    public function update(UpdateLogRequest $request, TrainingLogs $trainingLogs): JsonResponse
+    {
+        $this->checkIsUsersLog($trainingLogs);
+
+        $trainingLogs->update($request->validated());
 
         return response()->json($this->getSuccessMessage($trainingLogs));
     }
 
-
-
-    public function complete(Request $request)
+    /**
+     * @param string $trainingLogId
+     * @return JsonResponse
+     */
+    public function complete(TrainingLogs $trainingLog): JsonResponse
     {
-        $user = Auth::user();
+        $this->checkIsUsersLog($trainingLog);
 
-        $trainingLog = TrainingLogs::where([
-            ['id', $request->training_log_id],
-            ['user_id', $user->id],
-            ['is_completed', false]
-        ])->latest()->first();
-
-        if (!$trainingLog) {
-            throw new NotFoundHttpException(ResponseMessageEnums::NOT_FOUND);
-        }
-
-        $trainingLog->update([
-            'is_completed' => true
-        ]);
+        $trainingLog->update(['is_completed' => true]);
 
         return response()->json($this->getSuccessMessage($trainingLog));
     }
 
-    public function last(TrainingLogs $trainingLogs)
+    public function last(): JsonResponse
     {
-        $user = Auth::user();
-
-        $lastTrainingLog = $trainingLogs->where([
-            ['user_id', $user->id],
+        $lastTrainingLog = TrainingLogs::where([
+            ['user_id', auth()->user()->id],
             ['is_completed', false]
         ])->latest()->first();
 
         if (!$lastTrainingLog) {
-            throw new NotFoundHttpException(ResponseMessageEnums::NOT_FOUND);
+            return response()->json($this->getSuccessMessage([]));
         }
 
         return response()->json($this->getSuccessMessage([
@@ -96,5 +78,12 @@ class TrainingLogsController extends Controller
             'training_day_id' => $lastTrainingLog->training_day_id,
             'exercises' => TrainingExerciseLogs::where('training_log_id', $lastTrainingLog->id)->get()
         ]));
+    }
+
+    private function checkIsUsersLog (TrainingLogs $trainingLog): void
+    {
+        if(auth()->user()->id !== $trainingLog->user_id) {
+            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: StatusCodeEnums::FORBIDDEN);
+        }
     }
 }

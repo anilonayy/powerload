@@ -28,22 +28,21 @@ Route::middleware(['auth:sanctum'])->group(function() {
     Route::patch('/user', [UserController::class,'update']);
     Route::patch('/user/update-password', [RegisteredUserNewPasswordController::class,'store']);
 
-    Route::get('/trainings',[TrainingsController::class,'index']);
-    Route::get('/trainings/details',[TrainingsController::class,'indexDetail']);
+    Route::get('/trainings',[TrainingsController::class,'all']);
+    Route::get('/trainings/details',[TrainingsController::class,'allWithDetails']);
     Route::get('/trainings/history',[TrainingsController::class,'history']);
     Route::get('/trainings/{training:id}',[TrainingsController::class,'show']);
-    Route::get('/trainings/{training:id}/days',[TrainingsController::class,'showDays']);
     Route::get('/trainings/{training:id}/days/{trainingDay:id}/exercises',[TrainingsController::class,'showExercises']);
     Route::delete('/trainings/{training:id}',[TrainingsController::class,'destroy']);
     Route::put('/trainings/{training:id}',[TrainingsController::class,'update']);
-    Route::post('/trainings',[TrainingsController::class,'store']);
+    Route::post('/trainings',[TrainingsController::class,'create']);
     Route::get('/exercises',[ExerciseController::class,'index']);
 
 
     // On Train Resources (Training Logs)
     Route::get('/training-logs/last', [TrainingLogsController::class,'last']);
     Route::post('/training-logs', [TrainingLogsController::class,'store']);
-    Route::post('/training-logs/complete', [TrainingLogsController::class,'complete']);
+    Route::post('/training-logs/{trainingLogs:id}/complete', [TrainingLogsController::class,'complete']);
     Route::post('/training-logs/{trainingLogs:id}/exercises', [TrainingExerciseLogsController::class,'store']);
     Route::put('/training-logs/{trainingLogs:id}/', [TrainingLogsController::class,'update']);
 

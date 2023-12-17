@@ -132,10 +132,8 @@ const formSubmit = async (event) => {
       router.push({ name: 'dashboard' });
       toast.success(response.message);
     }
-    
-    
   } catch (error) {
-    errors.value = error.errors
+    errors.value = error?.errors || [];
     toast.error(error.message)
   }
 }

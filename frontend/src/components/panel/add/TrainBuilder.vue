@@ -235,7 +235,7 @@ const submitTrain = async (event) => {
         : await axios.post('/trainings', { train: data.value })
 
       toast.success(response.message);
-      router.push({ name: 'trainings' });      
+      router.push({ name: 'training-list' });      
     }
   } catch (error) {
     console.log(error);

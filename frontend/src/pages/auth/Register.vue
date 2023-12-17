@@ -172,7 +172,7 @@ const formSubmit = async (event) => {
     toast.success(response.message,);
     router.push('/');
   } catch (error) {
-    errors.value = error.errors
+    errors.value = error.data;
     toast.error(error.message)
   }
 }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ResponseMessageEnums;
+use App\Enums\StatusCodeEnums;
+use App\Http\Requests\TrainingExerciseLog\CreateLogRequest;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
+use Exception;
 use Illuminate\Http\Request;
 use App\Traits\ResponseMessage;
 use Auth;
@@ -14,30 +18,31 @@ class TrainingExerciseLogsController extends Controller
     use ResponseMessage;
 
     /**
-     * Store a newly created resource in storage.
+     * @param CreateLogRequest $request
+     * @param TrainingLogs $trainingLog
+     * @return JsonResponse
      */
-    public function store(TrainingLogs $trainingLogs, Request $request): JsonResponse
+    public function store(CreateLogRequest $request,TrainingLogs $trainingLog): JsonResponse
     {
-        $trainingLogs->user_id === Auth::user()->id || abort(403, 'Yetkiniz yok');
+        if($trainingLog->user_id !== auth()->user()->id) {
+            throw new Exception(ResponseMessageEnums::FORBIDDEN, StatusCodeEnums::FORBIDDEN);
+        }
+
+        $attributes = $request->validated();
 
         $responseLogs = [];
 
-        $attributes = $request->validate([
-            'sets' => 'sometimes',
-            'sets.*.id' => 'required|numeric',
-            'sets.*.weight' => 'required|numeric',
-            'sets.*.reps' => 'required|numeric',
-            'exercise_id' => 'required|exists:exercises,id',
-        ]);
-
-        TrainingExerciseLogs::where([['training_log_id', $trainingLogs->id],['exercise_id', $attributes['exercise_id']]])->delete();
+        TrainingExerciseLogs::where([
+            ['training_log_id', $trainingLog->id],
+            ['exercise_id', $attributes['exercise_id']]
+        ])->delete();
 
         foreach($attributes['sets'] as $set) {
-            $set['training_log_id'] = $trainingLogs->id;
+            $set['training_log_id'] = $trainingLog->id;
             $set['exercise_id'] = $attributes['exercise_id'];
 
             $responseLogs[] = TrainingExerciseLogs::create([
-                'training_log_id' => $trainingLogs->id,
+                'training_log_id' => $trainingLog->id,
                 'exercise_id' => $attributes['exercise_id'],
                 'weight' => $set['weight'],
                 'reps' => $set['reps']
