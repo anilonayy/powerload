@@ -17,6 +17,7 @@
     "axios": "^1.6.2",
     "crypto-js": "^4.2.0",
     "jquery": "^3.7.1",
+    "moment": "^2.29.4",
     "secure-ls": "^1.2.6",
     "select2": "^4.1.0-rc.0",
     "swiper": "^11.0.4",

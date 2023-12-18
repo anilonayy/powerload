@@ -37,7 +37,7 @@
             </div>
         </div>
         <div 
-            v-if="pageIndex === maxIndex && maxIndex > 2"
+            v-if="pageIndex === maxIndex && maxIndex >= 2"
             class="flex items-center justify-center text-lg font-semibold absolute bottom-0 w-full bg-green-500 text-white h-14 cursor-pointer"
             @click="completeTraining()"
         >

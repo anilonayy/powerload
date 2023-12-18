@@ -6,7 +6,6 @@ use App\Http\Controllers\TrainingExerciseLogsController;
 use App\Http\Controllers\TrainingLogsController;
 use App\Http\Controllers\TrainingsController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,32 +20,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function() {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    // Trainings Resources
+    Route::group(['prefix' => 'trainings'], function(){
+        Route::get('/', [TrainingsController::class, 'index']);
+        Route::post('/', [TrainingsController::class, 'store']);
+        Route::get('/details', [TrainingsController::class, 'allWithDetails']);
+        Route::get('/history', [TrainingsController::class, 'history']);
+        Route::get('/{training}', [TrainingsController::class, 'show']);
+        Route::get('/{training}/days/{training_day}/exercises', [TrainingsController::class, 'showExercises']);
+        Route::delete('/{training}', [TrainingsController::class, 'destroy']);
+        Route::put('/{training}', [TrainingsController::class, 'update']);
     });
 
-    Route::patch('/user', [UserController::class,'update']);
-    Route::patch('/user/update-password', [RegisteredUserNewPasswordController::class,'store']);
-
-    Route::get('/trainings',[TrainingsController::class,'all']);
-    Route::get('/trainings/details',[TrainingsController::class,'allWithDetails']);
-    Route::get('/trainings/history',[TrainingsController::class,'history']);
-    Route::get('/trainings/{training:id}',[TrainingsController::class,'show']);
-    Route::get('/trainings/{training:id}/days/{trainingDay:id}/exercises',[TrainingsController::class,'showExercises']);
-    Route::delete('/trainings/{training:id}',[TrainingsController::class,'destroy']);
-    Route::put('/trainings/{training:id}',[TrainingsController::class,'update']);
-    Route::post('/trainings',[TrainingsController::class,'create']);
-    Route::get('/exercises',[ExerciseController::class,'index']);
-
+    // On Train Resources (Training Logs)
+    Route::group(['prefix' => 'training-logs'], function(){
+        Route::get('/last', [TrainingLogsController::class,'last']);
+        Route::post('/', [TrainingLogsController::class,'store']);
+        Route::patch('/{training_log}/complete', [TrainingLogsController::class,'complete']);
+        Route::post('/{training_log}/exercises', [TrainingExerciseLogsController::class,'store']);
+        Route::put('/{training_log}', [TrainingLogsController::class,'update']);
+    });
 
     // On Train Resources (Training Logs)
-    Route::get('/training-logs/last', [TrainingLogsController::class,'last']);
-    Route::post('/training-logs', [TrainingLogsController::class,'store']);
-    Route::patch('/training-logs/{training_log}/complete', [TrainingLogsController::class,'complete']);
-    Route::post('/training-logs/{training_log}/exercises', [TrainingExerciseLogsController::class,'store']);
-    Route::put('/training-logs/{training_log}/', [TrainingLogsController::class,'update']);
-
+    Route::get('/exercises',[ExerciseController::class,'index']);
 });
 
 
 require_once __DIR__.'/auth.php';
+require_once __DIR__.'/user.php';

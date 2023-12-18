@@ -11,6 +11,10 @@ class TrainingLogs extends Model
     protected $table = 'training_logs';
     protected $with = ['exercises', 'training_day'];
     protected $guarded = [];
+    protected $casts = [
+        'created_at' => 'datetime:U',
+        'training_end_time' => 'datetime:U'
+    ];
 
     public function exercises ()
     {

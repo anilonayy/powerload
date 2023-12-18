@@ -17,7 +17,7 @@ class TrainingsController extends Controller
 {
     use ResponseMessage;
 
-    public function all(): JsonResponse
+    public function index(): JsonResponse
     {
         $trainings = Training::select('name','id','created_at')->where('user_id', auth()->user()->id)
             ->orderBy('id','asc') ->get();
@@ -27,7 +27,7 @@ class TrainingsController extends Controller
 
     public function history(): JsonResponse
     {
-        $logs = TrainingLogs::with('training','training_day','exercises')
+        $logs = TrainingLogs::with('training:id,name','training_day:id,name','exercises')
             ->where([
                 ['user_id', auth()->user()->id],
                 ['is_completed', 1],
@@ -57,7 +57,7 @@ class TrainingsController extends Controller
         return response()->json($this->getSuccessMessage($trainingDay->exercises));
     }
 
-    public function create(CreateTrainingRequest $request): JsonResponse
+    public function store(CreateTrainingRequest $request): JsonResponse
     {
         $payload = $request->validated();
 
