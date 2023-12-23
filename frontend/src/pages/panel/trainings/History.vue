@@ -13,7 +13,7 @@
                     <th scope="col" class="px-6 py-3">Antrenman Bilgisi</th>
                     <th scope="col" class="px-6 py-3">Antrenman Süresi</th>
                     <th scope="col" class="px-6 py-3">Antrenman Tarihi</th>
-                    <th scope="col" class="px-6 py-3">Detayları Gör</th>
+                    <th scope="col" class="px-6 py-3">İncele</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,23 +23,27 @@
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                 >
                     <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
-                        <router-link :to="{ name: 'training', params: { trainId: training.id } }" class="text-gray-900 font-bold dark:text-blue-500">
-                            <PrimaryBadge class="flex justify-center items-center">
+                        <router-link 
+                          :to="{ name: 'training', params: { trainId: training.id } }" 
+                          class="text-gray-900 font-bold dark:text-blue-500 flex gap-3">
+                            <PrimaryBadge class="flex justify-center items-center w-full">
                               {{ training.training.name }} 
-                                <RightIcon class="w-3 h-3" />
-                              {{ training.training_day.name }}
                             </PrimaryBadge>
+                            <SecondaryBadge class="flex justify-center items-center w-full">
+                              {{ training.training_day.name }}
+                            </SecondaryBadge>
+                            
                         </router-link>
                     </th>
                   <td class="px-6 py-4"> {{ calculateTrainingTime(training) }} </td>
                   <td class="px-6 py-4">{{ formatTrainingTime(training) }}</td>
                   <td class="px-6 py-4 flex gap-3">
                     <router-link
-                      :to="{ name: 'single-training-history', params: { trainId: training.id } }"
+                      :to="{ name: 'single-training-history', params: { trainingLogId: training.id } }"
                       class=" text-blue-600 dark:text-blue-500 hover:underline"
                     >
                       <ButtonCmp class="bg-orange-400 text-white border-orange-400 hover:bg-orange-300"
-                        >Detayları Gör</ButtonCmp
+                        >Detaylı İncele</ButtonCmp
                       >
                     </router-link>
                   </td>
@@ -63,7 +67,7 @@ import Panel from "@/components/form/Panel.vue";
 import PanelHeader from '@/components/panel/PanelHeader.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import PrimaryBadge from '@/components/badges/PrimaryBadge.vue';
-import RightIcon from '@/components/icons/RightIcon.vue';
+import SecondaryBadge from '@/components/badges/SecondaryBadge.vue';
 
 const axios = inject('axios');
 

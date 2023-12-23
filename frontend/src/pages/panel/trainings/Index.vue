@@ -12,7 +12,7 @@
         </router-link>
 
         <div v-if="trainings.length">
-<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead
             class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900"
           >

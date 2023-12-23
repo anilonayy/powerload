@@ -8,6 +8,7 @@ use App\Models\TrainingExerciseLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
+use App\Models\TrainingDay;
 use App\Traits\ResponseMessage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -15,7 +16,23 @@ class TrainingLogsController extends Controller
 {
     use ResponseMessage;
 
+    public function show (TrainingLogs $trainingLog): JsonResponse
+    {
+        $this->checkIsUsersLog($trainingLog);
 
+        $trainingLog->load([
+            'training_day' => function($query) {
+                $query->without('exercises');
+                $query->select('id', 'name');
+            }
+        ]);
+
+        return response()->json($this->getSuccessMessage($trainingLog));
+    }
+
+    /**
+     * @return JsonResponse
+     */
     public function store(): JsonResponse
     {
         $user = auth()->user();

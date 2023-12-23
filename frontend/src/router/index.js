@@ -46,7 +46,7 @@ const router = createRouter({
             component: () => import('@/pages/panel/trainings/History.vue')
           },
           {
-            path: 'antrenman-gecmisi/:trainId',
+            path: 'antrenman-gecmisi/:trainingLogId',
             name: 'single-training-history',
             component: () => import('@/pages/panel/trainings/HistoryDetail.vue')
           },

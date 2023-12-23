@@ -9,5 +9,5 @@ class ExerciseCategory extends Model
 {
     use HasFactory;
 
-    protected $visible = ['name'];
+    protected $visible = ['name','id'];
 }

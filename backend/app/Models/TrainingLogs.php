@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class TrainingLogs extends Model
 {
     use HasFactory;
+
+    protected $dates = ['created_at', 'training_end_time'];
+
     protected $table = 'training_logs';
-    protected $with = ['exercises', 'training_day'];
+    protected $with = ['exercises', 'training_day:id,name', 'training:id,name'];
     protected $guarded = [];
     protected $casts = [
-        'created_at' => 'datetime:U',
-        'training_end_time' => 'datetime:U'
+        'created_at' => 'datetime:m/d/Y H:i',
+        'training_end_time' => 'datetime:m/d/Y H:i'
     ];
 
     public function exercises ()
