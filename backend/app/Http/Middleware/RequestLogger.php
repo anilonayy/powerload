@@ -19,7 +19,10 @@ class RequestLogger
     {
         $response = $next($request);
 
-        $request->method() !== 'OPTIONS' && RequestLoggerModel::create([
+        if(!$request->has('_logged')) {
+            $request->merge(['_logged' => true]);
+
+            $request->method() !== 'OPTIONS' && RequestLoggerModel::create([
                 'path' => $request->path(),
                 'method' => $request->method(),
                 'request_body' => json_encode($request->all()),
@@ -29,6 +32,9 @@ class RequestLogger
                 'user_agent' => $request->userAgent(),
                 'user_id' => $request->user() ? $request->user()->id : null
         ]);
+        }
+
+
 
         return $response;
     }
