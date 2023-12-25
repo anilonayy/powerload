@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request,Throwable $e): Response|JsonResponse
     {
-        if ($this->isProductionEnv()) {
+        if (true || $this->isProductionEnv()) {
             $message = $this->getMessage($e);
             $statusCode = $this->getStatusCode($e);
 

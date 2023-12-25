@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseMessageEnums;
-use App\Enums\StatusCodeEnums;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
@@ -12,6 +11,7 @@ use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,8 +42,11 @@ class UserController extends Controller
         $payload = $request->validated();
 
         if(! auth()->attempt($payload)) {
-            throw new Exception(__('auth.failed'), 401);
+            return response()->json($this->getFailMessage([
+                'message' => __('auth.failed')
+            ]), Response::HTTP_UNAUTHORIZED);
         }
+
 
         $user = auth()->user();
         $token = $user->createToken('token')->plainTextToken;
@@ -96,7 +99,7 @@ class UserController extends Controller
         $payload = (object)$request->validated();
 
         if (!Hash::check($payload->currentPassword, Auth::user()->password)) {
-            throw new Exception(ResponseMessageEnums::WRONG_CREDENTIAL, StatusCodeEnums::UNAUTHORIZED);
+            throw new Exception(ResponseMessageEnums::WRONG_CREDENTIAL, Response::HTTP_UNAUTHORIZED);
         }
 
         auth()->user()->update(['password' => Hash::make($payload->newPassword)]);

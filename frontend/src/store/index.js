@@ -52,6 +52,8 @@ const mutations = {
   },
 
   logoutUser(state) {
+    localStorage.removeItem('vuex');
+    localStorage.removeItem('_secure__ls__metadata');
     state.user = null;
   },
 

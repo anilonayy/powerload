@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseMessageEnums;
-use App\Enums\StatusCodeEnums;
 use App\Http\Requests\Training\CreateTrainingRequest;
 use App\Http\Requests\Training\UpdateTrainingRequest;
 use App\Models\Training;
@@ -11,6 +10,7 @@ use App\Models\TrainingDay;
 use App\Models\TrainingLogs;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingsController extends Controller
@@ -110,14 +110,14 @@ class TrainingsController extends Controller
     private function checkTrainingOwner (Training $training): void
     {
         if ($training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: StatusCodeEnums::FORBIDDEN);
+            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }
 
     private function checkTrainingDayOwner (TrainingDay $trainingDay): void
     {
         if ($trainingDay->training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: StatusCodeEnums::FORBIDDEN);
+            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }
 }

@@ -200,6 +200,8 @@ watchEffect(() => {
     firstName: currentUser.value?.name,
     email: currentUser.value?.email
   }
+
+  // isAuthenticated.value = store.getters['_isAuthenticated'];
 })
 
 const updateAsideOpen = (value) => {

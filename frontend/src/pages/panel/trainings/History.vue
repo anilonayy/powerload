@@ -27,10 +27,10 @@
                           :to="{ name: 'training', params: { trainId: training.id } }" 
                           class="text-gray-900 font-bold dark:text-blue-500 flex gap-3">
                             <PrimaryBadge class="flex justify-center items-center w-full">
-                              {{ training.training.name }} 
+                              {{ training?.training?.name }} 
                             </PrimaryBadge>
                             <SecondaryBadge class="flex justify-center items-center w-full">
-                              {{ training.training_day.name }}
+                              {{ training?.training_day?.name }}
                             </SecondaryBadge>
                             
                         </router-link>

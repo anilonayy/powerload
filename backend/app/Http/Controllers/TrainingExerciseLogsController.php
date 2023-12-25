@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseMessageEnums;
-use App\Enums\StatusCodeEnums;
+use App\Enums\;
 use App\Http\Requests\TrainingExerciseLog\CreateLogRequest;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseMessage;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class TrainingExerciseLogsController extends Controller
 {
@@ -53,7 +54,7 @@ class TrainingExerciseLogsController extends Controller
     private function checkLogOwner(TrainingLogs $trainingLog): void
     {
         if($trainingLog->user_id !== auth()->user()->id) {
-            throw new Exception(ResponseMessageEnums::FORBIDDEN, StatusCodeEnums::FORBIDDEN);
+            throw new Exception(ResponseMessageEnums::FORBIDDEN, Response::HTTP_FORBIDDEN);
         }
     }
 }

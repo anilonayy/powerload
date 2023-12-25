@@ -8,9 +8,9 @@ use App\Enums\ResponseMessageEnums;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Exception;
-use StatusCodeEnums;
+use Illuminate\Http\Response;
 
 class RegisteredUserNewPasswordController extends Controller
 {
@@ -25,10 +25,10 @@ class RegisteredUserNewPasswordController extends Controller
         ]);
 
         if (!Hash::check($request->currentPassword, Auth::user()->password)) {
-            throw new Exception(ResponseMessageEnums::WRONG_CREDENTIAL, StatusCodeEnums::UNAUTHORIZED);
+            throw new Exception(ResponseMessageEnums::WRONG_CREDENTIAL, Response::HTTP_UNAUTHORIZED);
         }
 
-        Auth::user()->update(['password' => Hash::make($request->newPassword)]);
+        auth()->user()->update(['password' => Hash::make($request->newPassword)]);
 
         return response()->json($this->getSuccessMessage());
     }

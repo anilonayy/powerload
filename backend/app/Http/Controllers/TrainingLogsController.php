@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusCodeEnums;
 use App\Models\TrainingLogs;
 use App\Models\TrainingExerciseLogs;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +9,7 @@ use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Models\TrainingDay;
 use App\Traits\ResponseMessage;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingLogsController extends Controller
@@ -101,7 +101,7 @@ class TrainingLogsController extends Controller
     private function checkIsUsersLog (TrainingLogs $trainingLog): void
     {
         if(auth()->user()->id !== $trainingLog->user_id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: StatusCodeEnums::FORBIDDEN);
+            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }
 }

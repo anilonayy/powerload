@@ -13,7 +13,7 @@
           autocomplete="email "
         />
 
-        <div v-if="errors?.email && errors?.email.length > 0">
+        <div v-if="errors?.email && errors?.email?.length > 0">
           <InputError class="mt-2" :message="errors?.email[0]" />
         </div>
       </div>
@@ -29,7 +29,7 @@
           autocomplete="current-password"
         />
 
-        <div v-if="errors?.password && errors?.password.length > 0">
+        <div v-if="errors?.password && errors?.password?.length > 0">
           <InputError class="mt-2" :message="errors?.password[0]" />
         </div>
 
@@ -38,6 +38,10 @@
             >Şifremi Unuttum</router-link
           >
         </div>
+      </div>
+
+      <div v-if="errors?.message && errors?.message?.length" class="text-red-500 font-semibold my-4">
+        {{ errors?.message }}
       </div>
 
       <div class="flex justify-end">
@@ -107,10 +111,14 @@ const toast = inject('toast')
 
 const userData = ref({
   email: '',
-  password: ''
+  password: '',
 });
 
-const errors = ref({})
+const errors = ref({
+  email: [],
+  password: [],
+  message: ''
+})
 
 const formSubmit = async (event) => {
   event.preventDefault()
@@ -133,7 +141,7 @@ const formSubmit = async (event) => {
       toast.success(response.message);
     }
   } catch (error) {
-    errors.value = error?.errors || [];
+    errors.value = error.data;
     toast.error(error.message)
   }
 }
@@ -155,8 +163,12 @@ const validateForm = () => {
     errors.value.password = []
   }
 
-  return Object.keys(errors.value).every((field) => errors.value[field].length === 0 )
+  if(errors.value.message.length) {
+    errors.value.message = ''
+  }
+
+  return Object.keys(errors.value).every((field) => errors.value[field].length === 0)
 }
 
-const isEmpty = (field) => (field || '').trim().length === 0;
+const isEmpty = (field) => (field ?? '').trim().length === 0;
 </script>
