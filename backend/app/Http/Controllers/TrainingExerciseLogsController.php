@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseMessageEnums;
-use App\Enums\;
 use App\Http\Requests\TrainingExerciseLog\CreateLogRequest;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
 use Exception;
-use Illuminate\Http\Request;
 use App\Traits\ResponseMessage;
-use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

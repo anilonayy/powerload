@@ -38,12 +38,12 @@ const state = {
 
 const mutations = {
   setUser(state, user) {
-    state.user = user || {};
+    state.user = user ?? {};
   },
 
   setToken(state, token) {
     setCookie('_token',token,7);
-    state.token = token || '';
+    state.token = token ?? '';
   },
 
   removeToken(state) {
@@ -58,7 +58,7 @@ const mutations = {
   },
 
   setExercises(state,exercisesList) {
-    state.exercises = exercisesList || [];
+    state.exercises = exercisesList ?? [];
   },
 
   setAsideOpen(state, data) {
@@ -66,11 +66,11 @@ const mutations = {
   },
 
   setTrainings (state, data) {
-    state.trainings = data || [];
+    state.trainings = data ?? [];
   },
 
   setTrainingLogId (state, data) {
-    state.trainLogId = data || 0;
+    state.trainLogId = data ?? 0;
   },
 
   setOnTrainData (state, data) {
@@ -80,14 +80,14 @@ const mutations = {
 
   // data.training_id
   selectTraining (state, data) {
-    (state.trainings.find((training) => training.isSelected) || {}).isSelected = false;
+    (state.trainings.find((training) => training.isSelected) ?? {}).isSelected = false;
     state.trainings.find((training) => training.id === data.training_id).isSelected = true;
   },
 
   // data.day_id
   selectTrainingDay (state, day_id) {
-    ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.isSelected === true) || {}).isSelected = false;
-    ((state.trainings.find((training) => training.isSelected) || []).days.find((day) => day.id == day_id) || {}).isSelected = true;
+    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected === true) ?? {}).isSelected = false;
+    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.id == day_id) ?? {}).isSelected = true;
   }
 };
 
@@ -116,6 +116,8 @@ const actions = {
   logout({ commit }) {
     commit('logoutUser');
     commit('removeToken');
+    commit('setTrainings', []);
+    commit('setTrainingLogId', 0);
   },
 
   setExercises({commit},exercisesList) {
@@ -160,7 +162,7 @@ const getters = {
   _userTrainings: state => state.trainings,
   _trainingLogId: state => state.trainLogId,
   _selectedTraining: state => state.trainings.find((training) => Boolean(training.isSelected)),
-  _selectedDay: state => ((state.trainings.find((training) => Boolean(training.isSelected)) || {}).days || []).find((day) => day.isSelected === true) || {},
+  _selectedDay: state => ((state.trainings.find((training) => Boolean(training.isSelected)) ?? {}).days ?? []).find((day) => day.isSelected === true) ?? {},
   _isTrainingSelected: state => state.trainings.some((training) => Boolean(training.isSelected)),
   _isTrainingDaySelected: state => state.trainings.some((training) => training.days.some((day) => day.isSelected === true)),
 };

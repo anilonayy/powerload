@@ -16,7 +16,7 @@ class TrainingLogsController extends Controller
 {
     use ResponseMessage;
 
-    public function show (TrainingLogs $trainingLog): JsonResponse
+    public function show(TrainingLogs $trainingLog): JsonResponse
     {
         $this->checkIsUsersLog($trainingLog);
 
@@ -24,8 +24,18 @@ class TrainingLogsController extends Controller
             'training_day' => function($query) {
                 $query->without('exercises');
                 $query->select('id', 'name');
-            }
+            },
+            'training' => fn ($query) => $query->withTrashed(),
+            'exercises' => fn ($query) => $query->orderBy('id', 'asc')
         ]);
+
+        var_dump($trainingLog->exercises->map(function ($exercise) {
+            return [
+                'foo' => 'bar'
+            ];
+        }));
+
+        $trainingLog->exercises()
 
         return response()->json($this->getSuccessMessage($trainingLog));
     }

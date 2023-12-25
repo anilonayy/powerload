@@ -6,8 +6,8 @@
             </back-button>
 
             <section class="mt-12">
-                <div class="top-info-boxes-group flex flex-col md:flex-row justify-between">
-                    <div class="left-info-boxes flex flex-col gap-1">
+                <div class="top-info-boxes-group flex flex-col md:flex-row justify-between text-sm md:text-base">
+                    <div class="left-info-boxes flex flex-col gap-1 ">
                         <div class="info-box flex gap-3">
                             <div class="font-extralight">Antrenman Başlangıç: </div>
                             <div class="font-semibold"> {{ trainLog.created_at }} </div>
@@ -35,8 +35,27 @@
                             </div>
                     </div>
                 </div>
-                
-                
+            </section>
+
+            <section>
+                <div id="training-header" class="my-4">
+
+                </div>
+
+                <div id="trainings" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div v-for="(exercise, index) in trainLog.exercises" :key="index">
+                        <div class="w-full border border-1 border-gray-300 rounded-md p-2">
+                                <div class="card-header font-semibold text-center">
+                                    {{ exercise.exercise.name }}
+                                </div>
+                                <hr>
+
+                                <div class="card-body flex flex-col gap-2">
+                                    
+                                </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             
         </Panel>
@@ -62,6 +81,7 @@ const trainLog = ref({
         name: '',
         id: '',
     },
+    exercises: [],
 });
 
 onMounted(async () => {

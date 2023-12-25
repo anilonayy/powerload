@@ -57,7 +57,8 @@ const handleTraining = async () => {
 watch(
       () => route.fullPath,
       async (newUrl, oldUrl) => {
-        componentWillShow.value = !newUrl.includes('on-train');
+        const hiddenUrls = ['antrenmanlar/ekle', 'on-train'];
+        componentWillShow.value = !hiddenUrls.some(url => newUrl.includes(url));
 
         if(isAuthenticated.value) {
             if(! isTrainingSelected.value) {

@@ -11,13 +11,14 @@ class Training extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $table = 'trainings';
     protected $hidden = ['user_id'];
 
     protected $guarded = [];
 
     protected $casts = [
-        'created_at' => 'datetime:d/m/Y',
-        'updated_at' => 'datetime:d/m/Y',
+        'created_at' => 'datetime:d F Y',
+        'updated_at' => 'datetime:d F Y',
     ];
 
     public function user()

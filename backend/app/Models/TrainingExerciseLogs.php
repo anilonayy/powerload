@@ -11,6 +11,12 @@ class TrainingExerciseLogs extends Model
 
     protected $guarded = [];
     protected $with = ['exercise'];
+    protected $hidden = ['updated_at'];
+
+    protected $casts = [
+        'created_at' => 'datetime:m F Y H:i',
+        'updated_at' => 'datetime:m F Y H:i'
+    ];
 
     public function exercise ()
     {

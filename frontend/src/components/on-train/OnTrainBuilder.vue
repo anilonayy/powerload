@@ -43,13 +43,19 @@
         >
             Antrenmanı Tamamla
         </div>
+
+        <div v-if="!(pageIndex === maxIndex && maxIndex >= 2) && pageIndex !== 0"
+            @click="giveUp()"
+            class="flex justify-center items-center text-xs absolute bottom-20 left-4 p-4 rounded-full bg-gray-400 text-white h-12 w-12 "
+        >
+            Vazgeç
+        </div>
     </div>
 </template>
 
 <script setup>
 import { onMounted, ref, inject, computed, watchEffect } from "vue";
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
 import router from '@/router';
 
 import SelectTraining from '@/components/on-train/SelectTraining.vue';
@@ -84,6 +90,14 @@ const swalWithBootstrapButtons = swal.mixin({
     buttonsStyling: false
 });
 
+const swalConfirmButtons = swal.mixin({
+    customClass: {
+    confirmButton: "bg-green-500 text-white py-2 px-4 rounded-md ms-2",
+    cancelButton: "bg-gray-500 text-white py-2 px-4 rounded-md"
+    },
+    buttonsStyling: false
+});
+
 onMounted(async () => {
     if (!isTrainingSelected.value) {
         pageIndex.value = 0;
@@ -101,21 +115,21 @@ onMounted(async () => {
 
         const trainingData = allTrainings.data.map((training) => {
             return {
-                id: training.id,
-                name: training.name,
+                id: training.id ?? 0,
+                name: training.name ?? '',
                 isSelected: false,
                 days: training.days.map((day) => {
                     return {
-                        id: day.id,
-                        name: day.name,
+                        id: day.id ?? 0,
+                        name: day.name ?? '',
                         isSelected: false,
                         exercises: day.exercises.map((exercise) => {
                             return {
-                                id: exercise.exercise.id,
-                                name: exercise.exercise.name,
-                                category: exercise.exercise.category || {},
-                                sets: exercise.sets,
-                                reps: exercise.reps,
+                                id: exercise.exercise.id ?? 0,
+                                name: exercise.exercise.name ?? '',
+                                category: exercise.exercise.category ?? {},
+                                sets: exercise.sets ?? 0,
+                                reps: exercise.reps ?? 0,
                                 onTrain: [{
                                     id: 0,
                                     reps: 5,
@@ -366,7 +380,7 @@ const completeTraining = async () => {
 
 const completeTrainingRequest = async () => {
     try {
-        swalWithBootstrapButtons.fire({
+        swalConfirmButtons.fire({
             title: 'Emin misin?',
             text: 'Antrenmanı tamamlıyorsun, eğer tamamlarsan tekrardan düzenleyemezsin. Tüm setleri doğru girdiğine emin misin?',
             icon: 'warning',
@@ -405,5 +419,26 @@ const updateArrowsVisibility = () => {
             nextArrowVisibility.value = true;
         }
     }
+}
+
+const giveUp = () => {
+    swalWithBootstrapButtons.fire({
+            title: 'Emin misin?',
+            text: 'Antrenmanı bırakırsan kaydettiğin tüm ağırlıklar silinecek!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Antrenmanı Bitir',
+            cancelButtonText: 'Vazgeçtim',
+            reverseButtons: true,
+        })
+        .then(async (result) => {
+            if (result.isConfirmed) {
+                await axios.delete(`/training-logs/${ trainingLog.value }/exercises`);
+                await axios.delete(`training-logs/${ trainingLog.value }/give-up`);
+
+                store.dispatch('setTrainings', []);
+                router.push({ name: 'home' });
+            }
+        });
 }
 </script>

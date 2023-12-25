@@ -227,15 +227,15 @@ const submitTrain = async (event) => {
 
   try {
     const validationResponse = validateTrainBuilderData(data.value);
-    console.log('validationResponse :>> ', validationResponse);
 
     if(validationResponse.success) {
       const response = isUpdatePage.value 
         ? await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) 
         : await axios.post('/trainings', { train: data.value })
 
-      toast.success(response.message);
       router.push({ name: 'training-list' });      
+    } else {
+      toast.error('Lütfen hatalı veya eksik alanarı düzeltin!');
     }
   } catch (error) {
     console.log(error);

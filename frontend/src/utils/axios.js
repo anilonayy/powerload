@@ -2,8 +2,6 @@ import store from '@/store';
 import { getCookie } from '@/utils/helpers';
 import axios from 'axios';
 import router from '@/router'
-import { useRoute } from "vue-router";
-
 
 const createAxiosInstance = () => {
 
