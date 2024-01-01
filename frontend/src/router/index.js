@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/giris-yap',
       name: 'login',
-      component: () => import('@/pages/auth/Login.vue'),
+      component: () => import('@/pages/auth/LoginPage.vue'),
       meta: {
         requiresGuest: true
       }
