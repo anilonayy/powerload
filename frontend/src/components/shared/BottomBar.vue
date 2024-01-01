@@ -62,7 +62,7 @@ watch(
 
         if(isAuthenticated.value) {
             if(!isTrainingSelected.value) {
-                const response = await axios.get(`training-logs/last`);
+                const response = await axios.get(`v1/training-logs/last`);
 
                 store.dispatch('setTrainingLogId', response.data.id);
                 response.data.training_id && store.dispatch('selectTraining', response.data.training_id);
