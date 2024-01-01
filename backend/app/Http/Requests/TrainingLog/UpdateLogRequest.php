@@ -11,7 +11,8 @@ class UpdateLogRequest extends FormRequest
         return [
             'training_day_id' => 'sometimes|exists:training_days,id',
             'training_id' => 'sometimes|exists:trainings,id',
-            'isCompleted' => 'sometimes|boolean'
+            'isCompleted' => 'sometimes|boolean',
+            'is_new' => 'sometimes|boolean',
         ];
     }
 }

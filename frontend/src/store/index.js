@@ -74,7 +74,7 @@ const mutations = {
   },
 
   setOnTrainData (state, data) {
-    state.trainings.find((training) => training.isSelected).days.find((day) => day.isSelected).exercises.find(
+    state.trainings.find((training) => training?.isSelected).days.find((day) => day?.isSelected).exercises.find(
       (exercise) => exercise.id === data.exercise_id).onTrain = data.value;
   },
 
@@ -86,8 +86,38 @@ const mutations = {
 
   // data.day_id
   selectTrainingDay (state, day_id) {
-    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected === true) ?? {}).isSelected = false;
-    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.id == day_id) ?? {}).isSelected = true;
+    console.log('day_id :>> ', day_id);
+    ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}).isSelected = false;
+    ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}).isSelected = true;
+  },
+  setExercisesOfDay(state, exercises) {
+    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+      .exercises = exercises.map((exercise) => {
+        return {
+          id: exercise.exercise.id ?? 0,
+          name: exercise.exercise.name ?? '',
+          category: exercise.exercise.category ?? {},
+          sets: exercise.sets ?? 0,
+          reps: exercise.reps ?? 0,
+          isPassed: false,
+          onTrain: [{
+            id: 0,
+            reps: 5,
+            weight: 0,
+            repsError: false,
+            weightError: false,
+            createTime: new Date().getTime()
+          }]
+        }
+    });
+  },
+  setAsNotPassed (state, exerciseId) {
+    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+      .exercises.find((exercise) => exercise.id === exerciseId).isPassed = false;
+  },
+  setAsPassed (state, exerciseId) {
+    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+      .exercises.find((exercise) => exercise.id === exerciseId).isPassed = true;
   }
 };
 
@@ -140,8 +170,17 @@ const actions = {
   selectTraining({ commit }, data) {
     commit('selectTraining', data);
   },
-  selectTrainingDay({ commit }, data) {
-    commit('selectTrainingDay', data);
+  selectTrainingDay({ commit }, dayId) {
+    commit('selectTrainingDay', dayId);
+  },
+  setExercisesOfDay({ commit }, exercises) {
+    commit('setExercisesOfDay', exercises);
+  },
+  setAsNotPassed({ commit }, exerciseId) {
+    commit('setAsNotPassed', exerciseId);
+  },
+  setAsPassed({ commit }, exerciseId) {
+    commit('setAsPassed', exerciseId);
   }
 };
 

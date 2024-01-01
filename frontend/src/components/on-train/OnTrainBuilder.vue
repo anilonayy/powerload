@@ -6,7 +6,7 @@
                     <LeftIcon />
                 </div>
 
-                <div class="next-exercise absolute right-0 cursor-pointer" @click="handleNextStep()" v-if="maxIndex != pageIndex && nextArrowVisibility">
+                <div class="next-exercise absolute right-0 cursor-pointer" @click="handleNextStep()" v-if="nextArrowVisibility">
                     <RightIcon />
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 />
             </div>
 
-            <div v-else>
+            <div v-else class="pb-20">
                 <SelectExercises 
                     :selectedDay="selectedDay"
                     :pageIndex="pageIndex"
@@ -38,17 +38,24 @@
         </div>
         <div 
             v-if="pageIndex === maxIndex && maxIndex >= 2"
-            class="flex items-center justify-center text-lg font-semibold absolute bottom-0 w-full bg-green-500 text-white h-14 cursor-pointer"
+            class="flex w-full items-center justify-center text-lg font-semibold absolute bottom-0 bg-green-500 text-white h-14 cursor-pointer"
             @click="completeTraining()"
         >
             Antrenmanı Tamamla
         </div>
+        <div 
+            v-else-if="pageIndex >= 2 && pageIndex !== maxIndex"
+            @click="handleNextStep()"
+            class="flex w-full items-center justify-center text-lg font-semibold absolute bottom-0 bg-green-500 text-white h-14 cursor-pointer"
+            >
+            Sıradaki harekete geç!
+        </div>
 
         <div v-if="!(pageIndex === maxIndex && maxIndex >= 2) && pageIndex !== 0"
             @click="giveUp()"
-            class="flex justify-center items-center text-xs absolute bottom-20 left-4 p-4 rounded-full bg-gray-400 text-white h-12 w-12 "
+            class="flex justify-center items-center text-xs absolute bottom-1 left-4 p-4 rounded-full bg-gray-600 text-white h-12 w-12 cursor-pointer"
         >
-            Vazgeç
+            Pes Et!
         </div>
     </div>
 </template>
@@ -72,8 +79,8 @@ const swal = inject('swal');
 
 const headerTitle = ref('Bugün hangi antrenmanı yapacaksın?');
 const trainings = ref(store.getters['_userTrainings']);
-const isTrainingDaySelected = ref(store.getters['_isTrainingDaySelected']);
-const isTrainingSelected = ref(store.getters['_isTrainingSelected']);
+const isTrainingDaySelected = computed(() => store.getters['_isTrainingDaySelected']);
+const isTrainingSelected =  computed(() => store.getters['_isTrainingSelected']);
 const nextArrowVisibility = ref(false);
 const maxIndex = ref(2);
 const pageIndex = ref(0);
@@ -81,6 +88,7 @@ const pageIndex = ref(0);
 const trainingLog = computed(() => store.getters['_trainingLogId']);
 const selectedTraining = computed(() => store.getters['_selectedTraining']);
 const selectedDay = computed(() => store.getters['_selectedDay']);
+const currentExercise = computed(() => selectedDay.value.exercises[pageIndex.value - 2]);
 
 const swalWithBootstrapButtons = swal.mixin({
     customClass: {
@@ -123,7 +131,7 @@ onMounted(async () => {
                         id: day.id ?? 0,
                         name: day.name ?? '',
                         isSelected: false,
-                        exercises: day.exercises.map((exercise) => {
+                        exercises: day.exercises?.map((exercise) => {
                             return {
                                 id: exercise.exercise.id ?? 0,
                                 name: exercise.exercise.name ?? '',
@@ -135,7 +143,8 @@ onMounted(async () => {
                                     reps: 5,
                                     weight: 0,
                                     repsError: false,
-                                    weightError: false
+                                    weightError: false,
+                                    createTime: new Date().getTime(),
                                 }]
                             }
                         })
@@ -164,7 +173,8 @@ onMounted(async () => {
                             reps: exerciseFromDb.reps,
                             weight: exerciseFromDb.weight,
                             repsError: false,
-                            weightError: false
+                            weightError: false,
+                            createTime: exerciseFromDb.started_at,
                         });
                     }
                 });
@@ -190,7 +200,7 @@ const updateState = async () => {
         } else if (index === 1) {
             headerTitle.value = 'Hangi gündesin?';
         } else {
-            maxIndex.value = selectedDay.value.exercises.length + 1;
+            maxIndex.value = selectedDay.value.exercises?.length + 1;
         }
     } catch (error) {
         console.error(error);
@@ -210,7 +220,8 @@ const selectTraining = async (training) => {
     try {
         if(!training.isSelected)  {
             await axios.put(`training-logs/${ trainingLog.value }/`, {
-                training_id: training.id
+                training_id: training.id,
+                is_new: true
             });
             
             store.dispatch('selectTraining', { training_id: training.id });
@@ -226,14 +237,45 @@ const selectTraining = async (training) => {
 const selectTrainingDay = async (day) => {
     try {
         if(!day.isSelected) {
-            await axios.put(`training-logs/${ trainingLog.value }/`, {
-                training_day_id: day.id
-            });
+            if(selectedDay.value.id && selectedDay.value.id !== day.id) {
+                swalWithBootstrapButtons.fire({
+                    title: 'Emin misin?',
+                    text: 'Eğer farklı bir gün seçersen bu gün içindeki ilerlemen silinecek.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yeni Günü Seç!',
+                    cancelButtonText: 'Vazgeçtim',
+                    reverseButtons: true,
+                })
+                .then(async (result) => {
+                    if (result.isConfirmed) {
+                        const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
+                            training_day_id: day.id,
+                            is_new: true
+                        });
 
-            store.dispatch('selectTrainingDay', day.id);
+                        store.dispatch('selectTrainingDay', day.id);
+                        store.dispatch('setExercisesOfDay', response?.data?.exercises)
+
+                        handleNextStep();
+                    }
+                });
+            } else {
+                const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
+                    training_day_id: day.id,
+                    is_new: true
+                });
+
+                store.dispatch('selectTrainingDay', day.id);
+                store.dispatch('setExercisesOfDay', response?.data?.exercises)
+                handleNextStep();
+            }
+
+        } else {
+            handleNextStep();
         }
 
-        handleNextStep();
+        
     } catch (error) {
         console.error(error);
         toast.error(error.message);
@@ -255,7 +297,7 @@ const handleNextStep = async () => {
     if (maxIndex.value === pageIndex.value && pageIndex.value >= 2)  return;
 
     if(pageIndex.value >= 2) {
-        if(!validateCurrentExercise()) {
+        if(!validateCurrentExercise() && !currentExercise.value.isPassed) {
             swalWithBootstrapButtons.fire({
                 title: 'Emin misin?',
                 text: 'Eğer hareketi pas geçersen, istatistiği tutulmaz.',
@@ -267,68 +309,74 @@ const handleNextStep = async () => {
             })
             .then(async (result) => {
                 if (result.isConfirmed) {
-                    setNewExercise();
-                    setNextPage();
+                    store.dispatch('setAsPassed', currentExercise.value.id);
+                    await setNewExercise();
+                    setNextPageIndex();
                 }
             });
         } else {
-            setNewExercise();
-            setNextPage();
+            await setNewExercise();
+            setNextPageIndex();
         }
     } else {
-        setNextPage();
+        setNextPageIndex();
     }
 };
 
-const setNextPage = () => {
+const setNextPageIndex = () => {
     pageIndex.value += 1;
     updateState();
 }
 
 const setNewExercise = async () => {
     const addSetsResponse = await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
-            sets: selectedDay.value.exercises[pageIndex.value - 2].onTrain,
-            exercise_id: selectedDay.value.exercises[pageIndex.value - 2].id,
+            sets: currentExercise.value.onTrain,
+            exercise: currentExercise.value,
     });
 
-    // update exercises id
-    store.dispatch('setOnTrainData',{
-        exercise_id: selectedDay.value.exercises[pageIndex.value - 2].id,
+    store.dispatch('setOnTrainData', {
+        exercise_id: currentExercise.value.id,
         value: addSetsResponse.data.map((exercise_log) => {
             return {
                 id: exercise_log.id,
                 reps: exercise_log.reps,
                 weight: exercise_log.weight,
                 repsError: false,
-                weightError: false
+                weightError: false,
+                createTime: new Date().getTime(),
             }
         })
     });
 }
 
-const addSet = (data) => {
-    const newData = data.onTrain[data.onTrain.length - 1] || {
+const addSet = (exercise) => {
+    const newData = exercise.onTrain[exercise.onTrain.length - 1] || {
         id: 0,
         reps: 5,
-        weight: 0
+        weight: 0,
     };
     
-    data.onTrain.push({
+    exercise.onTrain.push({
         id: 0,
         reps: newData.reps,
-        weight: newData.weight
+        weight: newData.weight,
+        createTime: new Date().getTime(),
     });
+
+    store.dispatch('setAsNotPassed', exercise.id);
 };
 
-const removeSet = (data,index) => {
+const removeSet = (data, index) => {
     data.onTrain.splice(index, 1);
 };
 
 const validateCurrentExercise = (index = null) => {
+    if(currentExercise.value.isPassed) return true;
+    
     let hasError = false;
-
+    
     if (index != null) {
-        const specificSet =  selectedDay.value.exercises[pageIndex.value - 2].onTrain[index];
+        const specificSet =  currentExercise.value.onTrain[index];
 
         specificSet.weight = Number(specificSet.weight);
         specificSet.reps = Number(specificSet.reps);
@@ -336,9 +384,14 @@ const validateCurrentExercise = (index = null) => {
         specificSet.repsError = specificSet.reps === 0 || specificSet.reps > 100;
         specificSet.weightError = specificSet.weight === 0 || specificSet.weight > 1000;
 
-        selectedDay.value.exercises[pageIndex.value - 2].onTrain[index] = specificSet;
+        if( !currentExercise.value.onTrain[index + 1] && index === 0 ) {
+            specificSet.createTime = new Date().getTime();
+            console.log(specificSet);
+        }
+        
+        currentExercise.value.onTrain[index] = specificSet;
     } else {
-        const exercise = selectedDay.value.exercises[pageIndex.value - 2];
+        const exercise = currentExercise.value;
 
         exercise.onTrain.map((item) => {
             item.repsError = item.reps === 0 || item.reps > 100;
@@ -368,6 +421,7 @@ const completeTraining = async () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
+                store.dispatch('setAsPassed', currentExercise.value.id);
                 setNewExercise();
                 completeTrainingRequest();
             }
@@ -391,15 +445,10 @@ const completeTrainingRequest = async () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
-                    sets: selectedDay.value.exercises[pageIndex.value - 2].onTrain,
-                    exercise_id: selectedDay.value.exercises[pageIndex.value - 2].id,
-                });
-
                 await axios.patch(`training-logs/${ trainingLog.value }/complete`);
 
                 store.dispatch('setTrainings', []);
-                router.push({ name: 'home' });
+                router.push({ name: 'train-completed', params: { trainingLogId: trainingLog.value  } });
             }
         });
     } catch (error) {
@@ -408,17 +457,21 @@ const completeTrainingRequest = async () => {
 }
 
 const updateArrowsVisibility = () => {
+    console.log('isTrainingSelected.value :>> ', isTrainingSelected.value);
+    console.log('isTrainingDaySelected.value :>> ', isTrainingDaySelected.value);
     if(pageIndex.value === 0) {
         nextArrowVisibility.value = isTrainingSelected.value;
     } else if (pageIndex.value === 1) {
         nextArrowVisibility.value = isTrainingDaySelected.value;
     } else {
-        if(selectedDay.value.exercises.length + 1 === pageIndex.value) {
+        if(selectedDay.value.exercises?.length + 1 === pageIndex.value) {
             nextArrowVisibility.value = false;
         } else{
             nextArrowVisibility.value = true;
         }
     }
+
+    console.log('nextArrowVisibility :>> ', nextArrowVisibility.value);
 }
 
 const giveUp = () => {
@@ -433,10 +486,10 @@ const giveUp = () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                await axios.delete(`/training-logs/${ trainingLog.value }/exercises`);
-                await axios.delete(`training-logs/${ trainingLog.value }/give-up`);
+                await axios.post(`training-logs/${ trainingLog.value }/give-up`);
 
                 store.dispatch('setTrainings', []);
+
                 router.push({ name: 'home' });
             }
         });

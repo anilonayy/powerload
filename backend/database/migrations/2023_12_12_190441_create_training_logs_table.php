@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('training_id')->nullable()->default(0);
             $table->foreignId('training_day_id')->nullable()->default(0);
-            $table->boolean('is_completed')->default(false);
+            $table->integer('status')->default(0);
             $table->datetime('training_end_time')->nullable();
             $table->timestamps();
         });

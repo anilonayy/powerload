@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\TrainingExerciseLog\CreateLogRequest;
+use App\Models\TrainingExerciseListLogs;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
 use Exception;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class TrainingExerciseLogsController extends Controller
 {
@@ -20,28 +22,43 @@ class TrainingExerciseLogsController extends Controller
      * @param TrainingLogs $trainingLog
      * @return JsonResponse
      */
-    public function store(TrainingLogs $trainingLog,CreateLogRequest $request): JsonResponse
+    public function store(CreateLogRequest $request, TrainingLogs $trainingLog): JsonResponse
     {
         $this->checkLogOwner($trainingLog);
-
-        $attributes = $request->validated();
+        $payload = $request->validated();
+        $exercise_id = $payload['exercise']['id'];
         $responseLogs = [];
 
-        TrainingExerciseLogs::where([
-            ['training_log_id', $trainingLog->id],
-            ['exercise_id', $attributes['exercise_id']]
-        ])->delete();
+        // Update Is Passed Status
+        $training_exercise_log = TrainingExerciseListLogs::where([
+            ['training_exercise_log_id', $trainingLog->id],
+            ['exercise_id', $exercise_id]
+        ])->get()->first();
 
-        foreach($attributes['sets'] as $set) {
+        $training_exercise_log->update([
+            'is_passed' => $payload['exercise']['isPassed']
+        ]);
+
+        // Delete Old Logs
+        foreach(TrainingExerciseListLogs::where([
+            ['training_exercise_log_id', $trainingLog->id],
+            ['exercise_id', $exercise_id]
+        ])->get() as $log) {
+            if ($log->exercise_logs()->count()) {
+                $log->exercise_logs()->delete();
+            }
+        }
+
+        foreach($payload['sets'] as $set) {
             $set['training_log_id'] = $trainingLog->id;
-            $set['exercise_id'] = $attributes['exercise_id'];
+            $set['exercise_id'] = $exercise_id;
 
             $responseLogs[] = TrainingExerciseLogs::create([
-                'training_log_id' => $trainingLog->id,
-                'exercise_id' => $attributes['exercise_id'],
+                'training_exercise_list_log_id' => $training_exercise_log->id,
+                'exercise_id' => $exercise_id,
                 'weight' => $set['weight'],
                 'reps' => $set['reps'],
-                'is_passed' => $set['weight'] === 0 || $set['reps'] === 0
+                'started_at' => \Carbon\Carbon::createFromTimestampMs($set['createTime'])->format('Y-m-d H:i:s'),
             ]);
         }
 

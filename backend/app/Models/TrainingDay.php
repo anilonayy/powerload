@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TrainingDay extends Model
@@ -12,17 +14,10 @@ class TrainingDay extends Model
     use SoftDeletes;
 
     protected $table = 'training_days';
-    protected $guarded = [];
-    protected $with = ['exercises'];
+    protected $fillable = ['name', 'training_id'];
 
-    public function exercises()
+    public function exercises(): HasMany
     {
         return $this->hasMany(TrainingDayExercise::class);
     }
-
-    public function training_logs()
-    {
-        return $this->belongsToMany(TrainingLogs::class, 'training_day_id', 'id');
-    }
-
 }

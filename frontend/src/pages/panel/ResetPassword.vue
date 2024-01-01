@@ -63,9 +63,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import axios  from '@/utils/axios.js';
-import toastr from 'toastr';
+import { ref, computed, inject } from "vue";
 import CryptoJs from 'crypto-js'
 import { useStore } from 'vuex';
 
@@ -76,6 +74,8 @@ import Label from "@/components/form/Label.vue";
 import InputError from "@/components/form/InputError.vue";
 import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
 
+const axios = inject('axios');
+const toastr = inject('toastr');
 const store = useStore();
 const saltKey = computed(() => store.getters['_saltKey']);
 
@@ -120,12 +120,12 @@ const submitPassword = async (event) => {
       newPasswordConfirm: cryptedNewPassword
     });
     
-    toastr.success(response.message, response.title);
+    toastr.success('Şifre başarıyla güncellendi!');
 
     newPassword.value  = {};
 
    } catch (error) {
-    toastr.error(error.message, error.title);
+    toastr.error(error.message);
    }
   }  
 };

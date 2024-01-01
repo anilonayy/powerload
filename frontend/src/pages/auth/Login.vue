@@ -142,7 +142,8 @@ const formSubmit = async (event) => {
     }
   } catch (error) {
     errors.value = error.data;
-    toast.error(error.message)
+
+    !errors.value.message && toast.error(error.message)
   }
 }
 

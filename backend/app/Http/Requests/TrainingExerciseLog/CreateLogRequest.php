@@ -13,7 +13,8 @@ class CreateLogRequest extends FormRequest
             'sets.*.id' => 'required|numeric',
             'sets.*.weight' => 'required|numeric',
             'sets.*.reps' => 'required|numeric',
-            'exercise_id' => 'required|exists:exercises,id',
+            'exercise.id' => 'required|exists:exercises,id',
+            'exercise.isPassed' => 'required|boolean',
         ];
     }
 }

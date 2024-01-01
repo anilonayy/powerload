@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TrainingLogEnums;
+use App\Http\Resources\TrainingLogs\TrainingLogs as TrainingLogsResource;
+use App\Http\Resources\TrainingLogs\TrainingLogWithDetail as TrainingLogsWithDetailResource;
 use App\Models\TrainingLogs;
-use App\Models\TrainingExerciseLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Models\TrainingDay;
+use App\Models\TrainingExerciseListLogs;
 use App\Traits\ResponseMessage;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,28 +20,69 @@ class TrainingLogsController extends Controller
 {
     use ResponseMessage;
 
+    /**
+     * @param TrainingLogs $trainingLog
+     * @return JsonResponse
+     */
     public function show(TrainingLogs $trainingLog): JsonResponse
     {
         $this->checkIsUsersLog($trainingLog);
 
         $trainingLog->load([
-            'training_day' => function($query) {
+            'trainingDay' => function($query) {
+                $query->without('exercises');
+                $query->select('id', 'name');
+            },
+            'training' => fn ($query) => $query->withTrashed()
+        ]);
+
+        return response()->json($this->getSuccessMessage((TrainingLogsWithDetailResource::make($trainingLog))));
+    }
+
+    public function dailyResults(TrainingLogs $trainingLog): JsonResponse
+    {
+        $this->checkIsUsersLog($trainingLog);
+
+        if($trainingLog->status !== TrainingLogEnums::TRAINING_COMPLETED) {
+            return response()->json($this->getFailMessage('Bu antrenman tamamlanmamış veya bırakılmış.'));
+        }
+
+        $trainingLog->load([
+            'trainingDay' => function($query) {
                 $query->without('exercises');
                 $query->select('id', 'name');
             },
             'training' => fn ($query) => $query->withTrashed(),
-            'exercises' => fn ($query) => $query->orderBy('id', 'asc')
+            'trainingList' => fn ($query) => $query->with('exercise')
         ]);
 
-        var_dump($trainingLog->exercises->map(function ($exercise) {
-            return [
-                'foo' => 'bar'
-            ];
-        }));
+        $trainingLog->duration = Carbon::parse($trainingLog->training_end_time)->shortAbsoluteDiffForHumans($trainingLog->created_at, 2);
 
-        $trainingLog->exercises()
 
-        return response()->json($this->getSuccessMessage($trainingLog));
+        return response()->json($this->getSuccessMessage(TrainingLogsWithDetailResource::make($trainingLog)));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function history(): JsonResponse
+    {
+        $logs = TrainingLogs::where([
+            ['user_id', auth()->user()->id],
+            ['status', TrainingLogEnums::TRAINING_COMPLETED],
+        ])
+        ->with([
+            'trainingDay' => function($query) {
+                $query->select('id', 'name');
+            },
+            'training' => function($query) {
+                $query->withTrashed()
+                ->select('name','id');
+            }
+        ])
+        ->get();
+
+        return response()->json($this->getSuccessMessage(TrainingLogsResource::collection($logs)));
     }
 
     /**
@@ -49,7 +94,7 @@ class TrainingLogsController extends Controller
 
         $lastLog = TrainingLogs::where([
             ['user_id', $user->id],
-            ['is_completed', false]
+            ['status', TrainingLogEnums::TRAINING_CONTINUE]
         ])->latest()->first();
 
         $responseLog = $lastLog ?? TrainingLogs::create([
@@ -67,10 +112,30 @@ class TrainingLogsController extends Controller
     public function update(UpdateLogRequest $request, TrainingLogs $trainingLog): JsonResponse
     {
         $this->checkIsUsersLog($trainingLog);
+        $validated = $request->validated();
 
-        $trainingLog->update($request->validated());
+        if(array_key_exists('training_day_id', $validated) && array_key_exists('is_new',$validated)) {
+            TrainingExerciseListLogs::where('training_exercise_log_id', $trainingLog->id)->delete();
+            $trainingDayExercises = TrainingDay::find($validated['training_day_id'])->exercises();
 
-        return response()->json($this->getSuccessMessage($trainingLog));
+            // Antrenman listesindeki egzersizleri, bu antrenman sessionuna ekle.
+            $trainingDayExercises->each(function($exercise) use ($trainingLog) {
+                TrainingExerciseListLogs::create([
+                    'training_exercise_log_id' => $trainingLog->id,
+                    'exercise_id' => $exercise->exercise->id,
+                    'is_passed' => false
+                ]);
+            });
+        }
+
+        $trainingLog->update($validated);
+
+        return response()->json($this->getSuccessMessage([
+            'id' => $trainingLog->id,
+            'training_id' => $trainingLog->training_id,
+            'training_day_id' => $trainingLog->training_day_id,
+            'exercises' => TrainingExerciseListLogs::where('training_exercise_log_id', $trainingLog->id)->get()
+        ]));
     }
 
     /**
@@ -82,18 +147,18 @@ class TrainingLogsController extends Controller
         $this->checkIsUsersLog($trainingLog);
 
         $trainingLog->update([
-            'is_completed' => true,
+            'status' => TrainingLogEnums::TRAINING_COMPLETED,
             'training_end_time' => now()
         ]);
 
-        return response()->json($this->getSuccessMessage($trainingLog));
+        return response()->json($this->getSuccessMessage());
     }
 
     public function last(): JsonResponse
     {
         $lastTrainingLog = TrainingLogs::where([
             ['user_id', auth()->user()->id],
-            ['is_completed', false]
+            ['status', TrainingLogEnums::TRAINING_CONTINUE]
         ])->latest()->first();
 
         if (!$lastTrainingLog) {
@@ -104,8 +169,20 @@ class TrainingLogsController extends Controller
             'id' => $lastTrainingLog->id,
             'training_id' => $lastTrainingLog->training_id,
             'training_day_id' => $lastTrainingLog->training_day_id,
-            'exercises' => TrainingExerciseLogs::where('training_log_id', $lastTrainingLog->id)->get()
+            'exercises' => TrainingExerciseListLogs::where('training_exercise_log_id', $lastTrainingLog->id)->get()
         ]));
+    }
+
+    public function giveUp(TrainingLogs $trainingLog): JsonResponse
+    {
+        $this->checkIsUsersLog($trainingLog);
+
+        $trainingLog->update([
+            'status' => TrainingLogEnums::TRAINING_GIVE_UP,
+            'training_end_time' => now()
+        ]);
+
+        return response()->json($this->getSuccessMessage($trainingLog));
     }
 
     private function checkIsUsersLog (TrainingLogs $trainingLog): void

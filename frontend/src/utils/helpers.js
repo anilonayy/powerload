@@ -46,7 +46,7 @@ export const guid = () => {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-export const  getIconName = (categoryName) => {
+export const  getIconName = (categoryName = '') => {
   let path = '/images/body/';
 
   if(categoryName === 'Göğüs') {

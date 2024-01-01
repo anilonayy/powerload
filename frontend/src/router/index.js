@@ -75,16 +75,26 @@ const router = createRouter({
             name: 'reset-password',
             component: () => import('@/pages/panel/ResetPassword.vue')
           },
-          {
-            path: 'on-train/:trainingLogId',
-            name: 'on-train',
-            component: () => import('@/pages/OnTrain.vue')
-
-          }
         ],
-        meta: {
-          requiresAuth: true
-        }
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/on-train/:trainingLogId',
+      name: 'on-train',
+      component: () => import('@/pages/OnTrain.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/antrenman-tamamlandi/:trainingLogId',
+      name: 'train-completed',
+      component: () => import('@/pages/TrainCompleted.vue'),
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });

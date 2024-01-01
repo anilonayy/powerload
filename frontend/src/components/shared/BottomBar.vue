@@ -18,7 +18,7 @@
 
 
 <script setup>
-import { computed, inject, watch, ref, onMounted } from 'vue';
+import { computed, inject, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
@@ -37,7 +37,7 @@ const componentWillShow = ref(route.name  !== "on-train");
 
 const handleTraining = async () => {
     try {
-        if(isTrainingSelected.value) {
+        if (isTrainingSelected.value) {
             router.push({ name: 'on-train', params: { trainingLogId: trainingLogId.value} });
             return;
         }
@@ -55,19 +55,19 @@ const handleTraining = async () => {
 
 
 watch(
-      () => route.fullPath,
-      async (newUrl, oldUrl) => {
-        const hiddenUrls = ['antrenmanlar/ekle', 'on-train'];
+    () => route.fullPath,
+    async (newUrl, oldUrl) => {
+        const hiddenUrls = ['antrenmanlar/', 'on-train'];
         componentWillShow.value = !hiddenUrls.some(url => newUrl.includes(url));
 
         if(isAuthenticated.value) {
-            if(! isTrainingSelected.value) {
+            if(!isTrainingSelected.value) {
                 const response = await axios.get(`training-logs/last`);
 
                 store.dispatch('setTrainingLogId', response.data.id);
+                response.data.training_id && store.dispatch('selectTraining', response.data.training_id);
+                response.data.training_day_id && store.dispatch('selectTrainingDay', response.data.training_day_id);
             }
         }
-
-      }
-    )
+    })
 </script>

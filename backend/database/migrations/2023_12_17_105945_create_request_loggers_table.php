@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('method');
             $table->json('request_body')->nullable();
             $table->json('response_body')->nullable();
-            $table->integer('status_code')->nullable();
-            $table->string('ip_address')->nullable();
+            $table->integer('status_code');
+            $table->string('ip_address');
             $table->string('user_agent')->nullable();
             $table->foreignId('user_id')->nullable();
+            $table->double('duration', 8, 5);
             $table->timestamps();
         });
     }

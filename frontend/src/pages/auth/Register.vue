@@ -169,11 +169,11 @@ const formSubmit = async (event) => {
 
     Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 
-    toast.success(response.message,);
+    toast.success('Başarıyla kayıt oldun!');
     router.push('/');
   } catch (error) {
     errors.value = error.data;
-    toast.error(error.message)
+    // toast.error(error.message)
   }
 }
 </script>

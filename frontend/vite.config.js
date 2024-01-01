@@ -8,6 +8,7 @@ export default defineConfig({
   cache: false,
   optimizeDeps: {
     include: ['esm-dep > cjs-dep'],
+    exclude: ['js-big-decimal']
   },
   plugins: [
     vue(),

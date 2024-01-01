@@ -19,26 +19,21 @@ class TrainingsController extends Controller
 
     public function index(): JsonResponse
     {
-        $trainings = Training::select('name','id','created_at')->where('user_id', auth()->user()->id)
-            ->orderBy('id','asc') ->get();
+        $trainings = Training::select('name','id','created_at')
+            ->where([
+                ['user_id', auth()->user()->id]
+            ])
+            ->without('days')
+            ->get();
 
         return response()->json($this->getSuccessMessage($trainings));
     }
 
-    public function history(): JsonResponse
-    {
-        $logs = TrainingLogs::with('training:id,name','training_day:id,name','exercises')
-            ->where([
-                ['user_id', auth()->user()->id],
-                ['is_completed', 1],
-            ])->orderBy('id','desc')->get();
-
-        return response()->json($this->getSuccessMessage($logs));
-    }
-
     public function allWithDetails(): JsonResponse
     {
-        $trainings = Training::with('days')->where('user_id', auth()->user()->id)->orderBy('id','asc') ->get();
+        $trainings = Training::with(['days' => function($query) {
+            $query->without('exercises');
+        }])->where('user_id', auth()->user()->id)->orderBy('id','asc')->get();
 
         return response()->json($this->getSuccessMessage($trainings));
     }
@@ -46,7 +41,12 @@ class TrainingsController extends Controller
     public function show(Training $training): JsonResponse
     {
         $this->checkTrainingOwner($training);
-        $training =  $training->select('id','name')->with(['days'])->first();
+
+        $training->load([
+            'days' => function($query) {
+                $query->with('exercises');
+            }
+        ]);
 
         return response()->json($this->getSuccessMessage($training));
     }

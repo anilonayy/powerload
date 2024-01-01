@@ -1,36 +1,35 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TrainingLogs extends Model
 {
     use HasFactory;
 
-    protected $dates = ['created_at', 'training_end_time'];
-    protected $hidden = ['updated_at'];
-    protected $table = 'training_logs';
-    protected $with = ['exercises', 'training_day:id,name', 'training:id,name'];
-    protected $guarded = [];
+    protected $hidden = ['updated_at','created_at','training_end_time'];
+    protected $fillable = ['user_id', 'training_id', 'training_day_id', 'status','training_end_time', 'duration'];
     protected $casts = [
         'created_at' => 'datetime:m F Y H:i',
         'training_end_time' => 'datetime:m F Y H:i'
     ];
 
-    public function exercises ()
+    public function trainingList (): hasMany
     {
-        return $this->hasMany(TrainingExerciseLogs::class, 'training_log_id', 'id');
+        return $this->hasMany(TrainingExerciseListLogs::class, 'training_exercise_log_id', 'id');
     }
 
-    public function training ()
+    public function trainingDay (): BelongsTo
     {
-        return $this->belongsTo(Training::class, 'training_id', 'id');
+        return $this->belongsTo(TrainingDay::class);
     }
 
-    public function training_day()
+    public function training (): HasOne
     {
-        return $this->hasOne(TrainingDay::class, 'id', 'training_day_id');
+        return $this->hasOne(Training::class, 'id', 'training_id');
     }
 }
