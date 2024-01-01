@@ -1,33 +1,28 @@
 <?php
 
-use App\Http\Controllers\ExerciseController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+// /*
+// |--------------------------------------------------------------------------
+// | API Routes
+// |--------------------------------------------------------------------------
+// |
+// | Here is where you can register API routes for your application. These
+// | routes are loaded by the RouteServiceProvider within a group which
+// | is assigned the "api" middleware group. Enjoy building your API!
+// |
+// */
 
-Route::middleware(['auth:sanctum'])->group(function() {
-    // Trainings Resources
-    require_once __DIR__.'/training.php';
+$basePath = base_path('routes/api/');
+$versions = glob("{$basePath}*", GLOB_ONLYDIR);
 
-    // On Train Resources (Training Logs)
-    require_once __DIR__.'/training-logs.php';
+foreach($versions as $version) {
+    $files = glob("{$version}/*.php");
 
-    // On Train Resources (Training Logs)
-    require_once __DIR__.'/exercise.php';
+    foreach ($files as $file) {
+        $path = basename($file, '.php');
+        $version = basename(dirname($file));
 
-});
-
-
-
-
-require_once __DIR__.'/auth.php';
-require_once __DIR__.'/user.php';
+        Route::prefix("{$version}/{$path}")->group($file);
+    }
+}

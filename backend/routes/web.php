@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +13,8 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/ping', function () {
-
-});
-
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-require __DIR__.'/api.php';
+require_once base_path('routes/api.php');
