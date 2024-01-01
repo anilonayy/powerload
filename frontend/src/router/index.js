@@ -38,12 +38,12 @@ const router = createRouter({
           {
             path: 'genel-bakis',
             name: 'dashboard',
-            component: () => import('@/pages/panel/Dashboard.vue')
+            component: () => import('@/pages/panel/UserDashboard.vue')
           },
           {
             path: 'antrenman-gecmisi',
             name: 'training-history',
-            component: () => import('@/pages/panel/trainings/History.vue')
+            component: () => import('@/pages/panel/trainings/TrainingHistory.vue')
           },
           {
             path: 'antrenman-gecmisi/:trainingLogId',

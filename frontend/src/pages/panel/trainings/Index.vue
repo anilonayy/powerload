@@ -1,6 +1,8 @@
 <template>
     <Panel>
-      <PanelHeader
+      <TrainingListSkeleton v-if="!loaded" />
+      <div v-else>
+        <PanelHeader
         class="p-2"
         title="Antrenmanlar"
         description="Antrenmanların burada listelenir yeni antrenman ekleyebilir ve bunların içine antrenman günleri ve hareketler ekleyebilirsin."
@@ -71,6 +73,8 @@
 
         
       </div>
+      </div>
+      
     </Panel>
 </template>
 
@@ -79,19 +83,22 @@ import { onMounted, ref, inject } from 'vue'
 import Panel from '@/components/form/Panel.vue'
 import PanelHeader from '@/components/panel/PanelHeader.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
+import TrainingListSkeleton from '@/components/skeletons/TrainingListSkeleton.vue'
 
 
 const axios = inject('axios');
 const swal = inject('swal');
 const toast = inject('toast');
 
+const loaded = ref(false);
 const trainings = ref([])
 
 onMounted(async () => {
   try {
     const response = await axios.get('/trainings');
 
-    trainings.value = response.data
+    trainings.value = response.data;
+    loaded.value = true;
   } catch (error) {
     toast.error(error.message);
   }

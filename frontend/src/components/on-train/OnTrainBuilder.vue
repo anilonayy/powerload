@@ -14,9 +14,12 @@
             <h3 v-if="pageIndex === 1 || pageIndex === 0" class="font-bold text-center my-4"> {{ headerTitle }} </h3>
 
             <div v-if="pageIndex === 0">
+                <OnTrainSelectTrainingSkeleton v-if="!loaded || training?.length" />
+
                 <SelectTraining
                     :trainings="trainings"
                     @select-training="selectTraining($event)"
+                    v-else
                 />
             </div>
 
@@ -70,6 +73,7 @@ import SelectTrainingDay from '@/components/on-train/SelectTrainingDay.vue';
 import SelectExercises from '@/components/on-train/SelectExercises.vue';    
 import LeftIcon from '@/components/icons/LeftIcon.vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
+import OnTrainSelectTrainingSkeleton from '@/components/skeletons/OnTrainSelectTrainingSkeleton.vue';
 
 const store = useStore();
 const axios = inject('axios');
@@ -84,6 +88,7 @@ const isTrainingSelected =  computed(() => store.getters['_isTrainingSelected'])
 const nextArrowVisibility = ref(false);
 const maxIndex = ref(2);
 const pageIndex = ref(0);
+const loaded = ref(false);
 
 const trainingLog = computed(() => store.getters['_trainingLogId']);
 const selectedTraining = computed(() => store.getters['_selectedTraining']);
@@ -189,6 +194,7 @@ onMounted(async () => {
     }
 
     updateState();
+    loaded.value = true;
 });
 
 const updateState = async () => {

@@ -1,5 +1,7 @@
 <template>
-    <form method="POST" @submit="submitTrain($event)">
+  <div>
+    <TrainBuilderSkeleton v-if="!loaded" />
+    <form v-else method="POST" @submit="submitTrain($event)">
         <div class="mb-8">
           <Label for="name" value="Antrenman Adı" />
 
@@ -73,7 +75,9 @@
         </div>
         <ButtonCmp type="submit" class="text-center mt-6 w-full bg-green-500  text-white" >ANTRENMANI KAYDET!</ButtonCmp
         >
-      </form>
+    </form>
+  </div>
+  
 </template>
 
 
@@ -82,19 +86,22 @@ import { onMounted, ref, watch, inject } from 'vue'
 import { guid, validateTrainBuilderData } from '@/utils/helpers'
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router'
+import router from '@/router'
 
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import Input from '@/components/form/Input.vue'
 import Label from '@/components/form/Label.vue'
 import ExerciseList from '@/components/panel/add/ExerciseList.vue';
+import TrainBuilderSkeleton from '@/components/skeletons/TrainBuilderSkeleton.vue'
+
 
 const store =  useStore();
 const route = useRoute();
-import router from '@/router'
 
 const toast = inject('toast');
 const axios = inject('axios');
 
+const loaded = ref(false);
 const isUpdatePage = ref(route.params.trainId);
 
 onMounted(async () => {
@@ -140,6 +147,8 @@ onMounted(async () => {
 
       const response = await axios.get('/exercises');
       store.dispatch('setExercises',response.data);
+
+      loaded.value = true;
     } catch (error) {
 
       toast.error(error.message);
