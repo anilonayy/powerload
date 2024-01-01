@@ -17,4 +17,5 @@ final class ResponseMessageEnums
     const USER_NOT_FOUND = 'User Not Found!';
     const USER_ALREADY_EXISTS = 'User Already Exists!';
     const WRONG_CREDENTIAL = 'There is no user with this email or password!';
+    const WRONG_PASSWORD = 'Güncel Şifre Yanlış!';
 }

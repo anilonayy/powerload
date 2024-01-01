@@ -21,12 +21,14 @@
 import { computed, inject, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 import router from '@/router';
+import trainingLogService from '@/services/trainingLogService';
+
+
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 
 const store = useStore();
 const route = useRoute();
-const axios = inject('axios');
 const toast = inject('toast');
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
@@ -42,10 +44,8 @@ const handleTraining = async () => {
             return;
         }
 
-        const response = await axios.post(`training-logs`);
+        const response = await trainingLogService.createEmptyLog();
 
-        store.dispatch('setTrainingLogId', response.data.id);
-        
         router.push({ name: 'on-train', params: { trainingLogId: response.data.id} });
     } catch (error) {
         console.error(error);
@@ -57,12 +57,12 @@ const handleTraining = async () => {
 watch(
     () => route.fullPath,
     async (newUrl, oldUrl) => {
-        const hiddenUrls = ['antrenmanlar/', 'on-train'];
+        const hiddenUrls = ['antrenmanlar/', 'on-train', 'antrenman-tamamlandi'];
         componentWillShow.value = !hiddenUrls.some(url => newUrl.includes(url));
 
         if(isAuthenticated.value) {
             if(!isTrainingSelected.value) {
-                const response = await axios.get(`v1/training-logs/last`);
+                const response = await trainingLogService.getLastLog();
 
                 store.dispatch('setTrainingLogId', response.data.id);
                 response.data.training_id && store.dispatch('selectTraining', response.data.training_id);

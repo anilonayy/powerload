@@ -78,15 +78,13 @@ const mutations = {
       (exercise) => exercise.id === data.exercise_id).onTrain = data.value;
   },
 
-  // data.training_id
-  selectTraining (state, data) {
+  selectTraining (state, training_id) {
     (state.trainings.find((training) => training.isSelected) ?? {}).isSelected = false;
-    state.trainings.find((training) => training.id === data.training_id).isSelected = true;
+    state.trainings.find((training) => training.id === training_id).isSelected = true;
   },
 
   // data.day_id
   selectTrainingDay (state, day_id) {
-    console.log('day_id :>> ', day_id);
     ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}).isSelected = false;
     ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}).isSelected = true;
   },
@@ -122,7 +120,7 @@ const mutations = {
 };
 
 const actions = {
-  register({ commit }, data) {
+  async register({ commit }, data) {
     commit('setUser', {
       name: data.user.name,
       email: data.user.email
@@ -131,55 +129,55 @@ const actions = {
     commit('setToken', data.token);
   },
 
-  updateUser({commit}, data) {
+  async  updateUser({commit}, data) {
     commit('setUser', {
       name: data.name,
       email: data.email
     });
   },
 
-  login({ commit }, data) {
+  async  login({ commit }, data) {
     commit('setUser', data.user);
     commit('setToken', data.token);
   },
 
-  logout({ commit }) {
+  async logout({ commit }) {
     commit('logoutUser');
     commit('removeToken');
     commit('setTrainings', []);
     commit('setTrainingLogId', 0);
   },
 
-  setExercises({commit},exercisesList) {
+  async setExercises({commit},exercisesList) {
     commit('setExercises', exercisesList);
   },
 
-  updateAsideOpen({ commit }, data) {
+  async  updateAsideOpen({ commit }, data) {
     commit('setAsideOpen', data);
   },
 
-  setTrainings({ commit }, data) {
+  async  setTrainings({ commit }, data) {
     commit('setTrainings', data);
   },
-  setTrainingLogId({ commit }, data) {
+  async  setTrainingLogId({ commit }, data) {
     commit('setTrainingLogId', data);
   },
-  setOnTrainData({ commit }, data) {
+  async  setOnTrainData({ commit }, data) {
     commit('setOnTrainData', data);
   },
-  selectTraining({ commit }, data) {
-    commit('selectTraining', data);
+  async selectTraining({ commit }, training_id) {
+    commit('selectTraining', training_id);
   },
-  selectTrainingDay({ commit }, dayId) {
+  async  selectTrainingDay({ commit }, dayId) {
     commit('selectTrainingDay', dayId);
   },
-  setExercisesOfDay({ commit }, exercises) {
+  async  setExercisesOfDay({ commit }, exercises) {
     commit('setExercisesOfDay', exercises);
   },
-  setAsNotPassed({ commit }, exerciseId) {
+  async  setAsNotPassed({ commit }, exerciseId) {
     commit('setAsNotPassed', exerciseId);
   },
-  setAsPassed({ commit }, exerciseId) {
+  async setAsPassed({ commit }, exerciseId) {
     commit('setAsPassed', exerciseId);
   }
 };

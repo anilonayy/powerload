@@ -61,30 +61,24 @@
 </template>
 
 <script setup>
-import { onMounted, ref, inject } from "vue";
+import { onMounted, ref } from "vue";
+import trainingLogService from '@/services/trainingLogService'
+
 import PanelHeader from '@/components/panel/PanelHeader.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import RightIcon from '@/components/icons/RightIcon.vue'
 import Panel from '@/components/form/Panel.vue'
 import HistorySkeleton from '@/components/skeletons/HistorySkeleton.vue'
 
-const axios = inject('axios');
-
 const trainingLogs = ref([]);
 const loaded = ref(false);
 
 onMounted(async () => {
     try {
-      await getTrainingHistory();
+      trainingLogs.value = (await trainingLogService.getAllLogs()).data;
       loaded.value = true;
     } catch (error) {
       console.log('error :>> ', error);
     }
 });
-
-const getTrainingHistory = async () => {
-  const response =  await axios.get("/training-logs/history");
-
-  trainingLogs.value = response.data;
-}
 </script>

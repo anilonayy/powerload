@@ -45,6 +45,8 @@
 import { ref, inject, onMounted, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router'
 import ConfettiExplosion from "vue-confetti-explosion";
+import trainingLogService from '@/services/trainingLogService';
+
 import HeaderText from '@/components/shared/HeaderText.vue';
 import TrainResults from '@/components/pages/TrainCompleted/TrainResults.vue';
 import router from '@/router';
@@ -57,25 +59,16 @@ const loaded = ref(false);
 const data = ref({});
 
 onBeforeMount(() => {
-    try {
-        if(isNaN(Number(trainingLogId))) throw new  TypeError('trainingLogId is not a number');
-    } catch (error) {
-        if(error instanceof TypeError) {
-            toast.error('Lütfen geçerli bir antrenman seçin!');
-            router.push({ name: 'home' });
-        }
+    if (isNaN(Number(trainingLogId))) {
+        toast.error('Lütfen geçerli bir antrenman seçin!');
+        router.push({ name: 'home' });
     }
+    
 })
 
 onMounted(async () => {
     try {
-        const response = await axios(`/training-logs/${trainingLogId}/daily-results`);
-
-        if(!response.success){
-            toast.error(response.data);
-            router.push({ name: 'home' });
-        }
-
+        const response = await trainingLogService.getTrainingResult(trainingLogId);
 
         data.value = response.data;
         loaded.value = true;        

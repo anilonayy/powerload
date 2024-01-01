@@ -87,8 +87,8 @@ import { guid, validateTrainBuilderData } from '@/utils/helpers';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import router from '@/router';
-import { getTraining } from '@/services/trainingService';
-import { getAllExercises } from '@/services/exerciseService';
+import trainingService from '@/services/trainingService';
+import exerciseService from '@/services/exerciseService';
 
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import Input from '@/components/form/Input.vue'
@@ -104,12 +104,12 @@ const toast = inject('toast');
 const axios = inject('axios');
 
 const loaded = ref(false);
-const isUpdatePage = ref(route.params.trainId);
+const currentTrainingId = ref(route.params.trainId);
 
 onMounted(async () => {
     try {
-      if (isUpdatePage.value) {
-        const response = await getTraining(isUpdatePage.value)
+      if (currentTrainingId.value) {
+        const response = await trainingService.getTraining(currentTrainingId.value)
 
         const days = response.data.days.map((day) => {
           const exercises =  day.exercises.map((exercise) => {
@@ -147,7 +147,7 @@ onMounted(async () => {
         data.value = response.data;
       }
 
-      const response = await getAllExercises();
+      const response = await exerciseService.getAllExercises();
       store.dispatch('setExercises',response.data);
 
       loaded.value = true;
@@ -240,9 +240,9 @@ const submitTrain = async (event) => {
     const validationResponse = validateTrainBuilderData(data.value);
 
     if(validationResponse.success) {
-      const response = isUpdatePage.value 
-        ? await axios.put(`/trainings/${ isUpdatePage.value }`, {train: data.value}) 
-        : await axios.post('/trainings', { train: data.value })
+      currentTrainingId.value 
+        ? await  trainingService.updateTraining(currentTrainingId.value, data.value )
+        : await trainingService.createTraining(data.value);
 
       router.push({ name: 'training-list' });      
     } else {

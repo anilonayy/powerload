@@ -120,7 +120,7 @@
 
 <script setup>
 import { ref, inject, watch } from 'vue';
-import { register } from '@/services/authService';
+import authService from '@/services/authService';
 
 import Panel from '@/components/form/Panel.vue'
 import Input from '@/components/form/Input.vue'
@@ -147,13 +147,13 @@ const formSubmit = async (event) => {
   try {
     if(!validateForm()) return;
 
-    await register(userData.value);
+    await authService.register(userData.value);
 
     Object.keys(userData.value).forEach((field) => (userData.value[field] = null));
 
     toast.success('Başarıyla kayıt oldun!');
 
-router.push('/');
+    router.push('/');
   } catch (error) {
     errors.value = error.data;
   }

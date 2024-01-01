@@ -12,25 +12,29 @@
 </template>
 
 <script setup>
-import { onMounted, inject, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import trainingLogService from '@/services/trainingLogService';
+import router from "@/router";
+
 import Panel from "@/components/form/Panel.vue";
 import BackButton from "@/components/buttons/BackButton.vue";
 import TrainResults from "@/components/pages/TrainCompleted/TrainResults.vue";
 import HistoryDetailSkeleton from '@/components/skeletons/HistoryDetailSkeleton.vue';
-
-const axios = inject('axios');
-const router = useRoute();
 
 const loaded = ref(false);
 const trainLog = ref({});
 
 onMounted(async () => {
     try {
-        const trainLogId = router.params.trainingLogId;
-        const response = await axios.get(`/training-logs/${ trainLogId }`);
-        trainLog.value = response.data;
+        const trainLogId = useRoute().params.trainingLogId;
 
+        if(isNaN(Number(trainLogId))) {
+            router.push({ name: 'training-history' });
+            return;
+        }
+
+        trainLog.value = (await trainingLogService.getLog(trainLogId)).data;
         loaded.value = true;
     } catch (error) {
         console.error('error :>> ', error);

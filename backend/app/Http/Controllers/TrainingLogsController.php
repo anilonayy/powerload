@@ -65,7 +65,7 @@ class TrainingLogsController extends Controller
     /**
      * @return JsonResponse
      */
-    public function history(): JsonResponse
+    public function index(): JsonResponse
     {
         $logs = TrainingLogs::where([
             ['user_id', auth()->user()->id],

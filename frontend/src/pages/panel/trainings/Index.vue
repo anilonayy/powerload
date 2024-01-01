@@ -80,7 +80,7 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue'
-import { getAllTrainings } from '@/services/trainingService'
+import trainingService from '@/services/trainingService'
 
 import Panel from '@/components/form/Panel.vue'
 import PanelHeader from '@/components/panel/PanelHeader.vue'
@@ -97,7 +97,7 @@ const trainings = ref([])
 
 onMounted(async () => {
   try {
-    const response = await getAllTrainings();
+    const response = await trainingService.getAllTrainings();
 
     trainings.value = response.data;
     loaded.value = true;
@@ -127,11 +127,11 @@ const removeTraining = async (id) => {
     .then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`/trainings/${ id }`)
+          const response = await trainingService.deleteTraining(id);
 
           trainings.value = trainings.value.filter((training) => training.id !== id);
 
-          toast.success(response.message);
+          toast.success('Antrenman başarıyla silindi!');
         } catch (error) {
           toast.error(error.message);
         }

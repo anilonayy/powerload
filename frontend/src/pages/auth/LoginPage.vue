@@ -95,7 +95,7 @@
 <script setup>
 import { ref, inject, watch } from 'vue'
 import router from '@/router'
-import { login } from '@/services/authService'
+import authService from '@/services/authService'
 
 import Panel from '@/components/form/Panel.vue'
 import Input from '@/components/form/Input.vue'
@@ -122,7 +122,7 @@ const formSubmit = async (event) => {
 
   try {
     if(validateForm()) {
-      await login(userData.value);
+      await authService.login(userData.value);
 
       Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
 

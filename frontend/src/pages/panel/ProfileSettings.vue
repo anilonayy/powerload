@@ -53,7 +53,8 @@
 <script setup>
 import { computed, ref, inject } from "vue";
 import { useStore } from "vuex";
-import { validateEmail } from '@/utils/helpers.js';
+import { validateEmail } from '@/utils/helpers';
+import userService from '@/services/userService';
 
 import Panel from "@/components/form/Panel.vue";
 import PanelHeader from "@/components/panel/PanelHeader.vue";
@@ -96,13 +97,13 @@ const submitUserInfo = async (event) => {
 
   if(Object.keys(errors.value).length === 0) {
     try {
-      const response = await axios.patch('/user', payload);
-      store.dispatch('updateUser', response.data);
+      await userService.updateUser(payload);
+      
 
-      toast.success(response.message);
+      toast.success('Profiliniz başarıyla güncellendi!');
     } catch (error) {
       errors.value = error.errors;
-      
+
       toast.error(error.title);
     }
     

@@ -162,7 +162,7 @@ import ListIcon from '@/components/icons/ListIcon.vue';
 
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex';
-import { logout } from '@/services/authService';
+import authService from '@/services/authService';
 
 const store = useStore();
 
@@ -194,6 +194,10 @@ watchEffect(() => {
 
 const updateAsideOpen = (value) => {
   store.dispatch('updateAsideOpen', value)
+}
+
+const logout = async () => {
+  await authService.logout();
 }
 </script>
 

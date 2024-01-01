@@ -3,7 +3,7 @@ import store from '@/store'
 import axios from '@/utils/appAxios';
 import CryptoJs from 'crypto-js';
 
-export const login = async ({ email, password }) => {
+const login = async ({ email, password }) => {
     const saltKey = computed(() => store.getters['_saltKey']);
     const hashPassword = CryptoJs.HmacSHA1(password, saltKey.value).toString();
 
@@ -12,10 +12,10 @@ export const login = async ({ email, password }) => {
         password: hashPassword
     });
 
-    store.dispatch('login', response.data);
+    await store.dispatch('login', response.data);
 }
 
-export const register = async ({ name, email, password, password_confirm }) => {
+const register = async ({ name, email, password, password_confirm }) => {
     const saltKey = computed(() => store.getters['_saltKey']);
     const cryptPassword = CryptoJs.HmacSHA1(password, saltKey.value).toString();
     const cryptPasswordConfirm = CryptoJs.HmacSHA1(password_confirm, saltKey.value).toString();
@@ -27,10 +27,17 @@ export const register = async ({ name, email, password, password_confirm }) => {
         password_confirm: cryptPasswordConfirm
     });
 
-    store.dispatch('register', response.data);
+    await store.dispatch('register', response.data);
 }
 
-export const logout = async () => {
+const logout = async () => {
     await axios.post('auth/logout');
-    store.dispatch('logout');
+
+    await store.dispatch('logout');
+}
+
+export default {
+    login,
+    register,
+    logout
 }

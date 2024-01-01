@@ -99,7 +99,9 @@ class UserController extends Controller
         $payload = (object)$request->validated();
 
         if (!Hash::check($payload->currentPassword, Auth::user()->password)) {
-            throw new Exception(ResponseMessageEnums::WRONG_CREDENTIAL, Response::HTTP_UNAUTHORIZED);
+            return response()->json($this->getCustomErrorMessage(
+                ResponseMessageEnums::WRONG_PASSWORD,
+            ), Response::HTTP_BAD_REQUEST);
         }
 
         auth()->user()->update(['password' => Hash::make($payload->newPassword)]);

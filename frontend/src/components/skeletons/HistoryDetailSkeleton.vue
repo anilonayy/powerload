@@ -7,7 +7,7 @@
                 <h3 class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 mt-2 animate-pulse" style="width: 40%;"></h3>
                 <h3 class="h-3 bg-gray-200 rounded-full dark:bg-gray-700 mt-4 mb-2 animate-pulse" style="width: 60%;"></h3>
                 
-                <hr class="mt-6" />
+                <hr class="my-6" />
 
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                     <div class="w-full h-48 animate-pulse bg-gray-200 dark:bg-gray-700"></div>

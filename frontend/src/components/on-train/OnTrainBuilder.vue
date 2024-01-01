@@ -67,6 +67,8 @@
 import { onMounted, ref, inject, computed, watchEffect } from "vue";
 import { useStore } from 'vuex';
 import router from '@/router';
+import trainingService from '@/services/trainingService';
+import trainingLogService from '@/services/trainingLogService';
 
 import SelectTraining from '@/components/on-train/SelectTraining.vue';
 import SelectTrainingDay from '@/components/on-train/SelectTrainingDay.vue';
@@ -76,7 +78,6 @@ import RightIcon from '@/components/icons/RightIcon.vue';
 import OnTrainSelectTrainingSkeleton from '@/components/skeletons/OnTrainSelectTrainingSkeleton.vue';
 
 const store = useStore();
-const axios = inject('axios');
 const toast = inject('toast');
 const swal = inject('swal');
 
@@ -124,7 +125,7 @@ onMounted(async () => {
     }
 
     if((trainings.value[0] || {}).id === 0 || trainings.value.length === 0) {
-        const allTrainings = await axios.get('trainings/details');
+        const allTrainings = await trainingService.getAllTrainingsWithDetails();
 
         const trainingData = allTrainings.data.map((training) => {
             return {
@@ -159,7 +160,7 @@ onMounted(async () => {
         });
 
         // Eğer antrenman içeriği var ise güncelle
-        const lastTraining = await axios.get(`training-logs/last`);
+        const lastTraining = await trainingLogService.getLastLog();
 
         if(!lastTraining.data.training_id) {
             pageIndex.value = 0;
@@ -225,12 +226,7 @@ watchEffect(
 const selectTraining = async (training) => {
     try {
         if(!training.isSelected)  {
-            await axios.put(`training-logs/${ trainingLog.value }/`, {
-                training_id: training.id,
-                is_new: true
-            });
-            
-            store.dispatch('selectTraining', { training_id: training.id });
+            await trainingLogService.selectTraining(trainingLog.value, training.id);
         }
 
         handleNextStep();
@@ -255,33 +251,19 @@ const selectTrainingDay = async (day) => {
                 })
                 .then(async (result) => {
                     if (result.isConfirmed) {
-                        const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
-                            training_day_id: day.id,
-                            is_new: true
-                        });
-
-                        store.dispatch('selectTrainingDay', day.id);
-                        store.dispatch('setExercisesOfDay', response?.data?.exercises)
+                        await trainingLogService.selectTrainingDay(trainingLog.value, day.id);
 
                         handleNextStep();
                     }
                 });
             } else {
-                const response = await axios.put(`training-logs/${ trainingLog.value }/`, {
-                    training_day_id: day.id,
-                    is_new: true
-                });
+                await trainingLogService.selectTrainingDay(trainingLog.value, day.id);
 
-                store.dispatch('selectTrainingDay', day.id);
-                store.dispatch('setExercisesOfDay', response?.data?.exercises)
                 handleNextStep();
             }
-
         } else {
             handleNextStep();
         }
-
-        
     } catch (error) {
         console.error(error);
         toast.error(error.message);
@@ -292,9 +274,7 @@ const selectTrainingDay = async (day) => {
 const handlePreviousStep = () => {
     if(pageIndex.value === 0) return;
     
-
     pageIndex.value -= 1;
-
     updateState();
 }
 
@@ -316,12 +296,12 @@ const handleNextStep = async () => {
             .then(async (result) => {
                 if (result.isConfirmed) {
                     store.dispatch('setAsPassed', currentExercise.value.id);
-                    await setNewExercise();
+                    await saveExercise();
                     setNextPageIndex();
                 }
             });
         } else {
-            await setNewExercise();
+            await saveExercise();
             setNextPageIndex();
         }
     } else {
@@ -334,25 +314,8 @@ const setNextPageIndex = () => {
     updateState();
 }
 
-const setNewExercise = async () => {
-    const addSetsResponse = await axios.post(`/training-logs/${ trainingLog.value }/exercises`, {
-            sets: currentExercise.value.onTrain,
-            exercise: currentExercise.value,
-    });
-
-    store.dispatch('setOnTrainData', {
-        exercise_id: currentExercise.value.id,
-        value: addSetsResponse.data.map((exercise_log) => {
-            return {
-                id: exercise_log.id,
-                reps: exercise_log.reps,
-                weight: exercise_log.weight,
-                repsError: false,
-                weightError: false,
-                createTime: new Date().getTime(),
-            }
-        })
-    });
+const saveExercise = async () => {
+    await trainingLogService.saveExercise(trainingLog.value, currentExercise.value);
 }
 
 const addSet = (exercise) => {
@@ -392,7 +355,6 @@ const validateCurrentExercise = (index = null) => {
 
         if( !currentExercise.value.onTrain[index + 1] && index === 0 ) {
             specificSet.createTime = new Date().getTime();
-            console.log(specificSet);
         }
         
         currentExercise.value.onTrain[index] = specificSet;
@@ -427,14 +389,14 @@ const completeTraining = async () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                store.dispatch('setAsPassed', currentExercise.value.id);
-                setNewExercise();
-                completeTrainingRequest();
+                await store.dispatch('setAsPassed', currentExercise.value.id);
+                await saveExercise();
+                await completeTrainingRequest();
             }
         });
     } else {
-        setNewExercise();
-        completeTrainingRequest();
+        await saveExercise();
+        await completeTrainingRequest();
     }
 };
 
@@ -451,9 +413,8 @@ const completeTrainingRequest = async () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                await axios.patch(`training-logs/${ trainingLog.value }/complete`);
+                await trainingLogService.completeTraining(trainingLog.value);
 
-                store.dispatch('setTrainings', []);
                 router.push({ name: 'train-completed', params: { trainingLogId: trainingLog.value  } });
             }
         });
@@ -463,8 +424,6 @@ const completeTrainingRequest = async () => {
 }
 
 const updateArrowsVisibility = () => {
-    console.log('isTrainingSelected.value :>> ', isTrainingSelected.value);
-    console.log('isTrainingDaySelected.value :>> ', isTrainingDaySelected.value);
     if(pageIndex.value === 0) {
         nextArrowVisibility.value = isTrainingSelected.value;
     } else if (pageIndex.value === 1) {
@@ -476,8 +435,6 @@ const updateArrowsVisibility = () => {
             nextArrowVisibility.value = true;
         }
     }
-
-    console.log('nextArrowVisibility :>> ', nextArrowVisibility.value);
 }
 
 const giveUp = () => {
@@ -492,9 +449,7 @@ const giveUp = () => {
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                await axios.post(`training-logs/${ trainingLog.value }/give-up`);
-
-                store.dispatch('setTrainings', []);
+                await trainingLogService.giveUp(trainingLog.value);
 
                 router.push({ name: 'home' });
             }

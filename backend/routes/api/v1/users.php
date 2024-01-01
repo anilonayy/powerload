@@ -9,7 +9,7 @@ Route::post('/login','UserController@login')->name('login');
 
 
 Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::patch('/', [UserController::class,'update']);
-    Route::patch('/update-password', [UserController::class,'updatePassword']);
+    Route::put('/update', [UserController::class,'update']);
+    Route::patch('/update-password', 'UserController@updatePassword');
 });
 
