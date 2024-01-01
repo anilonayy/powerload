@@ -1,7 +1,7 @@
+import { computed } from 'vue';
 import store from '@/store'
 import axios from '@/utils/appAxios';
 import CryptoJs from 'crypto-js';
-import { computed } from 'vue';
 
 export const login = async ({ email, password }) => {
     const saltKey = computed(() => store.getters['_saltKey']);
@@ -17,7 +17,6 @@ export const login = async ({ email, password }) => {
 
 export const register = async ({ name, email, password, password_confirm }) => {
     const saltKey = computed(() => store.getters['_saltKey']);
-
     const cryptPassword = CryptoJs.HmacSHA1(password, saltKey.value).toString();
     const cryptPasswordConfirm = CryptoJs.HmacSHA1(password_confirm, saltKey.value).toString();
     
@@ -29,4 +28,9 @@ export const register = async ({ name, email, password, password_confirm }) => {
     });
 
     store.dispatch('register', response.data);
+}
+
+export const logout = async () => {
+    await axios.post('auth/logout');
+    store.dispatch('logout');
 }

@@ -144,28 +144,27 @@
 </template>
 
 <script setup>
-import SiteLogo from '@/components/shared/SiteLogo.vue'
-import BadgeLink from '@/components/shared/BadgeLink.vue'
+import SiteLogo from '@/components/shared/SiteLogo.vue';
+import BadgeLink from '@/components/shared/BadgeLink.vue';
+import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
+import CloseIcon from '@/components/icons/CloseIcon.vue';
+import HomeIcon from '@/components/icons/HomeIcon.vue';
+import HamburgerIcon from '@/components/icons/HamburgerIcon.vue';
+import LightningIcon from '@/components/icons/LightningIcon.vue';
+import ActivityIcon from '@/components/icons/ActivityIcon.vue';
+import HeadphoneIcon from '@/components/icons/HeadphoneIcon.vue';
+import KeyIcon from '@/components/icons/KeyIcon.vue';
+import UserSettingIcon from '@/components/icons/UserSettingIcon.vue';
+import UserIcon from '@/components/icons/UserIcon.vue';
+import PowerIcon from '@/components/icons/PowerIcon.vue';
+import AngleDownIcon from '@/components/icons/AngleDownIcon.vue';
+import ListIcon from '@/components/icons/ListIcon.vue';
 
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
-import CloseIcon from '@/components/icons/CloseIcon.vue'
-import HomeIcon from '@/components/icons/HomeIcon.vue'
-import HamburgerIcon from '@/components/icons/HamburgerIcon.vue'
-import LightningIcon from '@/components/icons/LightningIcon.vue'
-import ActivityIcon from '@/components/icons/ActivityIcon.vue'
-import HeadphoneIcon from '@/components/icons/HeadphoneIcon.vue'
-import KeyIcon from '@/components/icons/KeyIcon.vue'
-import UserSettingIcon from '@/components/icons/UserSettingIcon.vue'
-import UserIcon from '@/components/icons/UserIcon.vue'
-import PowerIcon from '@/components/icons/PowerIcon.vue'
-import AngleDownIcon from '@/components/icons/AngleDownIcon.vue'
-import ListIcon from '@/components/icons/ListIcon.vue'
+import { computed, ref, watchEffect } from 'vue'
+import { useStore } from 'vuex';
+import { logout } from '@/services/authService';
 
-import { computed, ref, inject, watchEffect } from 'vue'
-import { useStore } from 'vuex'
-
-const axios = inject('axios')
-const store = useStore()
+const store = useStore();
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated'])
 const currentUser = computed(() => store.getters['_currentUser'])
@@ -177,15 +176,6 @@ const userData = ref({
 })
 
 const isOpen = ref(false)
-
-const logout = async () => {
-  try {
-    await axios.post('/auth/logout');
-    store.dispatch('logout');
-  } catch (error) {
-    console.log('Error Occured Logout Action =>', error.message)
-  }
-}
 
 document.addEventListener('click', (event) => {
   const isCloseButton = event.target.getAttribute('dropdown-close')
@@ -200,8 +190,6 @@ watchEffect(() => {
     firstName: currentUser.value?.name,
     email: currentUser.value?.email
   }
-
-  // isAuthenticated.value = store.getters['_isAuthenticated'];
 })
 
 const updateAsideOpen = (value) => {

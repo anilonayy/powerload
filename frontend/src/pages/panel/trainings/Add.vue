@@ -24,5 +24,4 @@ import Panel from '@/components/form/Panel.vue'
 import PanelHeader from '@/components/panel/PanelHeader.vue'
 import TrainBuilder from '@/components/panel/add/TrainBuilder.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
-import TrainingActionsSkeleton from '@/components/skeletons/TrainingActionsSkeleton.vue'
 </script>

@@ -80,6 +80,8 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue'
+import { getAllTrainings } from '@/services/trainingService'
+
 import Panel from '@/components/form/Panel.vue'
 import PanelHeader from '@/components/panel/PanelHeader.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
@@ -95,7 +97,7 @@ const trainings = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/trainings');
+    const response = await getAllTrainings();
 
     trainings.value = response.data;
     loaded.value = true;

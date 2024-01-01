@@ -82,11 +82,13 @@
 
 
 <script setup>
-import { onMounted, ref, watch, inject } from 'vue'
-import { guid, validateTrainBuilderData } from '@/utils/helpers'
+import { onMounted, ref, watch, inject } from 'vue';
+import { guid, validateTrainBuilderData } from '@/utils/helpers';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router'
-import router from '@/router'
+import { useRoute } from 'vue-router';
+import router from '@/router';
+import { getTraining } from '@/services/trainingService';
+import { getAllExercises } from '@/services/exerciseService';
 
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import Input from '@/components/form/Input.vue'
@@ -107,7 +109,7 @@ const isUpdatePage = ref(route.params.trainId);
 onMounted(async () => {
     try {
       if (isUpdatePage.value) {
-        const response = await axios.get(`trainings/${ route.params.trainId }`);
+        const response = await getTraining(isUpdatePage.value)
 
         const days = response.data.days.map((day) => {
           const exercises =  day.exercises.map((exercise) => {
@@ -145,7 +147,7 @@ onMounted(async () => {
         data.value = response.data;
       }
 
-      const response = await axios.get('/exercises');
+      const response = await getAllExercises();
       store.dispatch('setExercises',response.data);
 
       loaded.value = true;
