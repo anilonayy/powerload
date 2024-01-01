@@ -15,7 +15,7 @@
             autocomplete="name"
           />
 
-          <div v-if="errors?.name && errors?.name.length > 0">
+          <div v-if="errors?.name && errors?.name?.length > 0">
             <InputError class="mt-2" :message="errors.name[0]" />
           </div>
         </div>
@@ -31,7 +31,7 @@
             autocomplete="username"
           />
 
-          <div v-if="errors?.email && errors?.email.length > 0">
+          <div v-if="errors?.email && errors?.email?.length > 0">
             <InputError class="mt-2" :message="errors.email[0]" />
           </div>
         </div>
@@ -65,6 +65,10 @@
           <div v-if="errors?.password_confirm && errors?.password_confirm.length > 0">
             <InputError class="mt-2" :message="errors.password_confirm[0]" />
           </div>
+        </div>
+
+        <div v-if="errors?.message && errors?.message?.length" class="text-red-500 font-semibold my-4">
+          {{ errors?.message }}
         </div>
 
         <div class="flex justify-end">
@@ -115,9 +119,8 @@
 </template>
 
 <script setup>
-import { ref, computed, inject } from 'vue'
-import CryptoJs from 'crypto-js'
-import { useStore } from 'vuex'
+import { ref, inject, watch } from 'vue';
+import { register } from '@/services/authService';
 
 import Panel from '@/components/form/Panel.vue'
 import Input from '@/components/form/Input.vue'
@@ -127,12 +130,7 @@ import HeaderText from '@/components/shared/HeaderText.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import router from '@/router'
 
-const axios = inject('axios');
 const toast = inject('toast');
-
-
-const store = useStore()
-const saltKey = computed(() => store.getters['_saltKey'])
 
 const userData = ref({
   name: '',
@@ -146,35 +144,43 @@ const errors = ref({})
 const formSubmit = async (event) => {
   event.preventDefault()
 
-  let cryptedPassword = ''
-  let cryptedPasswordConfirm = ''
-
-  if (userData.value.password.length > 0 && userData.value.password_confirm) {
-    cryptedPassword = CryptoJs.HmacSHA1(userData.value.password, saltKey.value).toString()
-    cryptedPasswordConfirm = CryptoJs.HmacSHA1(
-      userData.value.password_confirm,
-      saltKey.value
-    ).toString()
-  }
-
   try {
-    const response = await axios.post('/register', {
-      ...userData.value,
-      password: cryptedPassword,
-      password_confirm: cryptedPasswordConfirm
-    })
+    if(!validateForm()) return;
 
+    await register(userData.value);
 
-    store.dispatch('register', response.data)
-
-    Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
+    Object.keys(userData.value).forEach((field) => (userData.value[field] = null));
 
     toast.success('Başarıyla kayıt oldun!');
-    router.push('/');
+
+router.push('/');
   } catch (error) {
     errors.value = error.data;
-    // toast.error(error.message)
   }
 }
+
+const validateForm = () => {
+  errors.value.name = isEmpty(userData.value.name) ? ["Ad Soyad alanı zorunludur."] : [];
+  errors.value.email = isEmpty(userData.value.email) ? ["E-Mail alanı zorunludur."] : [];
+  errors.value.password = isEmpty(userData.value.password) ? ["Şifre alanı zorunludur."] : [];
+
+  if (isEmpty(userData.value.password_confirm)) {
+    errors.value.password_confirm = ["Şifre Onay alanı zorunludur."];
+  } else if (userData.value.password !== userData.value.password_confirm) {
+    errors.value.password_confirm = ["Şifreler eşleşmiyor."];
+  } else {
+    errors.value.password_confirm = [];
+  }
+
+  if(errors.value.message?.length) {
+    errors.value.message = ''
+  }
+
+  return Object.keys(errors.value).every((field) => errors.value[field].length === 0)
+}
+
+const isEmpty = (field) => (field ?? '').trim().length === 0;
+
+watch(userData.value, validateForm)
 </script>
 

@@ -180,7 +180,7 @@ const isOpen = ref(false)
 
 const logout = async () => {
   try {
-    await axios.post('/user/logout');
+    await axios.post('/auth/logout');
     store.dispatch('logout');
   } catch (error) {
     console.log('Error Occured Logout Action =>', error.message)

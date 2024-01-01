@@ -135,8 +135,6 @@ const formSubmit = async (event) => {
   }
 }
 
-
-
 const validateForm = () => {
   errors.value.email = isEmpty(userData.value.email) ? ["E-Mail alanı zorunludur."] : [];
   errors.value.password = isEmpty(userData.value.password) ? ["Şifre alanı zorunludur."] : [];

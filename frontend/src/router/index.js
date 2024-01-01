@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/uye-ol',
       name: 'register',
-      component: () => import('@/pages/auth/Register.vue'),
+      component: () => import('@/pages/auth/RegisterPage.vue'),
       meta: {
         requiresGuest: true
       }
