@@ -10,7 +10,8 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
-use Exception;
+use App\Services\Auth\AuthService;
+use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,12 +20,21 @@ class UserController extends Controller
 {
     use ResponseMessage;
 
+    protected $authService;
+    public function __construct(AuthServiceInterface $authService)
+    {
+        $this->authService = $authService;
+        var_dump($this->authService);
+    }
+
     /**
      * @param RegisterRequest $request
      * @return JsonResponse
      */
     public function register (RegisterRequest $request): JsonResponse
     {
+        // $authService->register($request);
+
         $user = User::create($request->all());
 
         return response()->json($this->getSuccessMessage([

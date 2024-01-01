@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
+use App\Services\Auth\AuthService;
+use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class ApiServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-
+        $this->app->bind(AuthServiceInterface::class, AuthService::class);
     }
 
     /**
@@ -19,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $locale = 'tr';
-        app()->setLocale($locale);
+
     }
 }
