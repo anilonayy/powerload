@@ -2,122 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\Training\CreateTrainingRequest;
 use App\Http\Requests\Training\UpdateTrainingRequest;
 use App\Models\Training;
-use App\Models\TrainingDay;
-use App\Models\TrainingLogs;
+use App\Services\Training\TrainingServiceInterface;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingsController extends Controller
 {
     use ResponseMessage;
 
+    protected TrainingServiceInterface $trainingService;
+
+    public function __construct(TrainingServiceInterface $trainingService)
+    {
+        $this->trainingService = $trainingService;
+    }
+
     public function index(): JsonResponse
     {
-        $trainings = Training::select('name','id','created_at')
-            ->where([
-                ['user_id', auth()->user()->id]
-            ])
-            ->without('days')
-            ->get();
-
-        return response()->json($this->getSuccessMessage($trainings));
+        return response()->json($this->trainingService->getAll());
     }
 
     public function allWithDetails(): JsonResponse
     {
-        $trainings = Training::with(['days' => function($query) {
-            $query->without('exercises');
-        }])->where('user_id', auth()->user()->id)->orderBy('id','asc')->get();
-
-        return response()->json($this->getSuccessMessage($trainings));
+        return response()->json($this->trainingService->getAllWithDetails());
     }
 
+    /**
+     * @param Training $training
+     * @return JsonResponse
+     */
     public function show(Training $training): JsonResponse
     {
-        $this->checkTrainingOwner($training);
-
-        $training->load([
-            'days' => function($query) {
-                $query->with('exercises');
-            }
-        ]);
-
-        return response()->json($this->getSuccessMessage($training));
+        return response()->json($this->trainingService->get($training->id));
     }
 
-    public function showExercises(TrainingDay $trainingDay): JsonResponse
-    {
-        $this->checkTrainingDayOwner($trainingDay);
-        return response()->json($this->getSuccessMessage($trainingDay->exercises));
-    }
-
+    /**
+     * @param CreateTrainingRequest $request
+     * @return JsonResponse
+     */
     public function store(CreateTrainingRequest $request): JsonResponse
     {
-        $payload = $request->validated();
-
-        $training =  Training::create([
-            'user_id' => auth()->user()->id,
-            'name' => $payload['train']['name']
-        ]);
-
-        $this->addTrainingDaysByPayload($training, $payload);
-
-        return response()->json($this->getSuccessMessage($training));
+        return response()->json($this->trainingService->create((object) $request->validated()));
     }
 
+    /**
+     * @param Training $training
+     * @param UpdateTrainingRequest $request
+     * @return JsonResponse
+     */
     public function update(Training $training, UpdateTrainingRequest $request): JsonResponse
     {
-        $this->checkTrainingOwner($training);
-        $payload = $request->validated();
-
-        $training->days()->delete();
-        $this->addTrainingDaysByPayload($training,$payload);
-
-        return response()->json($this->getSuccessMessage($training->days()));
+        return response()->json($this->trainingService->update($training, (object) $request->validated()));
     }
 
+    /**
+     * @param Training $training
+     * @return JsonResponse
+     */
     public function destroy(Training $training): JsonResponse
     {
-        $this->checkTrainingOwner($training);
-        $training->delete();
-
-        return response()->json($this->getSuccessMessage());
-    }
-
-    public function addTrainingDaysByPayload(Training $training, array $payload): void
-    {
-        foreach($payload['train']['days'] as $day) {
-            $trainingDay = $training->days()->create([
-                'name' => $day['name']
-            ]);
-
-            foreach($day['exercises'] as $exercise) {
-                $trainingDay->exercises()->create([
-                    'exercise_id' => $exercise['selected']['value'],
-                    'sets' => $exercise['sets'],
-                    'reps' => $exercise['reps'],
-                ]);
-            }
-        }
-    }
-
-    private function checkTrainingOwner (Training $training): void
-    {
-        if ($training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
-        }
-    }
-
-    private function checkTrainingDayOwner (TrainingDay $trainingDay): void
-    {
-        if ($trainingDay->training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
-        }
+        return response()->json($this->trainingService->delete($training));
     }
 }
