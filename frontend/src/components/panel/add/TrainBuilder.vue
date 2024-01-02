@@ -101,7 +101,6 @@ const store =  useStore();
 const route = useRoute();
 
 const toast = inject('toast');
-const axios = inject('axios');
 
 const loaded = ref(false);
 const currentTrainingId = ref(route.params.trainId);

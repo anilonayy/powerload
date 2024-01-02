@@ -10,6 +10,8 @@ use App\Services\Training\TrainingService;
 use App\Services\Training\TrainingServiceInterface;
 use App\Services\TrainingDay\TrainingDayService;
 use App\Services\TrainingDay\TrainingDayServiceInterface;
+use App\Services\TrainingExerciseLog\TrainingExerciseLogService;
+use App\Services\TrainingExerciseLog\TrainingExerciseLogServiceInterface;
 use App\Services\TrainingLogs\TrainingLogsService;
 use App\Services\TrainingLogs\TrainingLogsServiceInterface;
 use App\Services\User\UserService;
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TrainingDayServiceInterface::class, TrainingDayService::class);
         $this->app->bind(ExerciseServiceInterface::class, ExerciseService::class);
         $this->app->bind(TrainingLogsServiceInterface::class, TrainingLogsService::class);
+        $this->app->bind(TrainingExerciseLogServiceInterface::class, TrainingExerciseLogService::class);
+
     }
 
     /**

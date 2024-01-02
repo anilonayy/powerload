@@ -36,7 +36,7 @@ class TrainingsController extends Controller
      */
     public function show(Training $training): JsonResponse
     {
-        return response()->json($this->trainingService->get($training->id));
+        return response()->json($this->trainingService->get($training));
     }
 
     /**

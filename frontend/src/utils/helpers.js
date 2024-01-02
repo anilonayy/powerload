@@ -98,6 +98,7 @@ export const validateTrainBuilderData = (train) => {
       day.exercises.map((exercise) => {
         if(!hasError && (exercise.selected?.value || 0) !== 0) {
           if(exerciseIds.includes(exercise.selected.value)) {
+            response.success = false;
             day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
             hasError = true;
           } else {

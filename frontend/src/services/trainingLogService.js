@@ -37,7 +37,6 @@ const selectTrainingDay  = async(id, training_day_id) => {
 }
 
 const saveExercise = async (id, currentExercise) => {
-    console.log('currentExercise :>> ', currentExercise);
     const addSetsResponse = await axios.post(`/v1/training-logs/${ id }/exercises`, {
         sets: currentExercise.onTrain,
         exercise: currentExercise,

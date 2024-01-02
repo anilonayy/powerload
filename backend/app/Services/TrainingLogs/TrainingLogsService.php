@@ -6,13 +6,10 @@ use App\Enums\TrainingLogEnums;
 use App\Http\Resources\TrainingLogs\TrainingLogs as TrainingLogsResource;
 use App\Http\Resources\TrainingLogs\TrainingLogWithDetail as TrainingLogsWithDetailResource;
 use App\Models\TrainingLogs;
-use Illuminate\Http\array;
 use App\Enums\ResponseMessageEnums;
-use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Models\TrainingDay;
 use App\Models\TrainingExerciseListLogs;
 use App\Traits\ResponseMessage;
-use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -150,7 +147,7 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         ])->latest()->first();
 
         if (!$lastTrainingLog) {
-            return response()->json($this->getSuccessMessage([]));
+            return $this->getSuccessMessage([]);
         }
 
         return $this->getSuccessMessage([

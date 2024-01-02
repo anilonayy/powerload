@@ -14,7 +14,7 @@ interface TrainingServiceInterface
     public function create(object $payload): array;
 
     /**
-     * @param int $id
+     * @param Training $training
      * @return array
      */
     public function get(Training $training): array;
