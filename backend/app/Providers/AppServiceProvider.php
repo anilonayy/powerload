@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\General\GeneralRepositoryInterface;
+use App\Repositories\GeneralRepository;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Exercise\ExerciseService;
@@ -32,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExerciseServiceInterface::class, ExerciseService::class);
         $this->app->bind(TrainingLogsServiceInterface::class, TrainingLogsService::class);
         $this->app->bind(TrainingExerciseLogServiceInterface::class, TrainingExerciseLogService::class);
-
     }
 
     /**

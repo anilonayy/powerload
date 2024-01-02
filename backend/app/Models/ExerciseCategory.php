@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class ExerciseCategory extends Model
+class ExerciseCategory extends AppModel
 {
     use HasFactory;
-
-    protected $visible = ['name','id'];
 }

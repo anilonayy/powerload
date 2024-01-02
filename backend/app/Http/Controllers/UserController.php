@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request): JsonResponse
     {
-        return response()->json($this->userService->update((object)$request->validated()));
+        return response()->json($this->userService->update($request->validated()));
     }
 
     /**
@@ -30,6 +30,6 @@ class UserController extends Controller
      */
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        return response()->json($this->userService->updatePassword((object)$request->validated()));
+        return response()->json($this->userService->updatePassword($request->validated()));
     }
 }
