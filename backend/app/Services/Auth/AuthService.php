@@ -14,12 +14,12 @@ class AuthService implements AuthServiceInterface
     use ResponseMessage;
 
     /**
-     * @param object $payload
+     * @param array $payload
      * @return array
      */
-    public function login(object $payload): array
+    public function login(array $payload): array
     {
-        if(! auth()->attempt((array)$payload)) {
+        if(! auth()->attempt($payload)) {
             throw new HttpClientException(message: __('auth.failed'), code: Response::HTTP_UNAUTHORIZED);
         }
 
@@ -36,12 +36,12 @@ class AuthService implements AuthServiceInterface
     }
 
     /**
-     * @param object $payload
+     * @param array $payload
      * @return array
      */
-    public function register(object $payload): array
+    public function register(array $payload): array
     {
-        $user = User::create((array)$payload);
+        $user = User::create($payload);
 
         return $this->getSuccessMessage([
             'user' => $user,

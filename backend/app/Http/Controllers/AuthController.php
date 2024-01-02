@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use Illuminate\Http\JsonResponse;
 use App\Services\Auth\AuthServiceInterface;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -16,21 +17,21 @@ class AuthController extends Controller
     }
 
     /**
-     * @param RegisterRequest $request
-     * @return JsonResponse
-     */
-    public function register(RegisterRequest $request): JsonResponse
-    {
-        return response()->json($this->authService->register((object)$request->validated()));
-    }
-
-    /**
      * @param LoginRequest $request
      * @return JsonResponse
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        return response()->json($this->authService->login((object) $request->validated()));
+        return response()->json($this->authService->login($request->validated()));
+    }
+
+    /**
+     * @param RegisterRequest $request
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        return response()->json($this->authService->register($request->validated()), Response::HTTP_CREATED);
     }
 
     /**
@@ -38,6 +39,6 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        return response()->json($this->authService->logout());
+        return response()->json($this->authService->logout(), Response::HTTP_NO_CONTENT);
     }
 }
