@@ -107,7 +107,7 @@ const submitPassword = async (event) => {
 
   if(Object.keys(errors.value).length === 0) {
     try {
-      await userService.updatePassword(newPassword.value.currentPassword, newPassword.value.newPassword);
+      await userService.updatePassword(newPassword.value);
       toast.success('Şifre başarıyla güncellendi!');
 
       newPassword.value  = {};

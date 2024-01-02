@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\ResponseMessageEnums;
-use Illuminate\Http\RedirectResponse;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,7 +43,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request,Throwable $e): Response|JsonResponse
     {
-        if ($this->isProductionEnv()) {
+        if (!$this->isProductionEnv()) {
             $message = $this->getMessage($e);
             $statusCode = $this->getStatusCode($e);
 

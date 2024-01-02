@@ -5,9 +5,9 @@ namespace App\Services\Auth;
 
 interface AuthServiceInterface
 {
-    public function login(): bool;
+    public function login(object $payload): array;
 
-    public function register(): bool;
+    public function register(object $payload): array;
 
-    public function logout(): void;
+    public function logout(): array;
 }

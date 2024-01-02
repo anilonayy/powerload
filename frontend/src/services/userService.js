@@ -4,10 +4,13 @@ import store from '@/store';
 import CryptoJs from 'crypto-js';
 
 
-const updatePassword = async ({ currentPassword, password }) => {
+const updatePassword = async ({ currentPassword, newPassword }) => {
+
+    console.log('currentPassword :>> ', currentPassword);
+    console.log('password :>> ', newPassword);
     const saltKey = computed(() => store.getters['_saltKey']);
     const cryptCurrentPassword = CryptoJs.HmacSHA1(currentPassword, saltKey.value).toString();
-    const cryptNewPassword = CryptoJs.HmacSHA1(password, saltKey.value).toString();
+    const cryptNewPassword = CryptoJs.HmacSHA1(newPassword, saltKey.value).toString();
 
     await axios.patch('/v1/users/update-password', {
         currentPassword: cryptCurrentPassword,
