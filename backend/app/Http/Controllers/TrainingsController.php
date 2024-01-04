@@ -31,12 +31,12 @@ class TrainingsController extends Controller
     }
 
     /**
-     * @param Training $training
+     * @param integer $id
      * @return JsonResponse
      */
-    public function show(Training $training): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        return response()->json($this->trainingService->get($training));
+        return response()->json($this->trainingService->get($id));
     }
 
     /**

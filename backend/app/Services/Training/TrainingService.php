@@ -2,14 +2,10 @@
 
 namespace App\Services\Training;
 
-use App\Enums\ResponseMessageEnums;
-use App\Models\Exercise;
+use App\Models\AppModel;
 use App\Models\Training;
-use App\Models\TrainingDay;
 use App\Repositories\Trainings\TrainingRepositoryInterface;
 use App\Traits\ResponseMessage;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingService implements TrainingServiceInterface
 {
@@ -27,7 +23,7 @@ class TrainingService implements TrainingServiceInterface
      */
     public function create(object $payload): array
     {
-        $training =  Training::create([
+        $training = $this->trainingRepository->create([
             'user_id' => auth()->user()->id,
             'name' => $payload->train['name']
         ]);
@@ -41,13 +37,15 @@ class TrainingService implements TrainingServiceInterface
      * @param Training $training
      * @return array
      */
-    public function get(Training $training): array
+    public function get(int $id): array
     {
-        $this->checkTrainingOwner($training);
+        // to be continue from here
+        $training = $this->trainingRepository->findById($id, collect([
+            'with' => ['days' => function($query){
+            }]
+        ]));
 
-        $training->load([
-            'days' => fn($query) =>  $query->with('exercises')
-        ]);
+        $this->trainingRepository->checkOwnerOfModel($training->user_id);
 
         return $this->getSuccessMessage($training);
     }
@@ -59,7 +57,7 @@ class TrainingService implements TrainingServiceInterface
      */
     public function update(Training $training, object $payload): array
     {
-        $this->checkTrainingOwner($training);
+        $this->trainingRepository->checkOwnerOfModel($training->user_id);
 
         $training->days()->delete();
 
@@ -74,7 +72,8 @@ class TrainingService implements TrainingServiceInterface
      */
     public function delete(Training $training): array
     {
-        $this->checkTrainingOwner($training);
+        $this->trainingRepository->checkOwnerOfModel($training->user_id);
+
         $training->delete();
 
         return $this->getSuccessMessage();
@@ -85,7 +84,7 @@ class TrainingService implements TrainingServiceInterface
         $results = $this->trainingRepository->all(
             collect([
                 'where' => ['user_id' => auth()->user()->id],
-                'select' => ['id', 'name'],
+                'select' => ['id', 'name','created_at'],
                 'withCount' => 'training_logs'
             ])
         );
@@ -95,15 +94,25 @@ class TrainingService implements TrainingServiceInterface
 
     public function getAllWithDetails(): array
     {
-        $trainings = Training::with(['days' => function($query) {
-            $query->without('exercises');
-        }])->where('user_id', auth()->user()->id)->orderBy('id','asc')->get();
+        $results = $this->trainingRepository->all(
+            collect([
+                'where' => ['user_id' => auth()->user()->id],
+                'select' => ['id', 'name'],
+                'with' => ['days' => function($query){
+                    $query->select(['id', 'name', 'training_id']);
+                }]
+            ])
+        );
 
-        return $this->getSuccessMessage($trainings);
+        return $this->getSuccessMessage($results);
     }
 
-
-    public function addTrainingDaysByPayload(Training $training, array $payload): void
+    /**
+     * @param AppModel $training
+     * @param array $payload
+     * @return void
+     */
+    public function addTrainingDaysByPayload(AppModel $training, array $payload): void
     {
         foreach($payload['train']['days'] as $day) {
             $trainingDay = $training->days()->create([
@@ -117,20 +126,6 @@ class TrainingService implements TrainingServiceInterface
                     'reps' => $exercise['reps'],
                 ]);
             }
-        }
-    }
-
-    public function checkTrainingOwner (Training $training): void
-    {
-        if ($training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
-        }
-    }
-
-    public function checkTrainingDayOwner (TrainingDay $trainingDay): void
-    {
-        if ($trainingDay->training->user_id !== auth()->user()->id) {
-            throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }
 }

@@ -14,10 +14,10 @@ interface TrainingServiceInterface
     public function create(object $payload): array;
 
     /**
-     * @param Training $training
+     * @param integer $id
      * @return array
      */
-    public function get(Training $training): array;
+    public function get(int $id): array;
 
     /**
      * @param int $id
@@ -48,16 +48,4 @@ interface TrainingServiceInterface
      * @return void
      */
     public function addTrainingDaysByPayload(Training $training, array $payload): void;
-
-    /**
-     * @param Training $training
-     * @return void
-     */
-    public function checkTrainingOwner (Training $training): void;
-
-    /**
-     * @param TrainingDay $trainingDay
-     * @return void
-     */
-    public function checkTrainingDayOwner (TrainingDay $trainingDay): void;
 }

@@ -11,8 +11,6 @@ use App\Repositories\General\GeneralRepositoryInterface;
 use App\Repositories\General\GeneralRepository;
 use App\Repositories\Trainings\TrainingRepository;
 use App\Repositories\Trainings\TrainingRepositoryInterface;
-use App\Repositories\User\UserRepository;
-use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
