@@ -35,7 +35,7 @@
                 scope="row"
                 class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white"
               >
-               <router-link
+              <router-link
                   :to="{ name: 'training', params: { trainId: training.id } }"
                   class="text-gray-900 font-bold dark:text-blue-500 hover:underline"
                 >
@@ -43,7 +43,7 @@
                 </router-link>
                 
               </th>
-              <td class="px-6 py-4">0</td>
+              <td class="px-6 py-4"> {{ training.training_logs_count }} </td>
               <td class="px-6 py-4">{{ training.created_at }}</td>
               <td class="px-6 py-4 flex gap-3">
                 <router-link
@@ -88,7 +88,6 @@ import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import TrainingListSkeleton from '@/components/skeletons/TrainingListSkeleton.vue'
 
 
-const axios = inject('axios');
 const swal = inject('swal');
 const toast = inject('toast');
 
@@ -127,7 +126,7 @@ const removeTraining = async (id) => {
     .then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await trainingService.deleteTraining(id);
+          await trainingService.deleteTraining(id);
 
           trainings.value = trainings.value.filter((training) => training.id !== id);
 

@@ -2,18 +2,18 @@
 
 namespace App\Repositories\General;
 
-use App\Models\AppModel;
 use App\Repositories\General\GeneralRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class GeneralRepository implements GeneralRepositoryInterface
 {
     protected Model $model;
 
-    public function __construct(Model $model)
+    public function __construct(string $model)
     {
-        $this->model = $model;
+        $this->model = app()->make($model);
     }
 
     /**
@@ -24,21 +24,30 @@ class GeneralRepository implements GeneralRepositoryInterface
      * @param integer $limit
      * @return Collection
      */
-    public function all(array $columns = ['*'], mixed $with = [], array $where = [], int $page = 0, int $limit = 100): Collection
+    public function all(Collection $filterOptions): Collection
     {
-        return $this->model->with($with ?? '')->where($where ?? [])->skip($page)->limit($limit)->get($columns);
+        return $this->model
+        ->when($filterOptions->has('limit'), function (Builder $query) use ($filterOptions) {
+            return $query->limit($filterOptions->get('limit'));
+        })
+        ->when($filterOptions->has('skip'), function (Builder $query) use ($filterOptions) {
+            return $query->skip($filterOptions->get('skip'));
+        })
+        ->when($filterOptions->has('where'), function (Builder $query) use ($filterOptions) {
+            return $query->where($filterOptions->get('where'));
+        })
+        ->when($filterOptions->has('with'), function (Builder $query) use ($filterOptions) {
+            return $query->with($filterOptions->get('with'));
+        })
+        ->when($filterOptions->has('select'), function (Builder $query) use ($filterOptions) {
+            return $query->select($filterOptions->get('select'));
+        })
+        ->when($filterOptions->has('withCount'), function (Builder $query) use ($filterOptions) {
+            return $query->withCount($filterOptions->get('withCount'));
+        })
+        ->get();
     }
 
-    /**
-     * @param array $columns
-     * @param mixed $with
-     * @param array $where
-     * @return Model
-     */
-    public function get(array $columns = ['*'], mixed $with = [], array $where = []): Model
-    {
-        return $this->model->with($with ?? '')->where($where ?? [])->limit(1)->get($columns)->first();
-    }
 
     /**
      * @param integer $id
@@ -46,9 +55,19 @@ class GeneralRepository implements GeneralRepositoryInterface
      * @param array $with
      * @return Model
      */
-    public function find(int $id, array $columns = ["*"], array $with = []): Model
+    public function find(Collection $filterOptions): Model
     {
-        return $this->model->with($with ?? '')->find($id, $columns);
+        return $this->model
+        ->limit(1)
+        ->when($filterOptions->has('where'), function (Builder $query) use ($filterOptions) {
+            return $query->where($filterOptions->get('where'));
+        })
+        ->when($filterOptions->has('with'), function (Builder $query) use ($filterOptions) {
+            return $query->with($filterOptions->get('with'));
+        })
+        ->when($filterOptions->has('select'), function (Builder $query) use ($filterOptions) {
+            return $query->select($filterOptions->get('select'));
+        })->first();
     }
 
     /**
@@ -82,5 +101,15 @@ class GeneralRepository implements GeneralRepositoryInterface
         $model = $this->model->findOrFail($id);
 
         $model->delete();
+    }
+
+    /**
+     * @param Model $model
+     * @param array $relations
+     * @return Model
+     */
+    public function load(Model $model, array $relations): Model
+    {
+        return $model->load($relations);
     }
 }

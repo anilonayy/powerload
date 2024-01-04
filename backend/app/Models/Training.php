@@ -28,4 +28,9 @@ class Training extends AppModel
     {
         return $this->hasMany(TrainingDay::class);
     }
+
+    public function training_logs(): HasMany
+    {
+        return $this->hasMany(TrainingLogs::class);
+    }
 }

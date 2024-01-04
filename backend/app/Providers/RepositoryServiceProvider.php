@@ -3,9 +3,14 @@
 namespace App\Providers;
 
 use App\Models\AppModel;
+use App\Models\Training;
 use App\Models\User;
+use App\Repositories\Exercise\ExerciseRepository;
+use App\Repositories\Exercise\ExerciseRepositoryInterface;
 use App\Repositories\General\GeneralRepositoryInterface;
 use App\Repositories\General\GeneralRepository;
+use App\Repositories\Trainings\TrainingRepository;
+use App\Repositories\Trainings\TrainingRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +23,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GeneralRepositoryInterface::class, GeneralRepository::class);
         $this->app->bind(Model::class, AppModel::class);
 
-        $this->app->bind(UserRepositoryInterface::class, function($app) {
-            return new UserRepository($app->make(GeneralRepositoryInterface::class), $app->make(User::class));
-        });
+        $this->app->bind(ExerciseRepositoryInterface::class, ExerciseRepository::class);
+        $this->app->bind(TrainingRepositoryInterface::class, TrainingRepository::class);
+
+
     }
 }

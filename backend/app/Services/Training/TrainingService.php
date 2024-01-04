@@ -3,8 +3,10 @@
 namespace App\Services\Training;
 
 use App\Enums\ResponseMessageEnums;
+use App\Models\Exercise;
 use App\Models\Training;
 use App\Models\TrainingDay;
+use App\Repositories\Trainings\TrainingRepositoryInterface;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -12,6 +14,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TrainingService implements TrainingServiceInterface
 {
     use ResponseMessage;
+
+    protected TrainingRepositoryInterface $trainingRepository;
+    public function __construct(TrainingRepositoryInterface $trainingRepository)
+    {
+        $this->trainingRepository = $trainingRepository;
+    }
 
     /**
      * @param object $payload
@@ -74,11 +82,15 @@ class TrainingService implements TrainingServiceInterface
 
     public function getAll(): array
     {
-        return $this->getSuccessMessage(
-            Training::where([['user_id', auth()->user()->id]])
-            ->without('days')
-            ->get(['id','name','created_at'])
+        $results = $this->trainingRepository->all(
+            collect([
+                'where' => ['user_id' => auth()->user()->id],
+                'select' => ['id', 'name'],
+                'withCount' => 'training_logs'
+            ])
         );
+
+        return $this->getSuccessMessage($results);
     }
 
     public function getAllWithDetails(): array

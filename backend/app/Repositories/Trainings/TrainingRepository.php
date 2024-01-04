@@ -3,38 +3,12 @@
 namespace App\Repositories\Trainings;
 
 use App\Models\Training;
-use Illuminate\Support\Collection;
+use App\Repositories\General\GeneralRepository;
 
-class TrainingRepository implements TrainingRepositoryInterface
+class TrainingRepository extends GeneralRepository implements TrainingRepositoryInterface
 {
-    public function all(): Collection
+    public function __construct()
     {
-        return Training::all();
-    }
-
-    public function find(int $id): Training
-    {
-        return Training::findOrFail($id);
-    }
-
-    public function create(array $data) : Training
-    {
-        return Training::create($data);
-    }
-
-    public function update(array $data): Training
-    {
-        $training = Training::findOrFail($data['id']);
-
-        $training->update($data);
-
-        return $training;
-    }
-
-    public function delete(int $id): void
-    {
-        $training = Training::findOrFail($id);
-
-        $training->delete();
+        parent::__construct(Training::class);
     }
 }
