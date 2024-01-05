@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Exercise;
 
-use App\Repositories\General\GeneralRepositoryInterface;
+use Illuminate\Support\Collection;
 
-interface ExerciseRepositoryInterface extends GeneralRepositoryInterface
+interface ExerciseRepositoryInterface
 {
-
+    public function all(): Collection;
 }

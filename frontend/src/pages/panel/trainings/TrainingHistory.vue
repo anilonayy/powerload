@@ -29,9 +29,9 @@
                           <router-link 
                             :to="{ name: 'training', params: { trainId: log.training.id } }" 
                             class="text-gray-900 font-bold dark:text-blue-500 flex gap-3">
-                              {{ log.training.name }} 
+                              {{ log.training?.name }} 
                               <RightIcon class="h-3 w-3 inline" />  
-                              {{ log.training.training_day_name }}                            
+                              {{ log.training_day?.name }}                            
                           </router-link>
                       </th>
                     <td class="px-6 py-4"> {{ log?.duration }} </td>

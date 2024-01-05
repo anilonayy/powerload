@@ -2,10 +2,12 @@
 
 namespace App\Services\Training;
 
+use App\Enums\ResponseMessageEnums;
 use App\Models\AppModel;
 use App\Models\Training;
 use App\Repositories\Trainings\TrainingRepositoryInterface;
 use App\Traits\ResponseMessage;
+use Illuminate\Validation\UnauthorizedException;
 
 class TrainingService implements TrainingServiceInterface
 {
@@ -23,29 +25,18 @@ class TrainingService implements TrainingServiceInterface
      */
     public function create(object $payload): array
     {
-        $training = $this->trainingRepository->create([
-            'user_id' => auth()->user()->id,
-            'name' => $payload->train['name']
-        ]);
-
-        $this->addTrainingDaysByPayload($training, (array)$payload);
-
-        return $this->getSuccessMessage($training);
+        return $this->getSuccessMessage($this->trainingRepository->create($payload));
     }
 
     /**
-     * @param Training $training
+     * @param integer $id
      * @return array
      */
-    public function get(int $id): array
+    public function find(int $id): array
     {
-        // to be continue from here
-        $training = $this->trainingRepository->findById($id, collect([
-            'with' => ['days' => function($query){
-            }]
-        ]));
+        $training = $this->trainingRepository->find($id);
 
-        $this->trainingRepository->checkOwnerOfModel($training->user_id);
+        $this->checkOwnerOfModel($training->user_id);
 
         return $this->getSuccessMessage($training);
     }
@@ -57,13 +48,9 @@ class TrainingService implements TrainingServiceInterface
      */
     public function update(Training $training, object $payload): array
     {
-        $this->trainingRepository->checkOwnerOfModel($training->user_id);
+        $this->checkOwnerOfModel($training->user_id);
 
-        $training->days()->delete();
-
-        $this->addTrainingDaysByPayload($training,(array) $payload);
-
-        return $this->getSuccessMessage($training->days());
+        return $this->getSuccessMessage($this->trainingRepository->update($training, $payload));
     }
 
     /**
@@ -72,60 +59,31 @@ class TrainingService implements TrainingServiceInterface
      */
     public function delete(Training $training): array
     {
-        $this->trainingRepository->checkOwnerOfModel($training->user_id);
+        $this->checkOwnerOfModel($training->user_id);
 
-        $training->delete();
-
-        return $this->getSuccessMessage();
-    }
-
-    public function getAll(): array
-    {
-        $results = $this->trainingRepository->all(
-            collect([
-                'where' => ['user_id' => auth()->user()->id],
-                'select' => ['id', 'name','created_at'],
-                'withCount' => 'training_logs'
-            ])
-        );
-
-        return $this->getSuccessMessage($results);
-    }
-
-    public function getAllWithDetails(): array
-    {
-        $results = $this->trainingRepository->all(
-            collect([
-                'where' => ['user_id' => auth()->user()->id],
-                'select' => ['id', 'name'],
-                'with' => ['days' => function($query){
-                    $query->select(['id', 'name', 'training_id']);
-                }]
-            ])
-        );
-
-        return $this->getSuccessMessage($results);
+        return $this->getSuccessMessage($this->trainingRepository->delete($training));
     }
 
     /**
-     * @param AppModel $training
-     * @param array $payload
-     * @return void
+     * @return array
      */
-    public function addTrainingDaysByPayload(AppModel $training, array $payload): void
+    public function getAll(): array
     {
-        foreach($payload['train']['days'] as $day) {
-            $trainingDay = $training->days()->create([
-                'name' => $day['name']
-            ]);
+        return $this->getSuccessMessage($this->trainingRepository->all());
+    }
 
-            foreach($day['exercises'] as $exercise) {
-                $trainingDay->exercises()->create([
-                    'exercise_id' => $exercise['selected']['value'],
-                    'sets' => $exercise['sets'],
-                    'reps' => $exercise['reps'],
-                ]);
-            }
+    /**
+     * @return array
+     */
+    public function getAllWithDetails(): array
+    {
+        return $this->getSuccessMessage($this->trainingRepository->allWithDetails());
+    }
+
+    private function checkOwnerOfModel(int $ownerId = 0): void
+    {
+        if($ownerId !== auth()->user()->id) {
+            throw new UnauthorizedException(ResponseMessageEnums::FORBIDDEN);
         }
     }
 }

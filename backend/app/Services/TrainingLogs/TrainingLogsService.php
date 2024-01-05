@@ -9,6 +9,7 @@ use App\Models\TrainingLogs;
 use App\Enums\ResponseMessageEnums;
 use App\Models\TrainingDay;
 use App\Models\TrainingExerciseListLogs;
+use App\Repositories\TrainingLogs\TrainingLogsRepositoryInterface;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,85 +18,48 @@ class TrainingLogsService implements TrainingLogsServiceInterface
 {
     use ResponseMessage;
 
-    /**
-     * @param TrainingLogs $trainingLog
-     * @return array
-     */
-    public function show(TrainingLogs $trainingLog): array
+    protected TrainingLogsRepositoryInterface $trainingLogsRepository;
+    public function __construct(TrainingLogsRepositoryInterface $trainingLogsRepository)
     {
-        $this->checkIsUsersLog($trainingLog->user_id);
+        $this->trainingLogsRepository = $trainingLogsRepository;
+    }
 
-        $trainingLog->load([
-            'trainingDay' => function($query) {
-                $query->without('exercises');
-                $query->select('id', 'name');
-            },
-            'training' => fn ($query) => $query->withTrashed()
-        ]);
+
+    public function show(int $id): array
+    {
+        $trainingLog = $this->trainingLogsRepository->findWithDetails($id);
+
+        $this->checkIsUsersLog($trainingLog->user_id);
 
         return $this->getSuccessMessage((TrainingLogsWithDetailResource::make($trainingLog)));
     }
 
-    public function dailyResults(TrainingLogs $trainingLog): array
+    public function dailyResults(int $id): array
     {
+        $trainingLog = $this->trainingLogsRepository->dailyResults($id);
+
         $this->checkIsUsersLog($trainingLog->user_id);
 
         if($trainingLog->status !== TrainingLogEnums::TRAINING_COMPLETED) {
-            return response()->json($this->getFailMessage('Bu antrenman tamamlanmamış veya bırakılmış.'));
+            $this->getFailMessage('Bu antrenman tamamlanmamış veya yarıda bırakılmış.');
         }
-
-        $trainingLog->load([
-            'trainingDay' => function($query) {
-                $query->without('exercises');
-                $query->select('id', 'name');
-            },
-            'training' => fn ($query) => $query->withTrashed(),
-            'trainingList' => fn ($query) => $query->with('exercise')
-        ]);
 
         return $this->getSuccessMessage(TrainingLogsWithDetailResource::make($trainingLog));
     }
 
-    /**
-     * @return array
-     */
     public function index(): array
     {
-        $logs = TrainingLogs::where([
-            ['user_id', auth()->user()->id],
-            ['status', TrainingLogEnums::TRAINING_COMPLETED],
-        ])
-        ->with([
-            'trainingDay' => function($query) {
-                $query->select('id', 'name');
-            },
-            'training' => function($query) {
-                $query->withTrashed()
-                ->select('name','id');
-            }
-        ])
-        ->get();
-
-        return $this->getSuccessMessage(TrainingLogsResource::collection($logs));
+        return $this->getSuccessMessage(TrainingLogsResource::collection($this->trainingLogsRepository->all()));
     }
 
-    /**
-     * @return array
-     */
     public function store(): array
     {
-        $user = auth()->user();
+        return $this->getSuccessMessage($this->trainingLogsRepository->lastOrNew());
+    }
 
-        $lastLog = TrainingLogs::where([
-            ['user_id', $user->id],
-            ['status', TrainingLogEnums::TRAINING_CONTINUE]
-        ])->latest()->first();
-
-        $responseLog = $lastLog ?? TrainingLogs::create([
-            'user_id' => $user->id
-        ]);
-
-        return $this->getSuccessMessage($responseLog);
+    public function lastOrNew(): array
+    {
+        return $this->getSuccessMessage($this->trainingLogsRepository->lastOrNew());
     }
 
     public function update(TrainingLogs $trainingLog, array $payload): array
@@ -122,7 +86,12 @@ class TrainingLogsService implements TrainingLogsServiceInterface
             'id' => $trainingLog->id,
             'training_id' => $trainingLog->training_id,
             'training_day_id' => $trainingLog->training_day_id,
-            'exercises' => TrainingExerciseListLogs::where('training_exercise_log_id', $trainingLog->id)->get()
+            'exercises' => TrainingExerciseListLogs::where('training_exercise_log_id', $trainingLog->id)->with(['exercise' => function($query){
+                $query->select(['id', 'name','exercise_categories_id']);
+                $query->with(['category' => function($query){
+                    $query->select(['id', 'name']);
+                }]);
+            }])->get()
         ]);
     }
 

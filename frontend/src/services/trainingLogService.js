@@ -9,7 +9,7 @@ const getLog = async (id) => await axios.get(`/v1/training-logs/${ id }`);
 const getLastLog = async () => await axios.get('/v1/training-logs/last');
 
 const createEmptyLog = async () => {
-    const response = await axios.post('/v1/training-logs');
+    const response = await axios.post('/v1/training-logs/last-or-new');
 
     await store.dispatch('setTrainingLogId', response.data.id);
 
@@ -19,6 +19,7 @@ const createEmptyLog = async () => {
 const updateTrainingLog = async (id, data) => await axios.put(`/v1/training-logs/${ id }`, data);
 
 const selectTraining = async (logId, training_id) => {
+    console.log('logId :>> ', logId);
     await updateTrainingLog(logId, {
         training_id
     });
@@ -27,6 +28,8 @@ const selectTraining = async (logId, training_id) => {
 }
 
 const selectTrainingDay  = async(id, training_day_id) => {
+    console.log('id :>> ', id);
+
     const response = await updateTrainingLog(id, {
         training_day_id,
         is_new: true

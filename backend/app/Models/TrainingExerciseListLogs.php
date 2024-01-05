@@ -10,7 +10,6 @@ class TrainingExerciseListLogs extends AppModel
 {
     use HasFactory;
 
-    protected $with  = ['exercise','exercise_logs'];
     protected $hidden = ['updated_at','created_at','training_exercise_log_id'];
     protected $fillable = ['exercise_id', 'training_exercise_log_id', 'is_passed'];
 

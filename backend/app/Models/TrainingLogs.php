@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class TrainingLogs extends AppModel
 {
     use HasFactory;
-
-    protected $hidden = ['updated_at','created_at','training_end_time'];
     protected $fillable = ['user_id', 'training_id', 'training_day_id', 'status','training_end_time', 'duration'];
     protected $casts = [
         'created_at' => 'datetime:m F Y H:i',

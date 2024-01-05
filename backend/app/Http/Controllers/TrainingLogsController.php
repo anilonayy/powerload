@@ -25,14 +25,14 @@ class TrainingLogsController extends Controller
      * @param TrainingLogs $trainingLog
      * @return JsonResponse
      */
-    public function show(TrainingLogs $trainingLog): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        return response()->json($this->trainingLogsService->show($trainingLog));
+        return response()->json($this->trainingLogsService->show($id));
     }
 
-    public function dailyResults(TrainingLogs $trainingLog): JsonResponse
+    public function dailyResults(int $id): JsonResponse
     {
-        return response()->json($this->trainingLogsService->dailyResults($trainingLog));
+        return response()->json($this->trainingLogsService->dailyResults($id));
     }
 
     /**
@@ -49,6 +49,14 @@ class TrainingLogsController extends Controller
     public function store(): JsonResponse
     {
         return response()->json($this->trainingLogsService->store());
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function lastOrNew(): JsonResponse
+    {
+        return response()->json($this->trainingLogsService->lastOrNew());
     }
 
     /**

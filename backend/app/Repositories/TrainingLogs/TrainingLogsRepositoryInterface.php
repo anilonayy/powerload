@@ -9,7 +9,10 @@ interface TrainingLogsRepositoryInterface
 {
     public function all(): Collection;
     public function find(int $id): TrainingLogs;
+    public function findWithDetails(int $id): TrainingLogs;
+    public function dailyResults(int $id): TrainingLogs;
     public function create(array $data) : TrainingLogs;
+    public function lastOrNew(): TrainingLogs;
     public function update(array $data): TrainingLogs;
     public function delete(int $id): void;
 }

@@ -17,7 +17,7 @@ interface TrainingServiceInterface
      * @param integer $id
      * @return array
      */
-    public function get(int $id): array;
+    public function find(int $id): array;
 
     /**
      * @param int $id
@@ -47,5 +47,4 @@ interface TrainingServiceInterface
      * @param array $payload
      * @return void
      */
-    public function addTrainingDaysByPayload(Training $training, array $payload): void;
 }

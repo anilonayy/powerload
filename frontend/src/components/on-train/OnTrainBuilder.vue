@@ -168,7 +168,7 @@ onMounted(async () => {
             trainingData.find((training) => training.id === lastTraining.data.training_id).isSelected = true;
         }
 
-        if(lastTraining.data.exercises.length) {
+        if(lastTraining?.data?.exercises?.length) {
             ((trainingData.find((training) => training.isSelected).days.find((day) => day.isSelected) || {}).exercises || []).map((exercise) => {
                 const onTrainData = [];
 

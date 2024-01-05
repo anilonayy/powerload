@@ -3,12 +3,20 @@
 namespace App\Repositories\Exercise;
 
 use App\Models\Exercise;
-use App\Repositories\General\GeneralRepository;
+use Illuminate\Support\Collection;
 
-class ExerciseRepository extends GeneralRepository implements ExerciseRepositoryInterface
+class ExerciseRepository  implements ExerciseRepositoryInterface
 {
-    public function __construct()
+
+    /**
+     * @return Collection
+     */
+    public function all(): Collection
     {
-        parent::__construct(Exercise::class);
+        return Exercise::with(['category' => function($query){
+            $query->select(['id', 'name']);
+        }])
+        ->select(['id', 'name','exercise_categories_id'])
+        ->get();
     }
 }

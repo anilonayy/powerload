@@ -8,10 +8,11 @@ use Illuminate\Http\JsonResponse;
 
 interface TrainingLogsServiceInterface
 {
-    public function show(TrainingLogs $trainingLog): array;
-    public function dailyResults(TrainingLogs $trainingLog): array;
     public function index(): array;
+    public function show(int $id): array;
+    public function dailyResults(int $id): array;
     public function store(): array;
+    public function lastOrNew(): array;
     public function update(TrainingLogs $trainingLog, array $payload): array;
     public function complete(TrainingLogs $trainingLog): array;
     public function last(): array;
