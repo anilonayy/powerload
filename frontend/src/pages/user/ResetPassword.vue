@@ -1,9 +1,10 @@
 <template>
         <Panel class="w-full p-4">
-          <PanelHeader
-            title="Şifre Yenile"
-            description="Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃"
-          />
+        <PanelHeader class="p-2">
+          <template v-slot:title> Şifre Yenile </template>
+          <template v-slot:description> Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃 </template>
+          <hr>
+        </PanelHeader>
 
         <form @submit="submitPassword($event)" method="POST" class="flex flex-col gap-4">
           <div>

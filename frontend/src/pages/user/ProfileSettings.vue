@@ -1,10 +1,11 @@
 <template>
     <div class="flex flex-col w-full">
       <Panel class="w-full p-4 mt-0">
-        <PanelHeader
-          title="Profil Ayarları"
-          description="Hitap edebilmemiz için ismin, iletişime geçmemiz için e-posta adresin hepsi bu kadar."
-        />
+        <PanelHeader class="p-2">
+          <template v-slot:title> Profil Ayarları </template>
+          <template v-slot:description> Hitap edebilmemiz için ismin, iletişime geçmemiz için e-posta adresin hepsi bu kadar. </template>
+          <hr>
+        </PanelHeader>
 
         <form @submit="submitUserInfo($event)" method="POST" class="flex flex-col gap-4">
           <div>
