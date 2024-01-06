@@ -3,11 +3,10 @@
       <Panel>
         <HistorySkeleton v-if="!loaded" />  
         <div v-else>
-          <PanelHeader 
-              class="p-2"
-              title="Antrenman Geçmişi"
-              description="Antrenman geçmişinizi buradan takip edebilirsiniz 👀"
-          />
+          <PanelHeader class="p-2">
+            <template v-slot:title> Antrenman Geçmişi </template>
+            <template v-slot:description> Antrenman geçmişinizi buradan takip edebilirsiniz 👀 </template>
+          </PanelHeader>
 
           <div v-if="trainingLogs.length" class="relative overflow-x-auto sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -42,7 +41,7 @@
                         class=" text-blue-600 dark:text-blue-500 hover:underline"
                       >
                         <ButtonCmp class="bg-orange-400 text-white border-orange-400 hover:bg-orange-300"
-                          >Detaylı İncele</ButtonCmp
+                          >Detaylar</ButtonCmp
                         >
                       </router-link>
                     </td>

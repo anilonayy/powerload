@@ -3,12 +3,11 @@
         <Panel>
             <HistoryDetailSkeleton v-if="!loaded" />
             <div v-else>
-                <back-button> Antrenman Geçmişine Dön </back-button>
-                <PanelHeader
-                    class="p-2"
-                    title="Antrenman Sonuçları"
-                    description="Antrenman sonuçlarını görebilirsin!"
-                />
+                <BackButton :to="{ name: 'training-history' }"> Antrenman Geçmişine Dön </BackButton>
+                <PanelHeader class="p-2">
+                    <template v-slot:title> Antrenman Sonuçları </template>
+                    <template v-slot:description> Antrenman sonuçlarını görebilirsin! </template>
+                </PanelHeader>
 
                 <TrainResults :data="trainLog" />
             </div>
