@@ -22,7 +22,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        return response()->json($this->authService->login($request->validated()));
+        return response()->json($this->authService->login((object) $request->validated()));
     }
 
     /**
@@ -31,7 +31,8 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        return response()->json($this->authService->register($request->validated()), Response::HTTP_CREATED);
+
+        return response()->json($this->authService->register((object) $request->validated()), Response::HTTP_CREATED);
     }
 
     /**

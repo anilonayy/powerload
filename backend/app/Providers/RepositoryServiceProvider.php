@@ -13,6 +13,8 @@ use App\Repositories\TrainingLogs\TrainingLogsRepository;
 use App\Repositories\TrainingLogs\TrainingLogsRepositoryInterface;
 use App\Repositories\Trainings\TrainingRepository;
 use App\Repositories\Trainings\TrainingRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,10 +25,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GeneralRepositoryInterface::class, GeneralRepository::class);
         $this->app->bind(Model::class, AppModel::class);
 
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ExerciseRepositoryInterface::class, ExerciseRepository::class);
         $this->app->bind(TrainingRepositoryInterface::class, TrainingRepository::class);
         $this->app->bind(TrainingLogsRepositoryInterface::class, TrainingLogsRepository::class);
-
-
     }
 }

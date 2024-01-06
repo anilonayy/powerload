@@ -2,24 +2,29 @@
 
 namespace App\Services\Auth;
 
-use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthServiceInterface;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Response;
-use Illuminate\Validation\UnauthorizedException;
 
 class AuthService implements AuthServiceInterface
 {
     use ResponseMessage;
 
+    protected UserRepositoryInterface $userRepository;
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
-     * @param array $payload
+     * @param object $payload
      * @return array
      */
-    public function login(array $payload): array
+    public function login(object $payload): array
     {
-        if(! auth()->attempt($payload)) {
+        if(! auth()->attempt((array) $payload, true)) {
             throw new HttpClientException(message: __('auth.failed'), code: Response::HTTP_UNAUTHORIZED);
         }
 
@@ -36,12 +41,12 @@ class AuthService implements AuthServiceInterface
     }
 
     /**
-     * @param array $payload
+     * @param object $payload
      * @return array
      */
-    public function register(array $payload): array
+    public function register(object $payload): array
     {
-        $user = User::create($payload);
+        $user = $this->userRepository->create($payload);
 
         return $this->getSuccessMessage([
             'user' => $user,

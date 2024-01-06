@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TrainingExerciseLogs extends AppModel
+class TrainingExerciseLogs extends Model
 {
-    use HasFactory;
-
-    protected $guarded = [];
     protected $hidden = ['updated_at'];
     protected $fillable = ['training_exercise_list_log_id', 'weight', 'reps', 'started_at'];
 

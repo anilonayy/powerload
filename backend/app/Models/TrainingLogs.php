@@ -1,14 +1,13 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class TrainingLogs extends AppModel
+class TrainingLogs extends Model
 {
-    use HasFactory;
     protected $fillable = ['user_id', 'training_id', 'training_day_id', 'status','training_end_time', 'duration'];
     protected $casts = [
         'created_at' => 'datetime:m F Y H:i',

@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class ExerciseCategory extends AppModel
+class ExerciseCategory extends Model
 {
-    use HasFactory;
 }

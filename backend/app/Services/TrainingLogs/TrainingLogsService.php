@@ -24,7 +24,6 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         $this->trainingLogsRepository = $trainingLogsRepository;
     }
 
-
     public function show(int $id): array
     {
         $trainingLog = $this->trainingLogsRepository->findWithDetails($id);

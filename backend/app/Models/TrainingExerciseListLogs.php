@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TrainingExerciseListLogs extends AppModel
+class TrainingExerciseListLogs extends Model
 {
-    use HasFactory;
 
     protected $hidden = ['updated_at','created_at','training_exercise_log_id'];
     protected $fillable = ['exercise_id', 'training_exercise_log_id', 'is_passed'];
