@@ -122,7 +122,7 @@
 import { ref, inject, watch } from 'vue';
 import authService from '@/services/authService';
 
-import Panel from '@/components/form/Panel.vue'
+import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
 import Label from '@/components/form/Label.vue'
 import InputError from '@/components/form/InputError.vue'

@@ -19,6 +19,7 @@
     "vue-confetti-explosion": "^1.0.2",
     "vue-router": "^4.2.5",
     "vue-sweetalert2": "^5.0.5",
+    "vue3-charts": "^1.1.33",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0"
   },

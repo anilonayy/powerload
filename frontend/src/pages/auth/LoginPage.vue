@@ -97,7 +97,7 @@ import { ref, inject, watch } from 'vue'
 import router from '@/router'
 import authService from '@/services/authService'
 
-import Panel from '@/components/form/Panel.vue'
+import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
 import InputError from '@/components/form/InputError.vue'
 import Label from '@/components/form/Label.vue'
