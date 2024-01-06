@@ -5,10 +5,7 @@
       <PanelHeader class="p-2">
         <template v-slot:title> Antrenmanını Düzenle </template>
         <template v-slot:description> Antrenmanına günler ekleyebilir ,günlere isim verebilir, antrenman anında bu günlere direkt tıklayarak erişebilirsin! </template>
-<<<<<<< HEAD
         <hr>
-=======
->>>>>>> f276ca3718923ea6c93d52697d34f99363aedc6d
       </PanelHeader>
 
       <TrainBuilder :training="training" />

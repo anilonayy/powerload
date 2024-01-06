@@ -6,10 +6,7 @@
           <PanelHeader class="p-2">
             <template v-slot:title> Antrenman Geçmişi </template>
             <template v-slot:description> Antrenman geçmişinizi buradan takip edebilirsiniz 👀 </template>
-<<<<<<< HEAD
             <hr>
-=======
->>>>>>> f276ca3718923ea6c93d52697d34f99363aedc6d
           </PanelHeader>
 
           <div v-if="trainingLogs.length" class="relative overflow-x-auto sm:rounded-lg">

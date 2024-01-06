@@ -7,10 +7,7 @@
                 <PanelHeader class="p-2">
                     <template v-slot:title> Antrenman Sonuçları </template>
                     <template v-slot:description> Antrenman sonuçlarını görebilirsin! </template>
-<<<<<<< HEAD
                     <hr>
-=======
->>>>>>> f276ca3718923ea6c93d52697d34f99363aedc6d
                 </PanelHeader>
 
                 <TrainResults :data="trainLog" />
