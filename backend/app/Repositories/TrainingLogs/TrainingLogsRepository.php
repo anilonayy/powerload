@@ -16,6 +16,7 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
         ])
         ->with([
             'trainingDay' => function($query) {
+                $query->withTrashed();
                 $query->select(['id','name']);
             },
             'training' => function($query) {
@@ -40,6 +41,7 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
         ])
         ->with([
             'trainingDay' => function($query) {
+                $query->withTrashed();
                 $query->without('exercises');
                 $query->select('id', 'name');
             },
@@ -48,13 +50,9 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
                 $query->select(['id', 'training_exercise_log_id', 'exercise_id', 'is_passed']);
                 $query->with(['exercise' => function($query) {
                         $query->select(['id', 'name','exercise_categories_id']);
-                        $query->with(['category' => function($query) {
-                            $query->select(['id', 'name']);
-                        }]);
+                        $query->with(['category:id,name']);
                     },
-                    'exercise_logs' => function($query) {
-                        $query->select(['id', 'training_exercise_list_log_id', 'weight', 'reps']);
-                    }]);
+                    'exercise_logs:id,weight,reps,training_exercise_list_log_id']);
             }
         ])->first();
     }

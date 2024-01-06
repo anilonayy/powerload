@@ -56,8 +56,8 @@ import { useStore } from "vuex";
 import { validateEmail } from '@/utils/helpers';
 import userService from '@/services/userService';
 
-import Panel from "@/components/form/Panel.vue";
-import PanelHeader from "@/components/panel/PanelHeader.vue";
+import Panel from "@/components/shared/Panel.vue";
+import PanelHeader from "@/components/shared/PanelHeader.vue";
 import Input from "@/components/form/Input.vue";
 import Label from "@/components/form/Label.vue";
 import InputError from "@/components/form/InputError.vue";

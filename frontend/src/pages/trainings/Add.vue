@@ -20,8 +20,8 @@
 </template>
 
 <script setup>
-import Panel from '@/components/form/Panel.vue'
-import PanelHeader from '@/components/panel/PanelHeader.vue'
+import Panel from '@/components/shared/Panel.vue'
+import PanelHeader from '@/components/shared/PanelHeader.vue'
 import TrainBuilder from '@/components/panel/add/TrainBuilder.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 </script>

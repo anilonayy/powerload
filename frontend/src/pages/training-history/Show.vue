@@ -3,9 +3,14 @@
         <Panel>
             <HistoryDetailSkeleton v-if="!loaded" />
             <div v-else>
-                <back-button> Geri Dön </back-button>
+                <back-button> Antrenman Geçmişine Dön </back-button>
+                <PanelHeader
+                    class="p-2"
+                    title="Antrenman Sonuçları"
+                    description="Antrenman sonuçlarını görebilirsin!"
+                />
 
-                <TrainResults :data="trainLog"></TrainResults>
+                <TrainResults :data="trainLog" />
             </div>
         </Panel>
     </div>
@@ -17,7 +22,8 @@ import { useRoute } from "vue-router";
 import trainingLogService from '@/services/trainingLogService';
 import router from "@/router";
 
-import Panel from "@/components/form/Panel.vue";
+import Panel from "@/components/shared/Panel.vue";
+import PanelHeader from "@/components/shared/PanelHeader.vue";
 import BackButton from "@/components/buttons/BackButton.vue";
 import TrainResults from "@/components/pages/TrainCompleted/TrainResults.vue";
 import HistoryDetailSkeleton from '@/components/skeletons/HistoryDetailSkeleton.vue';
@@ -31,6 +37,7 @@ onMounted(async () => {
 
         if(isNaN(Number(trainLogId))) {
             router.push({ name: 'training-history' });
+
             return;
         }
 

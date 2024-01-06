@@ -82,8 +82,8 @@
 import { onMounted, ref, inject } from 'vue'
 import trainingService from '@/services/trainingService'
 
-import Panel from '@/components/form/Panel.vue'
-import PanelHeader from '@/components/panel/PanelHeader.vue'
+import Panel from '@/components/shared/Panel.vue'
+import PanelHeader from '@/components/shared/PanelHeader.vue'
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import TrainingListSkeleton from '@/components/skeletons/TrainingListSkeleton.vue'
 

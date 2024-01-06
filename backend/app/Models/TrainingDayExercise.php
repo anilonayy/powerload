@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TrainingDayExercise extends Model
 {
-
-    protected $guarded = [];
-    protected $with = ['exercise'];
     protected $fillable = ['training_day_id', 'exercise_id', 'sets', 'reps'];
-
 
     public function exercise(): BelongsTo
     {

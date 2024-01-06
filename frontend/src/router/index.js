@@ -38,42 +38,42 @@ const router = createRouter({
           {
             path: 'genel-bakis',
             name: 'dashboard',
-            component: () => import('@/pages/panel/UserDashboard.vue')
+            component: () => import('@/pages/UserDashboard.vue')
           },
           {
             path: 'antrenman-gecmisi',
             name: 'training-history',
-            component: () => import('@/pages/panel/trainings/TrainingHistory.vue')
+            component: () => import('@/pages/training-history/Index.vue')
           },
           {
             path: 'antrenman-gecmisi/:trainingLogId',
-            name: 'single-training-history',
-            component: () => import('@/pages/panel/trainings/HistoryDetail.vue')
+            name: 'show-training-history',
+            component: () => import('@/pages/training-history/Show.vue')
           },
           {
             path: 'antrenmanlar',
             name: 'training-list',
-            component: () => import('@/pages/panel/trainings/Index.vue')
+            component: () => import('@/pages/trainings/Index.vue')
           },
           {
             path: 'antrenmanlar/:trainId',
             name: 'training',
-            component: () => import('@/pages/panel/trainings/Edit.vue')
+            component: () => import('@/pages/trainings/Edit.vue')
           },
           {
             path: 'antrenmanlar/ekle',
             name: 'add-train',
-            component: () => import('@/pages/panel/trainings/Add.vue'),
+            component: () => import('@/pages/trainings/Add.vue'),
           },
           {
             path: 'profil-ayarlari',
             name: 'profile',
-            component: () => import('@/pages/panel/ProfileSettings.vue')
+            component: () => import('@/pages/user/ProfileSettings.vue')
           },
           {
             path: 'sifre-yenile',
             name: 'reset-password',
-            component: () => import('@/pages/panel/ResetPassword.vue')
+            component: () => import('@/pages/user/ResetPassword.vue')
           },
         ],
       meta: {

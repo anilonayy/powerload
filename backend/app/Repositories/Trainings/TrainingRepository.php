@@ -46,7 +46,9 @@ class TrainingRepository implements TrainingRepositoryInterface
         ])
         ->with(['days' => function($query){
             $query->select(['id', 'name', 'training_id']);
-            $query->with('exercises');
+            $query->with(['exercises' => function($query) {
+                $query->with('exercise:id,name');
+            }]);
         }])
         ->select(['id', 'name', 'user_id'])
         ->firstOrFail();
