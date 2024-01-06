@@ -62,11 +62,7 @@ watch(
 
         if(isAuthenticated.value) {
             if(!isTrainingSelected.value) {
-                const response = await trainingLogService.getLastLog();
-
-                store.dispatch('setTrainingLogId', response?.data?.id);
-                response.data?.training_id && store.dispatch('selectTraining', response.data.training_id);
-                response.data?.training_day_id && store.dispatch('selectTrainingDay', response.data.training_day_id);
+                await trainingLogService.getLastLog();
             }
         }
     })

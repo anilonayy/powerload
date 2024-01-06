@@ -1,3 +1,4 @@
+import { computed } from 'vue';
 import axios from '@/utils/appAxios';
 import store from '@/store';
 
@@ -6,7 +7,21 @@ const getAllLogs = async () =>  await axios.get('/v1/training-logs');
 
 const getLog = async (id) => await axios.get(`/v1/training-logs/${ id }`);
 
-const getLastLog = async () => await axios.get('/v1/training-logs/last');
+const getLastLog = async () => {
+    const nextRequestDate = computed(() => store.getters['_getNextLastLogRequestTime']);
+    const nextTime = new Date(nextRequestDate.value).getTime();
+    const currentTime = new Date().getTime();
+
+    if(nextTime < currentTime) {
+        const response = await axios.get('/v1/training-logs/last');
+
+        await store.dispatch('setTrainingLogId', response?.data?.id);
+        response.data?.training_id && await store.dispatch('selectTraining', response.data.training_id);
+        response.data?.training_day_id && await store.dispatch('selectTrainingDay', response.data.training_day_id);
+    
+        await store.dispatch('setNextLastLogRequestTime', new Date().setMinutes(new Date().getMinutes() + 5));
+    }
+}
 
 const createEmptyLog = async () => {
     const response = await axios.post('/v1/training-logs/last-or-new');

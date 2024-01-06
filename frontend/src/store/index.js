@@ -33,7 +33,8 @@ const state = {
         }]
       }]
     }]
-  }]
+  }],
+  nextLastLogRequestTime: null
 };
 
 const mutations = {
@@ -116,6 +117,9 @@ const mutations = {
   setAsPassed (state, exerciseId) {
     ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
       .exercises.find((exercise) => exercise.id === exerciseId).isPassed = true;
+  },
+  setNextLastLogRequestTime (state, time) {
+    state.nextLastLogRequestTime = time;
   }
 };
 
@@ -179,6 +183,9 @@ const actions = {
   },
   async setAsPassed({ commit }, exerciseId) {
     commit('setAsPassed', exerciseId);
+  },
+  async setNextLastLogRequestTime({ commit }, time) {
+    commit('setNextLastLogRequestTime', time);
   }
 };
 
@@ -202,6 +209,7 @@ const getters = {
   _selectedDay: state => ((state.trainings.find((training) => Boolean(training.isSelected)) ?? {}).days ?? []).find((day) => day.isSelected === true) ?? {},
   _isTrainingSelected: state => state.trainings.some((training) => Boolean(training.isSelected)),
   _isTrainingDaySelected: state => state.trainings.some((training) => training.days.some((day) => day.isSelected === true)),
+  _getNextLastLogRequestTime: state => state.nextLastLogRequestTime,
 };
 
 const plugins = [createPersistedState({
