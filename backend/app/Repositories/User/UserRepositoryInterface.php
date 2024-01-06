@@ -8,8 +8,8 @@ use Illuminate\Support\Collection;
 interface UserRepositoryInterface
 {
     public function all(): Collection;
-    public function find(string $id): User;
+    public function find(int $userId): User;
     public function create(object $payload): User;
-    public function update(int $userId, array $payload): User;
-    public function delete($id): void;
+    public function update(int $userId, object $payload): User;
+    public function delete(int $userId): void;
 }

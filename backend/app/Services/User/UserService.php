@@ -22,10 +22,10 @@ class UserService implements UserServiceInterface
 
 
     /**
-     * @param array $payload
+     * @param object $payload
      * @return array
      */
-    public function update(array $payload): array
+    public function update(object $payload): array
     {
         $user = $this->userRepository->update(auth()->user()->id, $payload);
 
@@ -36,16 +36,18 @@ class UserService implements UserServiceInterface
     }
 
     /**
-     * @param array $payload
+     * @param object $payload
      * @return array
      */
-    public function updatePassword(array $payload): array
+    public function updatePassword(object $payload): array
     {
-        if (!Hash::check($payload['currentPassword'], Auth::user()->password)) {
+        $user = Auth::user();
+
+        if (!Hash::check($payload->currentPassword, $user->password)) {
             throw new HttpClientException(ResponseMessageEnums::WRONG_PASSWORD, Response::HTTP_BAD_REQUEST);
         }
 
-        $this->userRepository->update(Auth::user()->id, ['password' => Hash::make($payload['newPassword'])]);
+        $this->userRepository->update($user->id, (object) ['password' => Hash::make($payload->newPassword)]);
 
         return $this->getSuccessMessage();
     }

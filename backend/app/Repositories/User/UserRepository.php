@@ -12,9 +12,9 @@ class UserRepository implements UserRepositoryInterface
         return User::all();
     }
 
-    public function find(string $id): User
+    public function find(int $userId): User
     {
-        return User::findOrFail($id);
+        return User::findOrFail($userId);
     }
 
     public function create(object $payload): User
@@ -22,18 +22,18 @@ class UserRepository implements UserRepositoryInterface
         return User::create((array) $payload);
     }
 
-    public function update(int $userId, array $data): User
+    public function update(int $userId, object $payload): User
     {
         $user = User::findOrFail($userId);
 
-        $user->update($data);
+        $user->update((array) $payload);
 
         return $user;
     }
 
-    public function delete($id): void
+    public function delete(int $userId): void
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($userId);
 
         $user->delete();
     }

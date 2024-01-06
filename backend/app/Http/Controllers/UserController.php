@@ -6,6 +6,7 @@ use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -21,7 +22,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request): JsonResponse
     {
-        return response()->json($this->userService->update($request->validated()));
+        return response()->json($this->userService->update((object) $request->validated()));
     }
 
     /**
@@ -30,6 +31,6 @@ class UserController extends Controller
      */
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        return response()->json($this->userService->updatePassword($request->validated()));
+        return response()->json($this->userService->updatePassword((object) $request->validated()), Response::HTTP_NO_CONTENT);
     }
 }
