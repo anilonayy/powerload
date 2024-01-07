@@ -41,11 +41,7 @@
             </div>
           </div>
 
-          <ButtonCmp
-            type="submit"
-            class="bg-gray-800 hover:bg-gray-600 active:bg-gray-700 text-white mt-4 text-lg inline-block w-24"
-            >Güncelle
-          </ButtonCmp>
+          <button type="submit" class="dark-gray-btn w-24">Güncelle</button>
         </form>
       </Panel>
     </div>
@@ -62,11 +58,8 @@ import PanelHeader from "@/components/shared/PanelHeader.vue";
 import Input from "@/components/form/Input.vue";
 import Label from "@/components/form/Label.vue";
 import InputError from "@/components/form/InputError.vue";
-import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
 
-const axios = inject('axios');
 const toast = inject('toast');
-
 const store = useStore();
 
 const currentUser = computed(() => store.getters["_currentUser"]);
@@ -109,6 +102,5 @@ const submitUserInfo = async (event) => {
     }
     
   }
-
 };
 </script>

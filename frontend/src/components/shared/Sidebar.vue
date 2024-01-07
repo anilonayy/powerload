@@ -5,9 +5,9 @@
     >
       <SiteLogo />
 
-      <ButtonCmp @click="updateAsideOpen(true)">
+      <div class="btn border border-1" @click="updateAsideOpen(true)">
         <HamburgerIcon />
-      </ButtonCmp>
+      </div>
     </div>
 
     <div

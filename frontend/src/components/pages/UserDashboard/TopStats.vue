@@ -3,7 +3,7 @@
 
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-4">
             <div class="flex items-center justify-start text-center gap-4 bg-purple-200  p-2 rounded-md">
-                <div class="flex items-center justify-center w-10 h-10 aspect-square mb-3 rounded-full bg-purple-50 sm:w-12 sm:h-12">
+                <div class="stats-badge bg-purple-50 ">
                     <DumbellIcon />
                 </div>
 
@@ -16,7 +16,7 @@
             </div>
 
             <div class="flex items-center justify-start text-center gap-4 bg-indigo-200  p-2 rounded-md">
-                <div class="flex items-center justify-center w-10 h-10 aspect-square mb-3 rounded-full bg-indigo-50 sm:w-12 sm:h-12">
+                <div class="stats-badge bg-indigo-50">
                     <PassedTimeIcon />
                 </div>
 
@@ -28,7 +28,7 @@
             </div>
             
             <div class="flex items-center justify-start text-center gap-4 bg-blue-200  p-2 rounded-md">
-                <div class="flex items-center justify-center w-10 h-10 aspect-square mb-3 rounded-full bg-blue-50 sm:w-12 sm:h-12">
+                <div class="stats-badge bg-blue-50">
                     <CountSticksIcon />
                 </div>
 
@@ -40,7 +40,7 @@
             </div>
 
             <div class="flex items-center justify-start text-center gap-4 bg-red-200  p-2 rounded-md">
-                <div class="flex items-center justify-center w-10 h-10 aspect-square mb-3 rounded-full bg-blue-50 sm:w-12 sm:h-12">
+                <div class="stats-badge bg-blue-50">
                     <CountSticksIcon />
                 </div>
 

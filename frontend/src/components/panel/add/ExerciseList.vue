@@ -29,13 +29,10 @@
                   </ag-select>
                 </div>
                 <div
-                  class="flex gap-3 lg:grid lg:grid-flow-col lg:w-3/5 max-w-full"
-                  :class="{
-                    'grid-cols-2': exerciseIndex === 0,
-                    'set-repeats-grid': exerciseIndex > 0
-                  }"
+                  class="max-w-full grid grid-cols-12 gap-3"
+                  
                 >
-                  <div class="sets w-2/5 lg:w-full" :class="{ 'flex-1': exerciseIndex === 0 }">
+                  <div class="col-span-5" :class="{ 'col-span-6': exerciseIndex === 0 }">
                     <Label value="Set" class="text-start w-full text-sm" />
 
                     <div class="custom-number-input">
@@ -62,7 +59,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="repeats w-2/5 lg:w-full" :class="{ 'flex-1': exerciseIndex === 0 }">
+                  <div class="col-span-5 " :class="{ 'col-span-6': exerciseIndex === 0 }">
                     <Label value="Tekrar" class="text-start w-full text-sm" />
                     <div class="custom-number-input h-full">
                       <div class="flex flex-row w-full rounded-lg relative bg-transparent mt-1">
@@ -92,33 +89,19 @@
                   <div
                     v-if="exerciseIndex > 0"
                     @click="$emit('removeExercise',exercise.id)"
-                    class="self-end w-1/5 px-0"
+                    class="self-end col-span-2"
                   >
-                    <ButtonCmp class="bg-red-500 border-white text-white h-9 px-2 lg:px-2" style="padding: 8px !important"
-                      ><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class=""
-                      >
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" /></svg
-                    ></ButtonCmp>
+                  <div class="red-btn h-9 aspect-square px-2 lg:px-2"  style="padding: 8px !important">
+                    <TrashIcon />
+                  </div>
                   </div>
                 </div>
               </div>
-              <ButtonCmp class="bg-indigo-900 text-white w-full" @click="$emit('add-exercise',day)"
-                > Egzersiz Ekle </ButtonCmp
-              >
+
+              <div class="indigo-btn" @click="$emit('add-exercise',day)">
+                Egzersiz Ekle
+              </div>
+              
 </template>
 
 
@@ -130,6 +113,7 @@ import { useStore } from 'vuex';
 import { getIconName } from '@/utils/helpers'
 
 import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
+import TrashIcon from '@/components/icons/TrashIcon.vue'
 import Label from '@/components/form/Label.vue'
 import AgSelect from '@/components/shared/AgSelect.vue';
 

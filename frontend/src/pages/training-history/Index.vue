@@ -41,9 +41,7 @@
                         :to="{ name: 'show-training-history', params: { trainingLogId: log.id } }"
                         class=" text-blue-600 dark:text-blue-500 hover:underline"
                       >
-                        <ButtonCmp class="bg-orange-400 text-white border-orange-400 hover:bg-orange-300"
-                          >Detaylar</ButtonCmp
-                        >
+                      <div class="orange-btn">Detaylar</div>
                       </router-link>
                     </td>
                   </tr>
@@ -66,7 +64,6 @@ import trainingLogService from '@/services/trainingLogService'
 
 import Panel from '@/components/shared/Panel.vue'
 import PanelHeader from '@/components/shared/PanelHeader.vue'
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import RightIcon from '@/components/icons/RightIcon.vue'
 import HistorySkeleton from '@/components/skeletons/HistorySkeleton.vue'
 

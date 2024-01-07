@@ -2,9 +2,9 @@
     <div>
         <div v-if="trainings.length && trainings[0].id !== 0" class="flex flex-col gap-3">
             <div v-for="(train, index) in trainings" :key="index" @click="selectTraining(train)">
-                <ButtonCmp class="w-full py-4 cursor-pointer" :class="{ 'bg-blue-600 text-white': train.isSelected }">
+                <div class="btn w-full" :class="{ 'bg-blue-600 text-white': train.isSelected }">
                     {{ train.name }}
-                </ButtonCmp>
+                </div>
             </div>
         </div>
         <div v-else>
@@ -19,7 +19,6 @@
 <script setup>
 import { defineEmits, computed } from 'vue';
 import { useStore } from 'vuex';
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 
 const trainings = computed(() => useStore().getters['_userTrainings']);
 

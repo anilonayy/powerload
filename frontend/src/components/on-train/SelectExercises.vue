@@ -46,18 +46,16 @@
                                         </div>
 
                                         <div v-if="index !== 0">
-                                            <ButtonCmp class="bg-red-600 text-white" @click="removeSet(data,index)">
+                                            <div class="red-btn" @click="removeSet(data,index)">
                                                 <TrashIcon class="h-3 p-0" />
-                                            </ButtonCmp>
+                                            </div>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
-
-                            <ButtonCmp class="bg-indigo-900 text-white w-full mt-4" @click="addSet(data)">
+                            <div class="indigo-btn" @click="addSet(data)">
                                 Set Ekle
-                            </ButtonCmp>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,7 +67,6 @@
 import { defineProps, defineEmits } from 'vue';
 import { getIconName } from '@/utils/helpers.js';
 
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 import Label from '@/components/form/Label.vue';
 import Input from '@/components/form/Input.vue';
 import CounterInput from '@/components/form/CounterInput.vue';

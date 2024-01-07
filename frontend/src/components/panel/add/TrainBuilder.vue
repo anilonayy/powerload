@@ -23,31 +23,15 @@
             
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div v-for="(day, index) in data.days" class="border-2" :key="index">
+          <div v-for="(day, index) in data.days" class="border-2 rounded-md" :key="index">
             <div class="p-2 inline-block w-full">
               <div class="flex justify-between">
                 <Label :value="'Gün ' + (index + 1)" class="text-start ms-1 mb-2" />
 
                 <div v-if="index > 0" class="cursor-pointer" @click="removeDay(day.id)">
-                  <ButtonCmp class="bg-red-500 border-white text-white h-9 px-2 lg:px-2" style="padding: 8px !important"
-                      ><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class=""
-                      >
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        <line x1="10" x2="10" y1="11" y2="17" />
-                        <line x1="14" x2="14" y1="11" y2="17" /></svg
-                    ></ButtonCmp>
+                  <div class="red-btn" style="padding: 8px !important">
+                    <TrashIcon />
+                  </div>
                 </div>
               </div>
               <Input
@@ -67,14 +51,14 @@
                 <ExerciseList :day="day" @removeExercise="removeExercise" @addExercise="addExercise" @addDay="addDay"  />
             </div>
           </div>
-          <ButtonCmp
-            class="text-gray-700  w-full h-full border-gray-700 border-1 border-dashed"
-            @click="addDay($event)"
-            >Antrenman Günü Ekle</ButtonCmp
-          >
+          <div class="btn border-dashed border border-1 border-gray-700 w-full h-full" @click="addDay($event)">
+            Antrenman Günü Ekle
+          </div>
         </div>
-        <ButtonCmp type="submit" class="text-center mt-6 w-full bg-green-500  text-white" >ANTRENMANI KAYDET!</ButtonCmp
-        >
+        <button type="submit" class="green-btn w-full mt-4">
+          ANTRENMANI KAYDET!
+        </button>
+        
     </form>
   </div>
   
@@ -90,11 +74,11 @@ import router from '@/router';
 import trainingService from '@/services/trainingService';
 import exerciseService from '@/services/exerciseService';
 
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
-import Input from '@/components/form/Input.vue'
-import Label from '@/components/form/Label.vue'
+import Input from '@/components/form/Input.vue';
+import Label from '@/components/form/Label.vue';
 import ExerciseList from '@/components/panel/add/ExerciseList.vue';
-import TrainBuilderSkeleton from '@/components/skeletons/TrainBuilderSkeleton.vue'
+import TrainBuilderSkeleton from '@/components/skeletons/TrainBuilderSkeleton.vue';
+import TrashIcon from '@/components/icons/TrashIcon.vue';
 
 
 const store =  useStore();

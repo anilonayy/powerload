@@ -54,11 +54,7 @@
             </div>
           </div>
 
-          <ButtonCmp
-            type="submit"
-            class="bg-gray-800 hover:bg-gray-600 active:bg-gray-700 text-white mt-4 text-lg w-24"
-            >Güncelle
-          </ButtonCmp>
+          <button class="dark-gray-btn w-24">Güncelle</button>
         </form>
       </Panel>
 </template>
@@ -72,7 +68,6 @@ import PanelHeader from "@/components/shared/PanelHeader.vue";
 import Input from "@/components/form/Input.vue";
 import Label from "@/components/form/Label.vue";
 import InputError from "@/components/form/InputError.vue";
-import ButtonCmp from "@/components/buttons/ButtonCmp.vue";
 
 const toast = inject('toast');
 

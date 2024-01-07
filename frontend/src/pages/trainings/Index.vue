@@ -10,7 +10,7 @@
 
         <div class="relative overflow-x-auto sm:rounded-lg">
           <router-link :to="{ name: 'add-train' }" class="block mb-6">
-            <ButtonCmp class="bg-indigo-800 text-white"> Antrenman Ekle </ButtonCmp>
+            <div class="indigo-btn">Antrenman Ekle</div>
           </router-link>
 
           <div v-if="trainings.length">
@@ -46,21 +46,12 @@
                 <td class="px-6 py-4"> {{ training.training_logs_count }} </td>
                 <td class="px-6 py-4">{{ training.created_at }}</td>
                 <td class="px-6 py-4 flex gap-3">
-                  <router-link
-                    :to="{ name: 'training', params: { trainId: training.id } }"
-                    class=" text-blue-600 dark:text-blue-500 hover:underline"
-                  >
-                    <ButtonCmp class="bg-orange-400 text-white border-orange-400 hover:bg-orange-300"
-                      >Düzenle</ButtonCmp
-                    >
+                  <router-link :to="{ name: 'training', params: { trainId: training.id } }" >
+                    <div class="orange-btn"> Düzenle </div>
                   </router-link>
 
-                  <ButtonCmp
-                    class="bg-red-500 text-white border-red-500 hover:bg-red-400"
-                    @click="removeTraining(training.id)"
-                  >
-                    Sil
-                  </ButtonCmp>
+                  <div class="red-btn" @click="removeTraining(training.id)"> Sil </div>
+              
                 </td>
               </tr>
             </tbody>
@@ -84,7 +75,6 @@ import trainingService from '@/services/trainingService'
 
 import Panel from '@/components/shared/Panel.vue'
 import PanelHeader from '@/components/shared/PanelHeader.vue'
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import TrainingListSkeleton from '@/components/skeletons/TrainingListSkeleton.vue'
 
 

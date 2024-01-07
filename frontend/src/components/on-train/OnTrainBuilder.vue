@@ -41,7 +41,7 @@
         </div>
         <div 
             v-if="pageIndex === maxIndex && maxIndex >= 2"
-            class="flex w-full items-center justify-center text-lg font-semibold absolute bottom-0 bg-green-500 text-white h-14 cursor-pointer"
+            class="flat-btn green-btn w-full absolute bottom-0 h-12 "
             @click="completeTraining()"
         >
             Antrenmanı Tamamla

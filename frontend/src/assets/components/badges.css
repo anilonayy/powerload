@@ -1,0 +1,13 @@
+.stats-badge {
+    @apply
+    flex
+    items-center
+    justify-center
+    w-10
+    h-10
+    aspect-square
+    mb-3
+    rounded-full
+    sm:w-12
+    sm:h-12
+}
