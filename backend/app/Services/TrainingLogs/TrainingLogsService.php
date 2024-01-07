@@ -7,16 +7,18 @@ use App\Http\Resources\TrainingLogs\TrainingLogs as TrainingLogsResource;
 use App\Http\Resources\TrainingLogs\TrainingLogWithDetail as TrainingLogsWithDetailResource;
 use App\Models\TrainingLogs;
 use App\Enums\ResponseMessageEnums;
+use App\Http\Requests\Request;
 use App\Models\TrainingDay;
 use App\Models\TrainingExerciseListLogs;
 use App\Repositories\TrainingLogs\TrainingLogsRepositoryInterface;
+use App\Traits\Helpers\DateHelper;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TrainingLogsService implements TrainingLogsServiceInterface
 {
-    use ResponseMessage;
+    use ResponseMessage,DateHelper;
 
     protected TrainingLogsRepositoryInterface $trainingLogsRepository;
     public function __construct(TrainingLogsRepositoryInterface $trainingLogsRepository)
@@ -46,9 +48,9 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         return $this->getSuccessMessage(TrainingLogsWithDetailResource::make($trainingLog));
     }
 
-    public function index(): array
+    public function index(array $payload): array
     {
-        return $this->getSuccessMessage(TrainingLogsResource::collection($this->trainingLogsRepository->all()));
+        return $this->getSuccessMessage(TrainingLogsResource::collection($this->trainingLogsRepository->all($payload)));
     }
 
     public function store(): array
@@ -136,6 +138,15 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         ]);
 
         return $this->getSuccessMessage($trainingLog);
+    }
+
+    public function stats(): array
+    {
+        return $this->getSuccessMessage((object) [
+            'training_count' => $this->trainingLogsRepository->getTrainingCounts(),
+            'average_training_time' => $this->trainingLogsRepository->getTrainingTimeAverage(),
+            'average_exercise_count' => (double)number_format($this->trainingLogsRepository->getTrainingExerciseAverage(), 1),
+        ]);
     }
 
     private function checkIsUsersLog (int $logOwnerId): void

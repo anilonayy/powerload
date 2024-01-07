@@ -3,7 +3,7 @@ import axios from '@/utils/appAxios';
 import store from '@/store';
 
 
-const getAllLogs = async () =>  await axios.get('/v1/training-logs');
+const getAllLogs = async (searchParams = new URLSearchParams()) =>  await axios.get(`/v1/training-logs${ searchParams.size ? `?${ searchParams.toString() }` : '' }`);
 
 const getLog = async (id) => await axios.get(`/v1/training-logs/${ id }`);
 
@@ -23,6 +23,16 @@ const getLastLog = async () => {
     }
 }
 
+const getForceLastLog = async () => {
+    const response = await axios.get('/v1/training-logs/last');
+
+    await store.dispatch('setTrainingLogId', response?.data?.id);
+    response.data?.training_id && await store.dispatch('selectTraining', response.data.training_id);
+    response.data?.training_day_id && await store.dispatch('selectTrainingDay', response.data.training_day_id);
+
+    return response;
+}
+
 const createEmptyLog = async () => {
     const response = await axios.post('/v1/training-logs/last-or-new');
 
@@ -34,7 +44,6 @@ const createEmptyLog = async () => {
 const updateTrainingLog = async (id, data) => await axios.put(`/v1/training-logs/${ id }`, data);
 
 const selectTraining = async (logId, training_id) => {
-    console.log('logId :>> ', logId);
     await updateTrainingLog(logId, {
         training_id
     });
@@ -43,8 +52,6 @@ const selectTraining = async (logId, training_id) => {
 }
 
 const selectTrainingDay  = async(id, training_day_id) => {
-    console.log('id :>> ', id);
-
     const response = await updateTrainingLog(id, {
         training_day_id,
         is_new: true
@@ -101,5 +108,6 @@ export default {
     saveExercise,
     completeTraining,
     giveUp,
-    getTrainingResult
+    getTrainingResult,
+    getForceLastLog
 }

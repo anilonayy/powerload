@@ -32,7 +32,8 @@ class TrainingLogs extends JsonResource
                 'name' => $this->trainingDay->name
             ],
             'duration' => $this->calculateDurationForHumans($this->created_at, $this->training_end_time),
-            'training_date' => Carbon::parse($this->created_at)->format('d F Y')
+            'training_date' => Carbon::parse($this->created_at)->format('d F Y'),
+            'completed_date' => $this->calculateDurationForHumans($this->training_end_time, time(), 1),
         ];
     }
 }

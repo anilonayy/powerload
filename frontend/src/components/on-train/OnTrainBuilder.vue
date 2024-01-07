@@ -160,7 +160,7 @@ onMounted(async () => {
         });
 
         // Eğer antrenman içeriği var ise güncelle
-        const lastTraining = await trainingLogService.getLastLog();
+        const lastTraining = await trainingLogService.getForceLastLog();
 
         if(!lastTraining.data.training_id) {
             pageIndex.value = 0;

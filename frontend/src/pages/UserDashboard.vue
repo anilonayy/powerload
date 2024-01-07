@@ -5,7 +5,7 @@
                 <template v-slot:title> <div class="text-center">Genel Bakış</div> </template>
             </PanelHeader>
 
-            <div id="stats" class="flex flex-col gap-8">
+            <div id="stats" class="flex flex-col gap-4">
                 <TopStats />
                 <MiddleStats />
                 <BottomStats />

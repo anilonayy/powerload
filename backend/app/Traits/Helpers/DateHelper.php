@@ -16,8 +16,8 @@ Trait DateHelper
         return $duration->format($format);
     }
 
-    public function calculateDurationForHumans(DateTime $start, DateTime $end): string
+    public function calculateDurationForHumans(mixed $start, mixed $end, int $parts = 2): string
     {
-        return Carbon::parse($end)->shortAbsoluteDiffForHumans($start, 2);
+        return Carbon::parse($end)->shortAbsoluteDiffForHumans(Carbon::parse($start), $parts);
     }
 }

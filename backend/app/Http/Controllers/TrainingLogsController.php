@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TrainingLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
+use App\Http\Requests\Shared\AllWithFiltersRequest;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Services\TrainingLogs\TrainingLogsServiceInterface;
 use App\Traits\ResponseMessage;
@@ -38,9 +39,9 @@ class TrainingLogsController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(AllWithFiltersRequest $request): JsonResponse
     {
-        return response()->json($this->trainingLogsService->index());
+        return response()->json($this->trainingLogsService->index($request->validated()));
     }
 
     /**
@@ -84,6 +85,11 @@ class TrainingLogsController extends Controller
     public function last(): JsonResponse
     {
         return response()->json($this->trainingLogsService->last());
+    }
+
+    public function stats(): JsonResponse
+    {
+        return response()->json($this->trainingLogsService->stats());
     }
 
     /**

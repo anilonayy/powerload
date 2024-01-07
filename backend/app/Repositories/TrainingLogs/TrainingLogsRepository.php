@@ -4,12 +4,19 @@ namespace App\Repositories\TrainingLogs;
 
 use App\Enums\TrainingLogEnums;
 use App\Models\TrainingLogs;
+use App\Traits\Helpers\DateHelper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TrainingLogsRepository implements TrainingLogsRepositoryInterface
 {
-    public function all(): Collection
+    use DateHelper;
+    public function all(array $payload): Collection
     {
+        $page = $payload['page'] ?? 0;
+        $take = $payload['take'] ?? 10;
+        $descBy = $payload['descBy'] ?? 'created_at';
+
         return TrainingLogs::where([
             ['user_id', auth()->user()->id],
             ['status', TrainingLogEnums::TRAINING_COMPLETED],
@@ -24,6 +31,9 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
                 ->select(['id', 'name']);
             }
         ])
+        ->skip($page * $take)
+        ->take($take)
+        ->orderByDesc($descBy)
         ->get();
     }
 
@@ -113,5 +123,44 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
     {
         $trainingLogs = TrainingLogs::findOrFail($id);
         $trainingLogs->delete();
+    }
+
+    public function getTrainingCounts(): int
+    {
+        return TrainingLogs::where([
+            ['status', TrainingLogEnums::TRAINING_COMPLETED],
+            ['user_id', auth()->user()->id]
+        ])
+        ->count();
+    }
+
+    public function getTrainingExerciseAverage(): float
+    {
+        $userId = auth()->user()->id;
+
+        return  TrainingLogs::selectRaw('AVG(subquery.exerciseCount) as averageExerciseCount')
+        ->from(DB::raw("(SELECT tell.training_exercise_log_id, COUNT(*) as exerciseCount
+            FROM training_exercise_list_logs tell
+            LEFT JOIN training_logs  tl ON tl.id = tell.training_exercise_log_id
+            WHERE is_passed = 0 AND tl.user_id = {$userId}
+            GROUP BY tell.training_exercise_log_id) as subquery"))
+        ->first()->averageExerciseCount;
+    }
+
+    public function getTrainingTimeAverage(): string
+    {
+        $userId = auth()->user()->id;
+
+        $trainingTime = TrainingLogs::where([
+            ['status', TrainingLogEnums::TRAINING_COMPLETED],
+            ['user_id', $userId]
+        ])
+        ->select(DB::raw('avg(UNIX_TIMESTAMP(training_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
+        ->first();
+
+        return !is_null($trainingTime->averageTime)
+            ? $this->calculateDurationForHumans(strtotime(now()), (strtotime(now()) + $trainingTime->averageTime))
+            : '0';
+
     }
 }
