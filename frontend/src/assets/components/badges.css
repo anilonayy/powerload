@@ -1,4 +1,4 @@
-.stats-badge {
+.stats-badge-icon {
     @apply
     flex
     items-center
@@ -10,4 +10,12 @@
     rounded-full
     sm:w-12
     sm:h-12
+}
+
+.stats-text {
+    @apply
+    text-lg
+    md:text-xl
+    xl:text-2xl
+    font-semibold
 }

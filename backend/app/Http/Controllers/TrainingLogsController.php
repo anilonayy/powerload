@@ -92,6 +92,11 @@ class TrainingLogsController extends Controller
         return response()->json($this->trainingLogsService->stats());
     }
 
+    public function personalRecords(): JsonResponse
+    {
+        return response()->json($this->trainingLogsService->personalRecords());
+    }
+
     /**
      * @param TrainingLogs $trainingLog
      * @return JsonResponse

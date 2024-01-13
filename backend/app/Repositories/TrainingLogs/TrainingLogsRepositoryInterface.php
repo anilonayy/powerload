@@ -17,5 +17,6 @@ interface TrainingLogsRepositoryInterface
     public function delete(int $id): void;
     public function getTrainingCounts(): int;
     public function getTrainingTimeAverage(): string;
-    public function getTrainingExerciseAverage(): float;
+    public function getTrainingExerciseAverage(): float|null;
+    public function personalRecords(): Collection;
 }

@@ -6,6 +6,13 @@ const getStats = async () => {
     return response;
 };
 
+const getPersonalRecords = async () => {
+    const response = await axios.get('v1/training-logs/personal-records');
+
+    return response;
+}
+
 export default {
-    getStats
+    getStats,
+    getPersonalRecords
 }

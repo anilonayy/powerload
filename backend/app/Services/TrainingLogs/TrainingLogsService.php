@@ -149,6 +149,11 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         ]);
     }
 
+    public function personalRecords(): array
+    {
+        return $this->getSuccessMessage($this->trainingLogsRepository->personalRecords());
+    }
+
     private function checkIsUsersLog (int $logOwnerId): void
     {
         if(auth()->user()->id !== $logOwnerId) {

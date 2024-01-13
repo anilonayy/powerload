@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-3">
         <div v-for="(day, index) in selectedTraining?.days" :key="index" @click="selectTrainingDay(day)">
-            <div class="btn w-full" :class="{ 'bg-blue-600 text-white': day.isSelected }">
+            <div class="btn w-full border border-1" :class="{ 'bg-blue-600 text-white': day.isSelected }">
                 {{ day.name }}
             </div>
         </div>

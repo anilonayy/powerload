@@ -37,7 +37,7 @@
               <Input
                 type="text"
                 v-model="day.name"
-                class="w-full border-0 border-b-2 max-w-full"
+                class="w-full border-1 border-b-2 max-w-full"
                 placeholder="Göğüs Günü, Sırt Günü, İtiş Günü..."
                 :class="{ 'validation-error' : day.hasError }"
               />

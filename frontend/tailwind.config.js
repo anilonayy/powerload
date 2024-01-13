@@ -4,9 +4,5 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
-  darkMode: 'false', // Veya 'media' veya false olarak ayarlayabilirsiniz
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+  darkMode: ['class', '[data-mode="dark"]'],  
 }

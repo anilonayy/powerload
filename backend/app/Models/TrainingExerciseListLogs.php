@@ -17,6 +17,11 @@ class TrainingExerciseListLogs extends Model
         return $this->belongsTo(Exercise::class);
     }
 
+    public function training_log(): BelongsTo
+    {
+        return $this->belongsTo(TrainingLogs::class);
+    }
+
     public function exercise_logs(): HasMany
     {
         return $this->hasMany(TrainingExerciseLogs::class, 'training_exercise_list_log_id', 'id');

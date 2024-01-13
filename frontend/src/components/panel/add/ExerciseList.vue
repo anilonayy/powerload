@@ -2,9 +2,9 @@
      <div
                 v-for="(exercise, exerciseIndex) in day.exercises"
                 :key="exercise.id"
-                class="flex flex-col md:flex-row gap-3 items-center mb-4 border-2 p-3 rounded-md"
+                class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center mb-4 border-2 p-3 rounded-md"
               >
-                <div class="exercise w-full lg:w-3/5">
+                <div class="exercise w-full col-span-1">
                   <Label
                     :value="exerciseIndex + 1 + '. Egzersiz'"
                     class="text-start w-full text-sm mb-1"
@@ -98,7 +98,7 @@
                 </div>
               </div>
 
-              <div class="indigo-btn" @click="$emit('add-exercise',day)">
+              <div class="indigo-btn col-span-1" @click="$emit('add-exercise',day)">
                 Egzersiz Ekle
               </div>
               
@@ -112,7 +112,6 @@ import {  computed, defineEmits } from 'vue';
 import { useStore } from 'vuex';
 import { getIconName } from '@/utils/helpers'
 
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue'
 import TrashIcon from '@/components/icons/TrashIcon.vue'
 import Label from '@/components/form/Label.vue'
 import AgSelect from '@/components/shared/AgSelect.vue';

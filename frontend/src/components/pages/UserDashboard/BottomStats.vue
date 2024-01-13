@@ -28,28 +28,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="p-4 border-b border-blue-gray-50">
-                    bench
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                    <div class="flex items-center gap-3">
-                        asd
-                    </div>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                    asfas
-                    </td>
-                
-                    <td class="p-4 border-b border-blue-gray-50">
-                        <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
-                        23/04/18
-                        </p>
-                    </td>
-                    <td class="p-4 border-b border-blue-gray-50">
-                    <EyeIcon />
-                    </td>
-                </tr>
+                    <tr v-for="(data, index) in personalRecords" :key="index">
+                        <td class="p-4 border-b border-blue-gray-50">
+                            {{ data.exercise_name }}
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            {{ data.category_name }}
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            {{ data.max }}
+                        </td>
+                    
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                            {{ data.training_date }}
+                            </p>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <router-link :to="{ name: 'show-training-history', params: { trainingLogId: data.training_id } }">
+                                <EyeIcon />
+                            </router-link>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <TableSkeleton v-else />
@@ -59,13 +59,20 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
+import dashboardService from '@/services/dashboardService';
+
 import TableSkeleton from '@/components/skeletons/UserDashboard/TableSkeleton.vue'
 import EyeIcon from '@/components/icons/EyeIcon.vue'
-import { onMounted, ref } from 'vue'
 
 const loaded = ref(false);
+const personalRecords = ref([]);
 
-onMounted(() => {
-    console.log('hi');
+onMounted(async () => {
+    const response = await dashboardService.getPersonalRecords();
+    
+    personalRecords.value = response.data;
+
+    loaded.value = true;
 })
 </script>

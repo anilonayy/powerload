@@ -15,5 +15,6 @@ interface TrainingLogsServiceInterface
     public function complete(TrainingLogs $trainingLog): array;
     public function last(): array;
     public function stats(): array;
+    public function personalRecords(): array;
     public function giveUp(TrainingLogs $trainingLog): array;
 }

@@ -2,50 +2,50 @@
     <div class="">
 
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-            <div class="flex items-center justify-start text-center gap-4 bg-purple-200  p-2 rounded-md">
-                <div class="stats-badge bg-purple-50 ">
+            <div class="flex items-center justify-start text-center gap-4 p-2 rounded-md bg-purple-200  ">
+                <div class="stats-badge-icon bg-purple-50 ">
                     <DumbellIcon />
                 </div>
 
                 <div class="text-start" v-if="loaded" >
-                    <h6 class="text-2xl font-semibold text-deep-purple-accent-400"> {{ data?.training_count ?? '' }} </h6>
+                    <h6 class="stats-text  font-semibold text-deep-purple-accent-400"> {{ data?.training_count ?? '' }} </h6>
                     <p>Antrenman</p>
                 </div>
 
                 <TopStatsSkeleton v-else />
             </div>
 
-            <div class="flex items-center justify-start text-center gap-4 bg-indigo-200  p-2 rounded-md">
-                <div class="stats-badge bg-indigo-50">
+            <div class="flex items-center justify-start text-center gap-4 p-2 rounded-md bg-indigo-200">
+                <div class="stats-badge-icon bg-indigo-50">
                     <PassedTimeIcon />
                 </div>
 
                 <div class="text-start" v-if="loaded">
-                    <h6 class="text-2xl font-semibold text-deep-purple-accent-400"> {{ data?.average_training_time ?? '' }} </h6>
+                    <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_training_time ?? '' }} </h6>
                     <p>Ortalama Süre</p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
             
-            <div class="flex items-center justify-start text-center gap-4 bg-blue-200  p-2 rounded-md">
-                <div class="stats-badge bg-blue-50">
+            <div class="flex items-center justify-start text-center gap-4 p-2 rounded-md bg-blue-200">
+                <div class="stats-badge-icon bg-blue-50">
                     <CountSticksIcon />
                 </div>
 
                 <div class="text-start" v-if="loaded">
-                    <h6 class="text-2xl font-semibold text-deep-purple-accent-400"> {{ data?.average_exercise_count ?? '' }} </h6>
+                    <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_exercise_count ?? '' }} </h6>
                     <p>Ortalama Hareket</p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
 
-            <div class="flex items-center justify-start text-center gap-4 bg-red-200  p-2 rounded-md">
-                <div class="stats-badge bg-blue-50">
+            <div class="flex items-center justify-start text-center gap-4 p-2 rounded-md bg-red-200">
+                <div class="stats-badge-icon bg-blue-50">
                     <CountSticksIcon />
                 </div>
 
                 <div class="text-start" v-if="loaded">
-                    <h6 class="text-2xl font-semibold text-deep-purple-accent-400">?</h6>
+                    <h6 class="stats-text font-semibold text-deep-purple-accent-400">?</h6>
                     <p>?</p>
                 </div>
                 <TopStatsSkeleton v-else />

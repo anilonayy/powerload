@@ -80,8 +80,11 @@ const mutations = {
   },
 
   selectTraining (state, training_id) {
+    console.log('training_id :>> ', training_id);
+    console.log('state.trainings :>> ', state.trainings);
+    console.log('state.trainings.find((training) => training.id === training_id) :>> ', state.trainings.find((training) => training.id === training_id));
     (state.trainings.find((training) => training.isSelected) ?? {}).isSelected = false;
-    state.trainings.find((training) => training.id === training_id).isSelected = true;
+    (state.trainings.find((training) => training.id === training_id) ?? {}).isSelected = true;
   },
 
   // data.day_id

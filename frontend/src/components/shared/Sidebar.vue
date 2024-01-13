@@ -69,7 +69,7 @@
           </span>
         </div>
       </div>
-
+  
       <div
         class="bg-white w-full bottom-4 mt-auto"
         style="width: 90%"
@@ -146,7 +146,6 @@
 <script setup>
 import SiteLogo from '@/components/shared/SiteLogo.vue';
 import BadgeLink from '@/components/shared/BadgeLink.vue';
-import ButtonCmp from '@/components/buttons/ButtonCmp.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 import HomeIcon from '@/components/icons/HomeIcon.vue';
 import HamburgerIcon from '@/components/icons/HamburgerIcon.vue';
@@ -198,6 +197,18 @@ const updateAsideOpen = (value) => {
 
 const logout = async () => {
   await authService.logout();
+}
+
+
+var currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+function toggleTheme() {
+  var newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+  document.documentElement.setAttribute('data-theme', newTheme);
+  document.documentElement.setAttribute('class', newTheme);
+
+  currentTheme = newTheme;
 }
 </script>
 

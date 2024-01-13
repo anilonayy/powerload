@@ -3,6 +3,8 @@
 namespace App\Repositories\TrainingLogs;
 
 use App\Enums\TrainingLogEnums;
+use App\Models\TrainingExerciseListLogs;
+use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
 use App\Traits\Helpers\DateHelper;
 use Illuminate\Support\Collection;
@@ -21,20 +23,20 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
             ['user_id', auth()->user()->id],
             ['status', TrainingLogEnums::TRAINING_COMPLETED],
         ])
-        ->with([
-            'trainingDay' => function($query) {
-                $query->withTrashed();
-                $query->select(['id','name']);
-            },
-            'training' => function($query) {
-                $query->withTrashed()
-                ->select(['id', 'name']);
-            }
-        ])
-        ->skip($page * $take)
-        ->take($take)
-        ->orderByDesc($descBy)
-        ->get();
+            ->with([
+                'trainingDay' => function ($query) {
+                    $query->withTrashed();
+                    $query->select(['id', 'name']);
+                },
+                'training' => function ($query) {
+                    $query->withTrashed()
+                        ->select(['id', 'name']);
+                }
+            ])
+            ->skip($page * $take)
+            ->take($take)
+            ->orderByDesc($descBy)
+            ->get();
     }
 
     public function find(int $id): TrainingLogs
@@ -49,22 +51,24 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
             ['user_id', auth()->user()->id],
             ['status', TrainingLogEnums::TRAINING_COMPLETED],
         ])
-        ->with([
-            'trainingDay' => function($query) {
-                $query->withTrashed();
-                $query->without('exercises');
-                $query->select('id', 'name');
-            },
-            'training' => fn ($query) => $query->withTrashed(),
-            'trainingList' =>  function($query) {
-                $query->select(['id', 'training_exercise_log_id', 'exercise_id', 'is_passed']);
-                $query->with(['exercise' => function($query) {
-                        $query->select(['id', 'name','exercise_categories_id']);
-                        $query->with(['category:id,name']);
-                    },
-                    'exercise_logs:id,weight,reps,training_exercise_list_log_id']);
-            }
-        ])->first();
+            ->with([
+                'trainingDay' => function ($query) {
+                    $query->withTrashed();
+                    $query->without('exercises');
+                    $query->select('id', 'name');
+                },
+                'training' => fn ($query) => $query->withTrashed(),
+                'trainingList' =>  function ($query) {
+                    $query->select(['id', 'training_exercise_log_id', 'exercise_id', 'is_passed']);
+                    $query->with([
+                        'exercise' => function ($query) {
+                            $query->select(['id', 'name', 'exercise_categories_id']);
+                            $query->with(['category:id,name']);
+                        },
+                        'exercise_logs:id,weight,reps,training_exercise_list_log_id'
+                    ]);
+                }
+            ])->first();
     }
 
     public function dailyResults(int $id): TrainingLogs
@@ -72,28 +76,30 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
         return TrainingLogs::where([
             ['id', $id]
         ])
-        ->with([
-            'trainingDay' => function($query) {
-                $query->without('exercises');
-                $query->select('id', 'name');
-            },
-            'training' => fn ($query) => $query->withTrashed(),
-            'trainingList' =>  function($query) {
-                $query->select(['id', 'training_exercise_log_id', 'exercise_id', 'is_passed']);
-                $query->with(['exercise' => function($query) {
-                        $query->select(['id', 'name','exercise_categories_id']);
-                        $query->with(['category' => function($query) {
-                            $query->select(['id', 'name']);
-                        }]);
-                    },
-                    'exercise_logs' => function($query) {
-                        $query->select(['id', 'training_exercise_list_log_id', 'weight', 'reps']);
-                    }]);
-            }
-        ])->first();
+            ->with([
+                'trainingDay' => function ($query) {
+                    $query->without('exercises');
+                    $query->select('id', 'name');
+                },
+                'training' => fn ($query) => $query->withTrashed(),
+                'trainingList' =>  function ($query) {
+                    $query->select(['id', 'training_exercise_log_id', 'exercise_id', 'is_passed']);
+                    $query->with([
+                        'exercise' => function ($query) {
+                            $query->select(['id', 'name', 'exercise_categories_id']);
+                            $query->with(['category' => function ($query) {
+                                $query->select(['id', 'name']);
+                            }]);
+                        },
+                        'exercise_logs' => function ($query) {
+                            $query->select(['id', 'training_exercise_list_log_id', 'weight', 'reps']);
+                        }
+                    ]);
+                }
+            ])->first();
     }
 
-    public function create(array $data) : TrainingLogs
+    public function create(array $data): TrainingLogs
     {
         return TrainingLogs::create($data);
     }
@@ -131,20 +137,20 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
             ['status', TrainingLogEnums::TRAINING_COMPLETED],
             ['user_id', auth()->user()->id]
         ])
-        ->count();
+            ->count();
     }
 
-    public function getTrainingExerciseAverage(): float
+    public function getTrainingExerciseAverage(): float|null
     {
         $userId = auth()->user()->id;
 
-        return  TrainingLogs::selectRaw('AVG(subquery.exerciseCount) as averageExerciseCount')
-        ->from(DB::raw("(SELECT tell.training_exercise_log_id, COUNT(*) as exerciseCount
+        return TrainingLogs::selectRaw('AVG(subquery.exerciseCount) as averageExerciseCount')
+            ->from(DB::raw("(SELECT tell.training_exercise_log_id, COUNT(*) as exerciseCount
             FROM training_exercise_list_logs tell
             LEFT JOIN training_logs  tl ON tl.id = tell.training_exercise_log_id
             WHERE is_passed = 0 AND tl.user_id = {$userId}
             GROUP BY tell.training_exercise_log_id) as subquery"))
-        ->first()->averageExerciseCount;
+            ->first()->averageExerciseCount;
     }
 
     public function getTrainingTimeAverage(): string
@@ -155,12 +161,28 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
             ['status', TrainingLogEnums::TRAINING_COMPLETED],
             ['user_id', $userId]
         ])
-        ->select(DB::raw('avg(UNIX_TIMESTAMP(training_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
-        ->first();
+            ->select(DB::raw('avg(UNIX_TIMESTAMP(training_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
+            ->first();
 
         return !is_null($trainingTime->averageTime)
             ? $this->calculateDurationForHumans(strtotime(now()), (strtotime(now()) + $trainingTime->averageTime))
             : '0';
+    }
 
+    public function personalRecords(): Collection
+    {
+        $userId = auth()->user()->id;
+
+        return collect(DB::select("SELECT subquery.exercise_name,subquery.category_name,subquery.max,tl.id as training_id,tl.training_end_time as training_date FROM
+            (SELECT GROUP_CONCAT(tel.training_exercise_list_log_id) as logs_id,e.name as exercise_name,ec.name as category_name ,max(tel.weight) as max
+            FROM training_exercise_logs tel
+            LEFT JOIN training_exercise_list_logs tell ON tell.id = tel.training_exercise_list_log_id
+            LEFT JOIN exercises e ON e.id = tell.exercise_id
+            LEFT JOIN exercise_categories ec ON ec.id = e.exercise_categories_id
+            GROUP BY tell.exercise_id) as subquery
+        LEFT JOIN (select id,training_exercise_log_id from training_exercise_list_logs) tell ON tell.id IN(subquery.logs_id)
+        LEFT JOIN (select id,user_id,training_end_time from training_logs) tl ON tl.id = tell.training_exercise_log_id
+        LEFT JOIN (select id from users) u ON tl.user_id = u.id
+        WHERE tl.user_id = {$userId}"));
     }
 }

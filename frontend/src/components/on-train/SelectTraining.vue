@@ -2,7 +2,7 @@
     <div>
         <div v-if="trainings.length && trainings[0].id !== 0" class="flex flex-col gap-3">
             <div v-for="(train, index) in trainings" :key="index" @click="selectTraining(train)">
-                <div class="btn w-full" :class="{ 'bg-blue-600 text-white': train.isSelected }">
+                <div class="btn w-full border border-1" :class="{ 'bg-blue-600 text-white': train.isSelected }">
                     {{ train.name }}
                 </div>
             </div>

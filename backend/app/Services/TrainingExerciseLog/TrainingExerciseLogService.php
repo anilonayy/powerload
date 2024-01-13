@@ -48,7 +48,6 @@ class TrainingExerciseLogService implements TrainingExerciseLogServiceInterface
 
             $responseLogs[] = TrainingExerciseLogs::create([
                 'training_exercise_list_log_id' => $training_exercise_log->id,
-                'exercise_id' => $exercise_id,
                 'weight' => $set['weight'],
                 'reps' => $set['reps'],
                 'started_at' => \Carbon\Carbon::createFromTimestampMs($set['createTime'])->format('Y-m-d H:i:s'),

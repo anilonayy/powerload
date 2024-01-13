@@ -8,37 +8,40 @@
             </div>
         </div>
 
-        <div class="space-y-4" v-if="loaded">
-            <div v-for="(data, index) in list" :key="index" >
-                <div class="p-4 pb-1 bg-white border rounded-xl text-gray-800  text-xs">
-                    <div class="flex justify-between">
-                        <div class="text-gray-400 text-xs">Süre: {{ data?.duration }}</div>
-                        <div class="text-gray-400 text-xs flex gap-1 items-start"><PassedTimeIcon class="w-3 relative -top-1"/> {{ data?.completed_date }} </div>
-                    </div>
+        <div v-if="loaded">
+            <div v-if="list?.length" class="space-y-4">
+                <div v-for="(data, index) in list" :key="index">
+                    <div class="p-4 pb-1 bg-white border rounded-xl text-gray-800  text-xs">
+                        <div class="flex justify-between">
+                            <div class="text-gray-400 text-xs">Süre: {{ data?.duration }}</div>
+                            <div class="text-gray-400 text-xs flex gap-1 items-start"><PassedTimeIcon class="w-3 relative -top-1"/> {{ data?.completed_date }} </div>
+                        </div>
 
-                    
-                        <div v-if="data.status === 0" class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
-                            Devam Ediyor
-                        </div>
-                        <div v-else-if="data.status === 1" class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
-                            Tamamlandı
-                        </div>
-                        <div v-else class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
-                            İptal Edildi
-                        </div>
-                        <div class="flex gap-2">
-                            <router-link :to="{ name: 'show-training-history', params: { trainingLogId: data.id } }" class="font-semibold hover:text-yellow-800 hover:underline cursor-pointer flex gap-1 items-center">
-                                {{ data?.training?.name }}
-                                <RightIcon class="w-2.5" />
-                                {{ data?.training_day?.name }} 
-                            </router-link>
-                        </div>
+                        
+                            <div v-if="data.status === 0" class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
+                                Devam Ediyor
+                            </div>
+                            <div v-else-if="data.status === 1" class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
+                                Tamamlandı
+                            </div>
+                            <div v-else class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
+                                İptal Edildi
+                            </div>
+                            <div class="flex gap-2">
+                                <router-link :to="{ name: 'show-training-history', params: { trainingLogId: data.id } }" class="font-semibold hover:text-yellow-800 hover:underline cursor-pointer flex gap-1 items-center">
+                                    {{ data?.training?.name }}
+                                    <RightIcon class="w-2.5" />
+                                    {{ data?.training_day?.name }} 
+                                </router-link>
+                            </div>
+                    </div>
                 </div>
+            </div>
+            <div v-else class="text-sm text-gray-600 italic mt-4">
+                Henüz antrenman geçmişiniz bulunmamaktadır.
             </div>
         </div>
         <LastTrainingsSkeleton v-else />
-
-        
     </Panel>
 </template>
 
@@ -46,7 +49,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import trainingLogService from '@/services/trainingLogService';
-
 
 import Panel from '@/components/shared/Panel.vue';
 import LastTrainingsSkeleton from '@/components/skeletons/UserDashboard/LastTrainingsSkeleton.vue';

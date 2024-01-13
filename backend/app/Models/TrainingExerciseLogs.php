@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TrainingExerciseLogs extends Model
 {
-    protected $hidden = ['updated_at'];
-    protected $fillable = ['training_exercise_list_log_id', 'weight', 'reps', 'started_at'];
+    protected $fillable = ['training_log_id', 'training_exercise_list_log_id', 'weight', 'reps', 'started_at','exercise_id'];
 
     protected $casts = [
         'created_at' => 'datetime:m F Y H:i',
