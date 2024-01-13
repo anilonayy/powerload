@@ -77,7 +77,5 @@ onMounted(async () => {
     loaded.value = true;
 
     data.value = response.data;
-
-    console.log('data.value :>> ', data.value);
 })
 </script>
