@@ -41,7 +41,7 @@
                     
                         <td class="p-4 border-b border-blue-gray-50">
                             <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
-                            {{ data.training_date }}
+                            {{ data.training_end_time }}
                             </p>
                         </td>
                         <td class="p-4 border-b border-blue-gray-50">

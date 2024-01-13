@@ -176,17 +176,64 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
     {
         $userId = auth()->user()->id;
 
-        return collect(DB::select("SELECT subquery.exercise_name,subquery.category_name,subquery.max,tl.id as training_id,tl.training_end_time as training_date FROM
-            (SELECT GROUP_CONCAT(tel.training_exercise_list_log_id) as logs_id,e.name as exercise_name,ec.name as category_name ,max(tel.weight) as max
-            FROM training_exercise_logs tel
-            LEFT JOIN training_exercise_list_logs tell ON tell.id = tel.training_exercise_list_log_id
-            LEFT JOIN exercises e ON e.id = tell.exercise_id
-            LEFT JOIN exercise_categories ec ON ec.id = e.exercise_categories_id
-            GROUP BY tell.exercise_id) as subquery
-        LEFT JOIN (select id,training_exercise_log_id from training_exercise_list_logs) tell ON tell.id IN(subquery.logs_id)
-        LEFT JOIN (select id,user_id,training_end_time from training_logs) tl ON tl.id = tell.training_exercise_log_id
-        LEFT JOIN (select id from users) u ON tl.user_id = u.id
-        WHERE tl.user_id = {$userId}"));
+        return collect(DB::select("SELECT
+            training_id,
+            training_end_time,
+            training_exercise_list_log_id,
+            exercise_id,
+            exercise_name,
+            category_name,
+            max,
+            created_at,
+            email,
+            rowNum
+        FROM (
+            SELECT
+                tl.id as training_id,
+                tl.training_end_time as training_end_time,
+                training_exercise_list_log_id,
+                exercise_id,
+                exercise_name,
+                category_name,
+                max,
+                created_at,
+                email,
+                ROW_NUMBER() OVER (PARTITION BY exercise_id ORDER BY max DESC) AS rowNum
+            FROM (
+                SELECT
+                    tel.training_exercise_list_log_id,
+                    e.id AS exercise_id,
+                    e.name AS exercise_name,
+                    ec.name AS category_name,
+                    MAX(tel.weight) AS max
+                FROM training_exercise_logs tel
+                LEFT JOIN training_exercise_list_logs tell ON tell.id = tel.training_exercise_list_log_id
+                LEFT JOIN exercises e ON e.id = tell.exercise_id
+                LEFT JOIN exercise_categories ec ON ec.id = e.exercise_categories_id
+                GROUP BY tel.training_exercise_list_log_id
+            ) AS subquery
+            LEFT JOIN (
+                SELECT id, training_exercise_log_id, created_at, is_passed
+                FROM training_exercise_list_logs
+            ) tell ON tell.id = subquery.training_exercise_list_log_id
+            LEFT JOIN (
+                SELECT id, user_id, training_end_time, status
+                FROM training_logs
+            ) tl ON tl.id = tell.training_exercise_log_id
+            LEFT JOIN (
+                SELECT id, email
+                FROM users
+            ) u ON tl.user_id = u.id
+            WHERE tell.is_passed = :is_passed AND tl.status = :status AND u.id = :user_id
+        ) AS numberedResults
+        WHERE rowNum = :row_num
+        ORDER BY rowNum ASC;
+        ", [
+            'user_id' => $userId,
+            'status' => TrainingLogEnums::TRAINING_COMPLETED,
+            'is_passed' => TrainingListLogEnums::NOT_PASSED,
+            'row_num' => 1
+        ]));
     }
 
     public function exerciseHistory(object $payload): Collection
