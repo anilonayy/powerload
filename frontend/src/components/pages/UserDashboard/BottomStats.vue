@@ -27,7 +27,7 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="personalRecords.length">
                     <tr v-for="(data, index) in personalRecords" :key="index">
                         <td class="p-4 border-b border-blue-gray-50">
                             {{ data.exercise_name }}
@@ -51,6 +51,9 @@
                         </td>
                     </tr>
                 </tbody>
+                <td v-else class="text-sm text-gray-600 italic mt-4 p-4" colspan="5">
+                    Henüz antrenman yapmadığınız için kişisel rekorunuz bulunmamaktadır.
+                </td>
             </table>
             <TableSkeleton v-else />
             
