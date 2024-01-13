@@ -17,6 +17,7 @@
                     search
                     v-model="exercise.selected"
                     :class="{ 'validation-error': exercise.hasError }"
+                    @updateModel="updateModel(exercise, $event)"
                   >
                     <template #option="option">
                           <div class="flex gap-3">
@@ -121,7 +122,11 @@ const props = defineProps(['day']);
 const store =  useStore();
 const options = computed(() => store.getters['_exerciseList']);
 
-const emit = defineEmits(['add-exercise','removeExercise','addDay'])
+const emit = defineEmits(['add-exercise','removeExercise','addDay']);
+
+const updateModel = (exercise, $event) => {
+  exercise.selected = $event;
+}
 </script>
 
 

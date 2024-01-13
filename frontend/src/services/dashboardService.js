@@ -12,7 +12,14 @@ const getPersonalRecords = async () => {
     return response;
 }
 
+const getExerciseHistory = async (config = {}) => {
+    const response = await axios.post('v1/training-logs/exercise-history', config);
+
+    return response;
+}
+
 export default {
     getStats,
-    getPersonalRecords
+    getPersonalRecords,
+    getExerciseHistory
 }

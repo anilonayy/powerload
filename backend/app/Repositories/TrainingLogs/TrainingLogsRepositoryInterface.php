@@ -18,5 +18,6 @@ interface TrainingLogsRepositoryInterface
     public function getTrainingCounts(): int;
     public function getTrainingTimeAverage(): string;
     public function getTrainingExerciseAverage(): float|null;
+    public function exerciseHistory(object $payload): Collection;
     public function personalRecords(): Collection;
 }

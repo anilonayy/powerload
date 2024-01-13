@@ -22,7 +22,7 @@ const props = defineProps({
   search: Boolean,
   modelValue: [String, Number, Object],
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["updateModel"]);
 const searchId = "search_" + Math.floor(Math.random() * 100);
 const wrapperId = "wrapper_" + Math.floor(Math.random() * 100);
 
@@ -123,7 +123,7 @@ const onClear = () => {
 
 const emitModel = () => {
   emit(
-    "update:modelValue",
+    "updateModel",
     modelPrimitive.value || state.isPrimitive
       ? state.selectedOption
         ? state.selectedOption.value

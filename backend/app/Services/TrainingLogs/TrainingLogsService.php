@@ -154,6 +154,11 @@ class TrainingLogsService implements TrainingLogsServiceInterface
         return $this->getSuccessMessage($this->trainingLogsRepository->personalRecords());
     }
 
+    public function exerciseHistory(object $payload): array
+    {
+        return $this->getSuccessMessage($this->trainingLogsRepository->exerciseHistory($payload));
+    }
+
     private function checkIsUsersLog (int $logOwnerId): void
     {
         if(auth()->user()->id !== $logOwnerId) {

@@ -10,7 +10,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "apexcharts": "^3.45.1",
     "axios": "^1.6.2",
+    "chart.js": "^4.4.1",
     "crypto-js": "^4.2.0",
     "moment": "^2.29.4",
     "secure-ls": "^1.2.6",

@@ -2,11 +2,14 @@
 
 namespace App\Repositories\TrainingLogs;
 
+use App\Enums\DateEnums;
+use App\Enums\TrainingListLogEnums;
 use App\Enums\TrainingLogEnums;
 use App\Models\TrainingExerciseListLogs;
 use App\Models\TrainingExerciseLogs;
 use App\Models\TrainingLogs;
 use App\Traits\Helpers\DateHelper;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -184,5 +187,78 @@ class TrainingLogsRepository implements TrainingLogsRepositoryInterface
         LEFT JOIN (select id,user_id,training_end_time from training_logs) tl ON tl.id = tell.training_exercise_log_id
         LEFT JOIN (select id from users) u ON tl.user_id = u.id
         WHERE tl.user_id = {$userId}"));
+    }
+
+    public function exerciseHistory(object $payload): Collection
+    {
+        $response = collect([]);
+        $userId = auth()->user()->id;
+        $currentYear = now()->year;
+
+        $baseSql = "SELECT training_exercise_list_log_id,exercise_id,exercise_name, max, tell.created_at,u.email FROM
+        (SELECT tel.training_exercise_list_log_id,e.id as exercise_id,e.name as exercise_name,ec.name as category_name ,max(tel.weight) as max
+            FROM training_exercise_logs tel
+            LEFT JOIN training_exercise_list_logs tell ON tell.id = tel.training_exercise_list_log_id
+            LEFT JOIN exercises e ON e.id = tell.exercise_id
+            LEFT JOIN exercise_categories ec ON ec.id = e.exercise_categories_id
+            WHERE e.id = :exercise_id
+            GROUP BY tel.training_exercise_list_log_id ) as subquery
+        LEFT JOIN (select id,training_exercise_log_id, created_at, is_passed from training_exercise_list_logs) tell ON tell.id = subquery.training_exercise_list_log_id
+        LEFT JOIN (select id,user_id,training_end_time,status from training_logs) tl ON tl.id = tell.training_exercise_log_id
+        LEFT JOIN (select id, email from users) u ON tl.user_id = u.id
+        WHERE tell.is_passed = :is_passed AND tl.status = :status  AND u.id = :user_id";
+        $baseVariables = [
+            'exercise_id' => $payload->exercise_id,
+            'status' => TrainingLogEnums::TRAINING_COMPLETED,
+            'user_id' => $userId,
+            'is_passed' => TrainingListLogEnums::NOT_PASSED
+        ];
+
+        $endSql = "ORDER BY max DESC";
+
+
+        if($payload->date_frequency === DateEnums::YEARLY_DATE_FREQUENCY)
+        {
+            $targetYear = Carbon::parse(now())->setYears($currentYear - DateEnums::YEARLY_DATE_FREQUENCY_COUNT)->format('Y');
+
+            foreach(range($targetYear, $currentYear) as $year)
+            {
+                $response->push([
+                    'data' => collect((DB::select($baseSql . " AND YEAR(tell.created_at) = :year {$endSql}", [
+                        ...$baseVariables,
+                        'year' => $year
+                    ])))->first() ?? (object) [],
+                    'label' => $year
+                ]);
+            }
+        } else if($payload->date_frequency === DateEnums::MONTHLY_DATE_FREQUENCY) {
+            foreach(DateEnums::MONTHS_AS_NUMBER as $month)
+            {
+                $response->push([
+                    'data' => collect((DB::select($baseSql . " AND MONTH(tell.created_at) = :month AND YEAR(tell.created_at) = :year {$endSql}", [
+                        ...$baseVariables,
+                        'month' => $month,
+                        'year' => $currentYear
+                    ])))->first() ?? (object)[],
+                    'label' => DateEnums::MONTHS_AS_NAME["tr_TR"][$month - 1]
+                ]);
+            }
+        } else if($payload->date_frequency === DateEnums::WEEKLY_DATE_FREQUENCY) {
+            foreach(range(DateEnums::WEEKLY_DATE_FREQUENCY_COUNT, 0) as $weekNumber)
+            {
+                $currentWeek = Carbon::parse(now())->week(now()->week - $weekNumber)->format(DateEnums::MYSQL_DATE_FORMAT);
+
+                $response->push([
+                    'data' => collect((DB::select($baseSql . " AND YEAR(tell.created_at) = :year AND WEEK(tell.created_at) = WEEK(:week) {$endSql}", [
+                        ...$baseVariables,
+                        'year' => $currentYear,
+                        'week' => $currentWeek
+                    ])))->first() ?? (object)[],
+                    'label' => $weekNumber === 0 ? 'Bu hafta.' : "{$weekNumber} hafta önce."
+                ]);
+            }
+        }
+
+        return $response;
     }
 }

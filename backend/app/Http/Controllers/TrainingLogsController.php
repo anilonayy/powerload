@@ -6,6 +6,7 @@ use App\Models\TrainingLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
 use App\Http\Requests\Shared\AllWithFiltersRequest;
+use App\Http\Requests\TrainingLog\ExerciseHistoryRequest;
 use App\Http\Requests\TrainingLog\UpdateLogRequest;
 use App\Services\TrainingLogs\TrainingLogsServiceInterface;
 use App\Traits\ResponseMessage;
@@ -95,6 +96,11 @@ class TrainingLogsController extends Controller
     public function personalRecords(): JsonResponse
     {
         return response()->json($this->trainingLogsService->personalRecords());
+    }
+
+    public function exerciseHistory(ExerciseHistoryRequest $request): JsonResponse
+    {
+        return response()->json($this->trainingLogsService->exerciseHistory((object) $request->validated()));
     }
 
     /**
