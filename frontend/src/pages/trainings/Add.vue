@@ -1,15 +1,14 @@
 <template>
     <Panel>
-      <BackButton :to="{ name: 'training-list' }">Antrenmanlara Dön</BackButton>
-
+      <BackButton :to="{ name: 'training-list' }">{{ $t('TRAININGS.ADD.BACK_TRAININGS') }}</BackButton>
+      
       <PanelHeader class="p-2">
-        <template v-slot:title> Antrenman Ekle </template>
-        <template v-slot:description> Antrenmanına günler ekleyebilir ,günlere isim verebilir, antrenman anında bu günlere direkt tıklayarak erişebilirsin! </template>
+        <template v-slot:title>{{ $t('TRAININGS.ADD.TITLE') }}</template>
+        <template v-slot:description> {{ $t('TRAININGS.ADD.DESCRIPTION') }}</template>
         <hr>
       </PanelHeader>
 
       <TrainBuilder />
-      
     </Panel>
 </template>
 

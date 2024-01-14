@@ -202,6 +202,9 @@ watch(
               {{ state.selectedOption.text }}
             </div>
         </div>
+        <div v-else @click="state.openList = !state.openList"  class="overflow-hidden text-sm text-ellipsis w-full text-gray-400 inline-flex">
+          {{ placeholder }}
+        </div>
         </span
       >
       <!-- <i @click.stop="onClear" class="clear" v-if="state.selectedOption && !props.search"
@@ -214,7 +217,6 @@ watch(
           @input="onSearchInput"
           type="text"
           :id="state.searchId"
-          placeholder="Ara"
           @blur="onEscape"
         />
       </div>

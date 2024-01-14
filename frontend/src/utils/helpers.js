@@ -1,5 +1,6 @@
 import DateFrequencyEnums from "@/enums/DateFrequencyEnums";
 
+
 export const setCookie = (name, value, days) => {
     var expires = "";
     if (days) {
@@ -67,6 +68,8 @@ export const  getIconName = (categoryName = '') => {
 }
 
 export const validateTrainBuilderData = (train) => {
+
+
   const response = {
     success: true,
     errorMessage: '',
@@ -75,7 +78,7 @@ export const validateTrainBuilderData = (train) => {
 
   if(typeof train.days === 'undefined' || !train.days.length) {
     response.success = false;
-    response.errorMessage = 'Antrenman günü olmadan antrenman eklenemez!'
+    response.errorMessage = 'TRAININGS.TRAIN_BUILDER.NO_TRAINING_DAY_ERROR';
   }
 
   train.hasError = Boolean(!train.name);
@@ -87,7 +90,7 @@ export const validateTrainBuilderData = (train) => {
     day.hasError = Boolean(!day.name);
 
     if(day.name.trim().length === 0) {
-      day.errorMessage = 'Gün adı boş olamaz.'
+      day.errorMessage = 'TRAININGS.TRAIN_BUILDER.DAY_EMPTY_ERROR';
       day.hasError = true;
       response.success = false;
     } else {
@@ -101,7 +104,7 @@ export const validateTrainBuilderData = (train) => {
         if(!hasError && (exercise.selected?.value || 0) !== 0) {
           if(exerciseIds.includes(exercise.selected.value)) {
             response.success = false;
-            day.errorMessage = 'Her egzersiz gün içinde 1 kez seçilebilir!';
+            day.errorMessage = 'TRAININGS.TRAIN_BUILDER.MULTIPLE_SELECT_EXERCISE';
             hasError = true;
           } else {
             hasError = false;
@@ -122,24 +125,7 @@ export const validateTrainBuilderData = (train) => {
   return response;
 }
 
-export const getLocale = () => {
-  const locale = getCookie('locale') || 'tr_TR';
-
-  return locale;
-}
-
-export const getFrequencyForSelect = () => {
-  const locale = getLocale();
-
-  const frequency = DateFrequencyEnums.map((item) => {
-    return {
-      name: item.text[locale],
-      value: item.value
-    }
-  })
-
-  return frequency;
-}
+export const getLocale = () =>  getCookie('locale') || 'tr_TR';
 
 export const debounce = (func, delay) => {
     let timer;

@@ -3,7 +3,7 @@
     <TrainBuilderSkeleton v-if="!loaded" />
     <form v-else method="POST" @submit="submitTrain($event)">
         <div class="mb-8">
-          <Label for="name" value="Antrenman Adı" />
+          <Label for="name" :value="$t('TRAININGS.TRAIN_BUILDER.TRAINING_NAME')" />
 
           <Input
             id="name"
@@ -12,7 +12,7 @@
             :class="{ 'validation-error' : data.hasError }"
             v-model="data.name"
             autofocus
-            placeholder="Full Body, Split, PPL..."
+            :placeholder="$t('TRAININGS.TRAIN_BUILDER.TRAINING_NAME_PLACEHOLDER')"
           />
           
 
@@ -26,8 +26,9 @@
           <div v-for="(day, index) in data.days" class="border-2 rounded-md" :key="index">
             <div class="p-2 inline-block w-full">
               <div class="flex justify-between">
-                <Label :value="'Gün ' + (index + 1)" class="text-start ms-1 mb-2" />
-
+                <Label 
+                :value="`${$t('TRAININGS.TRAIN_BUILDER.DAY')} ${ (index + 1) } `" 
+                class="text-start ms-1 mb-2" />
                 <div v-if="index > 0" class="cursor-pointer" @click="removeDay(day.id)">
                   <div class="red-btn" style="padding: 8px !important">
                     <TrashIcon />
@@ -38,12 +39,12 @@
                 type="text"
                 v-model="day.name"
                 class="w-full border-1 border-b-2 max-w-full"
-                placeholder="Göğüs Günü, Sırt Günü, İtiş Günü..."
+                :placeholder="$t('TRAININGS.TRAIN_BUILDER.DAY_PLACEHOLDER')"
                 :class="{ 'validation-error' : day.hasError }"
               />
               
               <div v-if="day.errorMessage" class="bg-red-200 text-red-800 rounded-md mt-3 p-2 text-sm font-semibold">
-                  {{ day.errorMessage }}
+                  {{ $t(day.errorMessage) }}
               </div>
 
             </div>
@@ -52,11 +53,11 @@
             </div>
           </div>
           <div class="btn border-dashed border border-1 border-gray-700 w-full h-full" @click="addDay($event)">
-            Antrenman Günü Ekle
+            {{ $t('TRAININGS.TRAIN_BUILDER.ADD_DAY') }}
           </div>
         </div>
         <button type="submit" class="green-btn w-full mt-4">
-          ANTRENMANI KAYDET!
+          {{ $t('TRAININGS.TRAIN_BUILDER.SUBMIT_FORM') }}
         </button>
         
     </form>
@@ -70,6 +71,7 @@ import { onMounted, ref, watch, inject } from 'vue';
 import { guid, validateTrainBuilderData } from '@/utils/helpers';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n'
 import router from '@/router';
 import trainingService from '@/services/trainingService';
 import exerciseService from '@/services/exerciseService';
@@ -83,7 +85,7 @@ import TrashIcon from '@/components/icons/TrashIcon.vue';
 
 const store =  useStore();
 const route = useRoute();
-
+const translator = useI18n();
 const toast = inject('toast');
 
 const loaded = ref(false);
@@ -102,7 +104,7 @@ onMounted(async () => {
             }
 
             return exercise;
-          })
+          });
 
           day.exercises = exercises;
 
@@ -174,7 +176,7 @@ const addDay = () => {
       {
         id: guid(),
         selected: {
-          name: 'Name',
+          name: '',
           value: 0
         },
         sets: data.value.days[0].exercises[0].sets,
@@ -224,12 +226,12 @@ const submitTrain = async (event) => {
 
     if(validationResponse.success) {
       currentTrainingId.value 
-        ? await  trainingService.updateTraining(currentTrainingId.value, data.value )
+        ? await trainingService.updateTraining(currentTrainingId.value, data.value)
         : await trainingService.createTraining(data.value);
 
-      router.push({ name: 'training-list' });      
+      router.push({ name: 'training-list' });
     } else {
-      toast.error('Lütfen hatalı veya eksik alanarı düzeltin!');
+      toast.error(translator.t('TRAININGS.TRAIN_BUILDER.VALIDATION_ERROR'));
     }
   } catch (error) {
     console.log(error);
@@ -237,10 +239,7 @@ const submitTrain = async (event) => {
   }
 }
 
-
 watch(data.value,() => {
     data.value = validateTrainBuilderData(data.value).data;
 })
-
-
 </script>

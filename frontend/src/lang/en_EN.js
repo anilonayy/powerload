@@ -97,4 +97,54 @@ export default {
             NO_PR: 'You do not have a personal record because you have not trained yet.'
         }
     },
+    TRAININGS: {
+        LIST: {
+            TITLE: 'Trainings',
+            DESCRIPTION: 'Your workouts are listed here and you can add new workouts, training days and exercises.',
+            ADD_BUTTON: 'Add Training',
+            EDIT_BUTTON: 'Edit',
+            DELETE_BUTTON: 'Delete',
+            TABLE: {
+                TRAINING_NAME:  'Training Name',
+                APPLIED_DAY: 'Applied Day',
+                CREATED_AT: 'Created Date',
+                ACTIONS:  'Actions',
+            },
+            NO_DATA: 'You haven\'t added workouts yet! You can add workouts and start powering up!',
+            DELETE_ACTION: {
+                TITLE: 'Are you sure?',
+                TEXT: 'Are you sure you want to delete this workout? This action cannot be undone!',
+                CONFIRM_BUTTON: 'Yes, delete it!',
+                CANCEL_BUTTON: 'No, cancel!',
+                SUCCESS: 'The training was successfully deleted!',
+            }
+        },
+        ADD: {
+            BACK_TRAININGS: 'Back to trainigs',
+            TITLE: 'Add Training',
+            DESCRIPTION: 'You can add days to your training, name them, and access them during training by clicking on them directly!',
+        },
+        EDIT: {
+            BACK_TRAININGS: 'Back to trainigs',
+            TITLE: 'Edit Training',
+            DESCRIPTION: 'You can add days to your training, name them, and access them during training by clicking on them directly!',
+        },
+        TRAIN_BUILDER: {
+            TRAINING_NAME: 'Training Name',
+            TRAINING_NAME_PLACEHOLDER: 'Enter Training Name',
+            DAY: 'Day',
+            DAY_PLACEHOLDER: 'Enter Day Name',
+            DAY_EMPTY_ERROR: 'Day Name Can Not Be Empty!',
+            NO_TRAINING_DAY_ERROR: 'You cannot add an exercise without a training day!',
+            MULTIPLE_SELECT_EXERCISE: 'Each exercise can be selected once within a day!',
+            SELECT_EXERCISE: 'Select Exercise',
+            EXERCISE: 'Exercise',
+            SET: 'Set',
+            REP: 'Reps',
+            ADD_EXERCISE: 'Add Exercise',
+            ADD_DAY: 'Add Training Day',
+            VALIDATION_ERROR: 'Please correct any incorrect or missing fields!',
+            SUBMIT_FORM: 'SUBMIT TRAINING',
+        }
+    }
 }

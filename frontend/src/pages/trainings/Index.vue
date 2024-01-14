@@ -3,17 +3,16 @@
     <TrainingListSkeleton v-if="!loaded" />
     <div v-else>
       <PanelHeader class="p-2">
-        <template v-slot:title> Antrenmanlar </template>
+        <template v-slot:title> {{ $t('TRAININGS.LIST.TITLE') }} </template>
         <template v-slot:description>
-          Antrenmanların burada listelenir yeni antrenman ekleyebilir ve bunların içine antrenman
-          günleri ve hareketler ekleyebilirsin.
+          {{ $t('TRAININGS.LIST.DESCRIPTION') }}
         </template>
         <hr />
       </PanelHeader>
 
       <div class="relative overflow-x-auto sm:rounded-lg">
         <router-link :to="{ name: 'add-train' }" class="block mb-6">
-          <div class="indigo-btn">Antrenman Ekle</div>
+          <div class="indigo-btn"> {{ $t('TRAININGS.LIST.ADD_BUTTON') }} </div>
         </router-link>
 
         <TableWrapper v-if="trainings.length">
@@ -22,10 +21,10 @@
               class="border-b bg-neutral-800 font-medium text-white border-black dark:border-neutral-500 dark:bg-neutral-900"
             >
               <tr>
-                <th scope="col" class="px-6 py-3">Antrenman Adı</th>
-                <th scope="col" class="px-6 py-3">Uygulanan Gün</th>
-                <th scope="col" class="px-6 py-3">Oluşturulma Tarihi</th>
-                <th scope="col" class="px-6 py-3">İşlemler</th>
+                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.TRAINING_NAME') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.APPLIED_DAY') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.CREATED_AT') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.ACTIONS') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -49,10 +48,14 @@
                 <td class="px-6 py-4">{{ training.created_at }}</td>
                 <td class="px-6 py-4 flex gap-3">
                   <router-link :to="{ name: 'training', params: { trainId: training.id } }">
-                    <div class="orange-btn">Düzenle</div>
+                    <div class="orange-btn">
+                      {{ $t('TRAININGS.LIST.EDIT_BUTTON') }}
+                    </div>
                   </router-link>
 
-                  <div class="red-btn" @click="removeTraining(training.id)">Sil</div>
+                  <div class="red-btn" @click="removeTraining(training.id)">
+                    {{ $t('TRAININGS.LIST.DELETE_BUTTON') }}
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -63,7 +66,7 @@
           v-else
           class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6 text-md"
         >
-          Henüz antrenman eklemedin! Antrenman ekleyip gücüne güç katmaya başlayabilirsin!
+          {{ $t('TRAININGS.LIST.NO_DATA') }}
         </div>
       </div>
     </div>
@@ -72,6 +75,7 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 import trainingService from '@/services/trainingService'
 
 import Panel from '@/components/shared/Panel.vue'
@@ -81,6 +85,7 @@ import TrainingListSkeleton from '@/components/skeletons/TrainingListSkeleton.vu
 
 const swal = inject('swal')
 const toast = inject('toast')
+const translator = useI18n();
 
 const loaded = ref(false)
 const trainings = ref([])
@@ -100,19 +105,19 @@ const removeTraining = async (id) => {
   const swalWithBootstrapButtons = swal.mixin({
     customClass: {
       confirmButton: 'bg-red-500 text-white py-2 px-4 rounded-md ms-2',
-      cancelButton: 'bg-gray-400 text-white py-2 px-4 rounded-md'
+      cancelButton: 'bg-gray-300 text-black py-2 px-4 rounded-md'
     },
     buttonsStyling: false
   })
 
   swalWithBootstrapButtons
     .fire({
-      title: 'Emin misin?',
-      text: 'Bu işlem geri alınamaz!',
+      title: translator.t('TRAININGS.LIST.DELETE_ACTION.TITLE'),
+      text: translator.t('TRAININGS.LIST.DELETE_ACTION.TEXT'),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Sil',
-      cancelButtonText: 'Vazgeçtim',
+      confirmButtonText: translator.t('TRAININGS.LIST.DELETE_ACTION.CONFIRM_BUTTON'),
+      cancelButtonText: translator.t('TRAININGS.LIST.DELETE_ACTION.CANCEL_BUTTON'),
       reverseButtons: true
     })
     .then(async (result) => {
@@ -122,7 +127,7 @@ const removeTraining = async (id) => {
 
           trainings.value = trainings.value.filter((training) => training.id !== id)
 
-          toast.success('Antrenman başarıyla silindi!')
+          toast.success(translator.t('TRAININGS.LIST.DELETE_ACTION.SUCCESS'),)
         } catch (error) {
           toast.error(error.message)
         }
