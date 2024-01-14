@@ -58,7 +58,22 @@ export default {
         CHART: {
             TITLE: 'Chart by exercise weight',
             FREQUENCY: 'Chart Range',
-            EXERCISE: 'Exercise'
+            EXERCISE: 'Exercise',
+            NO_DATA_MESSAGE : 'There is no data for this exercise.',
+            FREQUENCY_OPTIONS: {
+                YEARLY: {
+                    TEXT: 'Yearly',
+                    VALUE: 1
+                },
+                MONTHLY: {
+                    TEXT: 'Monthly',
+                    VALUE: 2
+                },
+                WEEKLY:{
+                    TEXT: 'Weekly',
+                    VALUE: 3
+                }
+            }
         },
         LAST_TRAININGS: {
             TITLE: 'Last 5 trainings',

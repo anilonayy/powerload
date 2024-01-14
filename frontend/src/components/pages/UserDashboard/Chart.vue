@@ -47,9 +47,10 @@
 
 <script setup>
 import { ref, computed, onMounted, inject } from 'vue'
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import { getIconName, getFrequencyForSelect, debounce } from '@/utils/helpers'
+import { getIconName, debounce } from '@/utils/helpers'
 import dashboardService from '@/services/dashboardService';
 import Chart from 'chart.js/auto'
 
@@ -58,11 +59,26 @@ import Label from '@/components/form/Label.vue'
 import AgSelect from '@/components/shared/AgSelect.vue'
 
 const store = useStore();
+const translator = useI18n();
 const toast = inject('toast');
 const route = useRoute();
 const loaded = ref(false);
 
-const dateFrequencies = getFrequencyForSelect();
+
+const dateFrequencies = ref([
+    {
+        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.TEXT'),
+        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.VALUE')
+    },
+    {
+        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.TEXT'),
+        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.VALUE')
+    },
+    {
+        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.TEXT'),
+        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.VALUE')
+    }
+]);
 
 const options = computed(() => store.getters['_exerciseList']);
 const currentExercise = ref({
@@ -70,7 +86,7 @@ const currentExercise = ref({
     text: "Bench Press",
     value: 7
 });
-const currentFrequency = ref(dateFrequencies[0]);
+const currentFrequency = ref(dateFrequencies.value[0]);
 const chartWrapper = ref();
 
 onMounted(async () => {
@@ -102,7 +118,7 @@ const buildChart = async (options = {}) => {
         });
 
         if (values.every(value => value === 0)) {
-            toast.warning('Bu hareket için henüz veri bulunmamaktadır.');
+            toast.warning(translator.t('DASHBOARD.CHART.NO_DATA_MESSAGE'));
         }
 
         new Chart('chart', {
@@ -137,8 +153,8 @@ const updateFrequencyModel = ($event) => {
 }
 
 const reBuildChart = () => {
-    const exercise_id = currentExercise.value.value;
-    const date_frequency = currentFrequency.value.value;
+    const exercise_id = Number(currentExercise.value.value);
+    const date_frequency = Number(currentFrequency.value.value);
 
     exercise_id && date_frequency && buildChart({exercise_id,date_frequency});
 }

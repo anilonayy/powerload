@@ -58,7 +58,22 @@ export default {
         CHART: {
             TITLE: 'Harekete göre ağırlık grafiği',
             FREQUENCY: 'Grafik Aralığı',
-            EXERCISE: 'Egzersiz'
+            EXERCISE: 'Egzersiz',
+            NO_DATA_MESSAGE : 'Bu hareket için henüz veri bulunmamaktadır.',
+            FREQUENCY_OPTIONS: {
+                YEARLY: {
+                    TEXT: 'Yıllık',
+                    VALUE: '1'
+                },
+                MONTHLY: {
+                    TEXT: 'Aylık',
+                    VALUE: '2'
+                },
+                WEEKLY:{
+                    TEXT: 'Haftalık',
+                    VALUE: '3'
+                }
+            }
         },
         LAST_TRAININGS: {
             TITLE: 'Son 5 antrenman',
