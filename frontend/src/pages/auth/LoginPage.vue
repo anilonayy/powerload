@@ -101,15 +101,15 @@ const formSubmit = async (event) => {
       router.push({ name: 'dashboard' });
     }
   } catch (error) {
-    errors.value = error.data;
+    errors.value = error.data ?? {};
 
     !errors.value?.message && toast.error(error?.message);
   }
 }
 
 const validateForm = () => {
-  errors.value.email = isEmpty(userData.value.email) ? ["E-Mail alanı zorunludur."] : [];
-  errors.value.password = isEmpty(userData.value.password) ? ["Şifre alanı zorunludur."] : [];
+  errors.value.email = isEmpty(userData?.value?.email) ? ["E-Mail alanı zorunludur."] : [];
+  errors.value.password = isEmpty(userData?.value?.password) ? ["Şifre alanı zorunludur."] : [];
 
   if(errors.value.message?.length) {
     errors.value.message = ''
