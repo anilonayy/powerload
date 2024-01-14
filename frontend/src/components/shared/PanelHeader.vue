@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-5">
+    <div class="mb-5 ps-0">
         <HeaderText class="font-semibold lg:text-md mt-0"> 
             <slot name="title" />
         </HeaderText>

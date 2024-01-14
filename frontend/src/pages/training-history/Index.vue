@@ -1,81 +1,92 @@
 <template>
-    <div>
-      <Panel>
-        <HistorySkeleton v-if="!loaded" />  
-        <div v-else>
-          <PanelHeader class="p-2">
-            <template v-slot:title> Antrenman Geçmişi </template>
-            <template v-slot:description> Antrenman geçmişinizi buradan takip edebilirsiniz 👀 </template>
-            <hr>
-          </PanelHeader>
+  <div>
+    <Panel>
+      <HistorySkeleton v-if="!loaded" />
+      <div v-else>
+        <PanelHeader class="p-2">
+          <template v-slot:title> Antrenman Geçmişi </template>
+          <template v-slot:description>
+            Antrenman geçmişinizi buradan takip edebilirsiniz 👀
+          </template>
+          <hr />
+        </PanelHeader>
 
-          <div v-if="trainingLogs.length" class="relative overflow-x-auto sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="border-b bg-neutral-800 font-medium text-white dark:border-neutral-500 dark:bg-neutral-900">
-                  <tr>
-                      <th scope="col" class="px-6 py-3">Antrenman Bilgisi</th>
-                      <th scope="col" class="px-6 py-3">Antrenman Süresi</th>
-                      <th scope="col" class="px-6 py-3">Antrenman Tarihi</th>
-                      <th scope="col" class="px-6 py-3">İncele</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr
-                      v-for="(log, index) in trainingLogs"
-                      :key="index"
-                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+        <TableWrapper v-if="trainingLogs.length">
+          <table
+            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border"
+          >
+            <thead
+              class="border bg-neutral-800 font-medium text-white border-black dark:border-neutral-500 dark:bg-neutral-900"
+            >
+              <tr>
+                <th scope="col" class="px-6 py-3">Antrenman Bilgisi</th>
+                <th scope="col" class="px-6 py-3">Antrenman Süresi</th>
+                <th scope="col" class="px-6 py-3">Antrenman Tarihi</th>
+                <th scope="col" class="px-6 py-3">İncele</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(log, index) in trainingLogs"
+                :key="index"
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              >
+                <th
+                  scope="row"
+                  class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  <router-link
+                    :to="{ name: 'training', params: { trainId: log.training.id } }"
+                    class="text-gray-900 font-bold dark:text-blue-500 flex items-center gap-3"
                   >
-                      <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
-                          <router-link 
-                            :to="{ name: 'training', params: { trainId: log.training.id } }" 
-                            class="text-gray-900 font-bold dark:text-blue-500 flex gap-3">
-                              {{ log.training?.name }} 
-                              <RightIcon class="h-3 w-3 inline" />  
-                              {{ log.training_day?.name }}                            
-                          </router-link>
-                      </th>
-                    <td class="px-6 py-4"> {{ log?.duration }} </td>
-                    <td class="px-6 py-4">{{ log?.training_date }}</td>
-                    <td class="px-6 py-4 flex gap-3">
-                      <router-link
-                        :to="{ name: 'show-training-history', params: { trainingLogId: log.id } }"
-                        class=" text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                      <div class="orange-btn">Detaylar</div>
-                      </router-link>
-                    </td>
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div v-else class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6  text-md">
-              <span>Henüz antrenman geçmişiniz bulunmamaktadır.</span>
-          </div>
+                    {{ log.training?.name }}
+                    <RightIcon class="h-4 w-4 inline" />
+                    {{ log.training_day?.name }}
+                  </router-link>
+                </th>
+                <td class="px-6 py-4">{{ log?.duration }}</td>
+                <td class="px-6 py-4">{{ log?.training_date }}</td>
+                <td class="px-6 py-4 flex gap-3">
+                  <router-link
+                    :to="{ name: 'show-training-history', params: { trainingLogId: log.id } }"
+                  >
+                    <div class="orange-btn">Detaylar</div>
+                  </router-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </TableWrapper>
+        <div
+          v-else
+          class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6 text-md"
+        >
+          <span>Henüz antrenman geçmişiniz bulunmamaktadır.</span>
         </div>
-      </Panel>
-      
-    </div>
+      </div>
+    </Panel>
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref } from 'vue'
 import trainingLogService from '@/services/trainingLogService'
 
 import Panel from '@/components/shared/Panel.vue'
 import PanelHeader from '@/components/shared/PanelHeader.vue'
+import TableWrapper from '@/components/shared/TableWrapper.vue'
 import RightIcon from '@/components/icons/RightIcon.vue'
 import HistorySkeleton from '@/components/skeletons/HistorySkeleton.vue'
 
-const trainingLogs = ref([]);
-const loaded = ref(false);
+const trainingLogs = ref([])
+const loaded = ref(false)
 
 onMounted(async () => {
-    try {
-      trainingLogs.value = (await trainingLogService.getAllLogs()).data;
-      loaded.value = true;
-    } catch (error) {
-      console.log('error :>> ', error);
-    }
-});
+  try {
+    trainingLogs.value = (await trainingLogService.getAllLogs()).data
+    loaded.value = true
+  } catch (error) {
+    console.log('error :>> ', error)
+  }
+})
 </script>
