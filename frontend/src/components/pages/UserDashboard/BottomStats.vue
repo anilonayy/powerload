@@ -1,29 +1,34 @@
 <template>
     <div>
         <div class="p-6  px-0">
-            <h2 class="text-2xl font-bold">Kişisel Rekorlar (PR)</h2>
+            <h2 class="text-2xl font-bold">{{ $t('DASHBOARD.PERSONAL_RECORDS.TITLE') }}</h2>
             <table  v-if="loaded" class="mt-4 w-full min-w-max table-auto text-left border border-1" >
                 <thead>
                 <tr>
                     <th class="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
                         <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70">
-                            Egzersiz Adı
+                            {{ $t('DASHBOARD.PERSONAL_RECORDS.TABLE.EXERCISE') }}
                     </p>
                     </th>
                     <th class="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
-                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> Egzersiz Kategorisi
+                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> 
+                        {{ $t('DASHBOARD.PERSONAL_RECORDS.TABLE.CATEGORY') }}
                     </p>
                     </th>
                     <th class="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
-                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> PR (kg)
+                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> 
+                        {{ $t('DASHBOARD.PERSONAL_RECORDS.TABLE.WEIGHT') }}
                     </p>
                     </th>
                     <th class="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
-                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> Tarih 
+                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70"> 
+                        {{ $t('DASHBOARD.PERSONAL_RECORDS.TABLE.DATE') }}
                     </p>
                     </th>
                     <th class="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
-                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70">İncele</p>
+                    <p class="antialiased font-sans text-sm text-blue-gray-900 flex items-center justify-between gap-2 font-normal leading-none opacity-70">
+                        {{ $t('DASHBOARD.PERSONAL_RECORDS.TABLE.SEE') }}
+                    </p>
                     </th>
                 </tr>
                 </thead>
@@ -52,7 +57,7 @@
                     </tr>
                 </tbody>
                 <td v-else class="text-sm text-gray-600 italic mt-4 p-4" colspan="5">
-                    Henüz antrenman yapmadığınız için kişisel rekorunuz bulunmamaktadır.
+                    {{ $t('DASHBOARD.PERSONAL_RECORDS.NO_PR') }}
                 </td>
             </table>
             <TableSkeleton v-else />

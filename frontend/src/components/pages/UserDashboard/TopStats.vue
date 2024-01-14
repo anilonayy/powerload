@@ -9,7 +9,7 @@
 
                 <div class="text-start" v-if="loaded" >
                     <h6 class="stats-text  font-semibold text-deep-purple-accent-400"> {{ data?.training_count ?? '' }} </h6>
-                    <p>Antrenman</p>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.TRAINING') }} </p>
                 </div>
 
                 <TopStatsSkeleton v-else />
@@ -22,7 +22,7 @@
 
                 <div class="text-start" v-if="loaded">
                     <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_training_time ?? '' }} </h6>
-                    <p>Ortalama Süre</p>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.AVG_TIME') }} </p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
@@ -34,7 +34,7 @@
 
                 <div class="text-start" v-if="loaded">
                     <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_exercise_count ?? '' }} </h6>
-                    <p>Ortalama Hareket</p>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.AVG_EXERCISE') }} </p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
@@ -46,14 +46,12 @@
 
                 <div class="text-start" v-if="loaded">
                     <h6 class="stats-text font-semibold text-deep-purple-accent-400">?</h6>
-                    <p>?</p>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.X') }} </p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
         </div>
-        <div class="text-xs  italic pt-2 leading-2 text-gray-600">
-            *Bu veriler yalnızca <b>tamamlanmış</b> antrenmanlardan hesaplanmaktadır.
-        </div>
+        <div class="text-xs  italic pt-2 leading-2 text-gray-600" v-html="$t('DASHBOARD.TOP_STATS.SUBTITLE')" />
     </div>
 </template>
 

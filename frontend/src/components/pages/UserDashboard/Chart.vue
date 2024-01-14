@@ -2,10 +2,10 @@
     <div class="h-full">
         <div class="h-full" v-if="loaded">
         <div class="grid grid-cols-12 items-center gap-3">
-                <div class="title font-semibold text-lg col-span-12 md:col-span-4">Harekete göre ağırlık grafiği</div>
+                <div class="title font-semibold text-lg col-span-12 md:col-span-4">{{ $t('DASHBOARD.CHART.TITLE') }}</div>
 
                 <div class="col-span-12 md:col-span-4">
-                    <Label class="text-sm">Grafik aralığı</Label>
+                    <Label class="text-sm">{{ $t('DASHBOARD.CHART.FREQUENCY') }}</Label>
                     <AgSelect 
                         :options="dateFrequencies"
                         read-text="name"
@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col-span-12 md:col-span-4">
-                    <Label class=text-sm>Egzersiz</Label>
+                    <Label class=text-sm>{{ $t('DASHBOARD.CHART.EXERCISE') }}</Label>
                     <AgSelect
                         :options="options"
                         read-text="name"
@@ -36,8 +36,6 @@
                     </template>
                 </AgSelect>
                 </div>
-                
-                
         </div>
         <div class="body" ref="chartWrapper">
             <canvas id="chart" ref="chart" width="400" height="auto"></canvas>

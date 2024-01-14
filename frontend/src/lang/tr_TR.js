@@ -46,4 +46,40 @@ export default {
             REGISTER: 'Kayıt Ol',
         }
     },
+    DASHBOARD: {
+        TITLE: 'Genel Bakış',
+        TOP_STATS: {
+            TRAINING: 'Antrenman',
+            AVG_TIME: 'Ortalama Süre',
+            AVG_EXERCISE: 'Ortalama Hareket',
+            X: '?',
+            SUBTITLE : '*Bu veriler yalnızca <b>tamamlanmış</b> antrenmanlardan hesaplanmaktadır.'
+        },
+        CHART: {
+            TITLE: 'Harekete göre ağırlık grafiği',
+            FREQUENCY: 'Grafik Aralığı',
+            EXERCISE: 'Egzersiz'
+        },
+        LAST_TRAININGS: {
+            TITLE: 'Son 5 antrenman',
+            SEE_ALL: 'tümünü gör',
+            TIME: 'süre',
+            STATUS: {
+                CONTINUE: 'Devam Ediyor',
+                COMPLETED: 'Tamamlandı',
+                CANCELED: 'İptal Edildi'
+            }
+        },
+        PERSONAL_RECORDS: {
+            TITLE: 'Kişisel Rekorlar (PR)',
+            TABLE: {
+                EXERCISE: 'Egzersiz Adı',
+                CATEGORY: 'Egzersiz Kategorisi',
+                WEIGHT: 'PR (KG)',
+                DATE: 'Tarih',
+                SEE: 'İncele',
+            },
+            NO_PR: 'Henüz antrenman yapmadığınız için kişisel rekorunuz bulunmamaktadır.'
+        }
+    },
 }

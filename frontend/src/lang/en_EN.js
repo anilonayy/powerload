@@ -46,4 +46,40 @@ export default {
             REGISTER: 'Register',
         }
     },
+    DASHBOARD: {
+        TITLE: 'Dashboard',
+        TOP_STATS: {
+            TRAINING: 'Trainings',
+            AVG_TIME: 'Average Time',
+            AVG_EXERCISE: 'Average Exercise',
+            X: '?',
+            SUBTITLE : '*This informations only calculated by <b>completed</b> trainings.'
+        },
+        CHART: {
+            TITLE: 'Chart by exercise weight',
+            FREQUENCY: 'Chart Range',
+            EXERCISE: 'Exercise'
+        },
+        LAST_TRAININGS: {
+            TITLE: 'Last 5 trainings',
+            SEE_ALL: 'see all',
+            TIME: 'duration',
+            STATUS: {
+                CONTINUE: 'Continue',
+                COMPLETED: 'Completed',
+                CANCELED: 'Canceled'
+            }
+        },
+        PERSONAL_RECORDS: {
+            TITLE: 'Personal Records (PR)',
+            TABLE: {
+                EXERCISE: 'Exercise Name',
+                CATEGORY: 'Exercise Category',
+                WEIGHT: 'PR (KG)',
+                DATE: 'Date',
+                SEE: 'See',
+            },
+            NO_PR: 'You do not have a personal record because you have not trained yet.'
+        }
+    },
 }

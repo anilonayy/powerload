@@ -2,7 +2,7 @@
     <div>
         <Panel class="w-full p-4">
             <PanelHeader class="mb-0">
-                <template v-slot:title> <div class="text-center">Genel Bakış</div> </template>
+                <template v-slot:title> <div class="text-center"> {{ $t('DASHBOARD.TITLE') }} </div> </template>
             </PanelHeader>
 
             <div id="stats" class="flex flex-col gap-4">

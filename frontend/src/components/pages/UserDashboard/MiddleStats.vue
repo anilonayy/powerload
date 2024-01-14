@@ -1,7 +1,7 @@
 <template>
     <div class="grid  sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <div class="sm:col-span-2 lg:col-span-2">
-            <Graph />    
+            <Chart />    
         </div> 
         <div class="sm:col-span-2 lg:col-span-1">
             <LastTraining />
@@ -10,6 +10,6 @@
 </template>
 
 <script setup>
-import Graph from "@/components/pages/UserDashboard/Graph.vue";
+import Chart from "@/components/pages/UserDashboard/Chart.vue";
 import LastTraining from "@/components/pages/UserDashboard/LastTrainings.vue";
 </script>
