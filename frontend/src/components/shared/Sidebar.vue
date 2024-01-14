@@ -29,43 +29,44 @@
       <div id="menu" class="mt-10 flex flex-col gap-3 mb-40">
         <BadgeLink :to="{ name: 'home' }" class="bg-gray-100 hover:bg-gray-200 text-sm">
           <HomeIcon />
-          Ana Sayfa
+          {{ $t('SIDEBAR.MENU.HOME') }}
         </BadgeLink>
         <BadgeLink :to="{ name: 'about' }" class="bg-gray-100 hover:bg-gray-200 text-sm">
           <LightningIcon />
-          Hakkımızda
+          {{ $t('SIDEBAR.MENU.ABOUT') }}
         </BadgeLink>
 
         <div v-if="isAuthenticated" class="flex flex-col gap-3">
           <BadgeLink :to="{ name: 'dashboard' }">
             <ActivityIcon />
-            Genel Bakış
+            {{ $t('SIDEBAR.MENU.DASHBOARD') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'training-list' }">
             <ListIcon />
-            Antrenman Listesi
+            {{ $t('SIDEBAR.MENU.TRAINING_LIST') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'training-history' }">
             <HeadphoneIcon />
-            Antrenman Geçmişi
+            {{ $t('SIDEBAR.MENU.TRAINING_HISTORY') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'reset-password' }">
             <KeyIcon />
-            Şifre Yenile
+            {{ $t('SIDEBAR.MENU.RESET_PASSWORD') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'profile' }">
             <UserSettingIcon />
-            Profil Ayarları
+            {{ $t('SIDEBAR.MENU.PROFILE_SETTINGS') }}
           </BadgeLink>
         </div>
         <div v-else>
           <span class="text-xs text-center block"
-            >Daha fazla sayfa için
-            <router-link :to="{ name: 'login' }" class="underline"> giriş yapın! </router-link>
+            >
+            {{ $t('SIDEBAR.AUTH.FOR_MORE_INFO') }}
+            <router-link :to="{ name: 'login' }" class="underline"> {{ $t('SIDEBAR.AUTH.GO_LOGIN') }} </router-link>
           </span>
         </div>
       </div>
@@ -93,7 +94,7 @@
                 class="flex flex-col justify-start items-start text-xs w-40 whitespace-nowrap"
                 dropdown-close="true"
               >
-                <div dropdown-close="true" class="text-gray-500">Hesabım</div>
+                <div dropdown-close="true" class="text-gray-500">{{ $t('SIDEBAR.AUTH.MY_ACCOUNT') }}</div>
                 <div
                   dropdown-close="true"
                   class="overflow-ellipsis overflow-hidden w-full text-start"
@@ -120,7 +121,7 @@
               >
                 <BadgeLink :to="{ name: 'home' }" @click="logout()">
                   <PowerIcon />
-                  Çıkış Yap
+                  {{ $t('SIDEBAR.AUTH.LOGOUT') }}
                 </BadgeLink>
               </div>
             </div>
@@ -128,16 +129,16 @@
           <div v-else>
             <div class="aside-bottom mt-auto text-center">
               <router-link :to="{ name: 'login' }" class="block font-semibold underline">
-                Giriş Yap
+                {{ $t('SIDEBAR.AUTH.LOGIN') }}
               </router-link>
 
-              <span class="text-sm block py-2">veya</span>
+              <span class="text-sm block py-2">{{ $t('SIDEBAR.AUTH.OR') }}</span>
 
               <BadgeLink
                 :to="{ name: 'register' }"
                 class="bg-gray-100 hover:bg-gray-200 text-sm justify-center font-bold"
               >
-                Kayıt Ol
+                {{ $t('SIDEBAR.AUTH.REGISTER') }}
               </BadgeLink>
             </div>
           </div>

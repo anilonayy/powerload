@@ -25,5 +25,25 @@ export default {
             },
         },
         DOWNLOAD_TEXT : 'Download the app and track your workouts!',
-    }
+    },
+    SIDEBAR: {
+        MENU: {
+            HOME: 'Home',
+            ABOUT: 'About',
+            DASHBOARD: 'Dashboard',
+            TRAINING_LIST: 'Training List',
+            TRAINING_HISTORY: 'Training History',
+            RESET_PASSWORD: 'Reset Password',
+            PROFILE_SETTINGS: 'Profile Settings',
+        },
+        AUTH: {
+            FOR_MORE_INFO: 'For more information',
+            GO_LOGIN: 'login.',
+            MY_ACCOUNT: 'Account',
+            LOGOUT: 'Logout',
+            LOGIN: 'Login',
+            OR: 'or',
+            REGISTER: 'Register',
+        }
+    },
 }

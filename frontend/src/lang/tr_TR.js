@@ -25,5 +25,25 @@ export default {
             },
         },
         DOWNLOAD_TEXT : 'Uygulamayı indirin ve antrenmanlarınızı takip edin!',
-    }
+    },
+    SIDEBAR: {
+        MENU: {
+            HOME: 'Anasayfa',
+            ABOUT: 'Hakkımızda',
+            DASHBOARD: 'Genel Bakış',
+            TRAINING_LIST: 'Antrenman Listesi',
+            TRAINING_HISTORY: 'Antrenman Geçmişi',
+            RESET_PASSWORD: 'Şifre Yenile',
+            PROFILE_SETTINGS: 'Profil Ayarları',
+        },
+        AUTH: {
+            FOR_MORE_INFO: 'Daha fazla bilgi için',
+            GO_LOGIN: 'giriş yapın!',
+            MY_ACCOUNT: 'Hesabım',
+            LOGOUT: 'Çıkış Yap',
+            LOGIN: 'Giriş Yap',
+            OR: 'veya',
+            REGISTER: 'Kayıt Ol',
+        }
+    },
 }
