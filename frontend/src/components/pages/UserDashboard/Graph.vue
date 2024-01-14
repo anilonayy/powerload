@@ -1,27 +1,43 @@
 <template>
     <div class="h-full">
         <div class="h-full" v-if="loaded">
-        <div class="grid grid-cols-12 items-center">
-                <div class="title  font-semibold text-lg col-span-12 md:col-span-8">Harekete göre ağırlık grafiği</div>
-                <AgSelect
-                :options="options"
-                read-text="name"
-                read-value="value"
-                placeholder="Select Exercise"
-                search
-                v-model="x"
-                class="col-span-12 md:col-span-4 mx-auto"
-                @updateModel="updateModel($event)"
-                >
-                <template #option="option">
-                    <div class="flex gap-3">
-                    <img :src="getIconName(option.category)"  width="25" class="object-contain">
-                    <div>
-                        {{ option.text }}
-                    </div>
-                    </div>
-                </template>
-            </AgSelect>
+        <div class="grid grid-cols-12 items-center gap-3">
+                <div class="title font-semibold text-lg col-span-12 md:col-span-4">Harekete göre ağırlık grafiği</div>
+
+                <div class="col-span-12 md:col-span-4">
+                    <Label class="text-sm">Grafik aralığı</Label>
+                    <AgSelect 
+                        :options="dateFrequencies"
+                        read-text="name"
+                        read-value="value"
+                        v-model="currentFrequency"
+                        class="w-full"
+                        @updateModel="updateFrequencyModel($event)"
+                    />
+                </div>
+
+                <div class="col-span-12 md:col-span-4">
+                    <Label class=text-sm>Egzersiz</Label>
+                    <AgSelect
+                        :options="options"
+                        read-text="name"
+                        read-value="value"
+                        placeholder="Select Exercise"
+                        search
+                        v-model="currentExercise"
+                        @updateModel="updateExercise($event)"
+                    >
+                    <template #option="option">
+                        <div class="flex gap-3">
+                            
+                            <img v-if="option?.category?.length" :src="getIconName(option.category)"  width="25" class="object-contain">
+                            <div> {{ option.text }}</div>
+                        </div>
+                    </template>
+                </AgSelect>
+                </div>
+                
+                
         </div>
         <div class="body" ref="chartWrapper">
             <canvas id="chart" ref="chart" width="400" height="auto"></canvas>
@@ -34,31 +50,35 @@
 <script setup>
 import { ref, computed, onMounted, inject } from 'vue'
 import { useStore } from 'vuex';
-import { getIconName } from '@/utils/helpers'
+import { useRoute } from 'vue-router';
+import { getIconName, getFrequencyForSelect, debounce } from '@/utils/helpers'
 import dashboardService from '@/services/dashboardService';
 import Chart from 'chart.js/auto'
 
 import GraphSkeleton from '@/components/skeletons/UserDashboard/GraphSkeleton.vue'
+import Label from '@/components/form/Label.vue'
 import AgSelect from '@/components/shared/AgSelect.vue'
 
 const store = useStore();
 const toast = inject('toast');
+const route = useRoute();
+const loaded = ref(false);
+
+const dateFrequencies = getFrequencyForSelect();
 
 const options = computed(() => store.getters['_exerciseList']);
 const currentExercise = ref({
     category: "Bacak",
-    text: "Squat",
+    text: "Bench Press",
     value: 7
 });
-const date_frequency = ref(2);
-
-const loaded = ref(false);
+const currentFrequency = ref(dateFrequencies[0]);
 const chartWrapper = ref();
 
 onMounted(async () => {
     await buildChart({
         exercise_id: currentExercise.value.value,
-        date_frequency: date_frequency.value
+        date_frequency: currentFrequency.value.value
     });
 
     loaded.value = true;
@@ -108,10 +128,27 @@ const buildChart = async (options = {}) => {
     }, 100);
 }
 
-const updateModel = ($event) => {
-    buildChart({
-        exercise_id: $event,
-        date_frequency: date_frequency.value
-    })
+const updateExercise = ($event) => {
+    currentExercise.value = $event;
+    reBuildChart();
 }
+
+const updateFrequencyModel = ($event) => {
+    currentFrequency.value = $event;
+    reBuildChart();
+}
+
+const reBuildChart = () => {
+    const exercise_id = currentExercise.value.value;
+    const date_frequency = currentFrequency.value.value;
+
+    exercise_id && date_frequency && buildChart({exercise_id,date_frequency});
+}
+
+
+window.addEventListener('resize', debounce(() => {
+    if(route.name === 'dashboard') {
+        reBuildChart();
+    }
+}, 300));
 </script>

@@ -59,7 +59,7 @@ const optionsComp = computed(() => {
       return {
         value: state.isPrimitive ? item : item[props.readValue],
         text: state.isPrimitive ? item : item[props.readText],
-        category: item['category']['name']
+        category: item.category?.name ?? ''
       };
     });
     if (props.search && state.searchVal) {
@@ -81,7 +81,8 @@ const modelPrimitive = computed(() => {
   );
 });
 function onSelectOption(opt) {
-  state.selectedOption = { value: opt.value, text: opt.text, category: opt.category };
+  // state.selectedOption.value = opt;
+  state.selectedOption = opt;
   emitModel();
 }
 const onEscape = (e) => {
@@ -158,7 +159,7 @@ watch(
       }
 
       if (opt) {
-        state.selectedOption = { value: opt.value, text: opt.text, category: opt.category };
+        state.selectedOption = { value: opt.value, text: opt.text, category: opt.category ?? '' };
       } else {
         state.selectedOption = null;
       }
@@ -196,15 +197,16 @@ watch(
         >
         
         <div class="flex gap-3" v-if="state.selectedOption" @click="state.openList = !state.openList" style="" >
-          <img :src="getIconName(state.selectedOption.category)"  width="25" class="object-contain">
+          <img v-if="state.selectedOption.category" :src="getIconName(state.selectedOption.category)"  width="25" class="object-contain">
           <div class="overflow-hidden text-ellipsis w-full">
               {{ state.selectedOption.text }}
             </div>
         </div>
         </span
-      ><i @click.stop="onClear" class="clear" v-if="state.selectedOption"
-        >&times;</i
       >
+      <!-- <i @click.stop="onClear" class="clear" v-if="state.selectedOption && !props.search"
+        >&times;</i
+      > -->
     </div>
     <div class="list-wrapper" :class="{ 'show-up': state.openAbove }">
       <div v-if="props.search" class="search">

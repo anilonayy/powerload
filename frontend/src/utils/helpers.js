@@ -1,3 +1,5 @@
+import DateFrequencyEnums from "@/enums/DateFrequencyEnums";
+
 export const setCookie = (name, value, days) => {
     var expires = "";
     if (days) {
@@ -118,4 +120,35 @@ export const validateTrainBuilderData = (train) => {
   response.data = train;
 
   return response;
+}
+
+export const getLocale = () => {
+  const locale = getCookie('locale') || 'tr_TR';
+
+  return locale;
+}
+
+export const getFrequencyForSelect = () => {
+  const locale = getLocale();
+
+  const frequency = DateFrequencyEnums.map((item) => {
+    return {
+      name: item.text[locale],
+      value: item.value
+    }
+  })
+
+  return frequency;
+}
+
+export const debounce = (func, delay) => {
+    let timer;
+
+    return function (...args) {
+      clearTimeout(timer);
+
+      timer = setTimeout(() => {
+          func(...args);
+      }, delay);
+    }
 }
