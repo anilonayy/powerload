@@ -172,5 +172,49 @@ export default {
         EXERCISES: 'Egzersizler',
         SET: 'Set',
         KG: 'KG'
+    },
+    RESET_PASSWORD: {
+        TITLE: 'Şifre Yenile',
+        DESCRIPTION: 'Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃',
+        FORM: {
+            CURRENT_PASSWORD: {
+                LABEL: 'Mevcut Şifre',
+                PLACEHOLDER: 'Mevcut Şifrenizi Giriniz',
+                EMPTY_ERROR: 'Mevcut şifre boş bırakılamaz!',
+            },
+            NEW_PASSWORD: {
+                LABEL: 'Yeni Şifre',
+                PLACEHOLDER: 'Yeni Şifrenizi Giriniz',
+                EMPTY_ERROR: 'Yeni şifre boş bırakılamaz!',
+            },
+            NEW_PASSWORD_CONFIRMATION: {
+                LABEL: 'Yeni Şifre Tekrar',
+                PLACEHOLDER: 'Yeni Şifrenizi Tekrar Giriniz',
+                EMPTY_ERROR: 'Yeni şifre tekrar boş bırakılamaz!',
+                MATCH_ERROR: 'Şifreler eşleşmiyor!',
+            },
+            SUBMIT_BUTTON: 'Şifreyi Güncelle',
+            SUCCESS_MESSAGE: 'Şifreniz başarıyla güncellendi!',
+        }
+    },
+    PROFILE_SETTINGS: {
+        TITLE: 'Profil Ayarları',
+        DESCRIPTION: 'Hitap edebilmemiz için ismin, iletişime geçmemiz için e-posta adresin hepsi bu kadar.',
+        FORM: {
+            NAME: {
+                LABEL: 'Ad Soyad',
+                PLACEHOLDER: 'Adınızı girin',
+                EMPTY_ERROR: 'Ad Soyad boş bırakılamaz',
+                CHAR_LIMIT_ERROR : 'Ad Soyad en az 2 en fazla 50 karakter olabilir',
+            },
+            EMAIL: {
+                LABEL: 'E-Posta',
+                PLACEHOLDER: 'E-Postanızı Giriniz',
+                EMPTY_ERROR: 'E-Posta adresi boş bırakılamaz!',
+                INVALID_ERROR: 'Geçersiz e-posta adresi!',
+            },
+            SUBMIT_BUTTON: 'Bilgileri Güncelle',
+            SUCCESS_MESSAGE: 'Bilgileriniz başarıyla güncellendi!',
+        }
     }
 }

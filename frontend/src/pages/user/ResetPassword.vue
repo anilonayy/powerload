@@ -1,14 +1,14 @@
 <template>
         <Panel class="w-full p-4">
         <PanelHeader class="p-2">
-          <template v-slot:title> Şifre Yenile </template>
-          <template v-slot:description> Şifre oluştururken en az 6 karakter, büyük ve küçük harflerden oluşmasına dikkat etmelisiniz. Zorunlu değil sadece tavsiye 🙃 </template>
+          <template v-slot:title> {{ $t('RESET_PASSWORD.TITLE') }} </template>
+          <template v-slot:description> {{ $t('RESET_PASSWORD.DESCRIPTION') }} </template>
           <hr>
         </PanelHeader>
 
         <form @submit="submitPassword($event)" method="POST" class="flex flex-col gap-4">
           <div>
-            <Label for="currentPassword" value="Güncel Şifre" />
+            <Label for="currentPassword" :value="$t('RESET_PASSWORD.FORM.CURRENT_PASSWORD.LABEL')" />
 
             <Input
               id="currentPassword"
@@ -23,7 +23,7 @@
           </div>
 
           <div>
-            <Label for="newPassword" value="Yeni Şifre" />
+            <Label for="newPassword" :value="$t('RESET_PASSWORD.FORM.NEW_PASSWORD.LABEL')" />
 
             <Input
               id="newPassword"
@@ -38,7 +38,7 @@
           </div>
 
           <div>
-            <Label for="newPasswordConfirm" value="Yeni Şifre Onay" />
+            <Label for="newPasswordConfirm" :value="$t('RESET_PASSWORD.FORM.NEW_PASSWORD_CONFIRMATION.LABEL')" />
 
             <Input
               id="newPasswordConfirm"
@@ -54,13 +54,14 @@
             </div>
           </div>
 
-          <button class="dark-gray-btn w-24">Güncelle</button>
+          <button class="dark-gray-btn w-40"> {{ $t('RESET_PASSWORD.FORM.SUBMIT_BUTTON') }} </button>
         </form>
       </Panel>
 </template>
 
 <script setup>
 import { ref, inject } from "vue";
+import { useI18n } from 'vue-i18n'
 import userService from '@/services/userService';
 
 import Panel from "@/components/shared/Panel.vue";
@@ -70,6 +71,7 @@ import Label from "@/components/form/Label.vue";
 import InputError from "@/components/form/InputError.vue";
 
 const toast = inject('toast');
+const { t } = useI18n();
 
 const errors = ref({});
 
@@ -88,23 +90,23 @@ const submitPassword = async (event) => {
   const payload = newPassword.value;
 
   if(payload.currentPassword.length === 0) {
-    errors.value.currentPassword = ['Şifre boş olamaz.'];
+    errors.value.currentPassword = [t('RESET_PASSWORD.FORM.CURRENT_PASSWORD.EMPTY_ERROR')];
   } 
 
   if(payload.newPassword.length === 0) {
-    errors.value.newPassword = ['Yeni Şifre boş olamaz..'];
+    errors.value.newPassword = [t('RESET_PASSWORD.FORM.NEW_PASSWORD.EMPTY_ERROR')];
   } 
 
   if(payload.newPasswordConfirm.length === 0) {
-    errors.value.newPasswordConfirm = ['Yeni Şifre Onay boş olamaz.'];
+    errors.value.newPasswordConfirm = [t('RESET_PASSWORD.FORM.NEW_PASSWORD_CONFIRMATION.EMPTY_ERROR')];
   } else if(payload.newPasswordConfirm !== payload.newPassword) {
-    errors.value.newPasswordConfirm = ['Yeni şifreler uyuşmuyor!'];
+    errors.value.newPasswordConfirm = [t('RESET_PASSWORD.FORM.NEW_PASSWORD_CONFIRMATION.MATCH_ERROR')];
   }
 
   if(Object.keys(errors.value).length === 0) {
     try {
       await userService.updatePassword(newPassword.value);
-      toast.success('Şifre başarıyla güncellendi!');
+      toast.success(t('RESET_PASSWORD.FORM.SUCCESS_MESSAGE'));
 
       newPassword.value  = {};
     } catch (error) {

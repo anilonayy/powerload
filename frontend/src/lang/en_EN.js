@@ -172,5 +172,49 @@ export default {
         EXERCISES: 'Exercises',
         SET: 'Set',
         KG: 'KG'
+    },
+    RESET_PASSWORD: {
+        TITLE: 'Reset Password',
+        DESCRIPTION: 'When creating a password, you should make sure that it consists of at least 6 characters, uppercase and lowercase letters. Not mandatory, just a recommendation 🙃',
+        FORM: {
+            CURRENT_PASSWORD: {
+                LABEL: 'Current Password',
+                PLACEHOLDER: 'Enter Current Password',
+                EMPTY_ERROR: 'Current Password cannot be empty!',
+            },
+            NEW_PASSWORD: {
+                LABEL: 'New Password',
+                PLACEHOLDER: 'Enter New Password',
+                EMPTY_ERROR: 'New Password cannot be empty!',
+            },
+            NEW_PASSWORD_CONFIRMATION: {
+                LABEL: 'New Password Confirmation',
+                PLACEHOLDER: 'Enter New Password Confirmation',
+                EMPTY_ERROR: 'New Password Confirmation cannot be empty!',
+                MATCH_ERROR: 'Passwords do not match!',
+            },
+            SUBMIT_BUTTON: 'Update Password',
+            SUCCESS_MESSAGE: 'Password was successfully updated',
+        }
+    },
+    PROFILE_SETTINGS: {
+        TITLE: 'Profile Settings',
+        DESCRIPTION: 'Your name so we can address you, your e-mail address so we can contact you, and that\'s it.',
+        FORM: {
+            NAME: {
+                LABEL: 'Name',
+                PLACEHOLDER: 'Enter Name',
+                EMPTY_ERROR: 'Name field cannot be empty',
+                CHAR_LIMIT_ERROR : 'Name can be at least 2 and up to 50 characters',
+            },
+            EMAIL: {
+                LABEL: 'E-Mail',
+                PLACEHOLDER: 'Enter Your E-Mail Address',
+                EMPTY_ERROR: 'E-Mail Address cannot be empty!',
+                INVALID_ERROR: 'Invalid E-Mail Address!',
+            },
+            SUBMIT_BUTTON: 'Update Profile',
+            SUCCESS_MESSAGE: 'Profile updated was successfully!',
+        }
     }
 }
