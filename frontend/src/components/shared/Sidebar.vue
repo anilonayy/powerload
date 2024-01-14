@@ -69,12 +69,16 @@
           </span>
         </div>
       </div>
+      
   
       <div
         class="bg-white w-full bottom-4 mt-auto"
         style="width: 90%"
         :class="{ fixed: isAsideOpen, relative: !isAsideOpen }"
       >
+        
+        <SelectLanguage />
+
         <div class="aside-bottom mt-auto bottom-4 w-full">
           <div v-if="isAuthenticated">
             <button
@@ -158,10 +162,12 @@ import UserIcon from '@/components/icons/UserIcon.vue';
 import PowerIcon from '@/components/icons/PowerIcon.vue';
 import AngleDownIcon from '@/components/icons/AngleDownIcon.vue';
 import ListIcon from '@/components/icons/ListIcon.vue';
+import SelectLanguage from '@/components/sidebar/SelectLanguage.vue';
 
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex';
 import authService from '@/services/authService';
+
 
 const store = useStore();
 
@@ -197,18 +203,6 @@ const updateAsideOpen = (value) => {
 
 const logout = async () => {
   await authService.logout();
-}
-
-
-var currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-
-function toggleTheme() {
-  var newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-
-  document.documentElement.setAttribute('data-theme', newTheme);
-  document.documentElement.setAttribute('class', newTheme);
-
-  currentTheme = newTheme;
 }
 </script>
 
