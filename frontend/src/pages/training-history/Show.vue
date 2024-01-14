@@ -3,10 +3,10 @@
         <Panel>
             <HistoryDetailSkeleton v-if="!loaded" />
             <div v-else>
-                <BackButton :to="{ name: 'training-history' }"> Antrenman Geçmişine Dön </BackButton>
+                <BackButton :to="{ name: 'training-history' }"> {{ $t('TRAINING_HISTORY.SHOW.BACK_TO_LIST') }}</BackButton>
                 <PanelHeader class="p-2">
-                    <template v-slot:title> Antrenman Sonuçları </template>
-                    <template v-slot:description> Antrenman sonuçlarını görebilirsin! </template>
+                    <template v-slot:title> {{ $t('TRAINING_HISTORY.SHOW.TITLE') }} </template>
+                    <template v-slot:description> {{ $t('TRAINING_HISTORY.SHOW.DESCRIPTION') }} </template>
                     <hr>
                 </PanelHeader>
 

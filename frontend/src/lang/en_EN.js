@@ -146,5 +146,31 @@ export default {
             VALIDATION_ERROR: 'Please correct any incorrect or missing fields!',
             SUBMIT_FORM: 'SUBMIT TRAINING',
         }
+    },
+    TRAINING_HISTORY : {
+        LIST: {
+            TITLE: 'Training History',
+            DESCRIPTION: 'Training history listing here 👀',
+            TABLE: {
+                NAME:  'Training',
+                DURATION: 'Training Duration',
+                DATE: 'Training Date',
+                SEE:  'Review',
+            },
+            SEE_BUTTON: 'Review',
+            NO_DATA: 'You haven\'t trained yet! You can start training and building your strength!',
+        },
+        SHOW: {
+            BACK_TO_LIST: 'Back to list',
+            TITLE: 'Training Details',
+            DESCRIPTION: 'Details of your workout are listed here.',
+        }
+    },
+    TRAIN_RESULT: {
+        TRAINING: 'Training',
+        DURATION: 'Duration',
+        EXERCISES: 'Exercises',
+        SET: 'Set',
+        KG: 'KG'
     }
 }

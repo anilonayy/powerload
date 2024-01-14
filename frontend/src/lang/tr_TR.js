@@ -146,5 +146,31 @@ export default {
             VALIDATION_ERROR: 'Lütfen hatalı veya eksik alanarı düzeltin!',
             SUBMIT_FORM: 'ANTRENMANI KAYDET',
         }
+    },
+    TRAINING_HISTORY : {
+        LIST: {
+            TITLE: 'Antrenman Geçmişi',
+            DESCRIPTION: 'Antrenman geçmişiniz bu sayfada listelenir 👀',
+            TABLE: {
+                NAME:  'Antrenman',
+                DURATION: 'Antrenman Süresi',
+                DATE: 'Antrenman Tarihi',
+                SEE:  'İncele',
+            },
+            SEE_BUTTON: 'Detaylı İncele',
+            NO_DATA: 'Henüz antrenman yapmadınız! Antrenman yapmaya başlayıp gücüne güç katmaya başlayabilirsin!',
+        },
+        SHOW: {
+            BACK_TO_LIST: 'Listeye Dön',
+            TITLE: 'Antrenman Detayları',
+            DESCRIPTION: 'Antrenmanınızın detayları burada listelenir.',
+        }
+    },
+    TRAIN_RESULT: {
+        TRAINING: 'Antrenman',
+        DURATION: 'Süre',
+        EXERCISES: 'Egzersizler',
+        SET: 'Set',
+        KG: 'KG'
     }
 }
