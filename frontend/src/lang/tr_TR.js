@@ -250,5 +250,12 @@ export default {
                 LOGIN: 'Giriş Yap'
             }
         }
+    },
+    BOTTOM_BAR: {
+        START_TRAINING: 'Antrenmana Başla!',
+        CONTINUE_TRAINING: 'Antrenmana Devam Et!',
+    },
+    ERRORS: {
+        UNKNOWN: 'Beklenmeyen bir hata oluştu!',
     }
 }

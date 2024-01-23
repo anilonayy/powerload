@@ -5,10 +5,10 @@
     <div class="w-full h-full" @click="handleTraining()">
         <div class="w-full h-full flat-btn bg-indigo-800 hover:bg-indigo-600 active:bg-indigo-700  text-white">
             <div v-if="!isTrainingSelected">
-                Antrenmana Başla!
+                {{ $t('BOTTOM_BAR.START_TRAINING') }}
             </div>
             <div v-else>
-                Antrenmana Devam Et!  
+                {{ $t('BOTTOM_BAR.CONTINUE_TRAINING') }}
             </div>
         </div>
     </div>
@@ -22,10 +22,12 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import router from '@/router';
 import trainingLogService from '@/services/trainingLogService';
+import { useI18n } from 'vue-i18n';
 
 const store = useStore();
 const route = useRoute();
 const toast = inject('toast');
+const { t } = useI18n();
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
 const trainingLogId = computed(() => store.getters['_trainingLogId']);
@@ -45,7 +47,7 @@ const handleTraining = async () => {
         router.push({ name: 'on-train', params: { trainingLogId: response.data.id} });
     } catch (error) {
         console.error(error);
-        toast.error('Bir hata oluştu. Lütfen tekrar deneyiniz.')
+        toast.error(t('ERRORS.UNKNOWN'))
     }
 }
 

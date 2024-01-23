@@ -250,5 +250,12 @@ export default {
                 LOGIN: 'Login'
             }
         }
+    },
+    BOTTOM_BAR: {
+        START_TRAINING: 'Start Training!',
+        CONTINUE_TRAINING: 'Continue Training',
+    },
+    ERRORS: {
+        UNKNOWN: 'An error ocurred!',
     }
 }
