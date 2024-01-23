@@ -23,16 +23,15 @@
             <ConfettiExplosion  :particleCount="200" :force="0.4"/>
 
             <HeaderText class="text-[2rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl mt-12 text-center ">
-                Tebrikler !
+                {{ $t('TRAINING_COMPLETED.CONGURALITATIONS') }}
             </HeaderText>
 
             <div class="text-sm mt-4 p-4">
                 <div class="italic text-justify">
-                    Bu gün de antrenmanını aksatmadın ve tüm çabanla çalıştın! 
-                    Bu gün dünden daha iyisin, yarın bugünden daha iyi olacaksın!
+                    {{ $t('TRAINING_COMPLETED.MOTIVATON_TEXT') }}
                 </div>
                 <br>
-                <div class="font-semibold text-center">Haydi bu gün neler yaptığmıza  <br> kısa bir göz atalım ! ⬇️ 👀 </div>
+                <div class="font-semibold text-center" v-html="$t('TRAINING_COMPLETED.LETS_LOOK')" />
 
                 <TrainResults :data="data" />
             </div>

@@ -300,5 +300,10 @@ export default {
             REP: 'Reps',
             PASSED: 'You skipped this move! Add a new set to avoid skipping.',
         }
+    },
+    TRAINING_COMPLETED: {
+        CONGURALITATIONS: 'Conguralitations!',
+        MOTIVATON_TEXT: 'Today you kept up with your training and gave it your all! Today you are better than yesterday, tomorrow you will be better than today!',
+        LETS_LOOK: 'Let\'s take a quick look at <br /> what we did today! ⬇️ 👀',
     }
 }

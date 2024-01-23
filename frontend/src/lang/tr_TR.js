@@ -300,5 +300,10 @@ export default {
             REP: 'Tekrar',
             PASSED: ' Bu hareketi pas geçtin! Geçmemek için yeni set ekle.',
         }
+    },
+    TRAINING_COMPLETED: {
+        CONGURALITATIONS: 'Tebrikler!',
+        MOTIVATON_TEXT: 'Bu gün de antrenmanını aksatmadın ve tüm çabanla çalıştın! Bu gün dünden daha iyisin, yarın bugünden daha iyi olacaksın!',
+        LETS_LOOK: 'Haydi bu gün neler yaptığmıza  <br /> kısa bir göz atalım ! ⬇️ 👀',
     }
 }
