@@ -216,5 +216,21 @@ export default {
             SUBMIT_BUTTON: 'Bilgileri Güncelle',
             SUCCESS_MESSAGE: 'Bilgileriniz başarıyla güncellendi!',
         }
+    },
+    AUTH: {
+        LOGIN: {
+            TITLE: 'Giriş Yap',
+            FORM:  {
+                EMAIL: 'E-Posta',
+                EMAIL_EMPTY_ERROR: 'E-Posta boş bırakılamaz!',
+                PASSWORD: 'Şifre',
+                PASSWORD_EMPTY_ERROR: 'Şifre boş bırakılamaz!',
+                FORGET_PASSWORD: 'Şifremi Unuttum',
+                SUBMIT: 'Giriş Yap',
+                GOOGLE_LOGIN: 'Google ile Giriş Yap',
+                NO_ACCOUNT: 'Üyeliğin yok mu?',
+                REGISTER: 'Üye Ol',
+            }
+        }
     }
 }

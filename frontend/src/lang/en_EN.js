@@ -216,5 +216,21 @@ export default {
             SUBMIT_BUTTON: 'Update Profile',
             SUCCESS_MESSAGE: 'Profile updated was successfully!',
         }
+    },
+    AUTH: {
+        LOGIN: {
+            TITLE: 'Login',
+            FORM:  {
+                EMAIL: 'Email',
+                EMAIL_EMPTY_ERROR: 'Email field can not be empty!',
+                PASSWORD: 'Password',
+                PASSWORD_EMPTY_ERROR: 'Password can not be empty',
+                FORGET_PASSWORD: 'Forget Password',
+                SUBMIT: 'Login',
+                GOOGLE_LOGIN: 'Login with Google',
+                NO_ACCOUNT: 'No account?',
+                REGISTER: 'Register',
+            }
+        }
     }
 }

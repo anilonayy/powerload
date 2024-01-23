@@ -1,10 +1,10 @@
 <template>
   <div>
-    <HeaderText class="text-center"> Giriş Yap </HeaderText>
+    <HeaderText class="text-center">{{ $t('AUTH.LOGIN.TITLE') }}</HeaderText>
     <Panel class="max-w-lg w-full my-16 p-8">
       <form @submit="formSubmit($event)">
         <div>
-          <Label for="email" value="E-Posta" />
+          <Label for="email" :value="$t('AUTH.LOGIN.FORM.EMAIL')" />
 
           <Input
             id="email"
@@ -20,7 +20,7 @@
         </div>
 
         <div class="mt-4">
-          <Label for="password" value="Şifre" />
+          <Label for="password" :value="$t('AUTH.LOGIN.FORM.PASSWORD')" />
 
           <Input
             id="password"
@@ -35,8 +35,9 @@
           </div>
 
           <div class="flex w-full justify-end">
-            <router-link to="/sifremi-unuttum" class="text-sm underline underline-offset-1"
-              >Şifremi Unuttum</router-link
+            <router-link to="/sifremi-unuttum" class="text-sm underline underline-offset-1">
+              {{ $t('AUTH.LOGIN.FORM.FORGET_PASSWORD') }}
+            </router-link
             >
           </div>
         </div>
@@ -45,19 +46,21 @@
           {{ errors?.message }}
         </div>
 
-        <button type="submit" class="dark-gray-btn w-full mt-4"> Giriş Yap </button>
+        <button type="submit" class="dark-gray-btn w-full mt-4"> {{ $t('AUTH.LOGIN.FORM.SUBMIT') }} </button>
 
         <hr class="my-6 border-gray-300 w-full" />
 
         <div class="btn border border-1 w-full">
             <GoogleIcon />
-            <span class="ml-4">Google ile giriş yap</span>
+            <span class="ml-4">{{ $t('AUTH.LOGIN.FORM.GOOGLE_LOGIN') }}</span>
         </div>
         
 
         <div class="mt-6 font-">
-          Üyeliğin yok mu?
-          <router-link to="/uye-ol" class="font-semibold text-blue-400">Üye Ol</router-link>
+          {{ $t('AUTH.LOGIN.FORM.NO_ACCOUNT') }}
+          <router-link to="/uye-ol" class="font-semibold text-blue-400">
+          {{ $t('AUTH.LOGIN.FORM.REGISTER') }}
+          </router-link>
         </div>
       </form>
     </Panel>
@@ -68,6 +71,7 @@
 import { ref, inject, watch } from 'vue'
 import router from '@/router'
 import authService from '@/services/authService'
+import { useI18n } from 'vue-i18n';
 
 import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
@@ -76,7 +80,8 @@ import Label from '@/components/form/Label.vue'
 import HeaderText from '@/components/shared/HeaderText.vue'
 import GoogleIcon from '@/components/icons/GoogleIcon.vue'
 
-const toast = inject('toast')
+const toast = inject('toast');
+const { t } = useI18n();
 
 const userData = ref({
   email: '',
@@ -96,8 +101,6 @@ const formSubmit = async (event) => {
     if(validateForm()) {
       await authService.login(userData.value);
 
-      Object.keys(userData.value).forEach((field) => (userData.value[field] = null)) // Remove all values
-
       router.push({ name: 'dashboard' });
     }
   } catch (error) {
@@ -108,8 +111,8 @@ const formSubmit = async (event) => {
 }
 
 const validateForm = () => {
-  errors.value.email = isEmpty(userData?.value?.email) ? ["E-Mail alanı zorunludur."] : [];
-  errors.value.password = isEmpty(userData?.value?.password) ? ["Şifre alanı zorunludur."] : [];
+  errors.value.email = isEmpty(userData?.value?.email) ? [t('AUTH.LOGIN.FORM.EMAIL_EMPTY_ERROR')] : [];
+  errors.value.password = isEmpty(userData?.value?.password) ? [t('AUTH.LOGIN.FORM.PASSWORD_EMPTY_ERROR')] : [];
 
   if(errors.value.message?.length) {
     errors.value.message = ''
