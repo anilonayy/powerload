@@ -231,6 +231,24 @@ export default {
                 NO_ACCOUNT: 'No account?',
                 REGISTER: 'Register',
             }
+        },
+        REGISTER: {
+            TITLE: 'Register',
+            FORM: {
+                NAME: 'Name',
+                NAME_EMPTY_ERROR: 'Name field can not be empty!', 
+                EMAIL: 'Email',
+                EMAIL_EMPTY_ERROR: 'Email field can not be empty!',
+                PASSWORD: 'Password',
+                PASSWORD_EMPTY_ERROR: 'Password field can not be empty!',
+                PASSWORD_CONFIRMATION: 'Password Confirmation',
+                PASSWORD_CONFIRMATION_EMPTY_ERROR: 'Password Confirmation field can not be empty!',
+                PASSWORD_CONFIRMATION_MATCH_ERROR: 'Passwords Not Matching!',
+                SUBMIT: 'Register',
+                REGISTER_GOOGLE: 'Register with Google',
+                ALREADY_REGISTERED: 'Already Registered?',
+                LOGIN: 'Login'
+            }
         }
     }
 }

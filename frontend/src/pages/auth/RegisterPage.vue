@@ -1,10 +1,10 @@
 <template>
   <div>
-    <HeaderText class="text-center"> Üye Ol </HeaderText>
+    <HeaderText class="text-center">{{ $t('AUTH.REGISTER.TITLE') }}</HeaderText>
     <Panel class="max-w-lg w-full my-8 p-8">
       <form @submit="formSubmit($event)" class="flex flex-col gap-4">
         <div>
-          <Label for="name" value="Ad Soyad" />
+          <Label for="name" :value="$t('AUTH.REGISTER.FORM.NAME')" />
 
           <Input
             id="name"
@@ -21,7 +21,7 @@
         </div>
 
         <div>
-          <Label for="email" value="E-Posta" />
+          <Label for="email" :value="$t('AUTH.REGISTER.FORM.EMAIL')" />
 
           <Input
             id="email"
@@ -37,7 +37,7 @@
         </div>
 
         <div>
-          <Label for="password" value="Şifre" />
+          <Label for="password" :value="$t('AUTH.REGISTER.FORM.PASSWORD')" />
 
           <Input
             id="password"
@@ -53,7 +53,7 @@
         </div>
 
         <div>
-          <Label for="password_confirm" value="Şifre Onay" />
+          <Label for="password_confirm" :value="$t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION')" />
 
           <Input
             id="password_confirm"
@@ -71,19 +71,19 @@
           {{ errors?.message }}
         </div>
 
-        <button type="submit" class="dark-gray-btn"> Üye Ol </button>
+        <button type="submit" class="dark-gray-btn"> {{ $t('AUTH.REGISTER.FORM.SUBMIT') }} </button>
         
         <hr class="my-6 border-gray-300 w-full" />
 
         
         <div class="btn border border-1">
             <GoogleIcon />
-            <span class="ml-4">Google ile üye ol</span>
+            <span class="ml-4">{{ $t('AUTH.REGISTER.FORM.REGISTER_GOOGLE') }}</span>
         </div>
 
         <div class="mt-6 font-">
-          Zaten üye misin?
-          <router-link to="/giris-yap" class="font-semibold text-blue-400">Giriş Yap</router-link>
+          {{ $t('AUTH.REGISTER.FORM.ALREADY_REGISTERED') }}
+          <router-link to="/giris-yap" class="font-semibold text-blue-400">{{ $t('AUTH.REGISTER.FORM.LOGIN') }}</router-link>
         </div>
       </form>
     </Panel>
@@ -94,6 +94,7 @@
 import { ref, inject, watch } from 'vue';
 import authService from '@/services/authService';
 import router from '@/router'
+import { useI18n } from 'vue-i18n';
 
 import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
@@ -103,6 +104,7 @@ import HeaderText from '@/components/shared/HeaderText.vue'
 import GoogleIcon from '@/components/icons/GoogleIcon.vue'
 
 const toast = inject('toast');
+const { t } = useI18n();
 
 const userData = ref({
   name: '',
@@ -121,8 +123,6 @@ const formSubmit = async (event) => {
 
     await authService.register(userData.value);
 
-    Object.keys(userData.value).forEach((field) => (userData.value[field] = null));
-
     toast.success('Başarıyla kayıt oldun!');
 
     router.push('/');
@@ -132,14 +132,14 @@ const formSubmit = async (event) => {
 }
 
 const validateForm = () => {
-  errors.value.name = isEmpty(userData.value.name) ? ["Ad Soyad alanı zorunludur."] : [];
-  errors.value.email = isEmpty(userData.value.email) ? ["E-Mail alanı zorunludur."] : [];
-  errors.value.password = isEmpty(userData.value.password) ? ["Şifre alanı zorunludur."] : [];
+  errors.value.name = isEmpty(userData.value.name) ? [t('AUTH.REGISTER.FORM.NAME_EMPTY_ERROR')] : [];
+  errors.value.email = isEmpty(userData.value.email) ? [t('AUTH.REGISTER.FORM.EMAIL_EMPTY_ERROR')] : [];
+  errors.value.password = isEmpty(userData.value.password) ? [t('AUTH.REGISTER.FORM.PASSWORD_EMPTY_ERROR')] : [];
 
   if (isEmpty(userData.value.password_confirm)) {
-    errors.value.password_confirm = ["Şifre Onay alanı zorunludur."];
+    errors.value.password_confirm = [t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION_EMPTY_ERROR')];
   } else if (userData.value.password !== userData.value.password_confirm) {
-    errors.value.password_confirm = ["Şifreler eşleşmiyor."];
+    errors.value.password_confirm = [t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION_MATCH_ERROR')];
   } else {
     errors.value.password_confirm = [];
   }

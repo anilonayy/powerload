@@ -231,6 +231,24 @@ export default {
                 NO_ACCOUNT: 'Üyeliğin yok mu?',
                 REGISTER: 'Üye Ol',
             }
+        },
+        REGISTER: {
+            TITLE: 'Üye Ol',
+            FORM: {
+                NAME: 'Ad Soyad',
+                NAME_EMPTY_ERROR: 'Ad Soyad boş bırakılamaz!', 
+                EMAIL: 'E-Posta',
+                EMAIL_EMPTY_ERROR: 'E-Posta boş bırakılamaz!',
+                PASSWORD: 'Şifre',
+                PASSWORD_EMPTY_ERROR: 'Şifre boş bırakılamaz!',
+                PASSWORD_CONFIRMATION: 'Şifre Tekrar',
+                PASSWORD_CONFIRMATION_EMPTY_ERROR: 'Şifre Tekrar boş bırakılamaz!',
+                PASSWORD_CONFIRMATION_MATCH_ERROR: 'Şifreler eşleşmiyor!',
+                SUBMIT: 'Üye Ol',
+                REGISTER_GOOGLE: 'Google ile Üye Ol',
+                ALREADY_REGISTERED: 'Zaten üye misin?',
+                LOGIN: 'Giriş Yap'
+            }
         }
     }
 }
