@@ -257,5 +257,48 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'An error ocurred!',
+    },
+    ON_TRAIN: {
+        WHICH_TITLES: {
+            TRAINING: 'Which training do you want to do?',
+            DAY: 'Which training day do you want to do?',
+        },
+        COMPLETE_TRAINING: 'Complete Training',
+        NEXT_EXERCISE: 'Next Exercise',
+        GIVE_UP: 'Give Up',
+        COMPLETE_TRAINING_CONFIRM: {
+            TITLE: 'Complete Training',
+            TEXT: 'You are about to complete the training! If you complete it, you can\'t edit it again. Are you sure you entered all the sets correctly?',
+            CONFIRM_BUTTON: 'Yes, Complete!',
+            CANCEL_BUTTON: 'No, cancel it!',
+        },
+        SELECT_ANOTHER_DAY_CONFIRM: {
+            TITLE: 'Are you sure?',
+            TEXT: 'If you choose a different day, your progress on that day will be deleted.',
+            CONFIRM_BUTTON: 'Yes, choose new day!',
+            CANCEL_BUTTON: 'No, cancel it!'
+        },
+        PASS_EXERCISE_CONFIRM: {
+            TITLE: 'Are you sure?',
+            TEXT: 'If you skip the movement, the statistics are not kept.',
+            CONFIRM_BUTTON: 'Yes, pass it!',
+            CANCEL_BUTTON: 'No, cancel it!'
+        },
+        GIVE_UP_TRAINING_CONFIRM: {
+            TITLE: 'Are you sure?',
+            TEXT: 'If you stop training, your progress will be erased.',
+            CONFIRM_BUTTON: 'Yes, give up!',
+            CANCEL_BUTTON: 'No, continue!'
+        },
+        SELECT_TRAINING: {
+            NO_TRAINING: 'You haven\'t created a workout yet.',
+            LETS_CREATE: 'Let\'s create a workout!',
+        },
+        EXERCISE: {
+            ADD_SET: 'Add Set',
+            WEIGHT: 'Weight',
+            REP: 'Reps',
+            PASSED: 'You skipped this move! Add a new set to avoid skipping.',
+        }
     }
 }

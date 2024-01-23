@@ -257,5 +257,48 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'Beklenmeyen bir hata oluştu!',
+    },
+    ON_TRAIN: {
+        WHICH_TITLES: {
+            TRAINING: 'Hangi antrenmanı yapmak istersin?',
+            DAY: 'Hangi günü yapmak istersin?',
+        },
+        COMPLETE_TRAINING: 'Antrenmanı Tamamla',
+        NEXT_EXERCISE: 'Sonraki Harekete Geç',
+        GIVE_UP: 'Antrenmanı Bırak',
+        COMPLETE_TRAINING_CONFIRM: {
+            TITLE: 'Antrenmanı Tamamla',
+            TEXT: 'Antrenmanı tamamlamak üzeresin! Eğer tamamlarsan tekrardan düzenleyemezsin. Tüm setleri doğru girdiğine emin misin??',
+            CONFIRM_BUTTON: 'Evet, tamamla!',
+            CANCEL_BUTTON: 'Hayır, iptal et!',
+        },
+        SELECT_ANOTHER_DAY_CONFIRM: {
+            TITLE: 'Emin misin?',
+            TEXT: 'Eğer farklı bir gün seçersen bu gün içindeki ilerlemen silinecek.',
+            CONFIRM_BUTTON: 'Evet, yeni günü seç!',
+            CANCEL_BUTTON: 'Hayır, iptal et!'
+        },
+        PASS_EXERCISE_CONFIRM: {
+            TITLE: 'Emin misin?',
+            TEXT: 'Eğer hareketi pas geçersen, istatistiği tutulmaz.',
+            CONFIRM_BUTTON: 'Evet, pas geç!',
+            CANCEL_BUTTON: 'Hayır, iptal et!'
+        },
+        GIVE_UP_TRAINING_CONFIRM: {
+            TITLE: 'Emin misin?',
+            TEXT: 'Eğer antrenmanı bırakırsan, ilerlemen silinecek.',
+            CONFIRM_BUTTON: 'Evet, bırak!',
+            CANCEL_BUTTON: 'Hayır, iptal et!'
+        },
+        SELECT_TRAINING: {
+            NO_TRAINING: 'Henüz bir antrenman oluşturmadın.',
+            LETS_CREATE: 'Hadi antrenman oluşturalım!',
+        },
+        EXERCISE: {
+            ADD_SET: 'Set Ekle',
+            WEIGHT: 'Kilo',
+            REP: 'Tekrar',
+            PASSED: ' Bu hareketi pas geçtin! Geçmemek için yeni set ekle.',
+        }
     }
 }

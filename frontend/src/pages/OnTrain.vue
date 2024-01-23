@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <on-train-builder></on-train-builder>
-    </div>
+    <on-train-builder></on-train-builder>
 </template>
 
 

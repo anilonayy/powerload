@@ -9,8 +9,8 @@
         </div>
         <div v-else>
             <div class="p-4 text-center">
-                Henüz bir antrenman oluşturmadın. 
-                <router-link :to="{ name: 'add-train' }" class="underline text-blue-700">Hemen Oluştur</router-link>
+                {{ $t('SELECT_TRAINING.NO_TRAINING') }}
+                <router-link :to="{ name: 'add-train' }" class="underline text-blue-700"> {{ $t('SELECT_TRAINING.LETS_CREATE') }} </router-link>
             </div>
         </div>
     </div>

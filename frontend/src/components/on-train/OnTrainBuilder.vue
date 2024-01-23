@@ -44,21 +44,21 @@
             class="flat-btn green-btn w-full absolute bottom-0 h-12 "
             @click="completeTraining()"
         >
-            Antrenmanı Tamamla
+            {{ $t('ON_TRAIN.COMPLETE_TRAINING') }}
         </div>
         <div 
             v-else-if="pageIndex >= 2 && pageIndex !== maxIndex"
             @click="handleNextStep()"
             class="flex w-full items-center justify-center text-lg font-semibold absolute bottom-0 bg-green-500 text-white h-14 cursor-pointer"
             >
-            Sıradaki harekete geç!
+            {{ $t('ON_TRAIN.NEXT_EXERCISE') }}
         </div>
 
         <div v-if="!(pageIndex === maxIndex && maxIndex >= 2) && pageIndex !== 0"
             @click="giveUp()"
             class="flex justify-center items-center text-xs absolute bottom-1 left-4 p-4 rounded-full bg-gray-600 text-white h-12 w-12 cursor-pointer"
         >
-            Pes Et!
+            {{ $t('ON_TRAIN.GIVE_UP') }}
         </div>
     </div>
 </template>
@@ -69,6 +69,7 @@ import { useStore } from 'vuex';
 import router from '@/router';
 import trainingService from '@/services/trainingService';
 import trainingLogService from '@/services/trainingLogService';
+import { useI18n } from 'vue-i18n';
 
 import SelectTraining from '@/components/on-train/SelectTraining.vue';
 import SelectTrainingDay from '@/components/on-train/SelectTrainingDay.vue';
@@ -80,9 +81,9 @@ import OnTrainSelectTrainingSkeleton from '@/components/skeletons/OnTrainSelectT
 const store = useStore();
 const toast = inject('toast');
 const swal = inject('swal');
+const { t } = useI18n();
 
-
-const headerTitle = ref('Bugün hangi antrenmanı yapacaksın?');
+const headerTitle = ref(t('ON_TRAIN.WHICH_TITLES.TRAINING'));
 const trainings = ref(store.getters['_userTrainings']);
 const isTrainingDaySelected = computed(() => store.getters['_isTrainingDaySelected']);
 const isTrainingSelected =  computed(() => store.getters['_isTrainingSelected']);
@@ -203,15 +204,15 @@ const updateState = async () => {
         const index = pageIndex.value;
 
         if(index === 0) {
-            headerTitle.value = 'Bugün hangi antrenmanı yapacaksın?';
+            headerTitle.value = t('ON_TRAIN.WHICH_TITLES.TRAINING');
         } else if (index === 1) {
-            headerTitle.value = 'Hangi gündesin?';
+            headerTitle.value = t('ON_TRAIN.WHICH_TITLES.DAY');
         } else {
             maxIndex.value = selectedDay.value.exercises?.length + 1;
         }
     } catch (error) {
         console.error(error);
-        toast.error('Bir hata oluştu. Lütfen tekrar deneyiniz.')
+        toast.error(t('ERRORS.UNKNOWN'))
     }
 
     updateArrowsVisibility();
@@ -241,12 +242,12 @@ const selectTrainingDay = async (day) => {
         if(!day.isSelected) {
             if(selectedDay.value.id && selectedDay.value.id !== day.id) {
                 swalWithBootstrapButtons.fire({
-                    title: 'Emin misin?',
-                    text: 'Eğer farklı bir gün seçersen bu gün içindeki ilerlemen silinecek.',
+                    title: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.TITLE'),
+                    text: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.TEXT'),
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'Yeni Günü Seç!',
-                    cancelButtonText: 'Vazgeçtim',
+                    confirmButtonText: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.CONFIRM_BUTTON'),
+                    cancelButtonText: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.CANCEL_BUTTON'),
                     reverseButtons: true,
                 })
                 .then(async (result) => {
@@ -285,12 +286,12 @@ const handleNextStep = async () => {
     if(pageIndex.value >= 2) {
         if(!validateCurrentExercise() && !currentExercise.value.isPassed) {
             swalWithBootstrapButtons.fire({
-                title: 'Emin misin?',
-                text: 'Eğer hareketi pas geçersen, istatistiği tutulmaz.',
+                title: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TITLE'),
+                text: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TEXT'),
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Pas Geç',
-                cancelButtonText: 'Vazgeçtim',
+                confirmButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
+                cancelButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
                 reverseButtons: true,
             })
             .then(async (result) => {
@@ -379,12 +380,12 @@ const validateCurrentExercise = (index = null) => {
 const completeTraining = async () => {
     if(!validateCurrentExercise()) {
         swalWithBootstrapButtons.fire({
-            title: 'Emin misin?',
-            text: 'Eğer hareketi pas geçersen, bu hareketin istatistiği tutulmaz.',
+            title: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TITLE'),
+            text: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TEXT'),
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: 'Pas Geç',
-            cancelButtonText: 'Vazgeçtim',
+            confirmButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {
@@ -403,12 +404,12 @@ const completeTraining = async () => {
 const completeTrainingRequest = async () => {
     try {
         swalConfirmButtons.fire({
-            title: 'Emin misin?',
-            text: 'Antrenmanı tamamlıyorsun, eğer tamamlarsan tekrardan düzenleyemezsin. Tüm setleri doğru girdiğine emin misin?',
+            title: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.TITLE'),
+            text: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.TEXT'),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Antrenmanı Bitir',
-            cancelButtonText: 'Vazgeçtim',
+            confirmButtonText: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {
@@ -439,12 +440,12 @@ const updateArrowsVisibility = () => {
 
 const giveUp = () => {
     swalWithBootstrapButtons.fire({
-            title: 'Emin misin?',
-            text: 'Antrenmanı bırakırsan kaydettiğin tüm ağırlıklar silinecek!',
+            title: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.TITLE'),
+            text: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.TEXT'),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Antrenmanı Bitir',
-            cancelButtonText: 'Vazgeçtim',
+            confirmButtonText: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {
