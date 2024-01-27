@@ -37,7 +37,7 @@
                 </AgSelect>
                 </div>
         </div>
-        <div class="body" ref="chartWrapper">
+        <div class="body mt-4" ref="chartWrapper">
             <canvas id="chart" ref="chart" width="400" height="auto"></canvas>
         </div>
         </div>

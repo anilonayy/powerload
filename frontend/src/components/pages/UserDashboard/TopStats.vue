@@ -1,6 +1,5 @@
 <template>
     <div class="">
-
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-4">
             <div class="flex items-center justify-start text-center gap-4 p-2 rounded-md bg-purple-200  ">
                 <div class="stats-badge-icon bg-purple-50 ">

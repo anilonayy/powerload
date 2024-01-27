@@ -81,7 +81,7 @@
         <SelectLanguage />
 
         <div class="aside-bottom mt-auto bottom-4 w-full">
-          <div v-if="isAuthenticated">
+          <div v-if="isAuthenticated" class="relative">
             <button
               @click="isOpen = !isOpen"
               id="dropdown-button"
