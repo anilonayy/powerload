@@ -305,5 +305,56 @@ export default {
         CONGURALITATIONS: 'Tebrikler!',
         MOTIVATON_TEXT: 'Bu gün de antrenmanını aksatmadın ve tüm çabanla çalıştın! Bu gün dünden daha iyisin, yarın bugünden daha iyi olacaksın!',
         LETS_LOOK: 'Haydi bu gün neler yaptığmıza  <br /> kısa bir göz atalım ! ⬇️ 👀',
+    },
+    META: {
+        HOME: {
+            TITLE: 'Powerload - Progressive Overload ile gücüne güç kat!',
+        },
+        ABOUT: {
+            TITLE: 'Hakkımızda - Powerload',
+        },
+        AUTH: {
+            LOGIN: {
+                TITLE: 'Giriş Yap - Powerload',
+            },
+            REGISTER: {
+                TITLE: 'Üye Ol - Powerload',
+            },
+            RESET_PASSWORD: {
+                TITLE: 'Şifre Yenile - Powerload',
+            }
+        },
+        GYM_SIDE: {
+            DASHBOARD: {
+                TITLE: 'Genel Bakış - Powerload',
+            },
+            WORKOUT_HISTORY: {
+                TITLE: 'Antrenman Geçmişi - Powerload',
+            },
+            SINGLE_WORKOUT_HISTORY: {
+                TITLE: 'Antrenman Detayları - Powerload',
+            },
+            WORKOUT_LIST: {
+                TITLE: 'Antrenmanlar - Powerload',
+            },
+            SINGLE_WORKOUT: {
+                TITLE: 'Antrenman - Powerload',
+            },
+            WORKOUT_ADD: {
+                TITLE: 'Antrenman Ekle - Powerload',
+            },
+            WORKOUT_EDIT: {
+                TITLE: 'Antrenman Düzenle - Powerload',
+            },
+            PROFILE_SETTINGS :{
+                TITLE: 'Profil Ayarları - Powerload',
+            },
+        },
+        ON_WORKOUT: {
+            TITLE: 'Antrenman - Powerload',
+        },
+        WORKOUT_COMPLETED: {
+            TITLE: 'Antrenman Tamamlandı - Powerload',
+        }
     }
 }

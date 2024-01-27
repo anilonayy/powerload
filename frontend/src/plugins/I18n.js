@@ -1,16 +1,14 @@
 import { getLocale } from '@/utils/helpers';
 import { createI18n } from 'vue-i18n';
-import trMessages from '@/lang/tr_TR';
-import enMessages from '@/lang/en_EN';
+import tr_TR from '@/lang/tr_TR';
+import en_US from '@/lang/en_US';
 
 const i18n = createI18n({
-    legacy: false, // you must set `false`, to use Composition API
+    legacy: false,
     locale: getLocale(), 
     fallbackLocale: 'tr_TR',
-    messages: {
-        tr_TR: trMessages,
-        en_EN: enMessages,
-    }
+    messages: { tr_TR, en_US },
+    warnHtmlMessage: false
 })
 
 export default i18n;

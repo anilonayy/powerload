@@ -10,9 +10,8 @@ const createAxiosInstance = () => {
 		timeout: 4000
 	});
 
-	// Request interceptor
 	instance.interceptors.request.use(
-			config => {
+		config => {
 			config.headers.Authorization = `Bearer ${ getCookie('_token') }`;
 			return config;
 		},
@@ -20,10 +19,9 @@ const createAxiosInstance = () => {
 			return Promise.reject(error);
 		});
 
-	// Response interceptor
 	instance.interceptors.response.use(
 		response => {
-		return response.data;
+			return response.data;
 		},
 		error => {
 		if (error?.response?.status === 401) {

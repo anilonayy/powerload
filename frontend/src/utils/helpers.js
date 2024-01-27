@@ -125,7 +125,13 @@ export const validateWorkoutBuilderData = (train) => {
   return response;
 }
 
-export const getLocale = () =>  getCookie('locale') || 'tr_TR';
+export const getLocale = () =>  {
+  const allowedLocales = ['tr_TR', 'en_US'];
+  const fallbackLocale = 'tr_TR';
+  const locale = getCookie('locale');
+
+  return allowedLocales.includes(locale) ? locale : fallbackLocale;
+};
 
 export const debounce = (func, delay) => {
     let timer;

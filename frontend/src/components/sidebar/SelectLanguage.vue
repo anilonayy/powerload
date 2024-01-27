@@ -30,7 +30,7 @@ export default {
         const langs = [
             {
                 name: 'English',
-                value: 'en_EN',
+                value: 'en_US',
                 flag: '/images/flags/en_EN.png'
             },
             {

@@ -58,7 +58,7 @@
 
         <div class="mt-6 font-">
           {{ $t('AUTH.LOGIN.FORM.NO_ACCOUNT') }}
-          <router-link to="/uye-ol" class="font-semibold text-blue-400">
+          <router-link :to="{ name: 'register' }" class="font-semibold text-blue-400">
           {{ $t('AUTH.LOGIN.FORM.REGISTER') }}
           </router-link>
         </div>

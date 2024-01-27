@@ -83,7 +83,7 @@
 
         <div class="mt-6 font-">
           {{ $t('AUTH.REGISTER.FORM.ALREADY_REGISTERED') }}
-          <router-link to="/giris-yap" class="font-semibold text-blue-400">{{ $t('AUTH.REGISTER.FORM.LOGIN') }}</router-link>
+          <router-link :to="{ name: 'login' }" class="font-semibold text-blue-400">{{ $t('AUTH.REGISTER.FORM.LOGIN') }}</router-link>
         </div>
       </form>
     </Panel>
