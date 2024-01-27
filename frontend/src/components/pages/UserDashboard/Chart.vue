@@ -101,10 +101,16 @@ onMounted(async () => {
 const buildChart = async (options = {}) => {
     setTimeout(async () => {
         loaded.value = false;
-            chartWrapper.value.children[0].remove();
-            const node = document.createElement('canvas');
-            node.setAttribute('id', 'chart');
-            chartWrapper.value.appendChild(node);  
+
+        if(chartWrapper?.value?.children?.length === 0) {
+            return;
+        }
+
+        chartWrapper.value.children[0].remove();
+        const node = document.createElement('canvas');
+        node.setAttribute('id', 'chart');
+        chartWrapper.value.appendChild(node);  
+
         loaded.value = true;
 
         const response = await dashboardService.getExerciseHistory(options);
