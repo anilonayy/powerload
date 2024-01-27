@@ -69,7 +69,7 @@ export default {
                     TEXT: 'Monthly',
                     VALUE: 2
                 },
-                WEEKLY:{
+                WEEKLY: {
                     TEXT: 'Weekly',
                     VALUE: 3
                 }

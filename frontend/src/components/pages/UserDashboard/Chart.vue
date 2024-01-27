@@ -59,7 +59,7 @@ import Label from '@/components/form/Label.vue'
 import AgSelect from '@/components/shared/AgSelect.vue'
 
 const store = useStore();
-const translator = useI18n();
+const t = useI18n().t;
 const toast = inject('toast');
 const route = useRoute();
 const loaded = ref(false);
@@ -67,16 +67,16 @@ const loaded = ref(false);
 
 const dateFrequencies = ref([
     {
-        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.TEXT'),
-        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.VALUE')
+        name: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.TEXT'),
+        value: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.YEARLY.VALUE')
     },
     {
-        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.TEXT'),
-        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.VALUE')
+        name: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.TEXT'),
+        value: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.MONTHLY.VALUE')
     },
     {
-        name: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.TEXT'),
-        value: translator.t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.VALUE')
+        name: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.TEXT'),
+        value: t('DASHBOARD.CHART.FREQUENCY_OPTIONS.WEEKLY.VALUE')
     }
 ]);
 
@@ -118,7 +118,7 @@ const buildChart = async (options = {}) => {
         });
 
         if (values.every(value => value === 0)) {
-            toast.warning(translator.t('DASHBOARD.CHART.NO_DATA_MESSAGE'));
+            toast.warning(t('DASHBOARD.CHART.NO_DATA_MESSAGE'));
         }
 
         new Chart('chart', {
