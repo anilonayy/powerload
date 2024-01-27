@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\User\RegisterRequest;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Services\Auth\AuthServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
@@ -33,6 +35,16 @@ class AuthController extends Controller
     {
 
         return response()->json($this->authService->register((object) $request->validated()), Response::HTTP_CREATED);
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
+    {
+        return response()->json($this->authService->forgotPassword((object) $request->validated()));
+    }
+
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    {
+        return response()->json($this->authService->resetPassword((object) $request->validated()));
     }
 
     /**

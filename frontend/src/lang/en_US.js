@@ -249,6 +249,22 @@ export default {
                 ALREADY_REGISTERED: 'Already Registered?',
                 LOGIN: 'Login'
             }
+        },
+        FORGOT_PASSWORD: {
+            TITLE: 'Forgot Password',
+            DESCRIPTION: 'Please enter the email address of the account you are trying to log in to. A password reset link will be sent to your e-mail address.',
+            FORM_SUBMIT: 'Send Mail',
+            SUCCESS_MESSAGE: 'We have sended your email the password reset link! Don\'t forget to check your mailbox',
+        },
+        RESET_PASSWORD: {
+            TITLE: 'Reset Password',
+            DESCRIPTION: 'It looks like you received the message we sent to your email address 🎉 Now you can create your new password.',
+            FORM_SUBMIT: 'Reset Password',
+            ERRORS: {
+                PASSWORD_EMPTY_ERROR: 'Password can not be empty!',
+                PASSWORD_CONFIRMATION_EMPTY_ERROR: 'Password Confirmation can not be empty!',
+                PASSWORD_CONFIRMATION_MATCH_ERROR: 'Passwords Not Matching!',
+            }
         }
     },
     BOTTOM_BAR: {
@@ -257,6 +273,12 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'An error ocurred!',
+    },
+    FIELDS: {
+        NAME: 'Name',
+        EMAIL: 'Email',
+        PASSWORD: 'Password',
+        PASSWORD_CONFIRM: 'Password  confirmation',
     },
     ON_WORKOUT: {
         WHICH_TITLES: {
@@ -305,5 +327,56 @@ export default {
         CONGURALITATIONS: 'Conguralitations!',
         MOTIVATON_TEXT: 'Today you kept up with your workout and gave it your all! Today you are better than yesterday, tomorrow you will be better than today!',
         LETS_LOOK: 'Let\'s take a quick look at <br /> what we did today! ⬇️ 👀',
-    }
+    },
+    META: {
+        HOME: {
+            TITLE: 'Powerload - Progressive Overload ile gücüne güç kat!',
+        },
+        ABOUT: {
+            TITLE: 'Hakkımızda - Powerload',
+        },
+        AUTH: {
+            LOGIN: {
+                TITLE: 'Giriş Yap - Powerload',
+            },
+            REGISTER: {
+                TITLE: 'Üye Ol - Powerload',
+            },
+            RESET_PASSWORD: {
+                TITLE: 'Şifre Yenile - Powerload',
+            }
+        },
+        GYM_SIDE: {
+            DASHBOARD: {
+                TITLE: 'Genel Bakış - Powerload',
+            },
+            WORKOUT_HISTORY: {
+                TITLE: 'Antrenman Geçmişi - Powerload',
+            },
+            SINGLE_WORKOUT_HISTORY: {
+                TITLE: 'Antrenman Detayları - Powerload',
+            },
+            WORKOUT_LIST: {
+                TITLE: 'Antrenmanlar - Powerload',
+            },
+            SINGLE_WORKOUT: {
+                TITLE: 'Antrenman - Powerload',
+            },
+            WORKOUT_ADD: {
+                TITLE: 'Antrenman Ekle - Powerload',
+            },
+            WORKOUT_EDIT: {
+                TITLE: 'Antrenman Düzenle - Powerload',
+            },
+            PROFILE_SETTINGS :{
+                TITLE: 'Profil Ayarları - Powerload',
+            },
+        },
+        ON_WORKOUT: {
+            TITLE: 'Antrenman - Powerload',
+        },
+        WORKOUT_COMPLETED: {
+            TITLE: 'Antrenman Tamamlandı - Powerload',
+        }
+    },
 }

@@ -35,7 +35,7 @@
           </div>
 
           <div class="flex w-full justify-end">
-            <router-link to="/sifremi-unuttum" class="text-sm underline underline-offset-1">
+            <router-link :to="{ name: 'forgot-password' }" class="text-sm underline underline-offset-1">
               {{ $t('AUTH.LOGIN.FORM.FORGET_PASSWORD') }}
             </router-link
             >

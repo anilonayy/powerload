@@ -249,6 +249,22 @@ export default {
                 ALREADY_REGISTERED: 'Zaten üye misin?',
                 LOGIN: 'Giriş Yap'
             }
+        },
+        FORGOT_PASSWORD: {
+            TITLE: 'Şifremi Unuttum',
+            DESCRIPTION: 'Lütfen giriş yapmaya çalıştığınız hesabın e-posta adresini giriniz. Şifre sıfırlama bağlantısı e-posta adresinize gönderilecektir.',
+            FORM_SUBMIT: 'Mail Gönder',
+            SUCCESS_MESSAGE: 'Şifre yenileme linkini E-Posta adresine gönderdik! E-Posta adresini kontrol ederek şifreni yenileyebilirsin.',
+        },
+        RESET_PASSWORD: {
+            TITLE: 'Şifre Yenile',
+            DESCRIPTION: 'Görünüşe göre e-posta adersinize gönderdiğimiz mesajı aldınız 🎉 Şimdi yeni şifrenizi oluşturabilirsiniz.',
+            FORM_SUBMIT: 'Şifreyi Güncelle',
+            ERRORS: {
+                PASSWORD_EMPTY_ERROR: 'Şifre boş bırakılamaz!',
+                PASSWORD_CONFIRMATION_EMPTY_ERROR: 'Şifre Tekrar boş bırakılamaz!',
+                PASSWORD_CONFIRMATION_MATCH_ERROR: 'Şifreler eşleşmiyor!',
+            }
         }
     },
     BOTTOM_BAR: {
@@ -257,6 +273,12 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'Beklenmeyen bir hata oluştu!',
+    },
+    FIELDS: {
+        NAME: 'Ad Soyad',
+        EMAIL: 'E-Posta',
+        PASSWORD: 'Şifre',
+        PASSWORD_CONFIRM: 'Şifre Tekrar',
     },
     ON_WORKOUT: {
         WHICH_TITLES: {
@@ -356,5 +378,5 @@ export default {
         WORKOUT_COMPLETED: {
             TITLE: 'Antrenman Tamamlandı - Powerload',
         }
-    }
+    },
 }

@@ -36,8 +36,29 @@ const logout = async () => {
     await store.dispatch('logout');
 }
 
+const forgotPassword = (email) => {
+    return axios.post('auth/forgot-password', { email });
+};
+
+const resetPassword = async ({ password, email, password_confirm, token }) => {
+    const saltKey = computed(() => store.getters['_saltKey']);
+    const cryptPassword = CryptoJs.HmacSHA1(password, saltKey.value).toString();
+    const cryptPasswordConfirm = CryptoJs.HmacSHA1(password_confirm, saltKey.value).toString();
+
+    const response = await axios.post('/auth/reset-password', {
+        token,
+        email,
+        password: cryptPassword,
+        password_confirm: cryptPasswordConfirm
+    });
+
+    return response;
+};
+
 export default {
     login,
     register,
-    logout
+    logout,
+    forgotPassword,
+    resetPassword
 }

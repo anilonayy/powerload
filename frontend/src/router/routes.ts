@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
         name: 'login',
         component: () => import('@/pages/auth/LoginPage.vue'),
         meta: {
-            title: 'Giriş Yap | Powerload',
+            title: 'Giriş Yap - Powerload',
             requiresGuest: true
         }
     },
@@ -31,7 +31,25 @@ const routes: RouteRecordRaw[] = [
         name: 'register',
         component: () => import('@/pages/auth/RegisterPage.vue'),
         meta: {
-            title: 'Üye Ol | Powerload',
+            title: 'Üye Ol - Powerload',
+            requiresGuest: true
+        }
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgot-password',
+        component: () => import('@/pages/auth/ForgotPassword.vue'),
+        meta: {
+            title: 'Şifremi Unuttum - Powerload',
+            requiresGuest: true
+        }
+    },
+    {
+        path: '/password-reset/:token',
+        name: 'password-reset',
+        component: () => import('@/pages/auth/PasswordReset.vue'),
+        meta: {
+            title: 'Şifre yenile - Powerload',
             requiresGuest: true
         }
     },
