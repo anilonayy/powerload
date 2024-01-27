@@ -42,28 +42,28 @@ const router = createRouter({
           },
           {
             path: 'antrenman-gecmisi',
-            name: 'training-history',
-            component: () => import('@/pages/training-history/Index.vue')
+            name: 'workout-history',
+            component: () => import('@/pages/workout-history/Index.vue')
           },
           {
-            path: 'antrenman-gecmisi/:trainingLogId',
-            name: 'show-training-history',
-            component: () => import('@/pages/training-history/Show.vue')
+            path: 'antrenman-gecmisi/:workoutLogId',
+            name: 'show-workout-history',
+            component: () => import('@/pages/workout-history/Show.vue')
           },
           {
             path: 'antrenmanlar',
-            name: 'training-list',
-            component: () => import('@/pages/trainings/Index.vue')
+            name: 'workout-list',
+            component: () => import('@/pages/workouts/Index.vue')
           },
           {
             path: 'antrenmanlar/:trainId',
-            name: 'training',
-            component: () => import('@/pages/trainings/Edit.vue')
+            name: 'workout',
+            component: () => import('@/pages/workouts/Edit.vue')
           },
           {
             path: 'antrenmanlar/ekle',
             name: 'add-train',
-            component: () => import('@/pages/trainings/Add.vue'),
+            component: () => import('@/pages/workouts/Add.vue'),
           },
           {
             path: 'profil-ayarlari',
@@ -81,17 +81,17 @@ const router = createRouter({
       }
     },
     {
-      path: '/on-train/:trainingLogId',
+      path: '/on-train/:workoutLogId',
       name: 'on-train',
-      component: () => import('@/pages/OnTrain.vue'),
+      component: () => import('@/pages/OnWorkout.vue'),
       meta: {
         requiresAuth: true
       }
     },
     {
-      path: '/antrenman-tamamlandi/:trainingLogId',
+      path: '/antrenman-tamamlandi/:workoutLogId',
       name: 'train-completed',
-      component: () => import('@/pages/TrainCompleted.vue'),
+      component: () => import('@/pages/WorkoutCompleted.vue'),
       meta: {
         requiresAuth: true
       }

@@ -11,7 +11,7 @@ const state = {
   exercises: [],
   asideOpen: false,
   trainLogId: 0,
-  trainings: [{
+  workouts: [{
     id: 0,
     isSelected: false,
     days: [{
@@ -24,7 +24,7 @@ const state = {
         category: {
           name : ''
         },
-        onTrain: [{
+        onWorkout: [{
           id: 0,
           weight: 0,
           reps: 0,
@@ -66,31 +66,31 @@ const mutations = {
     state.asideOpen = Boolean(data);
   },
 
-  setTrainings (state, data) {
-    state.trainings = data ?? [];
+  setWorkouts (state, data) {
+    state.workouts = data ?? [];
   },
 
-  setTrainingLogId (state, data) {
+  setWorkoutLogId (state, data) {
     state.trainLogId = data ?? 0;
   },
 
-  setOnTrainData (state, data) {
-    state.trainings.find((training) => training?.isSelected).days.find((day) => day?.isSelected).exercises.find(
-      (exercise) => exercise.id === data.exercise_id).onTrain = data.value;
+  setOnWorkoutData (state, data) {
+    state.workouts.find((workout) => workout?.isSelected).days.find((day) => day?.isSelected).exercises.find(
+      (exercise) => exercise.id === data.exercise_id).onWorkout = data.value;
   },
 
-  selectTraining (state, training_id) {
-    (state.trainings.find((training) => training.isSelected) ?? {}).isSelected = false;
-    (state.trainings.find((training) => training.id === training_id) ?? {}).isSelected = true;
+  selectWorkout (state, workout_id) {
+    (state.workouts.find((workout) => workout.isSelected) ?? {}).isSelected = false;
+    (state.workouts.find((workout) => workout.id === workout_id) ?? {}).isSelected = true;
   },
 
   // data.day_id
-  selectTrainingDay (state, day_id) {
-    ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}).isSelected = false;
-    ((state.trainings.find((training) => training.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}).isSelected = true;
+  selectWorkoutDay (state, day_id) {
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}).isSelected = false;
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}).isSelected = true;
   },
   setExercisesOfDay(state, exercises) {
-    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
       .exercises = exercises.map((exercise) => {
         return {
           id: exercise.exercise.id ?? 0,
@@ -99,7 +99,7 @@ const mutations = {
           sets: exercise.sets ?? 0,
           reps: exercise.reps ?? 0,
           isPassed: false,
-          onTrain: [{
+          onWorkout: [{
             id: 0,
             reps: 5,
             weight: 0,
@@ -111,11 +111,11 @@ const mutations = {
     });
   },
   setAsNotPassed (state, exerciseId) {
-    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
       .exercises.find((exercise) => exercise.id === exerciseId).isPassed = false;
   },
   setAsPassed (state, exerciseId) {
-    ((state.trainings.find((training) => training.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
       .exercises.find((exercise) => exercise.id === exerciseId).isPassed = true;
   },
   setNextLastLogRequestTime (state, time) {
@@ -148,8 +148,8 @@ const actions = {
   async logout({ commit }) {
     commit('logoutUser');
     commit('removeToken');
-    commit('setTrainings', []);
-    commit('setTrainingLogId', 0);
+    commit('setWorkouts', []);
+    commit('setWorkoutLogId', 0);
   },
 
   async setExercises({commit},exercisesList) {
@@ -160,20 +160,20 @@ const actions = {
     commit('setAsideOpen', data);
   },
 
-  async  setTrainings({ commit }, data) {
-    commit('setTrainings', data);
+  async  setWorkouts({ commit }, data) {
+    commit('setWorkouts', data);
   },
-  async  setTrainingLogId({ commit }, data) {
-    commit('setTrainingLogId', data);
+  async  setWorkoutLogId({ commit }, data) {
+    commit('setWorkoutLogId', data);
   },
-  async  setOnTrainData({ commit }, data) {
-    commit('setOnTrainData', data);
+  async  setOnWorkoutData({ commit }, data) {
+    commit('setOnWorkoutData', data);
   },
-  async selectTraining({ commit }, training_id) {
-    commit('selectTraining', training_id);
+  async selectWorkout({ commit }, workout_id) {
+    commit('selectWorkout', workout_id);
   },
-  async  selectTrainingDay({ commit }, dayId) {
-    commit('selectTrainingDay', dayId);
+  async  selectWorkoutDay({ commit }, dayId) {
+    commit('selectWorkoutDay', dayId);
   },
   async  setExercisesOfDay({ commit }, exercises) {
     commit('setExercisesOfDay', exercises);
@@ -203,12 +203,12 @@ const getters = {
     })
   },
   _isAsideOpen: state => state.asideOpen,
-  _userTrainings: state => state.trainings,
-  _trainingLogId: state => state.trainLogId,
-  _selectedTraining: state => state.trainings.find((training) => Boolean(training.isSelected)),
-  _selectedDay: state => ((state.trainings.find((training) => Boolean(training.isSelected)) ?? {}).days ?? []).find((day) => day.isSelected === true) ?? {},
-  _isTrainingSelected: state => state.trainings.some((training) => Boolean(training.isSelected)),
-  _isTrainingDaySelected: state => state.trainings.some((training) => training.days.some((day) => day.isSelected === true)),
+  _userWorkouts: state => state.workouts,
+  _workoutLogId: state => state.trainLogId,
+  _selectedWorkout: state => state.workouts.find((workout) => Boolean(workout.isSelected)),
+  _selectedDay: state => ((state.workouts.find((workout) => Boolean(workout.isSelected)) ?? {}).days ?? []).find((day) => day.isSelected === true) ?? {},
+  _isWorkoutSelected: state => state.workouts.some((workout) => Boolean(workout.isSelected)),
+  _isWorkoutDaySelected: state => state.workouts.some((workout) => workout.days.some((day) => day.isSelected === true)),
   _getNextLastLogRequestTime: state => state.nextLastLogRequestTime,
 };
 

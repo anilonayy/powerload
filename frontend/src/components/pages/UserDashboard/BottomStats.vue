@@ -46,11 +46,11 @@
                     
                         <td class="p-4 border-b border-blue-gray-50">
                             <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
-                            {{ data.training_end_time }}
+                            {{ data.workout_end_time }}
                             </p>
                         </td>
                         <td class="p-4 border-b border-blue-gray-50">
-                            <router-link :to="{ name: 'show-training-history', params: { trainingLogId: data.training_id } }">
+                            <router-link :to="{ name: 'show-workout-history', params: { workoutLogId: data.workout_id } }">
                                 <EyeIcon />
                             </router-link>
                         </td>

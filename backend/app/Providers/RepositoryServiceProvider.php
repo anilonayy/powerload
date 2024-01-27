@@ -3,16 +3,14 @@
 namespace App\Providers;
 
 use App\Models\AppModel;
-use App\Models\Training;
-use App\Models\User;
 use App\Repositories\Exercise\ExerciseRepository;
 use App\Repositories\Exercise\ExerciseRepositoryInterface;
 use App\Repositories\General\GeneralRepositoryInterface;
 use App\Repositories\General\GeneralRepository;
-use App\Repositories\TrainingLogs\TrainingLogsRepository;
-use App\Repositories\TrainingLogs\TrainingLogsRepositoryInterface;
-use App\Repositories\Trainings\TrainingRepository;
-use App\Repositories\Trainings\TrainingRepositoryInterface;
+use App\Repositories\WorkoutLogs\WorkoutLogsRepository;
+use App\Repositories\WorkoutLogs\WorkoutLogsRepositoryInterface;
+use App\Repositories\Workouts\WorkoutRepository;
+use App\Repositories\Workouts\WorkoutRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ExerciseRepositoryInterface::class, ExerciseRepository::class);
-        $this->app->bind(TrainingRepositoryInterface::class, TrainingRepository::class);
-        $this->app->bind(TrainingLogsRepositoryInterface::class, TrainingLogsRepository::class);
+        $this->app->bind(WorkoutRepositoryInterface::class, WorkoutRepository::class);
+        $this->app->bind(WorkoutLogsRepositoryInterface::class, WorkoutLogsRepository::class);
     }
 }

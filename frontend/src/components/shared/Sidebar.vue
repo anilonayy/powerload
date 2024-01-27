@@ -42,12 +42,12 @@
             {{ $t('SIDEBAR.MENU.DASHBOARD') }}
           </BadgeLink>
 
-          <BadgeLink :to="{ name: 'training-list' }">
+          <BadgeLink :to="{ name: 'workout-list' }">
             <ListIcon />
             {{ $t('SIDEBAR.MENU.TRAINING_LIST') }}
           </BadgeLink>
 
-          <BadgeLink :to="{ name: 'training-history' }">
+          <BadgeLink :to="{ name: 'workout-history' }">
             <HeadphoneIcon />
             {{ $t('SIDEBAR.MENU.TRAINING_HISTORY') }}
           </BadgeLink>

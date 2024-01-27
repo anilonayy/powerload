@@ -4,7 +4,7 @@ export default {
             TOP_TITLE: 'WHAT IS POWERLOAD?',
             TITLE: 'Progressive Overload <br> grow with your weights',
             DESCRIPTION_TEXT_1: 'Progressive Overload is a method that provides benefits in <b>strength and muscle</b> gain by continuously increasing <b>weight/reps</b> over a period of time.',
-            DESCRIPTION_TEXT_2: 'With this app you can easily track your training and <b>weights</b>!'
+            DESCRIPTION_TEXT_2: 'With this app you can easily track your workout and <b>weights</b>!'
         }, 
         STEPS: {
             1: {
@@ -13,7 +13,7 @@ export default {
             },
             2: {
                 TITLE: 'Do Workout',
-                DESCRIPTION: 'You can only get the best results with regular training!'
+                DESCRIPTION: 'You can only get the best results with regular workout!'
             },
             3: {
                 TITLE: 'Save your exercises',
@@ -31,8 +31,8 @@ export default {
             HOME: 'Home',
             ABOUT: 'About',
             DASHBOARD: 'Dashboard',
-            TRAINING_LIST: 'Training List',
-            TRAINING_HISTORY: 'Training History',
+            TRAINING_LIST: 'Workout List',
+            TRAINING_HISTORY: 'Workout History',
             RESET_PASSWORD: 'Reset Password',
             PROFILE_SETTINGS: 'Profile Settings',
         },
@@ -49,11 +49,11 @@ export default {
     DASHBOARD: {
         TITLE: 'Dashboard',
         TOP_STATS: {
-            TRAINING: 'Trainings',
+            TRAINING: 'Workouts',
             AVG_TIME: 'Average Time',
             AVG_EXERCISE: 'Average Exercise',
             X: '?',
-            SUBTITLE : '*This informations only calculated by <b>completed</b> trainings.'
+            SUBTITLE : '*This informations only calculated by <b>completed</b> workouts.'
         },
         CHART: {
             TITLE: 'Chart by exercise weight',
@@ -76,7 +76,7 @@ export default {
             }
         },
         LAST_TRAININGS: {
-            TITLE: 'Last 5 trainings',
+            TITLE: 'Last 5 workouts',
             SEE_ALL: 'see all',
             TIME: 'duration',
             STATUS: {
@@ -99,13 +99,13 @@ export default {
     },
     TRAININGS: {
         LIST: {
-            TITLE: 'Trainings',
-            DESCRIPTION: 'Your workouts are listed here and you can add new workouts, training days and exercises.',
-            ADD_BUTTON: 'Add Training',
+            TITLE: 'Workouts',
+            DESCRIPTION: 'Your workouts are listed here and you can add new workouts, workout days and exercises.',
+            ADD_BUTTON: 'Add Workout',
             EDIT_BUTTON: 'Edit',
             DELETE_BUTTON: 'Delete',
             TABLE: {
-                TRAINING_NAME:  'Training Name',
+                TRAINING_NAME:  'Workout Name',
                 APPLIED_DAY: 'Applied Day',
                 CREATED_AT: 'Created Date',
                 ACTIONS:  'Actions',
@@ -116,58 +116,58 @@ export default {
                 TEXT: 'Are you sure you want to delete this workout? This action cannot be undone!',
                 CONFIRM_BUTTON: 'Yes, delete it!',
                 CANCEL_BUTTON: 'No, cancel!',
-                SUCCESS: 'The training was successfully deleted!',
+                SUCCESS: 'The workout was successfully deleted!',
             }
         },
         ADD: {
             BACK_TRAININGS: 'Back to trainigs',
-            TITLE: 'Add Training',
-            DESCRIPTION: 'You can add days to your training, name them, and access them during training by clicking on them directly!',
+            TITLE: 'Add Workout',
+            DESCRIPTION: 'You can add days to your workout, name them, and access them during workout by clicking on them directly!',
         },
         EDIT: {
             BACK_TRAININGS: 'Back to trainigs',
-            TITLE: 'Edit Training',
-            DESCRIPTION: 'You can add days to your training, name them, and access them during training by clicking on them directly!',
+            TITLE: 'Edit Workout',
+            DESCRIPTION: 'You can add days to your workout, name them, and access them during workout by clicking on them directly!',
         },
         TRAIN_BUILDER: {
-            TRAINING_NAME: 'Training Name',
-            TRAINING_NAME_PLACEHOLDER: 'Enter Training Name',
+            TRAINING_NAME: 'Workout Name',
+            TRAINING_NAME_PLACEHOLDER: 'Enter Workout Name',
             DAY: 'Day',
             DAY_PLACEHOLDER: 'Enter Day Name',
             DAY_EMPTY_ERROR: 'Day Name Can Not Be Empty!',
-            NO_TRAINING_DAY_ERROR: 'You cannot add an exercise without a training day!',
+            NO_TRAINING_DAY_ERROR: 'You cannot add an exercise without a workout day!',
             MULTIPLE_SELECT_EXERCISE: 'Each exercise can be selected once within a day!',
             SELECT_EXERCISE: 'Select Exercise',
             EXERCISE: 'Exercise',
             SET: 'Set',
             REP: 'Reps',
             ADD_EXERCISE: 'Add Exercise',
-            ADD_DAY: 'Add Training Day',
+            ADD_DAY: 'Add Workout Day',
             VALIDATION_ERROR: 'Please correct any incorrect or missing fields!',
             SUBMIT_FORM: 'SUBMIT TRAINING',
         }
     },
     TRAINING_HISTORY : {
         LIST: {
-            TITLE: 'Training History',
-            DESCRIPTION: 'Training history listing here 👀',
+            TITLE: 'Workout History',
+            DESCRIPTION: 'Workout history listing here 👀',
             TABLE: {
-                NAME:  'Training',
-                DURATION: 'Training Duration',
-                DATE: 'Training Date',
+                NAME:  'Workout',
+                DURATION: 'Workout Duration',
+                DATE: 'Workout Date',
                 SEE:  'Review',
             },
             SEE_BUTTON: 'Review',
-            NO_DATA: 'You haven\'t trained yet! You can start training and building your strength!',
+            NO_DATA: 'You haven\'t trained yet! You can start workout and building your strength!',
         },
         SHOW: {
             BACK_TO_LIST: 'Back to list',
-            TITLE: 'Training Details',
+            TITLE: 'Workout Details',
             DESCRIPTION: 'Details of your workout are listed here.',
         }
     },
     TRAIN_RESULT: {
-        TRAINING: 'Training',
+        TRAINING: 'Workout',
         DURATION: 'Duration',
         EXERCISES: 'Exercises',
         SET: 'Set',
@@ -252,23 +252,23 @@ export default {
         }
     },
     BOTTOM_BAR: {
-        START_TRAINING: 'Start Training!',
-        CONTINUE_TRAINING: 'Continue Training',
+        START_TRAINING: 'Start Workout!',
+        CONTINUE_TRAINING: 'Continue Workout',
     },
     ERRORS: {
         UNKNOWN: 'An error ocurred!',
     },
     ON_TRAIN: {
         WHICH_TITLES: {
-            TRAINING: 'Which training do you want to do?',
-            DAY: 'Which training day do you want to do?',
+            TRAINING: 'Which workout do you want to do?',
+            DAY: 'Which workout day do you want to do?',
         },
-        COMPLETE_TRAINING: 'Complete Training',
+        COMPLETE_TRAINING: 'Complete Workout',
         NEXT_EXERCISE: 'Next Exercise',
         GIVE_UP: 'Give Up',
         COMPLETE_TRAINING_CONFIRM: {
-            TITLE: 'Complete Training',
-            TEXT: 'You are about to complete the training! If you complete it, you can\'t edit it again. Are you sure you entered all the sets correctly?',
+            TITLE: 'Complete Workout',
+            TEXT: 'You are about to complete the workout! If you complete it, you can\'t edit it again. Are you sure you entered all the sets correctly?',
             CONFIRM_BUTTON: 'Yes, Complete!',
             CANCEL_BUTTON: 'No, cancel it!',
         },
@@ -286,7 +286,7 @@ export default {
         },
         GIVE_UP_TRAINING_CONFIRM: {
             TITLE: 'Are you sure?',
-            TEXT: 'If you stop training, your progress will be erased.',
+            TEXT: 'If you stop workout, your progress will be erased.',
             CONFIRM_BUTTON: 'Yes, give up!',
             CANCEL_BUTTON: 'No, continue!'
         },
@@ -303,7 +303,7 @@ export default {
     },
     TRAINING_COMPLETED: {
         CONGURALITATIONS: 'Conguralitations!',
-        MOTIVATON_TEXT: 'Today you kept up with your training and gave it your all! Today you are better than yesterday, tomorrow you will be better than today!',
+        MOTIVATON_TEXT: 'Today you kept up with your workout and gave it your all! Today you are better than yesterday, tomorrow you will be better than today!',
         LETS_LOOK: 'Let\'s take a quick look at <br /> what we did today! ⬇️ 👀',
     }
 }

@@ -67,7 +67,7 @@ export const  getIconName = (categoryName = '') => {
   return path;
 }
 
-export const validateTrainBuilderData = (train) => {
+export const validateWorkoutBuilderData = (train) => {
 
 
   const response = {

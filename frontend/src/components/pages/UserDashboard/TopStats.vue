@@ -8,7 +8,7 @@
                 </div>
 
                 <div class="text-start" v-if="loaded" >
-                    <h6 class="stats-text  font-semibold text-deep-purple-accent-400"> {{ data?.training_count ?? '' }} </h6>
+                    <h6 class="stats-text  font-semibold text-deep-purple-accent-400"> {{ data?.workout_count ?? '' }} </h6>
                     <p> {{ $t('DASHBOARD.TOP_STATS.TRAINING') }} </p>
                 </div>
 
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="text-start" v-if="loaded">
-                    <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_training_time ?? '' }} </h6>
+                    <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_workout_time ?? '' }} </h6>
                     <p> {{ $t('DASHBOARD.TOP_STATS.AVG_TIME') }} </p>
                 </div>
                 <TopStatsSkeleton v-else />

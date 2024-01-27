@@ -4,12 +4,12 @@
             <Chart />    
         </div> 
         <div class="sm:col-span-2 lg:col-span-1">
-            <LastTraining />
+            <LastWorkout />
         </div>
     </div>
 </template>
 
 <script setup>
 import Chart from "@/components/pages/UserDashboard/Chart.vue";
-import LastTraining from "@/components/pages/UserDashboard/LastTrainings.vue";
+import LastWorkout from "@/components/pages/UserDashboard/LastWorkouts.vue";
 </script>

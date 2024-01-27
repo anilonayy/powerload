@@ -2,9 +2,9 @@
     <div v-if="isAuthenticated && componentWillShow"
         class="fixed bottom-0 left-0 w-full flex justify-center items-end h-10 md:hidden"
     >
-    <div class="w-full h-full" @click="handleTraining()">
+    <div class="w-full h-full" @click="handleWorkout()">
         <div class="w-full h-full flat-btn bg-indigo-800 hover:bg-indigo-600 active:bg-indigo-700  text-white">
-            <div v-if="!isTrainingSelected">
+            <div v-if="!isWorkoutSelected">
                 {{ $t('BOTTOM_BAR.START_TRAINING') }}
             </div>
             <div v-else>
@@ -21,7 +21,7 @@ import { computed, inject, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import router from '@/router';
-import trainingLogService from '@/services/trainingLogService';
+import workoutLogService from '@/services/workoutLogService';
 import { useI18n } from 'vue-i18n';
 
 const store = useStore();
@@ -30,21 +30,21 @@ const toast = inject('toast');
 const { t } = useI18n();
 
 const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
-const trainingLogId = computed(() => store.getters['_trainingLogId']);
-const isTrainingSelected = computed(() => store.getters['_isTrainingSelected']);
+const workoutLogId = computed(() => store.getters['_workoutLogId']);
+const isWorkoutSelected = computed(() => store.getters['_isWorkoutSelected']);
 const componentWillShow = ref(route.name  !== "on-train");
 
 
-const handleTraining = async () => {
+const handleWorkout = async () => {
     try {
-        if (isTrainingSelected.value) {
-            router.push({ name: 'on-train', params: { trainingLogId: trainingLogId.value} });
+        if (isWorkoutSelected.value) {
+            router.push({ name: 'on-train', params: { workoutLogId: workoutLogId.value} });
             return;
         }
 
-        const response = await trainingLogService.createEmptyLog();
+        const response = await workoutLogService.createEmptyLog();
 
-        router.push({ name: 'on-train', params: { trainingLogId: response.data.id} });
+        router.push({ name: 'on-train', params: { workoutLogId: response.data.id} });
     } catch (error) {
         console.error(error);
         toast.error(t('ERRORS.UNKNOWN'))
@@ -59,8 +59,8 @@ watch(
         componentWillShow.value = !hiddenUrls.some(url => newUrl.includes(url));
 
         if(isAuthenticated.value) {
-            if(!isTrainingSelected.value) {
-                await trainingLogService.getLastLog();
+            if(!isWorkoutSelected.value) {
+                await workoutLogService.getLastLog();
             }
         }
     })

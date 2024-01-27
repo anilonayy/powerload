@@ -19,8 +19,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function trainings()
+    public function workouts()
     {
-        return $this->hasMany(Training::class);
+        return $this->hasMany(Workout::class);
     }
 }
