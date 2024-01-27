@@ -4,9 +4,9 @@
       <HistorySkeleton v-if="!loaded" />
       <div v-else>
         <PanelHeader class="p-2">
-          <template v-slot:title> {{ $t('TRAINING_HISTORY.LIST.TITLE') }} </template>
+          <template v-slot:title> {{ $t('WORKOUT_HISTORY.LIST.TITLE') }} </template>
           <template v-slot:description>
-            {{ $t('TRAINING_HISTORY.LIST.DESCRIPTION') }}
+            {{ $t('WORKOUT_HISTORY.LIST.DESCRIPTION') }}
           </template>
           <hr />
         </PanelHeader>
@@ -19,10 +19,10 @@
               class="border bg-neutral-800 font-medium text-white border-black dark:border-neutral-500 dark:bg-neutral-900"
             >
               <tr>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAINING_HISTORY.LIST.TABLE.NAME') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAINING_HISTORY.LIST.TABLE.DURATION') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAINING_HISTORY.LIST.TABLE.DATE') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAINING_HISTORY.LIST.TABLE.SEE') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUT_HISTORY.LIST.TABLE.NAME') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUT_HISTORY.LIST.TABLE.DURATION') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUT_HISTORY.LIST.TABLE.DATE') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUT_HISTORY.LIST.TABLE.SEE') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                   <router-link
                     :to="{ name: 'show-workout-history', params: { workoutLogId: log.id } }"
                   >
-                    <div class="orange-btn">{{ $t('TRAINING_HISTORY.LIST.SEE_BUTTON') }}</div>
+                    <div class="orange-btn">{{ $t('WORKOUT_HISTORY.LIST.SEE_BUTTON') }}</div>
                   </router-link>
                 </td>
               </tr>
@@ -61,7 +61,7 @@
           v-else
           class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6 text-md"
         >
-          <span>{{ $t('TRAINING_HISTORY.LIST.NO_DATA') }}</span>
+          <span>{{ $t('WORKOUT_HISTORY.LIST.NO_DATA') }}</span>
         </div>
       </div>
     </Panel>

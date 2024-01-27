@@ -9,7 +9,7 @@
 
                 <div class="text-start" v-if="loaded" >
                     <h6 class="stats-text  font-semibold text-deep-purple-accent-400"> {{ data?.workout_count ?? '' }} </h6>
-                    <p> {{ $t('DASHBOARD.TOP_STATS.TRAINING') }} </p>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.WORKOUT') }} </p>
                 </div>
 
                 <TopStatsSkeleton v-else />

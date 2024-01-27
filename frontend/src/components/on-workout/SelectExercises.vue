@@ -11,7 +11,7 @@
                         <div class="flex flex-col">
                             <div v-if="data?.isPassed">
                                 <div class="w-full p-4 rounded-xl bg-yellow-200 text-yellow-700 text-sm border border-1 border-yellow-500">
-                                    {{ $t('ON_TRAIN.EXERCISE.PASSED') }}
+                                    {{ $t('ON_WORKOUT.EXERCISE.PASSED') }}
                                 </div>
                             </div>
                             <div v-if="data.onWorkout?.length">
@@ -21,7 +21,7 @@
                                             {{ index + 1 }}.
                                         </div>
                                         <div>
-                                            <Label for="weight" :value="$t('ON_TRAIN.EXERCISE.WEIGHT')" />
+                                            <Label for="weight" :value="$t('ON_WORKOUT.EXERCISE.WEIGHT')" />
 
                                             <Input
                                                 id="weight"
@@ -33,7 +33,7 @@
                                             />
                                         </div>
                                         <div class="flex flex-col">
-                                            <Label for="reps" :value="$t('ON_TRAIN.EXERCISE.REP')" />
+                                            <Label for="reps" :value="$t('ON_WORKOUT.EXERCISE.REP')" />
                                             <CounterInput 
                                                 valueKey="reps" 
                                                 errorKey="repsError"
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div class="indigo-btn" @click="addSet(data)">
-                                {{ $t('ON_TRAIN.EXERCISE.ADD_SET') }}
+                                {{ $t('ON_WORKOUT.EXERCISE.ADD_SET') }}
                             </div>
                         </div>
                     </div>

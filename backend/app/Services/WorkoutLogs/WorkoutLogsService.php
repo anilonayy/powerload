@@ -41,7 +41,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
         $this->checkIsUsersLog($workoutLog->user_id);
 
-        if($workoutLog->status !== WorkoutLogEnums::TRAINING_COMPLETED) {
+        if($workoutLog->status !== WorkoutLogEnums::WORKOUT_COMPLETED) {
             $this->getFailMessage('Bu antrenman tamamlanmamış veya yarıda bırakılmış.');
         }
 
@@ -102,7 +102,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status' => WorkoutLogEnums::TRAINING_COMPLETED,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'workout_end_time' => now()
         ]);
 
@@ -113,7 +113,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     {
         $lastWorkoutLog = WorkoutLogs::where([
             ['user_id', auth()->user()->id],
-            ['status', WorkoutLogEnums::TRAINING_CONTINUE]
+            ['status', WorkoutLogEnums::WORKOUT_CONTINUE]
         ])->latest()->first();
 
         if (!$lastWorkoutLog) {
@@ -133,7 +133,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status' => WorkoutLogEnums::TRAINING_GIVE_UP,
+            'status' => WorkoutLogEnums::WORKOUT_GIVE_UP,
             'workout_end_time' => now()
         ]);
 

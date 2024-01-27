@@ -81,8 +81,8 @@ const router = createRouter({
       }
     },
     {
-      path: '/on-train/:workoutLogId',
-      name: 'on-train',
+      path: '/on-workout/:workoutLogId',
+      name: 'on-workout',
       component: () => import('@/pages/OnWorkout.vue'),
       meta: {
         requiresAuth: true

@@ -78,7 +78,7 @@ export const validateWorkoutBuilderData = (train) => {
 
   if(typeof train.days === 'undefined' || !train.days.length) {
     response.success = false;
-    response.errorMessage = 'TRAININGS.TRAIN_BUILDER.NO_TRAINING_DAY_ERROR';
+    response.errorMessage = 'WORKOUTS.WORKOUT_BUILDER.NO_WORKOUT_DAY_ERROR';
   }
 
   train.hasError = Boolean(!train.name);
@@ -90,7 +90,7 @@ export const validateWorkoutBuilderData = (train) => {
     day.hasError = Boolean(!day.name);
 
     if(day.name.trim().length === 0) {
-      day.errorMessage = 'TRAININGS.TRAIN_BUILDER.DAY_EMPTY_ERROR';
+      day.errorMessage = 'WORKOUTS.WORKOUT_BUILDER.DAY_EMPTY_ERROR';
       day.hasError = true;
       response.success = false;
     } else {
@@ -104,7 +104,7 @@ export const validateWorkoutBuilderData = (train) => {
         if(!hasError && (exercise.selected?.value || 0) !== 0) {
           if(exerciseIds.includes(exercise.selected.value)) {
             response.success = false;
-            day.errorMessage = 'TRAININGS.TRAIN_BUILDER.MULTIPLE_SELECT_EXERCISE';
+            day.errorMessage = 'WORKOUTS.WORKOUT_BUILDER.MULTIPLE_SELECT_EXERCISE';
             hasError = true;
           } else {
             hasError = false;

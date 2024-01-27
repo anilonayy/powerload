@@ -1,10 +1,10 @@
 <template>
     <Panel>
-      <BackButton :to="{ name: 'workout-list' }">{{ $t('TRAININGS.ADD.BACK_TRAININGS') }}</BackButton>
+      <BackButton :to="{ name: 'workout-list' }">{{ $t('WORKOUTS.ADD.BACK_WORKOUTS') }}</BackButton>
       
       <PanelHeader class="p-2">
-        <template v-slot:title>{{ $t('TRAININGS.ADD.TITLE') }}</template>
-        <template v-slot:description> {{ $t('TRAININGS.ADD.DESCRIPTION') }}</template>
+        <template v-slot:title>{{ $t('WORKOUTS.ADD.TITLE') }}</template>
+        <template v-slot:description> {{ $t('WORKOUTS.ADD.DESCRIPTION') }}</template>
         <hr>
       </PanelHeader>
 

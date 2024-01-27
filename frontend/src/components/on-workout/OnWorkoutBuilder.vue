@@ -44,21 +44,21 @@
             class="flat-btn green-btn w-full absolute bottom-0 h-12 "
             @click="completeWorkout()"
         >
-            {{ $t('ON_TRAIN.COMPLETE_TRAINING') }}
+            {{ $t('ON_WORKOUT.COMPLETE_WORKOUT') }}
         </div>
         <div 
             v-else-if="pageIndex >= 2 && pageIndex !== maxIndex"
             @click="handleNextStep()"
             class="flex w-full items-center justify-center text-lg font-semibold absolute bottom-0 bg-green-500 text-white h-14 cursor-pointer"
             >
-            {{ $t('ON_TRAIN.NEXT_EXERCISE') }}
+            {{ $t('ON_WORKOUT.NEXT_EXERCISE') }}
         </div>
 
         <div v-if="!(pageIndex === maxIndex && maxIndex >= 2) && pageIndex !== 0"
             @click="giveUp()"
             class="flex justify-center items-center text-xs absolute bottom-1 left-4 p-4 rounded-full bg-gray-600 text-white h-12 w-12 cursor-pointer"
         >
-            {{ $t('ON_TRAIN.GIVE_UP') }}
+            {{ $t('ON_WORKOUT.GIVE_UP') }}
         </div>
     </div>
 </template>
@@ -71,9 +71,9 @@ import workoutService from '@/services/workoutService';
 import workoutLogService from '@/services/workoutLogService';
 import { useI18n } from 'vue-i18n';
 
-import SelectWorkout from '@/components/on-train/SelectWorkout.vue';
-import SelectWorkoutDay from '@/components/on-train/SelectWorkoutDay.vue';
-import SelectExercises from '@/components/on-train/SelectExercises.vue';    
+import SelectWorkout from '@/components/on-workout/SelectWorkout.vue';
+import SelectWorkoutDay from '@/components/on-workout/SelectWorkoutDay.vue';
+import SelectExercises from '@/components/on-workout/SelectExercises.vue';    
 import LeftIcon from '@/components/icons/LeftIcon.vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
 import OnWorkoutSelectWorkoutSkeleton from '@/components/skeletons/OnWorkoutSelectWorkoutSkeleton.vue';
@@ -83,7 +83,7 @@ const toast = inject('toast');
 const swal = inject('swal');
 const { t } = useI18n();
 
-const headerTitle = ref(t('ON_TRAIN.WHICH_TITLES.TRAINING'));
+const headerTitle = ref(t('ON_WORKOUT.WHICH_TITLES.WORKOUT'));
 const workouts = ref(store.getters['_userWorkouts']);
 const isWorkoutDaySelected = computed(() => store.getters['_isWorkoutDaySelected']);
 const isWorkoutSelected =  computed(() => store.getters['_isWorkoutSelected']);
@@ -204,9 +204,9 @@ const updateState = async () => {
         const index = pageIndex.value;
 
         if(index === 0) {
-            headerTitle.value = t('ON_TRAIN.WHICH_TITLES.TRAINING');
+            headerTitle.value = t('ON_WORKOUT.WHICH_TITLES.WORKOUT');
         } else if (index === 1) {
-            headerTitle.value = t('ON_TRAIN.WHICH_TITLES.DAY');
+            headerTitle.value = t('ON_WORKOUT.WHICH_TITLES.DAY');
         } else {
             maxIndex.value = selectedDay.value.exercises?.length + 1;
         }
@@ -242,12 +242,12 @@ const selectWorkoutDay = async (day) => {
         if(!day.isSelected) {
             if(selectedDay.value.id && selectedDay.value.id !== day.id) {
                 swalWithBootstrapButtons.fire({
-                    title: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.TITLE'),
-                    text: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.TEXT'),
+                    title: t('ON_WORKOUT.SELECT_ANOTHER_DAY_CONFIRM.TITLE'),
+                    text: t('ON_WORKOUT.SELECT_ANOTHER_DAY_CONFIRM.TEXT'),
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.CONFIRM_BUTTON'),
-                    cancelButtonText: t('ON_TRAIN.SELECT_ANOTHER_DAY_CONFIRM.CANCEL_BUTTON'),
+                    confirmButtonText: t('ON_WORKOUT.SELECT_ANOTHER_DAY_CONFIRM.CONFIRM_BUTTON'),
+                    cancelButtonText: t('ON_WORKOUT.SELECT_ANOTHER_DAY_CONFIRM.CANCEL_BUTTON'),
                     reverseButtons: true,
                 })
                 .then(async (result) => {
@@ -286,12 +286,12 @@ const handleNextStep = async () => {
     if(pageIndex.value >= 2) {
         if(!validateCurrentExercise() && !currentExercise.value.isPassed) {
             swalWithBootstrapButtons.fire({
-                title: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TITLE'),
-                text: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TEXT'),
+                title: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.TITLE'),
+                text: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.TEXT'),
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
-                cancelButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
+                confirmButtonText: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
+                cancelButtonText: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
                 reverseButtons: true,
             })
             .then(async (result) => {
@@ -380,12 +380,12 @@ const validateCurrentExercise = (index = null) => {
 const completeWorkout = async () => {
     if(!validateCurrentExercise()) {
         swalWithBootstrapButtons.fire({
-            title: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TITLE'),
-            text: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.TEXT'),
+            title: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.TITLE'),
+            text: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.TEXT'),
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
-            cancelButtonText: t('ON_TRAIN.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
+            confirmButtonText: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_WORKOUT.PASS_EXERCISE_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {
@@ -404,12 +404,12 @@ const completeWorkout = async () => {
 const completeWorkoutRequest = async () => {
     try {
         swalConfirmButtons.fire({
-            title: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.TITLE'),
-            text: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.TEXT'),
+            title: t('ON_WORKOUT.COMPLETE_WORKOUT_CONFIRM.TITLE'),
+            text: t('ON_WORKOUT.COMPLETE_WORKOUT_CONFIRM.TEXT'),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.CONFIRM_BUTTON'),
-            cancelButtonText: t('ON_TRAIN.COMPLETE_TRAINING_CONFIRM.CANCEL_BUTTON'),
+            confirmButtonText: t('ON_WORKOUT.COMPLETE_WORKOUT_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_WORKOUT.COMPLETE_WORKOUT_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {
@@ -440,12 +440,12 @@ const updateArrowsVisibility = () => {
 
 const giveUp = () => {
     swalWithBootstrapButtons.fire({
-            title: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.TITLE'),
-            text: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.TEXT'),
+            title: t('ON_WORKOUT.GIVE_UP_WORKOUT_CONFIRM.TITLE'),
+            text: t('ON_WORKOUT.GIVE_UP_WORKOUT_CONFIRM.TEXT'),
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.CONFIRM_BUTTON'),
-            cancelButtonText: t('ON_TRAIN.GIVE_UP_TRAINING_CONFIRM.CANCEL_BUTTON'),
+            confirmButtonText: t('ON_WORKOUT.GIVE_UP_WORKOUT_CONFIRM.CONFIRM_BUTTON'),
+            cancelButtonText: t('ON_WORKOUT.GIVE_UP_WORKOUT_CONFIRM.CANCEL_BUTTON'),
             reverseButtons: true,
         })
         .then(async (result) => {

@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class WorkoutLogEnums
 {
-    const TRAINING_CONTINUE = 0;
-    const TRAINING_COMPLETED = 1;
-    const TRAINING_GIVE_UP = 2;
+    const WORKOUT_CONTINUE = 0;
+    const WORKOUT_COMPLETED = 1;
+    const WORKOUT_GIVE_UP = 2;
 }

@@ -23,15 +23,15 @@
             <ConfettiExplosion  :particleCount="200" :force="0.4"/>
 
             <HeaderText class="text-[2rem] font-extrabold leading-9 tracking-tight text-slate-900 md:text-4xl mt-12 text-center ">
-                {{ $t('TRAINING_COMPLETED.CONGURALITATIONS') }}
+                {{ $t('WORKOUT_COMPLETED.CONGURALITATIONS') }}
             </HeaderText>
 
             <div class="text-sm mt-4 p-4">
                 <div class="italic text-justify">
-                    {{ $t('TRAINING_COMPLETED.MOTIVATON_TEXT') }}
+                    {{ $t('WORKOUT_COMPLETED.MOTIVATON_TEXT') }}
                 </div>
                 <br>
-                <div class="font-semibold text-center" v-html="$t('TRAINING_COMPLETED.LETS_LOOK')" />
+                <div class="font-semibold text-center" v-html="$t('WORKOUT_COMPLETED.LETS_LOOK')" />
 
                 <WorkoutResults :data="data" />
             </div>

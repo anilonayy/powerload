@@ -3,10 +3,10 @@
         <Panel>
             <HistoryDetailSkeleton v-if="!loaded" />
             <div v-else>
-                <BackButton :to="{ name: 'workout-history' }"> {{ $t('TRAINING_HISTORY.SHOW.BACK_TO_LIST') }}</BackButton>
+                <BackButton :to="{ name: 'workout-history' }"> {{ $t('WORKOUT_HISTORY.SHOW.BACK_TO_LIST') }}</BackButton>
                 <PanelHeader class="p-2">
-                    <template v-slot:title> {{ $t('TRAINING_HISTORY.SHOW.TITLE') }} </template>
-                    <template v-slot:description> {{ $t('TRAINING_HISTORY.SHOW.DESCRIPTION') }} </template>
+                    <template v-slot:title> {{ $t('WORKOUT_HISTORY.SHOW.TITLE') }} </template>
+                    <template v-slot:description> {{ $t('WORKOUT_HISTORY.SHOW.DESCRIPTION') }} </template>
                     <hr>
                 </PanelHeader>
 

@@ -3,16 +3,16 @@
     <WorkoutListSkeleton v-if="!loaded" />
     <div v-else>
       <PanelHeader class="p-2">
-        <template v-slot:title> {{ $t('TRAININGS.LIST.TITLE') }} </template>
+        <template v-slot:title> {{ $t('WORKOUTS.LIST.TITLE') }} </template>
         <template v-slot:description>
-          {{ $t('TRAININGS.LIST.DESCRIPTION') }}
+          {{ $t('WORKOUTS.LIST.DESCRIPTION') }}
         </template>
         <hr />
       </PanelHeader>
 
       <div class="relative overflow-x-auto sm:rounded-lg">
         <router-link :to="{ name: 'add-train' }" class="block mb-6">
-          <div class="indigo-btn"> {{ $t('TRAININGS.LIST.ADD_BUTTON') }} </div>
+          <div class="indigo-btn"> {{ $t('WORKOUTS.LIST.ADD_BUTTON') }} </div>
         </router-link>
 
         <TableWrapper v-if="workouts.length">
@@ -21,10 +21,10 @@
               class="border-b bg-neutral-800 font-medium text-white border-black dark:border-neutral-500 dark:bg-neutral-900"
             >
               <tr>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.TRAINING_NAME') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.APPLIED_DAY') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.CREATED_AT') }}</th>
-                <th scope="col" class="px-6 py-3">{{ $t('TRAININGS.LIST.TABLE.ACTIONS') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUTS.LIST.TABLE.WORKOUT_NAME') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUTS.LIST.TABLE.APPLIED_DAY') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUTS.LIST.TABLE.CREATED_AT') }}</th>
+                <th scope="col" class="px-6 py-3">{{ $t('WORKOUTS.LIST.TABLE.ACTIONS') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -49,12 +49,12 @@
                 <td class="px-6 py-4 flex gap-3">
                   <router-link :to="{ name: 'workout', params: { trainId: workout.id } }">
                     <div class="orange-btn">
-                      {{ $t('TRAININGS.LIST.EDIT_BUTTON') }}
+                      {{ $t('WORKOUTS.LIST.EDIT_BUTTON') }}
                     </div>
                   </router-link>
 
                   <div class="red-btn" @click="removeWorkout(workout.id)">
-                    {{ $t('TRAININGS.LIST.DELETE_BUTTON') }}
+                    {{ $t('WORKOUTS.LIST.DELETE_BUTTON') }}
                   </div>
                 </td>
               </tr>
@@ -66,7 +66,7 @@
           v-else
           class="w-full text-center bg-gray-200 text-gray-800 rounded-md p-3 py-6 text-md"
         >
-          {{ $t('TRAININGS.LIST.NO_DATA') }}
+          {{ $t('WORKOUTS.LIST.NO_DATA') }}
         </div>
       </div>
     </div>
@@ -112,12 +112,12 @@ const removeWorkout = async (id) => {
 
   swalWithBootstrapButtons
     .fire({
-      title: translator.t('TRAININGS.LIST.DELETE_ACTION.TITLE'),
-      text: translator.t('TRAININGS.LIST.DELETE_ACTION.TEXT'),
+      title: translator.t('WORKOUTS.LIST.DELETE_ACTION.TITLE'),
+      text: translator.t('WORKOUTS.LIST.DELETE_ACTION.TEXT'),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: translator.t('TRAININGS.LIST.DELETE_ACTION.CONFIRM_BUTTON'),
-      cancelButtonText: translator.t('TRAININGS.LIST.DELETE_ACTION.CANCEL_BUTTON'),
+      confirmButtonText: translator.t('WORKOUTS.LIST.DELETE_ACTION.CONFIRM_BUTTON'),
+      cancelButtonText: translator.t('WORKOUTS.LIST.DELETE_ACTION.CANCEL_BUTTON'),
       reverseButtons: true
     })
     .then(async (result) => {
@@ -127,7 +127,7 @@ const removeWorkout = async (id) => {
 
           workouts.value = workouts.value.filter((workout) => workout.id !== id)
 
-          toast.success(translator.t('TRAININGS.LIST.DELETE_ACTION.SUCCESS'),)
+          toast.success(translator.t('WORKOUTS.LIST.DELETE_ACTION.SUCCESS'),)
         } catch (error) {
           toast.error(error.message)
         }

@@ -3,7 +3,7 @@
     <WorkoutBuilderSkeleton v-if="!loaded" />
     <form v-else method="POST" @submit="submitWorkout($event)">
         <div class="mb-8">
-          <Label for="name" :value="$t('TRAININGS.TRAIN_BUILDER.TRAINING_NAME')" />
+          <Label for="name" :value="$t('WORKOUTS.WORKOUT_BUILDER.WORKOUT_NAME')" />
 
           <Input
             id="name"
@@ -12,7 +12,7 @@
             :class="{ 'validation-error' : data.hasError }"
             v-model="data.name"
             autofocus
-            :placeholder="$t('TRAININGS.TRAIN_BUILDER.TRAINING_NAME_PLACEHOLDER')"
+            :placeholder="$t('WORKOUTS.WORKOUT_BUILDER.WORKOUT_NAME_PLACEHOLDER')"
           />
           
 
@@ -27,7 +27,7 @@
             <div class="p-2 inline-block w-full">
               <div class="flex justify-between">
                 <Label 
-                :value="`${$t('TRAININGS.TRAIN_BUILDER.DAY')} ${ (index + 1) } `" 
+                :value="`${$t('WORKOUTS.WORKOUT_BUILDER.DAY')} ${ (index + 1) } `" 
                 class="text-start ms-1 mb-2" />
                 <div v-if="index > 0" class="cursor-pointer" @click="removeDay(day.id)">
                   <div class="red-btn" style="padding: 8px !important">
@@ -39,7 +39,7 @@
                 type="text"
                 v-model="day.name"
                 class="w-full border-1 border-b-2 max-w-full"
-                :placeholder="$t('TRAININGS.TRAIN_BUILDER.DAY_PLACEHOLDER')"
+                :placeholder="$t('WORKOUTS.WORKOUT_BUILDER.DAY_PLACEHOLDER')"
                 :class="{ 'validation-error' : day.hasError }"
               />
               
@@ -53,11 +53,11 @@
             </div>
           </div>
           <div class="btn border-dashed border border-1 border-gray-700 w-full h-full" @click="addDay($event)">
-            {{ $t('TRAININGS.TRAIN_BUILDER.ADD_DAY') }}
+            {{ $t('WORKOUTS.WORKOUT_BUILDER.ADD_DAY') }}
           </div>
         </div>
         <button type="submit" class="green-btn w-full mt-4">
-          {{ $t('TRAININGS.TRAIN_BUILDER.SUBMIT_FORM') }}
+          {{ $t('WORKOUTS.WORKOUT_BUILDER.SUBMIT_FORM') }}
         </button>
         
     </form>
@@ -231,7 +231,7 @@ const submitWorkout = async (event) => {
 
       router.push({ name: 'workout-list' });
     } else {
-      toast.error(translator.t('TRAININGS.TRAIN_BUILDER.VALIDATION_ERROR'));
+      toast.error(translator.t('WORKOUTS.WORKOUT_BUILDER.VALIDATION_ERROR'));
     }
   } catch (error) {
     console.log(error);

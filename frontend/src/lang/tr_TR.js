@@ -31,8 +31,8 @@ export default {
             HOME: 'Anasayfa',
             ABOUT: 'Hakkımızda',
             DASHBOARD: 'Genel Bakış',
-            TRAINING_LIST: 'Antrenman Listesi',
-            TRAINING_HISTORY: 'Antrenman Geçmişi',
+            WORKOUT_LIST: 'Antrenman Listesi',
+            WORKOUT_HISTORY: 'Antrenman Geçmişi',
             RESET_PASSWORD: 'Şifre Yenile',
             PROFILE_SETTINGS: 'Profil Ayarları',
         },
@@ -49,7 +49,7 @@ export default {
     DASHBOARD: {
         TITLE: 'Genel Bakış',
         TOP_STATS: {
-            TRAINING: 'Antrenman',
+            WORKOUT: 'Antrenman',
             AVG_TIME: 'Ortalama Süre',
             AVG_EXERCISE: 'Ortalama Hareket',
             X: '?',
@@ -75,7 +75,7 @@ export default {
                 }
             }
         },
-        LAST_TRAININGS: {
+        LAST_WORKOUTS: {
             TITLE: 'Son 5 antrenman',
             SEE_ALL: 'tümünü gör',
             TIME: 'süre',
@@ -97,7 +97,7 @@ export default {
             NO_PR: 'Henüz antrenman yapmadığınız için kişisel rekorunuz bulunmamaktadır.'
         }
     },
-    TRAININGS: {
+    WORKOUTS: {
         LIST: {
             TITLE: 'Antrenmanlar',
             DESCRIPTION: 'Antrenmanların burada listelenir yeni antrenman ekleyebilir ve bunların içine antrenman günleri ve hareketler ekleyebilirsin.',
@@ -105,7 +105,7 @@ export default {
             EDIT_BUTTON: 'Düzenle',
             DELETE_BUTTON: 'Sil',
             TABLE: {
-                TRAINING_NAME:  'Antrenman Adı',
+                WORKOUT_NAME:  'Antrenman Adı',
                 APPLIED_DAY: 'Uygulanan Gün',
                 CREATED_AT: 'Oluşturulma Tarihi',
                 ACTIONS:  'İşlemler',
@@ -120,22 +120,22 @@ export default {
             }
         },
         ADD: {
-            BACK_TRAININGS: 'Antrenmanlara Dön',
+            BACK_WORKOUTS: 'Antrenmanlara Dön',
             TITLE: 'Antrenman Ekle',
             DESCRIPTION: 'Antrenmanına günler ekleyebilir ,günlere isim verebilir, antrenman anında bu günlere direkt tıklayarak erişebilirsin!',
         },
         EDIT: {
-            BACK_TRAININGS: 'Antrenmanlara Dön',
+            BACK_WORKOUTS: 'Antrenmanlara Dön',
             TITLE: 'Antrenman Düzenle',
             DESCRIPTION: 'Antrenmanına günler ekleyebilir ,günlere isim verebilir, antrenman anında bu günlere direkt tıklayarak erişebilirsin!',
         },
-        TRAIN_BUILDER: {
-            TRAINING_NAME: 'Antrenman Adı',
-            TRAINING_NAME_PLACEHOLDER: 'Antrenman Adı Giriniz',
+        WORKOUT_BUILDER: {
+            WORKOUT_NAME: 'Antrenman Adı',
+            WORKOUT_NAME_PLACEHOLDER: 'Antrenman Adı Giriniz',
             DAY: 'Gün',
             DAY_PLACEHOLDER: 'Gün Adı Giriniz',
             DAY_EMPTY_ERROR: 'Gün adı boş bırakılamaz!',
-            NO_TRAINING_DAY_ERROR: 'Antrenman günü olmadan antrenman eklenemez!',
+            NO_WORKOUT_DAY_ERROR: 'Antrenman günü olmadan antrenman eklenemez!',
             MULTIPLE_SELECT_EXERCISE: 'Her egzersiz gün içinde 1 kez seçilebilir!',
             SELECT_EXERCISE: 'Egzersiz Seçiniz',
             EXERCISE: 'Egzersiz',
@@ -147,7 +147,7 @@ export default {
             SUBMIT_FORM: 'ANTRENMANI KAYDET',
         }
     },
-    TRAINING_HISTORY : {
+    WORKOUT_HISTORY : {
         LIST: {
             TITLE: 'Antrenman Geçmişi',
             DESCRIPTION: 'Antrenman geçmişiniz bu sayfada listelenir 👀',
@@ -166,8 +166,8 @@ export default {
             DESCRIPTION: 'Antrenmanınızın detayları burada listelenir.',
         }
     },
-    TRAIN_RESULT: {
-        TRAINING: 'Antrenman',
+    WORKOUT_RESULT: {
+        WORKOUT: 'Antrenman',
         DURATION: 'Süre',
         EXERCISES: 'Egzersizler',
         SET: 'Set',
@@ -252,21 +252,21 @@ export default {
         }
     },
     BOTTOM_BAR: {
-        START_TRAINING: 'Antrenmana Başla!',
-        CONTINUE_TRAINING: 'Antrenmana Devam Et!',
+        START_WORKOUT: 'Antrenmana Başla!',
+        CONTINUE_WORKOUT: 'Antrenmana Devam Et!',
     },
     ERRORS: {
         UNKNOWN: 'Beklenmeyen bir hata oluştu!',
     },
-    ON_TRAIN: {
+    ON_WORKOUT: {
         WHICH_TITLES: {
-            TRAINING: 'Hangi antrenmanı yapmak istersin?',
+            WORKOUT: 'Hangi antrenmanı yapmak istersin?',
             DAY: 'Hangi günü yapmak istersin?',
         },
-        COMPLETE_TRAINING: 'Antrenmanı Tamamla',
+        COMPLETE_WORKOUT: 'Antrenmanı Tamamla',
         NEXT_EXERCISE: 'Sonraki Harekete Geç',
         GIVE_UP: 'Antrenmanı Bırak',
-        COMPLETE_TRAINING_CONFIRM: {
+        COMPLETE_WORKOUT_CONFIRM: {
             TITLE: 'Antrenmanı Tamamla',
             TEXT: 'Antrenmanı tamamlamak üzeresin! Eğer tamamlarsan tekrardan düzenleyemezsin. Tüm setleri doğru girdiğine emin misin??',
             CONFIRM_BUTTON: 'Evet, tamamla!',
@@ -284,14 +284,14 @@ export default {
             CONFIRM_BUTTON: 'Evet, pas geç!',
             CANCEL_BUTTON: 'Hayır, iptal et!'
         },
-        GIVE_UP_TRAINING_CONFIRM: {
+        GIVE_UP_WORKOUT_CONFIRM: {
             TITLE: 'Emin misin?',
             TEXT: 'Eğer antrenmanı bırakırsan, ilerlemen silinecek.',
             CONFIRM_BUTTON: 'Evet, bırak!',
             CANCEL_BUTTON: 'Hayır, iptal et!'
         },
-        SELECT_TRAINING: {
-            NO_TRAINING: 'Henüz bir antrenman oluşturmadın.',
+        SELECT_WORKOUT: {
+            NO_WORKOUT: 'Henüz bir antrenman oluşturmadın.',
             LETS_CREATE: 'Hadi antrenman oluşturalım!',
         },
         EXERCISE: {
@@ -301,7 +301,7 @@ export default {
             PASSED: ' Bu hareketi pas geçtin! Geçmemek için yeni set ekle.',
         }
     },
-    TRAINING_COMPLETED: {
+    WORKOUT_COMPLETED: {
         CONGURALITATIONS: 'Tebrikler!',
         MOTIVATON_TEXT: 'Bu gün de antrenmanını aksatmadın ve tüm çabanla çalıştın! Bu gün dünden daha iyisin, yarın bugünden daha iyi olacaksın!',
         LETS_LOOK: 'Haydi bu gün neler yaptığmıza  <br /> kısa bir göz atalım ! ⬇️ 👀',

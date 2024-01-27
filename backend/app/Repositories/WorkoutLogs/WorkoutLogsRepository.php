@@ -24,7 +24,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 
         return WorkoutLogs::where([
             ['user_id', auth()->user()->id],
-            ['status', WorkoutLogEnums::TRAINING_COMPLETED],
+            ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
         ])
             ->with([
                 'workoutDay' => function ($query) {
@@ -52,7 +52,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         return WorkoutLogs::where([
             ['id', $id],
             ['user_id', auth()->user()->id],
-            ['status', WorkoutLogEnums::TRAINING_COMPLETED],
+            ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
         ])
             ->with([
                 'workoutDay' => function ($query) {
@@ -113,7 +113,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 
         $lastLog = WorkoutLogs::where([
             ['user_id', $user->id],
-            ['status', WorkoutLogEnums::TRAINING_CONTINUE]
+            ['status', WorkoutLogEnums::WORKOUT_CONTINUE]
         ])->latest()->first();
 
         return $lastLog ?? WorkoutLogs::create([
@@ -137,7 +137,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     public function getWorkoutCounts(): int
     {
         return WorkoutLogs::where([
-            ['status', WorkoutLogEnums::TRAINING_COMPLETED],
+            ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
             ['user_id', auth()->user()->id]
         ])
             ->count();
@@ -161,7 +161,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         $userId = auth()->user()->id;
 
         $workoutTime = WorkoutLogs::where([
-            ['status', WorkoutLogEnums::TRAINING_COMPLETED],
+            ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
             ['user_id', $userId]
         ])
             ->select(DB::raw('avg(UNIX_TIMESTAMP(workout_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
@@ -230,7 +230,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         ORDER BY rowNum ASC;
         ", [
             'user_id' => $userId,
-            'status' => WorkoutLogEnums::TRAINING_COMPLETED,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'is_passed' => WorkoutListLogEnums::NOT_PASSED,
             'row_num' => 1
         ]));
@@ -256,7 +256,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         WHERE tell.is_passed = :is_passed AND tl.status = :status  AND u.id = :user_id";
         $baseVariables = [
             'exercise_id' => $payload->exercise_id,
-            'status' => WorkoutLogEnums::TRAINING_COMPLETED,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'user_id' => $userId,
             'is_passed' => WorkoutListLogEnums::NOT_PASSED
         ];

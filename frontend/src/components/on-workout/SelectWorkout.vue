@@ -9,8 +9,8 @@
         </div>
         <div v-else>
             <div class="p-4 text-center">
-                {{ $t('SELECT_TRAINING.NO_TRAINING') }}
-                <router-link :to="{ name: 'add-train' }" class="underline text-blue-700"> {{ $t('SELECT_TRAINING.LETS_CREATE') }} </router-link>
+                {{ $t('ON_WORKOUT.SELECT_WORKOUT.NO_WORKOUT') }}
+                <router-link :to="{ name: 'add-train' }" class="underline text-blue-700"> {{ $t('ON_WORKOUT.SELECT_WORKOUT.LETS_CREATE') }} </router-link>
             </div>
         </div>
     </div>

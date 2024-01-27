@@ -31,8 +31,8 @@ export default {
             HOME: 'Home',
             ABOUT: 'About',
             DASHBOARD: 'Dashboard',
-            TRAINING_LIST: 'Workout List',
-            TRAINING_HISTORY: 'Workout History',
+            WORKOUT_LIST: 'Workout List',
+            WORKOUT_HISTORY: 'Workout History',
             RESET_PASSWORD: 'Reset Password',
             PROFILE_SETTINGS: 'Profile Settings',
         },
@@ -49,7 +49,7 @@ export default {
     DASHBOARD: {
         TITLE: 'Dashboard',
         TOP_STATS: {
-            TRAINING: 'Workouts',
+            WORKOUT: 'Workouts',
             AVG_TIME: 'Average Time',
             AVG_EXERCISE: 'Average Exercise',
             X: '?',
@@ -75,7 +75,7 @@ export default {
                 }
             }
         },
-        LAST_TRAININGS: {
+        LAST_WORKOUTS: {
             TITLE: 'Last 5 workouts',
             SEE_ALL: 'see all',
             TIME: 'duration',
@@ -97,7 +97,7 @@ export default {
             NO_PR: 'You do not have a personal record because you have not trained yet.'
         }
     },
-    TRAININGS: {
+    WORKOUTS: {
         LIST: {
             TITLE: 'Workouts',
             DESCRIPTION: 'Your workouts are listed here and you can add new workouts, workout days and exercises.',
@@ -105,7 +105,7 @@ export default {
             EDIT_BUTTON: 'Edit',
             DELETE_BUTTON: 'Delete',
             TABLE: {
-                TRAINING_NAME:  'Workout Name',
+                WORKOUT_NAME:  'Workout Name',
                 APPLIED_DAY: 'Applied Day',
                 CREATED_AT: 'Created Date',
                 ACTIONS:  'Actions',
@@ -120,22 +120,22 @@ export default {
             }
         },
         ADD: {
-            BACK_TRAININGS: 'Back to trainigs',
+            BACK_WORKOUTS: 'Back to workouts',
             TITLE: 'Add Workout',
             DESCRIPTION: 'You can add days to your workout, name them, and access them during workout by clicking on them directly!',
         },
         EDIT: {
-            BACK_TRAININGS: 'Back to trainigs',
+            BACK_WORKOUTS: 'Back to workouts',
             TITLE: 'Edit Workout',
             DESCRIPTION: 'You can add days to your workout, name them, and access them during workout by clicking on them directly!',
         },
-        TRAIN_BUILDER: {
-            TRAINING_NAME: 'Workout Name',
-            TRAINING_NAME_PLACEHOLDER: 'Enter Workout Name',
+        WORKOUT_BUILDER: {
+            WORKOUT_NAME: 'Workout Name',
+            WORKOUT_NAME_PLACEHOLDER: 'Enter Workout Name',
             DAY: 'Day',
             DAY_PLACEHOLDER: 'Enter Day Name',
             DAY_EMPTY_ERROR: 'Day Name Can Not Be Empty!',
-            NO_TRAINING_DAY_ERROR: 'You cannot add an exercise without a workout day!',
+            NO_WORKOUT_DAY_ERROR: 'You cannot add an exercise without a workout day!',
             MULTIPLE_SELECT_EXERCISE: 'Each exercise can be selected once within a day!',
             SELECT_EXERCISE: 'Select Exercise',
             EXERCISE: 'Exercise',
@@ -144,10 +144,10 @@ export default {
             ADD_EXERCISE: 'Add Exercise',
             ADD_DAY: 'Add Workout Day',
             VALIDATION_ERROR: 'Please correct any incorrect or missing fields!',
-            SUBMIT_FORM: 'SUBMIT TRAINING',
+            SUBMIT_FORM: 'SUBMIT WORKOUT',
         }
     },
-    TRAINING_HISTORY : {
+    WORKOUT_HISTORY : {
         LIST: {
             TITLE: 'Workout History',
             DESCRIPTION: 'Workout history listing here 👀',
@@ -166,8 +166,8 @@ export default {
             DESCRIPTION: 'Details of your workout are listed here.',
         }
     },
-    TRAIN_RESULT: {
-        TRAINING: 'Workout',
+    WORKOUT_RESULT: {
+        WORKOUT: 'Workout',
         DURATION: 'Duration',
         EXERCISES: 'Exercises',
         SET: 'Set',
@@ -252,21 +252,21 @@ export default {
         }
     },
     BOTTOM_BAR: {
-        START_TRAINING: 'Start Workout!',
-        CONTINUE_TRAINING: 'Continue Workout',
+        START_WORKOUT: 'Start Workout!',
+        CONTINUE_WORKOUT: 'Continue Workout',
     },
     ERRORS: {
         UNKNOWN: 'An error ocurred!',
     },
-    ON_TRAIN: {
+    ON_WORKOUT: {
         WHICH_TITLES: {
-            TRAINING: 'Which workout do you want to do?',
+            WORKOUT: 'Which workout do you want to do?',
             DAY: 'Which workout day do you want to do?',
         },
-        COMPLETE_TRAINING: 'Complete Workout',
+        COMPLETE_WORKOUT: 'Complete Workout',
         NEXT_EXERCISE: 'Next Exercise',
         GIVE_UP: 'Give Up',
-        COMPLETE_TRAINING_CONFIRM: {
+        COMPLETE_WORKOUT_CONFIRM: {
             TITLE: 'Complete Workout',
             TEXT: 'You are about to complete the workout! If you complete it, you can\'t edit it again. Are you sure you entered all the sets correctly?',
             CONFIRM_BUTTON: 'Yes, Complete!',
@@ -284,14 +284,14 @@ export default {
             CONFIRM_BUTTON: 'Yes, pass it!',
             CANCEL_BUTTON: 'No, cancel it!'
         },
-        GIVE_UP_TRAINING_CONFIRM: {
+        GIVE_UP_WORKOUT_CONFIRM: {
             TITLE: 'Are you sure?',
             TEXT: 'If you stop workout, your progress will be erased.',
             CONFIRM_BUTTON: 'Yes, give up!',
             CANCEL_BUTTON: 'No, continue!'
         },
-        SELECT_TRAINING: {
-            NO_TRAINING: 'You haven\'t created a workout yet.',
+        SELECT_WORKOUT: {
+            NO_WORKOUT: 'You haven\'t created a workout yet.',
             LETS_CREATE: 'Let\'s create a workout!',
         },
         EXERCISE: {
@@ -301,7 +301,7 @@ export default {
             PASSED: 'You skipped this move! Add a new set to avoid skipping.',
         }
     },
-    TRAINING_COMPLETED: {
+    WORKOUT_COMPLETED: {
         CONGURALITATIONS: 'Conguralitations!',
         MOTIVATON_TEXT: 'Today you kept up with your workout and gave it your all! Today you are better than yesterday, tomorrow you will be better than today!',
         LETS_LOOK: 'Let\'s take a quick look at <br /> what we did today! ⬇️ 👀',

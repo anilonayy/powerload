@@ -44,12 +44,12 @@
 
           <BadgeLink :to="{ name: 'workout-list' }">
             <ListIcon />
-            {{ $t('SIDEBAR.MENU.TRAINING_LIST') }}
+            {{ $t('SIDEBAR.MENU.WORKOUT_LIST') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'workout-history' }">
             <HeadphoneIcon />
-            {{ $t('SIDEBAR.MENU.TRAINING_HISTORY') }}
+            {{ $t('SIDEBAR.MENU.WORKOUT_HISTORY') }}
           </BadgeLink>
 
           <BadgeLink :to="{ name: 'reset-password' }">

@@ -1,8 +1,8 @@
 <template>
-    <on-train-builder></on-train-builder>
+    <OnWorkoutBuilder />
 </template>
 
 
 <script setup>
-    import OnWorkoutBuilder from '@/components/on-train/OnWorkoutBuilder.vue';
+    import OnWorkoutBuilder from '@/components/on-workout/OnWorkoutBuilder.vue';
 </script>

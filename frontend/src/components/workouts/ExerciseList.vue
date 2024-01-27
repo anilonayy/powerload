@@ -6,14 +6,14 @@
   >
     <div class="exercise w-full col-span-1">
       <Label
-        :value="`${exerciseIndex + 1}. ${$t('TRAININGS.TRAIN_BUILDER.EXERCISE')}`"
+        :value="`${exerciseIndex + 1}. ${$t('WORKOUTS.WORKOUT_BUILDER.EXERCISE')}`"
         class="text-start w-full text-sm mb-1"
       />
       <ag-select
         :options="options"
         read-text="name"
         read-value="value"
-        :placeholder="$t('TRAININGS.TRAIN_BUILDER.SELECT_EXERCISE')"
+        :placeholder="$t('WORKOUTS.WORKOUT_BUILDER.SELECT_EXERCISE')"
         search
         v-model="exercise.selected"
         :class="{ 'validation-error': exercise.hasError }"
@@ -31,7 +31,7 @@
     </div>
     <div class="max-w-full grid grid-cols-12 gap-3">
       <div class="col-span-5" :class="{ 'col-span-6': exerciseIndex === 0 }">
-        <Label :value="$t('TRAININGS.TRAIN_BUILDER.SET')" class="text-start w-full text-sm" />
+        <Label :value="$t('WORKOUTS.WORKOUT_BUILDER.SET')" class="text-start w-full text-sm" />
 
         <div class="custom-number-input">
           <div class="flex flex-row w-full rounded-lg relative bg-transparent mt-1">
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="col-span-5" :class="{ 'col-span-6': exerciseIndex === 0 }">
-        <Label :value="$t('TRAININGS.TRAIN_BUILDER.REP')" class="text-start w-full text-sm" />
+        <Label :value="$t('WORKOUTS.WORKOUT_BUILDER.REP')" class="text-start w-full text-sm" />
         <div class="custom-number-input h-full">
           <div class="flex flex-row w-full rounded-lg relative bg-transparent mt-1">
             <button
@@ -96,7 +96,7 @@
   </div>
 
   <div class="indigo-btn col-span-1" @click="$emit('add-exercise', day)">
-    {{ $t('TRAININGS.TRAIN_BUILDER.ADD_EXERCISE') }}
+    {{ $t('WORKOUTS.WORKOUT_BUILDER.ADD_EXERCISE') }}
   </div>
 </template>
 
