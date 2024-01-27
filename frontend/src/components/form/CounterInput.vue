@@ -4,7 +4,7 @@
       <button
         type="button"
         @click="DecrementValue(data)"
-        class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-2/5 rounded-l cursor-pointer outline-none"
+        class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-3/12 rounded-l cursor-pointer outline-none"
       >
         <span class="m-auto text-2xl font-thin">−</span>
       </button>
@@ -13,12 +13,12 @@
         type="number"
         @input="validateCurrentExercise(index)"
         :class="{ 'border-red-600': data[errorKey] }"
-        class="focus:outline-none text-center bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none w-1/5"
+        class="focus:outline-none text-center bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-base cursor-default flex items-center text-gray-700 outline-none w-6/12"
       />
       <button
         type="button"
         @click="IncrementValue(data)"
-        class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-2/5 rounded-r cursor-pointer"
+        class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-3/12 rounded-r cursor-pointer"
       >
         <span class="m-auto text-2xl font-thin">+</span>
       </button>

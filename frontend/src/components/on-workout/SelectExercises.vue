@@ -20,7 +20,7 @@
                                         <div class="whitespace-nowrap text-7xl" style="line-height: 0.8">
                                             {{ index + 1 }}.
                                         </div>
-                                        <div>
+                                        <!-- <div>
                                             <Label for="weight" :value="$t('ON_WORKOUT.EXERCISE.WEIGHT')" />
 
                                             <Input
@@ -30,6 +30,18 @@
                                                 :class="{'border-red-600': trainSet.weightError}"
                                                 class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
                                                 v-model="trainSet.weight"
+                                            />
+                                        </div> -->
+                                        <div class="flex flex-col">
+                                            <Label for="weight" :value="$t('ON_WORKOUT.EXERCISE.WEIGHT')" />
+                                            <CounterInput 
+                                                valueKey="weight"
+                                                errorKey="weightError"
+                                                :data="trainSet" 
+                                                :index="index"
+                                                :validateCurrentExercise="validateCurrentExercise"
+                                                @increment="(data) => { data.weight  += 5 }"
+                                                @decrement="(data) => { data.weight !== 0 ? data.weight -= 5 : '' }"
                                             />
                                         </div>
                                         <div class="flex flex-col">
