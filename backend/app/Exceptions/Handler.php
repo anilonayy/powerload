@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Enums\ResponseMessageEnums;
+use App\Helpers\Api;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -43,11 +44,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request,Throwable $e): Response|JsonResponse
     {
-        if (!$this->isProductionEnv()) {
-            $message = $this->getMessage($e);
-            $statusCode = $this->getStatusCode($e);
+        if ($this->isProductionEnv()) {
+            $statusCode = $e->getCode() ?? Response::HTTP_INTERNAL_SERVER_ERROR;
 
-            return response()->json($this->getCustomErrorMessage($message), $statusCode);
+            return Api::dynamic($statusCode, null, $this->getMessage($e));
         }
 
         return parent::render($request, $e);
@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
      */
     protected function isProductionEnv(): bool
     {
-        return config('app.env') === 'production';
+        return config('app.env') === 'production' || false;
     }
 
     /**

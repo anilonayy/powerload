@@ -8,15 +8,16 @@ use App\Models\WorkoutLogs;
 use App\Traits\ResponseMessage;
 use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 class WorkoutExerciseLogService implements WorkoutExerciseLogServiceInterface
 {
     use ResponseMessage;
     /**
      * @param object $payload
-     * @return array
+     * @return Collection
      */
-    public function create(WorkoutLogs $workoutLog, object $payload): array
+    public function create(WorkoutLogs $workoutLog, object $payload): Collection
     {
         $this->checkLogOwner($workoutLog->user_id);
         $exercise_id = $payload->exercise['id'];
@@ -54,14 +55,14 @@ class WorkoutExerciseLogService implements WorkoutExerciseLogServiceInterface
             ]);
         }
 
-        return $this->getSuccessMessage($responseLogs);
+        return collect($responseLogs);
     }
 
     /**
      * @param integer $logOwnerId
      * @return void
      */
-    public function checkLogOwner(int $logOwnerId): void
+    private function checkLogOwner(int $logOwnerId): void
     {
         if($logOwnerId !== auth()->user()->id) {
             throw new Exception(ResponseMessageEnums::FORBIDDEN, Response::HTTP_FORBIDDEN);

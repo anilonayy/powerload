@@ -2,7 +2,14 @@
 
 namespace App\Services\Exercise;
 
+use Illuminate\Database\Eloquent\Collection;
+
 interface ExerciseServiceInterface
 {
-    public function getAll(): array;
+    /**
+     * Get all exercise resources.
+     *
+     * @return Collection
+     */
+    public function getAll(): Collection;
 }

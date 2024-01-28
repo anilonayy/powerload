@@ -4,6 +4,7 @@ namespace App\Services\Exercise;
 
 use App\Repositories\Exercise\ExerciseRepositoryInterface;
 use App\Traits\ResponseMessage;
+use Illuminate\Database\Eloquent\Collection;
 
 class ExerciseService implements ExerciseServiceInterface
 {
@@ -14,17 +15,12 @@ class ExerciseService implements ExerciseServiceInterface
         $this->exerciseRepository = $exerciseRepository;
     }
 
-    public function getAll(): array
-    {
-        $results = $this->exerciseRepository->all(
-            collect([
-                'select' => ['id','name', 'exercise_categories_id'],
-                'with' => ['category' => function($query){
-                    $query->select(['id','name']);
-                }]
-            ])
-        );
+    /**
 
-        return $this->getSuccessMessage($results);
+     * @return Collection
+     */
+    public function getAll(): Collection
+    {
+        return $this->exerciseRepository->all();
     }
 }

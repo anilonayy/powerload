@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Http\Requests\WorkoutExerciseLog\CreateLogRequest;
 use App\Models\WorkoutLogs;
 use App\Services\WorkoutExerciseLog\WorkoutExerciseLogServiceInterface;
@@ -25,6 +26,6 @@ class WorkoutExerciseLogsController extends Controller
      */
     public function store(CreateLogRequest $request, WorkoutLogs $workoutLog): JsonResponse
     {
-        return response()->json($this->workoutExerciseLogService->create($workoutLog, (object)$request));
+        return Api::ok($this->workoutExerciseLogService->create($workoutLog, (object)$request));
     }
 }

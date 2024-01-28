@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Models\WorkoutDay;
 use App\Services\WorkoutDay\WorkoutDayServiceInterface;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +19,6 @@ class WorkoutDayController
 
     public function showExercises(WorkoutDay $workoutDay): JsonResponse
     {
-        return response()->json($this->workoutDayService->showExercisesOfDay($workoutDay));
+        return Api::ok($this->workoutDayService->showExercisesOfDay($workoutDay));
     }
 }

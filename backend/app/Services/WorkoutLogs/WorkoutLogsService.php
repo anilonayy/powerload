@@ -7,13 +7,13 @@ use App\Http\Resources\WorkoutLogs\WorkoutLogs as WorkoutLogsResource;
 use App\Http\Resources\WorkoutLogs\WorkoutLogWithDetail as WorkoutLogsWithDetailResource;
 use App\Models\WorkoutLogs;
 use App\Enums\ResponseMessageEnums;
-use App\Http\Requests\Request;
 use App\Models\WorkoutDay;
 use App\Models\WorkoutExerciseListLogs;
 use App\Repositories\WorkoutLogs\WorkoutLogsRepositoryInterface;
 use App\Traits\Helpers\DateHelper;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WorkoutLogsService implements WorkoutLogsServiceInterface
@@ -26,16 +26,24 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->workoutLogsRepository = $workoutLogsRepository;
     }
 
-    public function show(int $id): array
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function show(int $id): mixed
     {
         $workoutLog = $this->workoutLogsRepository->findWithDetails($id);
 
         $this->checkIsUsersLog($workoutLog->user_id);
 
-        return $this->getSuccessMessage((WorkoutLogsWithDetailResource::make($workoutLog)));
+        return WorkoutLogsWithDetailResource::make($workoutLog);
     }
 
-    public function dailyResults(int $id): array
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function dailyResults(int $id): mixed
     {
         $workoutLog = $this->workoutLogsRepository->dailyResults($id);
 
@@ -45,24 +53,41 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
             $this->getFailMessage('Bu antrenman tamamlanmamış veya yarıda bırakılmış.');
         }
 
-        return $this->getSuccessMessage(WorkoutLogsWithDetailResource::make($workoutLog));
+        return WorkoutLogsWithDetailResource::make($workoutLog);
     }
 
-    public function index(array $payload): array
+    /**
+     * @param array $payload
+     * @return mixed
+     */
+    public function index(array $payload): mixed
     {
-        return $this->getSuccessMessage(WorkoutLogsResource::collection($this->workoutLogsRepository->all($payload)));
+        return WorkoutLogsResource::collection($this->workoutLogsRepository->all($payload));
     }
 
-    public function store(): array
+    /**
+     *
+     * @return WorkoutLogs
+     */
+    public function store(): WorkoutLogs
     {
-        return $this->getSuccessMessage($this->workoutLogsRepository->lastOrNew());
+        return $this->workoutLogsRepository->lastOrNew();
     }
 
-    public function lastOrNew(): array
+    /**
+     *
+     * @return WorkoutLogs
+     */
+    public function lastOrNew(): WorkoutLogs
     {
-        return $this->getSuccessMessage($this->workoutLogsRepository->lastOrNew());
+        return $this->workoutLogsRepository->lastOrNew();
     }
 
+    /**
+     * @param WorkoutLogs $workoutLog
+     * @param array $payload
+     * @return array
+     */
     public function update(WorkoutLogs $workoutLog, array $payload): array
     {
         $this->checkIsUsersLog($workoutLog->user_id);
@@ -83,7 +108,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
         $workoutLog->update($payload);
 
-        return $this->getSuccessMessage([
+        return [
             'id' => $workoutLog->id,
             'workout_id' => $workoutLog->workout_id,
             'workout_day_id' => $workoutLog->workout_day_id,
@@ -93,11 +118,15 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
                     $query->select(['id', 'name']);
                 }]);
             }])->get()
-        ]);
+        ];
     }
 
 
-    public function complete(WorkoutLogs $workoutLog): array
+    /**
+     * @param WorkoutLogs $workoutLog
+     * @return void
+     */
+    public function complete(WorkoutLogs $workoutLog): void
     {
         $this->checkIsUsersLog($workoutLog->user_id);
 
@@ -105,10 +134,11 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
             'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'workout_end_time' => now()
         ]);
-
-        return $this->getSuccessMessage();
     }
 
+    /**
+     * @return array
+     */
     public function last(): array
     {
         $lastWorkoutLog = WorkoutLogs::where([
@@ -117,18 +147,22 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         ])->latest()->first();
 
         if (!$lastWorkoutLog) {
-            return $this->getSuccessMessage([]);
+            return [];
         }
 
-        return $this->getSuccessMessage([
+        return [
             'id' => $lastWorkoutLog->id,
             'workout_id' => $lastWorkoutLog->workout_id,
             'workout_day_id' => $lastWorkoutLog->workout_day_id,
             'exercises' => WorkoutExerciseListLogs::where('workout_exercise_log_id', $lastWorkoutLog->id)->get()
-        ]);
+        ];
     }
 
-    public function giveUp(WorkoutLogs $workoutLog): array
+    /**
+     * @param WorkoutLogs $workoutLog
+     * @return WorkoutLogs
+     */
+    public function giveUp(WorkoutLogs $workoutLog): WorkoutLogs
     {
         $this->checkIsUsersLog($workoutLog->user_id);
 
@@ -137,28 +171,42 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
             'workout_end_time' => now()
         ]);
 
-        return $this->getSuccessMessage($workoutLog);
+        return $workoutLog;
     }
 
+    /**
+     * @return array
+     */
     public function stats(): array
     {
-        return $this->getSuccessMessage((object) [
+        return [
             'workout_count' => $this->workoutLogsRepository->getWorkoutCounts(),
             'average_workout_time' => $this->workoutLogsRepository->getWorkoutTimeAverage(),
             'average_exercise_count' => (double)number_format($this->workoutLogsRepository->getWorkoutExerciseAverage(), 1),
-        ]);
+        ];
     }
 
-    public function personalRecords(): array
+    /**
+     * @return Collection
+     */
+    public function personalRecords(): Collection
     {
-        return $this->getSuccessMessage($this->workoutLogsRepository->personalRecords());
+        return $this->workoutLogsRepository->personalRecords();
     }
 
-    public function exerciseHistory(object $payload): array
+    /**
+     * @param object $payload
+     * @return Collection
+     */
+    public function exerciseHistory(object $payload): Collection
     {
-        return $this->getSuccessMessage($this->workoutLogsRepository->exerciseHistory($payload));
+        return $this->workoutLogsRepository->exerciseHistory($payload);
     }
 
+    /**
+     * @param integer $logOwnerId
+     * @return void
+     */
     private function checkIsUsersLog (int $logOwnerId): void
     {
         if(auth()->user()->id !== $logOwnerId) {

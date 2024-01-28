@@ -7,6 +7,7 @@ use App\Models\AppModel;
 use App\Models\Workout;
 use App\Repositories\Workouts\WorkoutRepositoryInterface;
 use App\Traits\ResponseMessage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\UnauthorizedException;
 
 class WorkoutService implements WorkoutServiceInterface
@@ -20,66 +21,70 @@ class WorkoutService implements WorkoutServiceInterface
     }
 
     /**
-     * @param object $payload
+     * @param Workout $payload
      * @return array
      */
-    public function create(object $payload): array
+    public function create(object $payload): Workout
     {
-        return $this->getSuccessMessage($this->workoutRepository->create($payload));
+        return $this->workoutRepository->create($payload);
     }
 
     /**
      * @param integer $id
-     * @return array
+     * @return Workout
      */
-    public function find(int $id): array
+    public function find(int $id): Workout
     {
         $workout = $this->workoutRepository->find($id);
 
         $this->checkOwnerOfModel($workout->user_id);
 
-        return $this->getSuccessMessage($workout);
+        return $workout;
     }
 
     /**
      * @param Workout $workout
      * @param object $payload
-     * @return array
+     * @return Workout
      */
-    public function update(Workout $workout, object $payload): array
+    public function update(Workout $workout, object $payload): Workout
     {
         $this->checkOwnerOfModel($workout->user_id);
 
-        return $this->getSuccessMessage($this->workoutRepository->update($workout, $payload));
+        return $this->workoutRepository->update($workout, $payload);
     }
 
     /**
      * @param Workout $workout
-     * @return array
+     * @return void
      */
-    public function delete(Workout $workout): array
+    public function delete(Workout $workout): void
     {
         $this->checkOwnerOfModel($workout->user_id);
 
-        return $this->getSuccessMessage($this->workoutRepository->delete($workout));
+        $this->workoutRepository->delete($workout);
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getAll(): array
+    public function getAll(): Collection
     {
-        return $this->getSuccessMessage($this->workoutRepository->all());
+        return $this->workoutRepository->all();
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getAllWithDetails(): array
+    public function getAllWithDetails(): Collection
     {
-        return $this->getSuccessMessage($this->workoutRepository->allWithDetails());
+        return $this->workoutRepository->allWithDetails();
     }
 
+    /**
+     * @param integer $ownerId
+     * @return void
+     */
     private function checkOwnerOfModel(int $ownerId = 0): void
     {
         if($ownerId !== auth()->user()->id) {

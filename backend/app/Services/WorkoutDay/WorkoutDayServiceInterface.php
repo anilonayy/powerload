@@ -3,19 +3,15 @@
 namespace App\Services\WorkoutDay;
 
 use App\Models\WorkoutDay;
+use Illuminate\Database\Eloquent\Collection;
 
 interface WorkoutDayServiceInterface
 {
     /**
+     * Show exercises of workout day.
+     *
      * @param WorkoutDay $workoutDay
-     * @return array
+     * @return Collection
      */
-    public function showExercisesOfDay(WorkoutDay $workoutDay ): array;
-
-
-    /**
-     * @param WorkoutDay $workoutDay
-     * @return void
-     */
-    public function checkWorkoutDayOwner(WorkoutDay $workoutDay): void;
+    public function showExercisesOfDay(WorkoutDay $workoutDay): Collection;
 }

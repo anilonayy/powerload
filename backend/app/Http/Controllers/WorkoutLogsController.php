@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Models\WorkoutLogs;
 use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
@@ -29,12 +30,12 @@ class WorkoutLogsController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->workoutLogsService->show($id));
+        return Api::ok($this->workoutLogsService->show($id));
     }
 
     public function dailyResults(int $id): JsonResponse
     {
-        return response()->json($this->workoutLogsService->dailyResults($id));
+        return Api::ok($this->workoutLogsService->dailyResults($id));
     }
 
     /**
@@ -42,7 +43,7 @@ class WorkoutLogsController extends Controller
      */
     public function index(AllWithFiltersRequest $request): JsonResponse
     {
-        return response()->json($this->workoutLogsService->index($request->validated()));
+        return Api::ok($this->workoutLogsService->index($request->validated()));
     }
 
     /**
@@ -50,7 +51,7 @@ class WorkoutLogsController extends Controller
      */
     public function store(): JsonResponse
     {
-        return response()->json($this->workoutLogsService->store());
+        return Api::ok($this->workoutLogsService->store());
     }
 
     /**
@@ -58,7 +59,7 @@ class WorkoutLogsController extends Controller
      */
     public function lastOrNew(): JsonResponse
     {
-        return response()->json($this->workoutLogsService->lastOrNew());
+        return Api::ok($this->workoutLogsService->lastOrNew());
     }
 
     /**
@@ -68,7 +69,7 @@ class WorkoutLogsController extends Controller
      */
     public function update(UpdateLogRequest $request, WorkoutLogs $workoutLog): JsonResponse
     {
-        return response()->json($this->workoutLogsService->update($workoutLog, $request->validated()));
+        return Api::ok($this->workoutLogsService->update($workoutLog, $request->validated()));
     }
 
     /**
@@ -77,7 +78,9 @@ class WorkoutLogsController extends Controller
      */
     public function complete(WorkoutLogs $workoutLog): JsonResponse
     {
-        return response()->json($this->workoutLogsService->complete($workoutLog));
+        $this->workoutLogsService->complete($workoutLog);
+
+        return Api::noContent();
     }
 
     /**
@@ -85,22 +88,22 @@ class WorkoutLogsController extends Controller
      */
     public function last(): JsonResponse
     {
-        return response()->json($this->workoutLogsService->last());
+        return Api::ok($this->workoutLogsService->last());
     }
 
     public function stats(): JsonResponse
     {
-        return response()->json($this->workoutLogsService->stats());
+        return Api::ok($this->workoutLogsService->stats());
     }
 
     public function personalRecords(): JsonResponse
     {
-        return response()->json($this->workoutLogsService->personalRecords());
+        return Api::ok($this->workoutLogsService->personalRecords());
     }
 
     public function exerciseHistory(ExerciseHistoryRequest $request): JsonResponse
     {
-        return response()->json($this->workoutLogsService->exerciseHistory((object) $request->validated()));
+        return Api::ok($this->workoutLogsService->exerciseHistory((object) $request->validated()));
     }
 
     /**
@@ -109,7 +112,7 @@ class WorkoutLogsController extends Controller
      */
     public function giveUp(WorkoutLogs $workoutLog): JsonResponse
     {
-        return response()->json($this->workoutLogsService->giveUp($workoutLog));
+        return Api::ok($this->workoutLogsService->giveUp($workoutLog));
     }
 
     private function checkIsUsersLog (WorkoutLogs $workoutLog): void

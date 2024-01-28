@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\User\UserServiceInterface;
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request): JsonResponse
     {
-        return response()->json($this->userService->update((object) $request->validated()));
+        return Api::ok($this->userService->update((object) $request->validated()));
     }
 
     /**
@@ -31,6 +32,8 @@ class UserController extends Controller
      */
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        return response()->json($this->userService->updatePassword((object) $request->validated()), Response::HTTP_NO_CONTENT);
+        $this->userService->updatePassword((object) $request->validated());
+
+        return Api::noContent();
     }
 }

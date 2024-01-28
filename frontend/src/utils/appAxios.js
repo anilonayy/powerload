@@ -25,7 +25,7 @@ const createAxiosInstance = () => {
 		},
 		error => {
 		if (error?.response?.status === 401) {
-			if(!(window.location.href.includes('giris-yap') || window.location.href.includes('kayit-ol'))) {
+			if(!(window.location.href.includes('login') || window.location.href.includes('register'))) {
 				store.dispatch('logout');
 				router.push('/');
 			}

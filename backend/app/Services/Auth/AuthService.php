@@ -4,7 +4,6 @@ namespace App\Services\Auth;
 
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Auth\AuthServiceInterface;
-use App\Traits\ResponseMessage;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Client\HttpClientException;
@@ -17,8 +16,6 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 class AuthService implements AuthServiceInterface
 {
-    use ResponseMessage;
-
     protected UserRepositoryInterface $userRepository;
     public function __construct(UserRepositoryInterface $userRepository)
     {
@@ -38,13 +35,13 @@ class AuthService implements AuthServiceInterface
         $user = auth()->user();
         $token = $user->createToken('token')->plainTextToken;
 
-        return $this->getSuccessMessage([
+        return [
             'token' => $token,
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email
             ]
-        ]);
+        ];
     }
 
     /**
@@ -55,10 +52,10 @@ class AuthService implements AuthServiceInterface
     {
         $user = $this->userRepository->create($payload);
 
-        return $this->getSuccessMessage([
+        return [
             'user' => $user,
             'token' => $user->createToken('token')->plainTextToken
-        ]);
+        ];
     }
 
     public function forgotPassword(object $payload): array
@@ -71,9 +68,9 @@ class AuthService implements AuthServiceInterface
 
         RateLimiter::hit($rateLimiterKey);
 
-        return $this->getSuccessMessage([
+        return [
             'status' => __(Password::sendResetLink((array)['email' => $payload->email]))
-        ]);
+        ];
     }
 
     public function resetPassword(object $payload): array
@@ -99,22 +96,18 @@ class AuthService implements AuthServiceInterface
             throw new ValidationException(message: __($status), code: Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->getSuccessMessage([
-            'status' => __($status)
-        ]);
+        return ['status' => __($status)];
     }
 
     /**
-     * @return array
+     * @return void
      */
-    public function logout(): array
+    public function logout(): void
     {
         $token = auth()->user()->currentAccessToken();
 
         if ($token) {
             auth()->user()->tokens()->where('id', $token->id)->delete();
         }
-
-        return $this->getSuccessMessage();
     }
 }

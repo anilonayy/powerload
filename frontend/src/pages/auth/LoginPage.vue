@@ -11,7 +11,7 @@
             type="email"
             class="mt-1 block w-full"
             v-model="userData.email"
-            autocomplete="email "
+            autocomplete="email"
           />
 
           <div v-if="errors?.email && errors?.email?.length > 0">

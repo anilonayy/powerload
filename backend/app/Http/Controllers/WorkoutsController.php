@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Http\Requests\Workout\CreateWorkoutRequest;
 use App\Http\Requests\Workout\UpdateWorkoutRequest;
 use App\Models\Workout;
@@ -22,12 +23,12 @@ class WorkoutsController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json($this->workoutService->getAll());
+        return Api::ok($this->workoutService->getAll());
     }
 
     public function allWithDetails(): JsonResponse
     {
-        return response()->json($this->workoutService->getAllWithDetails());
+        return Api::ok($this->workoutService->getAllWithDetails());
     }
 
     /**
@@ -36,7 +37,7 @@ class WorkoutsController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        return response()->json($this->workoutService->find($id));
+        return Api::ok($this->workoutService->find($id));
     }
 
     /**
@@ -45,7 +46,7 @@ class WorkoutsController extends Controller
      */
     public function store(CreateWorkoutRequest $request): JsonResponse
     {
-        return response()->json($this->workoutService->create((object) $request->validated()));
+        return Api::created($this->workoutService->create((object) $request->validated()));
     }
 
     /**
@@ -55,7 +56,7 @@ class WorkoutsController extends Controller
      */
     public function update(Workout $workout, UpdateWorkoutRequest $request): JsonResponse
     {
-        return response()->json($this->workoutService->update($workout, (object) $request->validated()));
+        return Api::ok($this->workoutService->update($workout, (object) $request->validated()));
     }
 
     /**
@@ -64,6 +65,8 @@ class WorkoutsController extends Controller
      */
     public function destroy(Workout $workout): JsonResponse
     {
-        return response()->json($this->workoutService->delete($workout));
+        $this->workoutService->delete($workout);
+
+        return Api::noContent();
     }
 }

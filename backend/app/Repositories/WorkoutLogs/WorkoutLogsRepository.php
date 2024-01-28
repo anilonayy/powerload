@@ -5,8 +5,6 @@ namespace App\Repositories\WorkoutLogs;
 use App\Enums\DateEnums;
 use App\Enums\WorkoutListLogEnums;
 use App\Enums\WorkoutLogEnums;
-use App\Models\WorkoutExerciseListLogs;
-use App\Models\WorkoutExerciseLogs;
 use App\Models\WorkoutLogs;
 use App\Traits\Helpers\DateHelper;
 use Carbon\Carbon;
@@ -16,6 +14,12 @@ use Illuminate\Support\Facades\DB;
 class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 {
     use DateHelper;
+
+    /**
+     *
+     * @param array $payload
+     * @return Collection
+     */
     public function all(array $payload): Collection
     {
         $page = $payload['page'] ?? 0;
@@ -42,11 +46,21 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ->get();
     }
 
+    /**
+     *
+     * @param integer $id
+     * @return WorkoutLogs
+     */
     public function find(int $id): WorkoutLogs
     {
         return WorkoutLogs::findOrFail($id);
     }
 
+    /**
+     *
+     * @param integer $id
+     * @return WorkoutLogs
+     */
     public function findWithDetails(int $id): WorkoutLogs
     {
         return WorkoutLogs::where([
@@ -74,6 +88,11 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ])->first();
     }
 
+    /**
+     *
+     * @param integer $id
+     * @return WorkoutLogs
+     */
     public function dailyResults(int $id): WorkoutLogs
     {
         return WorkoutLogs::where([
@@ -102,11 +121,20 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ])->first();
     }
 
+    /**
+     *
+     * @param array $data
+     * @return WorkoutLogs
+     */
     public function create(array $data): WorkoutLogs
     {
         return WorkoutLogs::create($data);
     }
 
+    /**
+     *
+     * @return WorkoutLogs
+     */
     public function lastOrNew(): WorkoutLogs
     {
         $user = auth()->user();
@@ -121,6 +149,11 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         ]);
     }
 
+    /**
+     *
+     * @param array $data
+     * @return WorkoutLogs
+     */
     public function update(array $data): WorkoutLogs
     {
         $workoutLogs = WorkoutLogs::findOrFail($data['id']);
@@ -128,12 +161,20 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         return $workoutLogs;
     }
 
+    /**
+     * @param integer $id
+     * @return void
+     */
     public function delete(int $id): void
     {
         $workoutLogs = WorkoutLogs::findOrFail($id);
         $workoutLogs->delete();
     }
 
+    /**
+     *
+     * @return integer
+     */
     public function getWorkoutCounts(): int
     {
         return WorkoutLogs::where([
@@ -143,6 +184,10 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ->count();
     }
 
+    /**
+     *
+     * @return float|null
+     */
     public function getWorkoutExerciseAverage(): float|null
     {
         $userId = auth()->user()->id;
@@ -156,6 +201,10 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ->first()->averageExerciseCount;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getWorkoutTimeAverage(): string
     {
         $userId = auth()->user()->id;
@@ -172,6 +221,10 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             : '0';
     }
 
+    /**
+     *
+     * @return Collection
+     */
     public function personalRecords(): Collection
     {
         $userId = auth()->user()->id;
@@ -233,9 +286,14 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'is_passed' => WorkoutListLogEnums::NOT_PASSED,
             'row_num' => 1
-        ]));
+        ]) ?? []);
     }
 
+    /**
+     *
+     * @param object $payload
+     * @return Collection
+     */
     public function exerciseHistory(object $payload): Collection
     {
         $response = collect([]);

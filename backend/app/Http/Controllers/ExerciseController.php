@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Services\Exercise\ExerciseServiceInterface;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +22,6 @@ class ExerciseController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->exerciseService->getAll());
+        return Api::ok($this->exerciseService->getAll());
     }
 }

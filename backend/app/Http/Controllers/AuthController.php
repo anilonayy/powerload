@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Api;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -24,7 +24,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        return response()->json($this->authService->login((object) $request->validated()));
+        return Api::ok($this->authService->login((object) $request->validated()));
     }
 
     /**
@@ -33,18 +33,25 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-
-        return response()->json($this->authService->register((object) $request->validated()), Response::HTTP_CREATED);
+        return Api::created($this->authService->register((object) $request->validated()));
     }
 
+    /**
+     * @param ForgotPasswordRequest $request
+     * @return JsonResponse
+     */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        return response()->json($this->authService->forgotPassword((object) $request->validated()));
+        return Api::ok($this->authService->forgotPassword((object) $request->validated()));
     }
 
+    /**
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
+     */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
-        return response()->json($this->authService->resetPassword((object) $request->validated()));
+        return Api::ok($this->authService->resetPassword((object) $request->validated()));
     }
 
     /**
@@ -52,6 +59,8 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        return response()->json($this->authService->logout(), Response::HTTP_NO_CONTENT);
+        $this->authService->logout();
+
+        return Api::noContent();
     }
 }

@@ -29,17 +29,17 @@ class UserService implements UserServiceInterface
     {
         $user = $this->userRepository->update(auth()->user()->id, $payload);
 
-        return $this->getSuccessMessage([
+        return [
             'name' => $user->name,
             'email' => $user->email
-        ]);
+        ];
     }
 
     /**
      * @param object $payload
-     * @return array
+     * @return void
      */
-    public function updatePassword(object $payload): array
+    public function updatePassword(object $payload): void
     {
         $user = Auth::user();
 
@@ -48,7 +48,5 @@ class UserService implements UserServiceInterface
         }
 
         $this->userRepository->update($user->id, (object) ['password' => Hash::make($payload->newPassword)]);
-
-        return $this->getSuccessMessage();
     }
 }

@@ -3,18 +3,15 @@
 namespace App\Services\WorkoutExerciseLog;
 
 use App\Models\WorkoutLogs;
+use Illuminate\Support\Collection;
 
 interface WorkoutExerciseLogServiceInterface
 {
     /**
+     * Create Workout Exercise Logs.
+     *
      * @param object $payload
-     * @return array
+     * @return Collection
      */
-    public function create(WorkoutLogs $workoutLog, object $payload): array;
-
-    /**
-     * @param WorkoutLogs $workoutLog
-     * @return void
-     */
-    public function checkLogOwner(int $logOwnerId): void;
+    public function create(WorkoutLogs $workoutLog, object $payload): Collection;
 }

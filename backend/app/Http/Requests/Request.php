@@ -5,9 +5,9 @@ namespace App\Http\Requests;
 use App\Traits\ResponseMessage;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\ResponseMessageEnums;
+use App\Helpers\Api;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
 
 class Request extends FormRequest
 {
@@ -20,8 +20,7 @@ class Request extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         $errors = $validator->errors()->toArray();
-        $code = Response::HTTP_UNPROCESSABLE_ENTITY;
 
-        throw new HttpResponseException(response()->json($this->getCustomErrorMessage(ResponseMessageEnums::INVALID_PAYLOAD,$errors), $code));
+        throw new HttpResponseException(Api::unprocessableEntity($errors, ResponseMessageEnums::INVALID_PAYLOAD));
     }
 }
