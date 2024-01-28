@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
      */
     protected function isProductionEnv(): bool
     {
-        return config('app.env') === 'production' || false;
+        return config('app.env') === 'production';
     }
 
     /**

@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\RequestLogger as RequestLoggerModel;
 use Closure;
-use Illuminate\Support\Facades\Log;
 
 class RequestLogger
 {
@@ -19,20 +18,20 @@ class RequestLogger
     {
         $response = $next($request);
 
-        if (!$request->has('_logged_REQUEST_INFO')) {
+        if (!$request->has('_logged_REQUEST_INFO') && $request->method() !== 'OPTIONS') {
             $request->merge(['_logged_REQUEST_INFO' => true]);
 
-            $endTime = microtime(true); // Record the end time
-
-            $request->method() !== 'OPTIONS' && RequestLoggerModel::create([
+            RequestLoggerModel::create([
                 'path' => $request->path(),
                 'method' => $request->method(),
-                'request_body' => json_encode($request->all()),
+                'action' => request()->route()->getActionName() ?? 'Closure',
+                'request_body' => json_encode($request->except(['_logged_REQUEST_INFO', '_logged_SQL_QUERIES'])),
                 'status_code' => $response->getStatusCode(),
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'user_id' => $request->user() ? $request->user()->id : null,
-                'duration' => floatval(number_format($endTime - LARAVEL_START, 4)),
+                'duration' => floatval(number_format(microtime(true) - LARAVEL_START, 4)),
+                'created_at' => time()
             ]);
         }
 
