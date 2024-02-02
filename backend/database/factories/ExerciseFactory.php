@@ -21,7 +21,7 @@ class ExerciseFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word, // Farklı isimler almak için unique() kullanabilirsiniz.
+            'name' => $this->faker->unique()->word,
         ];
     }
 
