@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\User;
 
-use Auth;
 use App\Http\Requests\Request;
+use Auth;
 
 class UpdateUserRequest extends Request
 {

@@ -4,15 +4,12 @@ namespace App\Services\Auth;
 
 use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepositoryInterface;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\RateLimiter;
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthService implements AuthServiceInterface

@@ -6,6 +6,8 @@ use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Exercise\ExerciseService;
 use App\Services\Exercise\ExerciseServiceInterface;
+use App\Services\User\UserService;
+use App\Services\User\UserServiceInterface;
 use App\Services\Workout\WorkoutService;
 use App\Services\Workout\WorkoutServiceInterface;
 use App\Services\WorkoutDay\WorkoutDayService;
@@ -14,8 +16,6 @@ use App\Services\WorkoutExerciseLog\WorkoutExerciseLogService;
 use App\Services\WorkoutExerciseLog\WorkoutExerciseLogServiceInterface;
 use App\Services\WorkoutLogs\WorkoutLogsService;
 use App\Services\WorkoutLogs\WorkoutLogsServiceInterface;
-use App\Services\User\UserService;
-use App\Services\User\UserServiceInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 

@@ -7,11 +7,14 @@ use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    protected $userService;
+    private UserServiceInterface $userService;
+
+    /**
+     * @param UserServiceInterface $userService
+     */
     public function __construct(UserServiceInterface $userService)
     {
         $this->userService = $userService;

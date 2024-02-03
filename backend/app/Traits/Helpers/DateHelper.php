@@ -3,7 +3,6 @@
 namespace App\Traits\Helpers;
 
 use Carbon\Carbon;
-use DateTime;
 
 Trait DateHelper
 {

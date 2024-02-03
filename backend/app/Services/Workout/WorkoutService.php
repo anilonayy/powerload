@@ -3,7 +3,6 @@
 namespace App\Services\Workout;
 
 use App\Enums\ResponseMessageEnums;
-use App\Models\AppModel;
 use App\Models\Workout;
 use App\Repositories\Workouts\WorkoutRepositoryInterface;
 use App\Traits\ResponseMessage;

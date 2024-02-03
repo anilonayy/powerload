@@ -7,25 +7,31 @@ use App\Http\Requests\Workout\CreateWorkoutRequest;
 use App\Http\Requests\Workout\UpdateWorkoutRequest;
 use App\Models\Workout;
 use App\Services\Workout\WorkoutServiceInterface;
-use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 
 class WorkoutsController extends Controller
 {
-    use ResponseMessage;
-
     protected WorkoutServiceInterface $workoutService;
 
+    /**
+     * @param WorkoutServiceInterface $workoutService
+     */
     public function __construct(WorkoutServiceInterface $workoutService)
     {
         $this->workoutService = $workoutService;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         return Api::ok($this->workoutService->getAll());
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function allWithDetails(): JsonResponse
     {
         return Api::ok($this->workoutService->getAllWithDetails());

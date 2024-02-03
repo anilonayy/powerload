@@ -3,7 +3,6 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
-use Illuminate\Auth\Events\Failed;
 
 class LoginRequest extends Request
 {

@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Api;
-use App\Models\WorkoutLogs;
-use Illuminate\Http\JsonResponse;
 use App\Enums\ResponseMessageEnums;
+use App\Helpers\Api;
 use App\Http\Requests\Shared\AllWithFiltersRequest;
 use App\Http\Requests\WorkoutLog\ExerciseHistoryRequest;
 use App\Http\Requests\WorkoutLog\UpdateLogRequest;
+use App\Models\WorkoutLogs;
 use App\Services\WorkoutLogs\WorkoutLogsServiceInterface;
-use App\Traits\ResponseMessage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WorkoutLogsController extends Controller
 {
-    use ResponseMessage;
-
     protected WorkoutLogsServiceInterface $workoutLogsService;
     public function __construct(WorkoutLogsServiceInterface $workoutLogsService)
     {
@@ -33,12 +30,18 @@ class WorkoutLogsController extends Controller
         return Api::ok($this->workoutLogsService->show($id));
     }
 
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
     public function dailyResults(int $id): JsonResponse
     {
         return Api::ok($this->workoutLogsService->dailyResults($id));
     }
 
     /**
+     * @param AllWithFiltersRequest $request
      * @return JsonResponse
      */
     public function index(AllWithFiltersRequest $request): JsonResponse
@@ -91,16 +94,27 @@ class WorkoutLogsController extends Controller
         return Api::ok($this->workoutLogsService->last());
     }
 
+
+    /**
+     * @return JsonResponse
+     */
     public function stats(): JsonResponse
     {
         return Api::ok($this->workoutLogsService->stats());
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function personalRecords(): JsonResponse
     {
         return Api::ok($this->workoutLogsService->personalRecords());
     }
 
+    /**
+     * @param ExerciseHistoryRequest $request
+     * @return JsonResponse
+     */
     public function exerciseHistory(ExerciseHistoryRequest $request): JsonResponse
     {
         return Api::ok($this->workoutLogsService->exerciseHistory((object) $request->validated()));
@@ -115,6 +129,10 @@ class WorkoutLogsController extends Controller
         return Api::ok($this->workoutLogsService->giveUp($workoutLog));
     }
 
+    /**
+     * @param WorkoutLogs $workoutLog
+     * @return void
+     */
     private function checkIsUsersLog (WorkoutLogs $workoutLog): void
     {
         if(auth()->user()->id !== $workoutLog->user_id) {

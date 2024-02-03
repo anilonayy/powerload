@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\ResponseMessage;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\ResponseMessageEnums;
 use App\Helpers\Api;
+use App\Traits\ResponseMessage;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Request extends FormRequest

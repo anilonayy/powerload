@@ -6,14 +6,15 @@ use App\Helpers\Api;
 use App\Http\Requests\WorkoutExerciseLog\CreateLogRequest;
 use App\Models\WorkoutLogs;
 use App\Services\WorkoutExerciseLog\WorkoutExerciseLogServiceInterface;
-use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 
 class WorkoutExerciseLogsController extends Controller
 {
-    use ResponseMessage;
-
     protected WorkoutExerciseLogServiceInterface $workoutExerciseLogService;
+
+    /**
+     * @param WorkoutExerciseLogServiceInterface $workoutExerciseLogService
+     */
     public function __construct(WorkoutExerciseLogServiceInterface $workoutExerciseLogService)
     {
         $this->workoutExerciseLogService = $workoutExerciseLogService;
