@@ -2,8 +2,8 @@
 
 namespace App\Services\Auth;
 
+use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\Auth\AuthServiceInterface;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Client\HttpClientException;
@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthService implements AuthServiceInterface
 {
@@ -25,54 +26,67 @@ class AuthService implements AuthServiceInterface
     /**
      * @param object $payload
      * @return array
+     * @throws UnauthorizedHttpException
      */
     public function login(object $payload): array
     {
-        if(! auth()->attempt((array) $payload, true)) {
-            throw new HttpClientException(message: __('auth.failed'), code: Response::HTTP_UNAUTHORIZED);
+        $credentials = [
+            'email' => $payload->email,
+            'password' => $payload->password
+        ];
+
+        if(! auth()->attempt($credentials,true)) {
+            throw new UnauthorizedHttpException('Unauthorized', __('auth.failed'));
         }
 
         $user = auth()->user();
+        $token = $user->createToken($payload->device_type, ['user'])->plainTextToken;
+
+        return [
+            'user' => UserResource::make($user),
+            'token' => $token
+        ];
+    }
+
+
+    public function register(object $payload): array
+    {
+        $user = $this->userRepository->create($payload);
         $token = $user->createToken('token')->plainTextToken;
 
         return [
-            'token' => $token,
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email
-            ]
+            'user' => UserResource::make($user),
+            'token' => $token
         ];
     }
+
 
     /**
      * @param object $payload
      * @return array
      */
-    public function register(object $payload): array
-    {
-        $user = $this->userRepository->create($payload);
-
-        return [
-            'user' => $user,
-            'token' => $user->createToken('token')->plainTextToken
-        ];
-    }
-
     public function forgotPassword(object $payload): array
     {
-        $rateLimiterKey = "forgot-password-{$payload->email}";
-
-        if (RateLimiter::tooManyAttempts($rateLimiterKey, 3)) {
-            throw new TooManyRequestsHttpException(5, 'Too many attempts');
+        try {
+            $status = Password::sendResetLink((array)['email' => $payload->email]);
+        }
+        catch (\Exception $e) {
+            var_dump($e);
         }
 
-        RateLimiter::hit($rateLimiterKey);
 
         return [
-            'status' => __(Password::sendResetLink((array)['email' => $payload->email]))
+            'status' => __($status),
+            'code' => $status,
         ];
     }
 
+
+    /**
+     * @param object $payload
+     * @return array
+     * @throws HttpClientException
+     */
     public function resetPassword(object $payload): array
     {
         $status = Password::reset(
@@ -93,10 +107,10 @@ class AuthService implements AuthServiceInterface
         );
 
         if ($status !== Password::PASSWORD_RESET) {
-            throw new ValidationException(message: __($status), code: Response::HTTP_BAD_REQUEST);
+            throw new HttpClientException(message: __('auth.reset_password.error'), code: Response::HTTP_BAD_REQUEST);
         }
 
-        return ['status' => __($status)];
+        return ['status' => __('auth.reset_password.success')];
     }
 
     /**

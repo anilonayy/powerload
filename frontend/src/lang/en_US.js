@@ -247,7 +247,8 @@ export default {
                 SUBMIT: 'Register',
                 REGISTER_GOOGLE: 'Register with Google',
                 ALREADY_REGISTERED: 'Already Registered?',
-                LOGIN: 'Login'
+                LOGIN: 'Login',
+                SUCCESS: 'You have successfully registered!'
             }
         },
         FORGOT_PASSWORD: {

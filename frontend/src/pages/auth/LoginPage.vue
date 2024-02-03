@@ -14,25 +14,21 @@
             autocomplete="email"
           />
 
-          <div v-if="errors?.email && errors?.email?.length > 0">
-            <InputError class="mt-2" :message="errors?.email[0]" />
-          </div>
+          <ErrorList error-key="email" :errors="errors"  />
         </div>
 
         <div class="mt-4">
           <Label for="password" :value="$t('AUTH.LOGIN.FORM.PASSWORD')" />
 
           <Input
-            id="password"
+            id="current-password"
             type="password"
             class="mt-1 block w-full"
             v-model="userData.password"
             autocomplete="current-password"
           />
 
-          <div v-if="errors?.password && errors?.password?.length > 0">
-            <InputError class="mt-2" :message="errors?.password[0]" />
-          </div>
+          <ErrorList error-key="password" :errors="errors" />
 
           <div class="flex w-full justify-end">
             <router-link :to="{ name: 'forgot-password' }" class="text-sm underline underline-offset-1">
@@ -42,9 +38,7 @@
           </div>
         </div>
 
-        <div v-if="errors?.message && errors?.message?.length" class="text-red-500 font-semibold my-4">
-          {{ errors?.message }}
-        </div>
+        <ErrorList error-key="message" :errors="errors" />
 
         <button type="submit" class="dark-gray-btn w-full mt-4"> {{ $t('AUTH.LOGIN.FORM.SUBMIT') }} </button>
 
@@ -75,7 +69,7 @@ import { useI18n } from 'vue-i18n';
 
 import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
-import InputError from '@/components/form/InputError.vue'
+import ErrorList from "@/components/errors/ErrorList.vue";
 import Label from '@/components/form/Label.vue'
 import HeaderText from '@/components/shared/HeaderText.vue'
 import GoogleIcon from '@/components/icons/GoogleIcon.vue'

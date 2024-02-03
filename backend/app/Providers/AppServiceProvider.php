@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repositories\General\GeneralRepositoryInterface;
-use App\Repositories\GeneralRepository;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Exercise\ExerciseService;
@@ -18,6 +16,7 @@ use App\Services\WorkoutLogs\WorkoutLogsService;
 use App\Services\WorkoutLogs\WorkoutLogsServiceInterface;
 use App\Services\User\UserService;
 use App\Services\User\UserServiceInterface;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,7 +40,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $locale = 'tr';
-        app()->setLocale($locale);
+        JsonResource::withoutWrapping();
     }
 }

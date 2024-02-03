@@ -241,13 +241,12 @@ export default {
                 EMAIL_EMPTY_ERROR: 'E-Posta boş bırakılamaz!',
                 PASSWORD: 'Şifre',
                 PASSWORD_EMPTY_ERROR: 'Şifre boş bırakılamaz!',
-                PASSWORD_CONFIRMATION: 'Şifre Tekrar',
-                PASSWORD_CONFIRMATION_EMPTY_ERROR: 'Şifre Tekrar boş bırakılamaz!',
-                PASSWORD_CONFIRMATION_MATCH_ERROR: 'Şifreler eşleşmiyor!',
+                BIRTHDAY: 'Doğum Tarihi',
                 SUBMIT: 'Üye Ol',
                 REGISTER_GOOGLE: 'Google ile Üye Ol',
                 ALREADY_REGISTERED: 'Zaten üye misin?',
-                LOGIN: 'Giriş Yap'
+                LOGIN: 'Giriş Yap',
+                SUCCESS: 'Üyeliğin başarıyla oluşturuldu!',
             }
         },
         FORGOT_PASSWORD: {

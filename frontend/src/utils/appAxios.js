@@ -1,18 +1,26 @@
 import store from '@/store';
-import { getCookie } from '@/utils/helpers';
+import dayjs from "dayjs";
+import { getCookie, getLocale } from '@/utils/helpers';
 import axios from 'axios';
-import router from '@/router'
+import router from '@/router';
 
 const createAxiosInstance = () => {
 	const instance = axios.create({
 		baseURL: 'http://127.0.0.1:8000/api',
 		withCredentials: false,
-		timeout: 4000
+		timeout: 30000,
 	});
 
 	instance.interceptors.request.use(
 		config => {
-			config.headers.Authorization = `Bearer ${ getCookie('_token') }`;
+			if (getCookie('_token')) {
+				config.headers.Authorization = `Bearer ${ getCookie('_token') }`;
+			}
+
+			config.headers.Accept = 'application/json';
+			config.headers.ContentType = 'application/json';
+			config.headers.Locale = getLocale();
+
 			return config;
 		},
 		error => {
@@ -20,18 +28,31 @@ const createAxiosInstance = () => {
 		});
 
 	instance.interceptors.response.use(
-		response => {
-			return response.data;
-		},
-		error => {
-		if (error?.response?.status === 401) {
-			if(!(window.location.href.includes('login') || window.location.href.includes('register'))) {
-				store.dispatch('logout');
-				router.push('/');
-			}
-		}
+		({ data }) => data,
+		async error => {
+			const statusCode = error?.response?.status;
+			const url = window.location.href;
 
-		return Promise.reject(error.response.data);
+			if (statusCode === 401) {
+				if(!(url.includes('login') || url.includes('register'))) {
+					await store.dispatch('logout');
+					await router.push('/');
+				}
+			} else if(statusCode === 429) {
+				const locale = getLocale();
+				const nextRequestTime = dayjs(error.response
+					.headers['x-ratelimit-reset'] * 1000).format('HH:mm');
+
+				// TODO : Fetch this message from language files.
+				if(locale === 'en_US') {
+					error.response.data.message = `You have exceeded the rate limit for this action. Please try again after ${nextRequestTime}`;
+				} else if(locale === 'tr_TR') {
+					error.response.data.message = `Bu işlem için istek limitini aştınız. Lütfen ${nextRequestTime} sonrasında tekrar deneyin.`;
+				}
+
+			}
+
+			return Promise.reject(error.response.data);
 		}
 	);
 

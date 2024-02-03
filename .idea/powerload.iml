@@ -132,6 +132,19 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/02" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/28" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/52" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/60" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/6b" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/70" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/71" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/7c" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/c0" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/d8" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/storage/framework/cache/data/ec" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

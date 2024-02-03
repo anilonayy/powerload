@@ -13,68 +13,62 @@
             v-model="userData.name"
             autofocus
             autocomplete="name"
+            required
           />
 
-          <div v-if="errors?.name && errors?.name?.length > 0">
-            <InputError class="mt-2" :message="errors.name[0]" />
-          </div>
+          <ErrorList error-key="name" :errors="errors"  />
         </div>
 
         <div>
-          <Label for="email" :value="$t('AUTH.REGISTER.FORM.EMAIL')" />
+          <Label for="username" :value="$t('AUTH.REGISTER.FORM.EMAIL')" />
 
           <Input
-            id="email"
+            id="username"
             type="email"
             class="mt-1 block w-full"
             v-model="userData.email"
             autocomplete="username"
+            required
           />
 
-          <div v-if="errors?.email && errors?.email?.length > 0">
-            <InputError class="mt-2" :message="errors.email[0]" />
-          </div>
+          <ErrorList error-key="email" :errors="errors"  />
+        </div>
+
+        <div>
+          <Label for="birthday" :value="$t('AUTH.REGISTER.FORM.BIRTHDAY')" />
+
+          <Input
+              id="birthday"
+              type="date"
+              class="mt-1 block w-full"
+              v-model="userData.birthday"
+              autocomplete="birthday"
+              required
+          />
+
+          <ErrorList error-key="birthday" :errors="errors"  />
         </div>
 
         <div>
           <Label for="password" :value="$t('AUTH.REGISTER.FORM.PASSWORD')" />
 
           <Input
-            id="password"
+            id="new-password"
             type="password"
             class="mt-1 block w-full"
             v-model="userData.password"
-            autocomplete="current-password"
+            autocomplete="new-password"
+            required
           />
 
-          <div v-if="errors?.password && errors?.password.length > 0">
-            <InputError class="mt-2" :message="errors.password[0]" />
-          </div>
+          <ErrorList error-key="password" :errors="errors"  />
         </div>
 
-        <div>
-          <Label for="password_confirm" :value="$t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION')" />
-
-          <Input
-            id="password_confirm"
-            type="password"
-            class="mt-1 block w-full"
-            v-model="userData.password_confirm"
-          />
-
-          <div v-if="errors?.password_confirm && errors?.password_confirm.length > 0">
-            <InputError class="mt-2" :message="errors.password_confirm[0]" />
-          </div>
-        </div>
-
-        <div v-if="errors?.message && errors?.message?.length" class="text-red-500 font-semibold my-4">
-          {{ errors?.message }}
-        </div>
+        <ErrorList error-key="message" :errors="errors"  />
 
         <button type="submit" class="dark-gray-btn"> {{ $t('AUTH.REGISTER.FORM.SUBMIT') }} </button>
         
         <hr class="my-6 border-gray-300 w-full" />
-
         
         <div class="btn border border-1">
             <GoogleIcon />
@@ -99,7 +93,7 @@ import { useI18n } from 'vue-i18n';
 import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'
 import Label from '@/components/form/Label.vue'
-import InputError from '@/components/form/InputError.vue'
+import ErrorList from "@/components/errors/ErrorList.vue";
 import HeaderText from '@/components/shared/HeaderText.vue'
 import GoogleIcon from '@/components/icons/GoogleIcon.vue'
 
@@ -109,50 +103,28 @@ const { t } = useI18n();
 const userData = ref({
   name: '',
   email: '',
+  birthday: '01/01/2000',
   password: '',
-  password_confirm: ''
 })
 
-const errors = ref({})
+const errors = ref({
+  name: [],
+  email: [],
+  birthday: [],
+})
 
 const formSubmit = async (event) => {
   event.preventDefault()
 
   try {
-    if(!validateForm()) return;
-
     await authService.register(userData.value);
 
-    toast.success('Başarıyla kayıt oldun!');
+    toast.success(t('AUTH.REGISTER.FORM.SUCCESS'));
 
-    router.push('/');
+    await router.push('/');
   } catch (error) {
-    errors.value = error.data;
+    errors.value = error.errors ?? {};
   }
 }
-
-const validateForm = () => {
-  errors.value.name = isEmpty(userData.value.name) ? [t('AUTH.REGISTER.FORM.NAME_EMPTY_ERROR')] : [];
-  errors.value.email = isEmpty(userData.value.email) ? [t('AUTH.REGISTER.FORM.EMAIL_EMPTY_ERROR')] : [];
-  errors.value.password = isEmpty(userData.value.password) ? [t('AUTH.REGISTER.FORM.PASSWORD_EMPTY_ERROR')] : [];
-
-  if (isEmpty(userData.value.password_confirm)) {
-    errors.value.password_confirm = [t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION_EMPTY_ERROR')];
-  } else if (userData.value.password !== userData.value.password_confirm) {
-    errors.value.password_confirm = [t('AUTH.REGISTER.FORM.PASSWORD_CONFIRMATION_MATCH_ERROR')];
-  } else {
-    errors.value.password_confirm = [];
-  }
-
-  if(errors.value.message?.length) {
-    errors.value.message = ''
-  }
-
-  return Object.keys(errors.value).every((field) => errors.value[field].length === 0)
-}
-
-const isEmpty = (field) => (field ?? '').trim().length === 0;
-
-watch(userData.value, validateForm)
 </script>
 

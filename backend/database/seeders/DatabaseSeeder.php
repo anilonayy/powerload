@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\Exercise;
 use App\Models\ExerciseCategory;
+use App\Models\User;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,5 +28,7 @@ class DatabaseSeeder extends Seeder
         foreach ($exercises as $exerciseArray) {
             Exercise::factory()->forExercise($exerciseArray)->create();
         }
+
+        User::factory()->create();
     }
 }

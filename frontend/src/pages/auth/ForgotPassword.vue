@@ -15,7 +15,8 @@
                         type="email"
                         class="mt-1 block w-full"
                         v-model="userData.email"
-                        autocomplete="email "
+                        autocomplete="username"
+                        required
                     />
 
                     <ErrorList errorKey="email" :errors="errors" />
@@ -77,7 +78,7 @@ const formSubmit = async (event) => {
 
             setTimeout(() => {
                 router.push({ name: 'login' });
-            }, 30000);
+            }, 60000);
         }
     } catch (error) {
         errors.value = error.data ?? {};

@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    protected $authService;
+    private AuthServiceInterface $authService;
     public function __construct(AuthServiceInterface $authService)
     {
         $this->authService = $authService;

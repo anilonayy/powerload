@@ -2,7 +2,6 @@
 
 namespace App\Services\Auth;
 
-
 interface AuthServiceInterface
 {
     public function login(object $payload): array;
