@@ -55,14 +55,13 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import dashboardService from '@/services/dashboardService';
 
 import DumbellIcon from '@/components/icons/DumbellIcon.vue';
 import PassedTimeIcon from '@/components/icons/PassedTimeIcon.vue';
 import CountSticksIcon from '@/components/icons/CountSticksIcon.vue';
 import TopStatsSkeleton from '@/components/skeletons/UserDashboard/TopStatsSkeleton.vue';
-
 
 
 const loaded = ref(false);

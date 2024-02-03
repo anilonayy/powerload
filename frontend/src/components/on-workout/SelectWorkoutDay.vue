@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from 'vue';
+import {defineEmits, defineProps} from 'vue';
 
 defineProps({
     selectedWorkout: {

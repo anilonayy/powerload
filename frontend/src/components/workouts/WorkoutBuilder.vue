@@ -67,11 +67,11 @@
 
 
 <script setup>
-import { onMounted, ref, watch, inject } from 'vue';
-import { guid, validateWorkoutBuilderData } from '@/utils/helpers';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n'
+import {inject, onMounted, ref, watch} from 'vue';
+import {guid, validateWorkoutBuilderData} from '@/utils/helpers';
+import {useStore} from 'vuex';
+import {useRoute} from 'vue-router';
+import {useI18n} from 'vue-i18n'
 import router from '@/router';
 import workoutService from '@/services/workoutService';
 import exerciseService from '@/services/exerciseService';

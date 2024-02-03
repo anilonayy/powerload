@@ -62,10 +62,10 @@
 </template>
 
 <script setup>
-import { ref, inject, watch } from 'vue'
+import {inject, ref, watch} from 'vue'
 import router from '@/router'
 import authService from '@/services/authService'
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
 
 import Panel from '@/components/shared/Panel.vue'
 import Input from '@/components/form/Input.vue'

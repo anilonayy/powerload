@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, defineEmits, defineModel } from 'vue';
+import {defineEmits, defineModel, defineProps, ref} from 'vue';
 
 import AngleDownIcon from '@/components/icons/AngleDownIcon.vue';
 

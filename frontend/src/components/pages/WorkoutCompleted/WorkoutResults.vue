@@ -50,9 +50,9 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import {defineProps} from 'vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
-import { getIconName } from '@/utils/helpers';
+import {getIconName} from '@/utils/helpers';
 
 defineProps({
     data: {

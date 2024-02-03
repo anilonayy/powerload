@@ -46,11 +46,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue'
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { getIconName, debounce } from '@/utils/helpers'
+import {computed, inject, onMounted, ref} from 'vue'
+import {useI18n} from 'vue-i18n';
+import {useStore} from 'vuex';
+import {useRoute} from 'vue-router';
+import {debounce, getIconName} from '@/utils/helpers'
 import dashboardService from '@/services/dashboardService';
 import Chart from 'chart.js/auto'
 

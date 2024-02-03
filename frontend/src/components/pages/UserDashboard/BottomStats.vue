@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import dashboardService from '@/services/dashboardService';
 
 import TableSkeleton from '@/components/skeletons/UserDashboard/TableSkeleton.vue'

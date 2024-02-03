@@ -165,8 +165,8 @@ import AngleDownIcon from '@/components/icons/AngleDownIcon.vue';
 import ListIcon from '@/components/icons/ListIcon.vue';
 import SelectLanguage from '@/components/sidebar/SelectLanguage.vue';
 
-import { computed, ref, watchEffect } from 'vue'
-import { useStore } from 'vuex';
+import {computed, ref, watchEffect} from 'vue'
+import {useStore} from 'vuex';
 import authService from '@/services/authService';
 
 

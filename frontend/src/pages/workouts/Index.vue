@@ -74,8 +74,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, inject } from 'vue'
-import { useI18n } from 'vue-i18n'
+import {inject, onMounted, ref} from 'vue'
+import {useI18n} from 'vue-i18n'
 import workoutService from '@/services/workoutService'
 
 import Panel from '@/components/shared/Panel.vue'

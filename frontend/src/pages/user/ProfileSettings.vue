@@ -50,11 +50,11 @@
 </template>
 
 <script setup>
-import { computed, ref, inject } from "vue";
-import { useStore } from "vuex";
-import { validateEmail } from '@/utils/helpers';
+import {computed, inject, ref} from "vue";
+import {useStore} from "vuex";
+import {validateEmail} from '@/utils/helpers';
 import userService from '@/services/userService';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
 
 import Panel from "@/components/shared/Panel.vue";
 import PanelHeader from "@/components/shared/PanelHeader.vue";

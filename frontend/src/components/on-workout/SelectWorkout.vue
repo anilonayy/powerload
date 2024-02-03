@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import { defineEmits, computed } from 'vue';
-import { useStore } from 'vuex';
+import {computed, defineEmits} from 'vue';
+import {useStore} from 'vuex';
 
 const workouts = computed(() => useStore().getters['_userWorkouts']);
 

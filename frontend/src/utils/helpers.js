@@ -1,6 +1,3 @@
-import DateFrequencyEnums from "@/enums/DateFrequencyEnums";
-
-
 export const setCookie = (name, value, days) => {
     var expires = "";
     if (days) {

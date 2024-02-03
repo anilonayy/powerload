@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { getLocale, setCookie } from '@/utils/helpers'
+import {ref} from 'vue';
+import {getLocale, setCookie} from '@/utils/helpers'
 
 import DropDownSelect from '@/components/shared/DropdownSelect.vue';
 

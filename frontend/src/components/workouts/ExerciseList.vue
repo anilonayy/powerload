@@ -103,9 +103,9 @@
 
 
 <script setup>
-import { computed, defineEmits } from 'vue'
-import { useStore } from 'vuex'
-import { getIconName } from '@/utils/helpers'
+import {computed, defineEmits} from 'vue'
+import {useStore} from 'vuex'
+import {getIconName} from '@/utils/helpers'
 
 import TrashIcon from '@/components/icons/TrashIcon.vue'
 import Label from '@/components/form/Label.vue'

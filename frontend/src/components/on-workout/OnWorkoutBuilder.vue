@@ -64,16 +64,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref, inject, computed, watchEffect } from "vue";
-import { useStore } from 'vuex';
+import {computed, inject, onMounted, ref, watchEffect} from "vue";
+import {useStore} from 'vuex';
 import router from '@/router';
 import workoutService from '@/services/workoutService';
 import workoutLogService from '@/services/workoutLogService';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
 
 import SelectWorkout from '@/components/on-workout/SelectWorkout.vue';
 import SelectWorkoutDay from '@/components/on-workout/SelectWorkoutDay.vue';
-import SelectExercises from '@/components/on-workout/SelectExercises.vue';    
+import SelectExercises from '@/components/on-workout/SelectExercises.vue';
 import LeftIcon from '@/components/icons/LeftIcon.vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
 import OnWorkoutSelectWorkoutSkeleton from '@/components/skeletons/OnWorkoutSelectWorkoutSkeleton.vue';

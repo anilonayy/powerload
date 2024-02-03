@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import {computed} from 'vue';
 import axios from '@/utils/appAxios';
 import store from '@/store';
 

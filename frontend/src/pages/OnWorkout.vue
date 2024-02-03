@@ -4,5 +4,5 @@
 
 
 <script setup>
-    import OnWorkoutBuilder from '@/components/on-workout/OnWorkoutBuilder.vue';
+import OnWorkoutBuilder from '@/components/on-workout/OnWorkoutBuilder.vue';
 </script>

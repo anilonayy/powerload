@@ -1,6 +1,6 @@
 import store from '@/store';
 import dayjs from "dayjs";
-import { getCookie, getLocale } from '@/utils/helpers';
+import {getCookie, getLocale} from '@/utils/helpers';
 import axios from 'axios';
 import router from '@/router';
 

@@ -29,7 +29,7 @@
 
 <script setup>
 
-import { defineProps, defineEmits } from 'vue'
+import {defineEmits, defineProps} from 'vue'
 
 const emit = defineEmits(['increment, decrement'])
 

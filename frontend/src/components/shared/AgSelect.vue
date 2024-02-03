@@ -1,13 +1,7 @@
 <script setup>
-import { getIconName } from '@/utils/helpers.js'
-import {
-  reactive,
-  computed,
-  defineProps,
-  defineEmits,
-  watch,
-  onMounted,
-} from "vue";
+import {getIconName} from '@/utils/helpers.js'
+import {computed, defineEmits, defineProps, onMounted, reactive, watch,} from "vue";
+
 const props = defineProps({
   options: {
     type: Array,

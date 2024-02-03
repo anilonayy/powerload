@@ -60,8 +60,8 @@
 </template>
 
 <script setup>
-import { ref, inject } from "vue";
-import { useI18n } from 'vue-i18n'
+import {inject, ref} from "vue";
+import {useI18n} from 'vue-i18n'
 import userService from '@/services/userService';
 
 import Panel from "@/components/shared/Panel.vue";

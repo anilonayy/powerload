@@ -41,9 +41,9 @@
 
 
 <script setup>
-import { onMounted, inject, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import {inject, onMounted, ref, watch} from 'vue';
+import {useRoute} from 'vue-router';
+import {useI18n} from 'vue-i18n';
 import authService from '@/services/authService';
 import router from '@/router';
 

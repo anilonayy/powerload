@@ -76,11 +76,10 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-import { getIconName } from '@/utils/helpers.js';
+import {defineEmits, defineProps} from 'vue';
+import {getIconName} from '@/utils/helpers.js';
 
 import Label from '@/components/form/Label.vue';
-import Input from '@/components/form/Input.vue';
 import CounterInput from '@/components/form/CounterInput.vue';
 import TrashIcon from '@/components/icons/TrashIcon.vue';
 

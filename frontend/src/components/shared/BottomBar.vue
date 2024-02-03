@@ -17,12 +17,12 @@
 
 
 <script setup>
-import { computed, inject, watch, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import {computed, inject, ref, watch} from 'vue';
+import {useRoute} from 'vue-router';
+import {useStore} from 'vuex';
 import router from '@/router';
 import workoutLogService from '@/services/workoutLogService';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
 
 const store = useStore();
 const route = useRoute();

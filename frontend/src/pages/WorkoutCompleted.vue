@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import { ref, inject, onMounted, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router'
+import {inject, onBeforeMount, onMounted, ref} from 'vue';
+import {useRoute} from 'vue-router'
 import ConfettiExplosion from "vue-confetti-explosion";
 import workoutLogService from '@/services/workoutLogService';
 

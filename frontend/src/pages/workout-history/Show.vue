@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import {onMounted, ref} from "vue";
+import {useRoute} from "vue-router";
 import workoutLogService from '@/services/workoutLogService';
 import router from "@/router";
 
