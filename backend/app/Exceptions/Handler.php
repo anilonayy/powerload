@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Enums\ResponseMessageEnums;
 use App\Helpers\Api;
 use App\Traits\ResponseMessage;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -14,6 +13,7 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     use ResponseMessage;
+
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -39,46 +39,35 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param Request $request
-     * @param \Exception $exception
-     * @return Response
+     * @param Throwable $e
+     * @return Response|JsonResponse
+     *
+     * @throws Throwable
      */
-    public function render($request,Throwable $e): Response|JsonResponse
+    public function render($request, Throwable $e): Response|JsonResponse
     {
-        if ($this->isProductionEnv()) {
-            $statusCode = $e->getCode() ?? Response::HTTP_INTERNAL_SERVER_ERROR;
-
-            return Api::dynamic($statusCode, null, $this->getMessage($e));
+        if ($this->isProductionEnv($request)) {
+            return Api::dynamic($this->getStatusCode($e, $request), null, $this->getMessage($e));
         }
 
         return parent::render($request, $e);
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function isProductionEnv(): bool
+    protected function isProductionEnv(Request $request): bool
     {
-        return config('app.env') === 'production';
+        return config('app.env') === 'production' || $request->header('X-Production') === 'true';
     }
 
-    /**
-     * @param Throwable $e
-     * @return string
-     */
     protected function getMessage(Throwable $e): string
     {
         $message = $e->getMessage();
 
-        return !empty($message) ? $message : ResponseMessageEnums::REQUEST_ERROR;
+        return ! empty($message) ? $message : __('requests.error');
     }
 
-    /**
-     * @param Throwable $e
-     * @return string
-     */
-    protected function getStatusCode(Throwable $e): string
+    protected function getStatusCode(Throwable $e, Request $request): string
     {
-        return $this->isHttpException($e) ? $e->getCode() : Response::HTTP_EXPECTATION_FAILED;
+        // TODO: This field will refactored.
+        return $e->getCode() === 0 ? parent::render($request, $e)->getStatusCode() : $e->getCode();
     }
 }

@@ -23,7 +23,7 @@ class RegisterRequest extends Request
        return [
            'name.required' => __('validate.required', ['field' => __('fields.name')]),
            'email.required' => __('validate.required', ['field' => __('fields.email')]),
-           'email.validate' => __('validate.email.validate'),
+           'email.validate' => __('validate.validate', ['field' => __('fields.email')]),
            'email.unique' => __('validate.unique', ['field' => __('fields.email')]),
            'password.required' => __('validate.required', ['field' => __('fields.password')]),
            'password.min' => __('validate.min.string', ['field' => __('fields.password'), 'min' => 6]),

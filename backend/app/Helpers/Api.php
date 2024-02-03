@@ -18,7 +18,6 @@ class Api
         $code = Response::HTTP_OK;
 
         return response()->json([
-            'success' => true,
             'status' => $code,
             'message' => $message,
             'data' => $data,
@@ -38,7 +37,6 @@ class Api
         $code = Response::HTTP_CREATED;
 
         return response()->json([
-            'success' => true,
             'status' => $code,
             'message' => $message,
             'data' => $data,
@@ -58,7 +56,6 @@ class Api
         $code = Response::HTTP_ACCEPTED;
 
         return response()->json([
-            'success' => true,
             'status' => $code,
             'message' => $message,
             'data' => $data,
@@ -88,7 +85,6 @@ class Api
         $code = Response::HTTP_BAD_REQUEST;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => $message,
             'errors' => $errors,
@@ -108,7 +104,6 @@ class Api
         $code = Response::HTTP_UNAUTHORIZED;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => $message,
             'errors' => $errors,
@@ -128,7 +123,6 @@ class Api
         $code = Response::HTTP_FORBIDDEN;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => $message,
             'errors' => $errors,
@@ -147,7 +141,6 @@ class Api
         $code = Response::HTTP_NOT_FOUND;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => 'NOT FOUND',
             'errors' => $errors,
@@ -166,7 +159,6 @@ class Api
         $code = Response::HTTP_METHOD_NOT_ALLOWED;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => 'METHOD NOT ALLOWED',
             'errors' => $errors,
@@ -186,7 +178,6 @@ class Api
         $code = Response::HTTP_UNPROCESSABLE_ENTITY;
 
         return response()->json([
-            'success' => false,
             'status' => $code,
             'message' => $message,
             'errors' => $errors,
@@ -203,12 +194,11 @@ class Api
      * @return JsonResponse
      */
     public static function dynamic(
-        $statusCode = Response::HTTP_BAD_REQUEST,
+        $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR,
         mixed $errors = null,
         string $message = 'ERROR'
         ): JsonResponse {
         return response()->json([
-            'success' => false,
             'status' => $statusCode,
             'message' => $message,
             'errors' => $errors,

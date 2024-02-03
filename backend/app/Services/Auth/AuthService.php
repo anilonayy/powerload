@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\Http\Resources\User\UserResource;
 use App\Repositories\User\UserRepositoryInterface;
+use Exception;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Response;
@@ -15,6 +16,10 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class AuthService implements AuthServiceInterface
 {
     protected UserRepositoryInterface $userRepository;
+
+    /**
+     * @param UserRepositoryInterface $userRepository
+     */
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -33,7 +38,7 @@ class AuthService implements AuthServiceInterface
         ];
 
         if(! auth()->attempt($credentials,true)) {
-            throw new UnauthorizedHttpException('Unauthorized', __('auth.failed'));
+            throw new UnauthorizedHttpException('Unauthorized', __('auth.failed'), code: Response::HTTP_UNAUTHORIZED);
         }
 
         $user = auth()->user();
@@ -67,8 +72,8 @@ class AuthService implements AuthServiceInterface
         try {
             $status = Password::sendResetLink((array)['email' => $payload->email]);
         }
-        catch (\Exception $e) {
-            var_dump($e);
+        catch (Exception $e) {
+            var_dump($e->getMessage());
         }
 
 

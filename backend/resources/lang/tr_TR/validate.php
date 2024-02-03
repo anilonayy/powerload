@@ -14,8 +14,6 @@ return [
     'letters' => ':field en az bir harf içermelidir.',
     'numbers' => ':field en az bir sayı içermelidir.',
     'symbols' => ':field en az bir sembol içermelidir.',
-    'email.validate' => 'Lütfen geçerli bir E-Posta giriniz.',
-    'password' => [
-        'required' => 'Şifre alanı zorunludur.'
-    ]
+    'validate' => 'Lütfen geçerli bir :field giriniz.',
+    'exists' => 'Bu :field ile ilgili bir kayıt bulunamadı.'
 ];

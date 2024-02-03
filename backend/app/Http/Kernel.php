@@ -36,9 +36,9 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
+        RequestLogger::class,
         SetLocale::class,
         TrustProxies::class,
-        RequestLogger::class,
         LogSqlQueries::class,
         HandleCors::class,
         PreventRequestsDuringMaintenance::class,
@@ -54,12 +54,13 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'api' => [
+            RequestLogger::class,
             EnsureFrontendRequestsAreStateful::class,
             ThrottleRequests::class.':api',
             SubstituteBindings::class,
             SetLocale::class,
-            RequestLogger::class,
             LogSqlQueries::class,
+
         ],
     ];
 

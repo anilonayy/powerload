@@ -15,4 +15,5 @@ return [
     'numbers' => ':field must contain at least one number.',
     'symbols' => ':field must contain at least one symbol.',
     'validate' => 'Please enter a valid :field.',
+    'exists' => 'We can not find a resource with :field  field.'
 ];
