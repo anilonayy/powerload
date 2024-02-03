@@ -16,7 +16,6 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         app()->setLocale($request->header('Locale') ?? 'tr_TR');
-        $request->header('x', 'y');
 
         return $next($request);
     }
