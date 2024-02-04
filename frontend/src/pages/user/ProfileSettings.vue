@@ -21,9 +21,7 @@
               :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
             />
 
-            <div v-if="errors?.name && errors?.name.length > 0">
-              <InputError class="mt-2" :message="errors.name[0]" />
-            </div>
+            <ErrorList error-key="name" :errors="errors" />
           </div>
 
           <div>
@@ -38,9 +36,7 @@
               :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
             />
 
-            <div v-if="errors?.email && errors?.email.length > 0">
-              <InputError class="mt-2" :message="errors.email[0]" />
-            </div>
+            <ErrorList error-key="email" :errors="errors" />
           </div>
 
           <button type="submit" class="dark-gray-btn w-40">{{ $t('PROFILE_SETTINGS.FORM.SUBMIT_BUTTON') }}</button>
@@ -60,7 +56,7 @@ import Panel from "@/components/shared/Panel.vue";
 import PanelHeader from "@/components/shared/PanelHeader.vue";
 import Input from "@/components/form/Input.vue";
 import Label from "@/components/form/Label.vue";
-import InputError from "@/components/form/InputError.vue";
+import ErrorList from "@/components/errors/ErrorList.vue";
 
 const toast = inject('toast');
 const store = useStore();
@@ -96,7 +92,6 @@ const submitUserInfo = async (event) => {
   if(Object.keys(errors.value).length === 0) {
     try {
       await userService.updateUser(payload);
-      
 
       toast.success(t('PROFILE_SETTINGS.FORM.SUCCESS_MESSAGE'));
     } catch (error) {

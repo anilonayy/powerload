@@ -17,9 +17,7 @@
               v-model="newPassword.currentPassword"
             />
 
-            <div v-if="errors?.currentPassword && errors?.currentPassword.length > 0">
-              <InputError class="mt-2" :message="errors.currentPassword[0]" />
-            </div>
+            <ErrorList error-key="currentPassword" :errors="errors" />
           </div>
 
           <div>
@@ -32,9 +30,7 @@
               v-model="newPassword.newPassword"
             />
 
-            <div v-if="errors?.newPassword && errors?.newPassword.length > 0">
-              <InputError class="mt-2" :message="errors.newPassword[0]" />
-            </div>
+            <ErrorList error-key="newPassword" :errors="errors" />
           </div>
 
           <div>
@@ -47,11 +43,7 @@
               v-model="newPassword.newPasswordConfirm"
             />
 
-            <div
-              v-if="errors?.newPasswordConfirm && errors?.newPasswordConfirm.length > 0"
-            >
-              <InputError class="mt-2" :message="errors.newPasswordConfirm[0]" />
-            </div>
+            <ErrorList error-key="newPasswordConfirm" :errors="errors" />
           </div>
 
           <button class="dark-gray-btn w-40"> {{ $t('RESET_PASSWORD.FORM.SUBMIT_BUTTON') }} </button>
@@ -68,13 +60,10 @@ import Panel from "@/components/shared/Panel.vue";
 import PanelHeader from "@/components/shared/PanelHeader.vue";
 import Input from "@/components/form/Input.vue";
 import Label from "@/components/form/Label.vue";
-import InputError from "@/components/form/InputError.vue";
+import ErrorList from "@/components/errors/ErrorList.vue";
 
 const toast = inject('toast');
 const { t } = useI18n();
-
-const errors = ref({});
-
 
 const newPassword = ref({
   currentPassword: "",
@@ -82,6 +71,7 @@ const newPassword = ref({
   newPasswordConfirm: "",
 });
 
+const errors = ref({});
 
 const submitPassword = async (event) => {
   event.preventDefault();
@@ -108,7 +98,7 @@ const submitPassword = async (event) => {
       await userService.updatePassword(newPassword.value);
       toast.success(t('RESET_PASSWORD.FORM.SUCCESS_MESSAGE'));
 
-      newPassword.value  = {};
+      newPassword.value  = '';
     } catch (error) {
       toast.error(error.message);
     }

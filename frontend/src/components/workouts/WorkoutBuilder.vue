@@ -3,22 +3,18 @@
     <WorkoutBuilderSkeleton v-if="!loaded" />
     <form v-else method="POST" @submit="submitWorkout($event)">
         <div class="mb-8">
-          <Label for="name" :value="$t('WORKOUTS.WORKOUT_BUILDER.WORKOUT_NAME')" />
+          <Label for="workout-name" :value="$t('WORKOUTS.WORKOUT_BUILDER.WORKOUT_NAME')" />
 
           <Input
-            id="name"
+            id="workout-name"
             type="text"
             class="mt-1 block w-full"
             :class="{ 'validation-error' : data.hasError }"
             v-model="data.name"
-            autofocus
             :placeholder="$t('WORKOUTS.WORKOUT_BUILDER.WORKOUT_NAME_PLACEHOLDER')"
           />
           
-
-          <div v-if="errors?.name && errors?.name.length > 0">
-            <InputError class="mt-2" :message="errors?.name[0]" />
-          </div>
+          <ErrorList error-key="name" :errors="errors" />
         </div>
             
 
@@ -81,6 +77,7 @@ import Label from '@/components/form/Label.vue';
 import ExerciseList from '@/components/workouts/ExerciseList.vue';
 import WorkoutBuilderSkeleton from '@/components/skeletons/WorkoutBuilderSkeleton.vue';
 import TrashIcon from '@/components/icons/TrashIcon.vue';
+import ErrorList from "@/components/errors/ErrorList.vue";
 
 
 const store =  useStore();
