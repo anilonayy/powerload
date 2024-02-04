@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Api;
+use App\Http\Requests\Shared\AllWithFiltersRequest;
 use App\Http\Requests\Workout\CreateWorkoutRequest;
 use App\Http\Requests\Workout\UpdateWorkoutRequest;
 use App\Models\Workout;
@@ -22,11 +23,12 @@ class WorkoutsController extends Controller
     }
 
     /**
+     * @param AllWithFiltersRequest $request
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(AllWithFiltersRequest $request): JsonResponse
     {
-        return Api::ok($this->workoutService->getAll());
+        return Api::ok($this->workoutService->getAll((object) $request->validated()));
     }
 
     /**

@@ -20,6 +20,7 @@ const createAxiosInstance = () => {
 			config.headers.Accept = 'application/json';
 			config.headers.ContentType = 'application/json';
 			config.headers.Locale = getLocale();
+			config.headers['X-Production'] = true;
 
 			return config;
 		},
@@ -49,7 +50,6 @@ const createAxiosInstance = () => {
 				} else if(locale === 'tr_TR') {
 					error.response.data.message = `Bu işlem için istek limitini aştınız. Lütfen ${nextRequestTime} sonrasında tekrar deneyin.`;
 				}
-
 			}
 
 			return Promise.reject(error.response.data);

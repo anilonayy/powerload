@@ -11,8 +11,8 @@ router.beforeEach((to, from, next) => {
     const store = useStore();
     const isAuthenticated = store.getters['_isAuthenticated'];
 
-    setTimeout(() => {
-        store.dispatch('updateAsideOpen', false);
+    setTimeout(async () => {
+        await store.dispatch('updateAsideOpen', false);
     }, 200);
 
     if(to.meta.title) {

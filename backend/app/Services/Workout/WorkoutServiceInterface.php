@@ -3,7 +3,7 @@
 namespace App\Services\Workout;
 
 use App\Models\Workout;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 interface WorkoutServiceInterface
 {
@@ -43,9 +43,10 @@ interface WorkoutServiceInterface
     /**
      *  Get all workout resources.
      *
-     * @return Collection
+     * @param object $payload
+     * @return array
      */
-    public function getAll(): Collection;
+    public function getAll(object $payload): array;
 
     /**
      * Get all workout resources with details.

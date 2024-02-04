@@ -11,9 +11,9 @@ interface WorkoutLogsRepositoryInterface
      * Get all Workout Logs.
      *
      * @param array $payload
-     * @return Collection
+     * @return mixed
      */
-    public function all(array $payload): Collection;
+    public function all(array $payload): mixed;
 
     /**
      * Find Workout Logs by id

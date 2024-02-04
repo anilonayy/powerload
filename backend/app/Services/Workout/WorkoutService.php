@@ -6,7 +6,7 @@ use App\Enums\ResponseMessageEnums;
 use App\Models\Workout;
 use App\Repositories\Workouts\WorkoutRepositoryInterface;
 use App\Traits\ResponseMessage;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\UnauthorizedException;
 
 class WorkoutService implements WorkoutServiceInterface
@@ -20,8 +20,8 @@ class WorkoutService implements WorkoutServiceInterface
     }
 
     /**
-     * @param Workout $payload
-     * @return array
+     * @param object $payload
+     * @return Workout
      */
     public function create(object $payload): Workout
     {
@@ -65,11 +65,15 @@ class WorkoutService implements WorkoutServiceInterface
     }
 
     /**
-     * @return Collection
+     * @return array
      */
-    public function getAll(): Collection
+    public function getAll(object $payload): array
     {
-        return $this->workoutRepository->all();
+        if ($payload->paginate ?? false) {
+            return $this->workoutRepository->paginate($payload);
+        }
+
+        return $this->workoutRepository->all()->toArray();
     }
 
     /**

@@ -10,8 +10,7 @@
           </template>
           <hr />
         </PanelHeader>
-
-        <TableWrapper v-if="workoutLogs.length">
+        <TableWrapper v-if="workoutHistories.data.length">
           <table
             class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border"
           >
@@ -27,7 +26,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(log, index) in workoutLogs"
+                v-for="(log, index) in workoutHistories.data"
                 :key="index"
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
@@ -64,29 +63,37 @@
           <span>{{ $t('WORKOUT_HISTORY.LIST.NO_DATA') }}</span>
         </div>
       </div>
+      <Pagination :data="workoutHistories"  @pagination-change-page="changePage($event)"  class="flex items-end me-2" />
     </Panel>
   </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import workoutLogService from '@/services/workoutLogService'
+import useWorkoutHistory from '@/composables/workouts/workoutHistory';
 
 import Panel from '@/components/shared/Panel.vue'
 import PanelHeader from '@/components/shared/PanelHeader.vue'
 import TableWrapper from '@/components/shared/TableWrapper.vue'
 import RightIcon from '@/components/icons/RightIcon.vue'
 import HistorySkeleton from '@/components/skeletons/HistorySkeleton.vue'
+import Pagination from "@/components/shared/Pagination.vue";
 
-const workoutLogs = ref([])
-const loaded = ref(false)
+const { workoutHistories,loaded, getWorkoutHistories } = useWorkoutHistory();
+
+const params = ref({
+  page: 1,
+  take: 10,
+  paginate: 1
+});
 
 onMounted(async () => {
-  try {
-    workoutLogs.value = (await workoutLogService.getAllLogs()).data
-    loaded.value = true
-  } catch (error) {
-    console.log('error :>> ', error)
-  }
+  await getWorkoutHistories(params.value);
 })
+
+const changePage = async (page) => {
+  params.value.page = page;
+
+  await getWorkouts(params.value);
+}
 </script>

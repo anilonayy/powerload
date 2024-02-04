@@ -4,12 +4,13 @@ namespace App\Http\Resources\WorkoutLogs;
 
 use App\Traits\Helpers\ConvertHelper;
 use App\Traits\Helpers\DateHelper;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorkoutLogs extends JsonResource
 {
+    protected $collects = \App\Models\WorkoutLogs::class;
+
     use DateHelper;
     use ConvertHelper;
     /**
@@ -19,21 +20,23 @@ class WorkoutLogs extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $data = json_decode(json_encode($this->resource), false);
+
         return [
-            'id' => $this->id,
-            'status' => $this->status,
-            'status_text' => $this->convertLogStatusToText($this->status),
+            'id' => $data->id,
+            'status' => $data->status,
+            'status_text' => $this->convertLogStatusToText($data->status),
             'workout' => [
-                'id' => $this->workout->id,
-                'name' => $this->workout->name
+                'id' => $data->workout->id,
+                'name' => $data->workout->name
             ],
             'workout_day' => [
-                'id' => $this->workoutDay->id,
-                'name' => $this->workoutDay->name
+                'id' => $data->workout_day->id,
+                'name' => $data->workout_day->name
             ],
-            'duration' => $this->calculateDurationForHumans($this->created_at, $this->workout_end_time),
-            'workout_date' => Carbon::parse($this->created_at)->format('d F Y'),
-            'completed_date' => $this->calculateDurationForHumans($this->workout_end_time, time(), 1),
+            'duration' => $this->calculateDurationForHumans($data->created_at, $data->workout_end_time),
+            'workout_date' => $data->created_at,
+            'completed_date' => $this->calculateDurationForHumans($data->workout_end_time, time(), 1),
         ];
     }
 }

@@ -11,9 +11,9 @@ interface WorkoutLogsServiceInterface
      * Get all workout logs.
      *
      * @param array $payload
-     * @return mixed
+     * @return array
      */
-    public function index(array $payload): mixed;
+    public function index(array $payload): array;
 
     /**
      * Get workout log by id.

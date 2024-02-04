@@ -15,6 +15,13 @@ interface WorkoutRepositoryInterface
     public function all(): Collection;
 
     /**
+     * Get all workout resources by paginate.
+     *
+     * @return array
+     */
+    public function paginate(object $payload): array;
+
+    /**
      * Get all workout resources with details.
      *
      * @return Collection

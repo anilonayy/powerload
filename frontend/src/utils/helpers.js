@@ -141,3 +141,19 @@ export const debounce = (func, delay) => {
       }, delay);
     }
 }
+
+/**
+ *
+ * @param {URLSearchParams} params
+ * @returns string
+ */
+export const queryStringBuilder = (params) => {
+
+  const payload = Object.keys(params).map((key) => {
+    return [key, params[key]];
+  });
+
+  const searchParams = new URLSearchParams(payload);
+
+  return searchParams.size ? `?${ searchParams.toString() }` : ''
+};

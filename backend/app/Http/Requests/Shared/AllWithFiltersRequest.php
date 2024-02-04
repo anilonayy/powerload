@@ -12,6 +12,7 @@ class AllWithFiltersRequest extends FormRequest
             'page' => 'sometimes|numeric|min:0',
             'take' => 'sometimes|numeric|min:0|max:100',
             'descBy' => 'sometimes|string|in:id',
+            'paginate' => 'sometimes|boolean',
         ];
     }
 }

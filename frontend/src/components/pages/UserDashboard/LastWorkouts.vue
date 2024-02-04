@@ -9,8 +9,8 @@
         </div>
 
         <div v-if="loaded">
-            <div v-if="list?.length" class="space-y-4">
-                <div v-for="(data, index) in list" :key="index">
+            <div v-if="workouts?.data?.length" class="space-y-4">
+                <div v-for="(data, index) in workouts.data" :key="index">
                     <div class="p-2  md:p-4 pb-1 bg-white border rounded-xl text-gray-800  text-xs relative">
                         <div class="flex justify-between">
                             <div class="text-gray-400 text-xs">{{ $t('DASHBOARD.LAST_WORKOUTS.TIME') }}: {{ data?.duration }}</div>
@@ -49,7 +49,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import workoutLogService from '@/services/workoutLogService';
+import useWorkouts from "@/composables/workouts/workoutHistory";
 
 import Panel from '@/components/shared/Panel.vue';
 import LastWorkoutsSkeleton from '@/components/skeletons/UserDashboard/LastWorkoutsSkeleton.vue';
@@ -57,12 +57,15 @@ import RightIcon from '@/components/icons/RightIcon.vue';
 import PassedTimeIcon from '@/components/icons/PassedTimeIcon.vue';
 
 const loaded = ref(false);
-const list = ref([]);
+const { workouts, getWorkouts } = useWorkouts();
 
 onMounted(async () => {
-    const response = await workoutLogService.getAllLogs(new URLSearchParams([ ['take', '5'], ['descBy', 'id']]));
+    const config = {
+      page: 1,
+      take: 5,
+    };
 
-    list.value = response.data;
+    await getWorkouts(config);
     loaded.value = true;
 })
 </script>

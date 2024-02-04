@@ -20,6 +20,18 @@ class WorkoutRepository implements WorkoutRepositoryInterface
         ->get();
     }
 
+    public function paginate(object $payload): array
+    {
+        return Workout::where([
+            ['user_id', auth()->user()->id]
+        ])
+            ->select(['id', 'name', 'created_at'])
+            ->withCount('workout_logs')
+            ->orderBy($payload->orderBy ?? 'id', 'desc')
+            ->paginate($payload->take ?? 0)
+            ->toArray();
+    }
+
     /**
      * @return Collection
      */

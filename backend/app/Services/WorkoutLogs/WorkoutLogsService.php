@@ -58,11 +58,16 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
     /**
      * @param array $payload
-     * @return mixed
+     * @return array
      */
-    public function index(array $payload): mixed
+    public function index(array $payload): array
     {
-        return WorkoutLogsResource::collection($this->workoutLogsRepository->all($payload));
+        $paginateResults = $this->workoutLogsRepository->all($payload);
+
+        return [
+            ...$paginateResults,
+            'data' => WorkoutLogsResource::collection($paginateResults['data'])
+        ];
     }
 
     /**

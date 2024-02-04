@@ -18,32 +18,27 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     /**
      *
      * @param array $payload
-     * @return Collection
+     * @return mixed
      */
-    public function all(array $payload): Collection
+    public function all(array $payload): mixed
     {
-        $page = $payload['page'] ?? 0;
         $take = $payload['take'] ?? 10;
-        $descBy = $payload['descBy'] ?? 'created_at';
+        $descBy = $payload['descBy'] ?? 'id';
 
         return WorkoutLogs::where([
             ['user_id', auth()->user()->id],
             ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
         ])
-            ->with([
-                'workoutDay' => function ($query) {
-                    $query->withTrashed();
-                    $query->select(['id', 'name']);
-                },
-                'workout' => function ($query) {
-                    $query->withTrashed()
-                        ->select(['id', 'name']);
-                }
-            ])
-            ->skip($page * $take)
-            ->take($take)
-            ->orderByDesc($descBy)
-            ->get();
+        ->with([
+            'workoutDay' => function ($query) {
+                $query->withTrashed()->select(['id', 'name']);
+            },
+            'workout' => function ($query) {
+                $query->withTrashed()->select(['id', 'name']);
+            }
+        ])
+        ->orderBy($descBy, 'desc')->paginate($take)
+        ->toArray();
     }
 
     /**
