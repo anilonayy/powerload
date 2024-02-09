@@ -9,8 +9,8 @@
         </div>
 
         <div v-if="loaded">
-            <div v-if="workouts?.data?.length" class="space-y-4">
-                <div v-for="(data, index) in workouts.data" :key="index">
+            <div v-if="workoutHistories?.length" class="space-y-4">
+                <div v-for="(data, index) in workoutHistories" :key="index">
                     <div class="p-2  md:p-4 pb-1 bg-white border rounded-xl text-gray-800  text-xs relative">
                         <div class="flex justify-between">
                             <div class="text-gray-400 text-xs">{{ $t('DASHBOARD.LAST_WORKOUTS.TIME') }}: {{ data?.duration }}</div>
@@ -48,24 +48,23 @@
 
 
 <script setup>
-import {onMounted, ref} from "vue";
-import useWorkouts from "@/composables/workoutHistory";
+import { onMounted } from "vue";
+import useWorkoutHistory from "@/composables/workoutHistory";
 
 import Panel from '@/components/shared/Panel.vue';
 import LastWorkoutsSkeleton from '@/components/skeletons/UserDashboard/LastWorkoutsSkeleton.vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
 import PassedTimeIcon from '@/components/icons/PassedTimeIcon.vue';
 
-const loaded = ref(false);
-const { workouts, getWorkouts } = useWorkouts();
+const { workoutHistories,loaded, getWorkoutHistories } = useWorkoutHistory();
+
+const config = {
+  page: 1,
+  take: 5,
+  paginate: 0
+};
 
 onMounted(async () => {
-    const config = {
-      page: 1,
-      take: 5,
-    };
-
-    await getWorkouts(config);
-    loaded.value = true;
+    await getWorkoutHistories(config);
 })
 </script>

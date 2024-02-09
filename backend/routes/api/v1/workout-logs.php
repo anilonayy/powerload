@@ -17,6 +17,4 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::patch('/{workout_log:id}/complete', 'WorkoutLogsController@complete');
     Route::post('/{workout_log:id}/give-up', 'WorkoutLogsController@giveUp');
     Route::put('/{workout_log:id}', 'WorkoutLogsController@update');
-
-
 });

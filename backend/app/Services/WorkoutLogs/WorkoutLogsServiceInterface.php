@@ -3,6 +3,7 @@
 namespace App\Services\WorkoutLogs;
 
 use App\Models\WorkoutLogs;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 
 interface WorkoutLogsServiceInterface
@@ -13,7 +14,7 @@ interface WorkoutLogsServiceInterface
      * @param array $payload
      * @return array
      */
-    public function index(array $payload): array;
+    public function index(array $payload): array|JsonResource;
 
     /**
      * Get workout log by id.

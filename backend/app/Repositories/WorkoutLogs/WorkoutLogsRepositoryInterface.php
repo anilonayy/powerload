@@ -16,6 +16,14 @@ interface WorkoutLogsRepositoryInterface
     public function all(array $payload): mixed;
 
     /**
+     * Get all Workout Logs by Paginated.
+     *
+     * @param array $payload
+     * @return mixed
+     */
+    public function paginate(array $payload): mixed;
+
+    /**
      * Find Workout Logs by id
      *
      * @param integer $id

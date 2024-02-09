@@ -22,9 +22,6 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
      */
     public function all(array $payload): mixed
     {
-        $take = $payload['take'] ?? 10;
-        $descBy = $payload['descBy'] ?? 'id';
-
         return WorkoutLogs::where([
             ['user_id', auth()->user()->id],
             ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
@@ -37,8 +34,34 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                 $query->withTrashed()->select(['id', 'name']);
             }
         ])
-        ->orderBy($descBy, 'desc')->paginate($take)
-        ->toArray();
+        ->orderBy('id', 'desc')
+        ->get();
+    }
+
+
+    /**
+     * @param array $payload
+     * @return mixed
+     */
+    public function paginate(array $payload): mixed
+    {
+        $take = $payload['take'] ?? 10;
+        $descBy = $payload['descBy'] ?? 'id';
+
+        return WorkoutLogs::where([
+            ['user_id', auth()->user()->id],
+            ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
+        ])
+            ->with([
+                'workoutDay' => function ($query) {
+                    $query->withTrashed()->select(['id', 'name']);
+                },
+                'workout' => function ($query) {
+                    $query->withTrashed()->select(['id', 'name']);
+                }
+            ])
+            ->orderBy($descBy, 'desc')->paginate($take)
+            ->toArray();
     }
 
     /**

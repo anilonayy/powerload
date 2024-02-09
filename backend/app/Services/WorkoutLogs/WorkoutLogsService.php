@@ -12,6 +12,7 @@ use App\Models\WorkoutLogs;
 use App\Repositories\WorkoutLogs\WorkoutLogsRepositoryInterface;
 use App\Traits\Helpers\DateHelper;
 use App\Traits\ResponseMessage;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -58,16 +59,20 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
     /**
      * @param array $payload
-     * @return array
+     * @return array|JsonResource
      */
-    public function index(array $payload): array
+    public function index(array $payload): array|JsonResource
     {
-        $paginateResults = $this->workoutLogsRepository->all($payload);
+        if ($payload['paginate'] ?? false) {
+            $paginateResults = $this->workoutLogsRepository->paginate($payload);
 
-        return [
-            ...$paginateResults,
-            'data' => WorkoutLogsResource::collection($paginateResults['data'])
-        ];
+            return [
+                ...$paginateResults,
+                'data' => WorkoutLogsResource::collection($paginateResults['data'])
+            ];
+        }
+
+        return WorkoutLogsResource::collection($this->workoutLogsRepository->all($payload));
     }
 
     /**
