@@ -7,17 +7,16 @@ import {createApp} from 'vue';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
-import SweetAlertPlugin from '@/plugins/SweetAlert';
+import SweetAlert from '@/plugins/SweetAlert';
 import Toast from '@/plugins/Toast';
-import axios from '@/utils/axios';
+import axios from '@/plugins/axios';
 import i18n from '@/plugins/I18n';
-
 
 const app = createApp(App);
 
 app.use(store);
 app.use(router);
-app.use(SweetAlertPlugin)
+app.use(SweetAlert)
 app.use(Toast)
 app.use(axios);
 app.use(i18n);

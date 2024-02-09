@@ -274,11 +274,23 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'An error ocurred!',
+        VALIDATE: {
+            REQUIRED: 'This field is required!',
+            EMAIL: 'This field must be a valid email!',
+            MIN: 'This field must be at least {min} characters!',
+            MAX: 'This field must be at most {max} characters!',
+            MATCH: 'This field must match with {field} field!',
+            STRING_LENGTH: 'This field must be at least {min} and at most {max} characters!',
+            ALPHABET: 'This field must be alphabet!',
+        }
     },
     FIELDS: {
         NAME: 'Name',
         EMAIL: 'Email',
         PASSWORD: 'Password',
+        CURRENT_PASSWORD: 'Current Password',
+        NEW_PASSWORD: 'New Password',
+        NEW_PASSWORD_CONFIRM: 'New Password Confirmation',
         PASSWORD_CONFIRM: 'Password  confirmation',
     },
     ON_WORKOUT: {

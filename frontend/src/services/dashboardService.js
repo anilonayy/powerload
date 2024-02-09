@@ -1,4 +1,4 @@
-import axios from '@/utils/appAxios';
+import axios from '@/plugins/appAxios';
 
 const getStats = async () => {
     const response = await axios.get('v1/workout-logs/dashboard-stats');

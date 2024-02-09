@@ -1,5 +1,5 @@
 import store from '@/store';
-import axios from '@/utils/appAxios';
+import axios from '@/plugins/appAxios';
 
 const login = async ({ email, password }) => {
     const response = await axios.post('auth/login', {

@@ -81,7 +81,7 @@
 <script setup>
 import {inject, onMounted, ref} from 'vue';
 import {useI18n} from 'vue-i18n';
-import useWorkout from "@/composables/workouts/workout";
+import useWorkout from "@/composables/workout";
 
 import Panel from '@/components/shared/Panel.vue';
 import PanelHeader from '@/components/shared/PanelHeader.vue';

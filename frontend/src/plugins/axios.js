@@ -1,4 +1,4 @@
-import appAxios from '@/utils/appAxios';
+import appAxios from '@/plugins/appAxios';
 
 export default {
 	install: (app) => {

@@ -1,4 +1,4 @@
-import axios from '@/utils/appAxios';
+import axios from '@/plugins/appAxios';
 
 const getAllWorkouts = async () =>  await axios.get('v1/workouts');
 

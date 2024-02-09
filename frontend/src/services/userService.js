@@ -1,4 +1,4 @@
-import axios from '@/utils/appAxios';
+import axios from '@/plugins/appAxios';
 import store from '@/store';
 
 

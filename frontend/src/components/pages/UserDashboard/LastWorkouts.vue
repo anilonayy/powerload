@@ -49,7 +49,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import useWorkouts from "@/composables/workouts/workoutHistory";
+import useWorkouts from "@/composables/workoutHistory";
 
 import Panel from '@/components/shared/Panel.vue';
 import LastWorkoutsSkeleton from '@/components/skeletons/UserDashboard/LastWorkoutsSkeleton.vue';

@@ -70,7 +70,7 @@
 
 <script setup>
 import {onMounted, ref} from 'vue'
-import useWorkoutHistory from '@/composables/workouts/workoutHistory';
+import useWorkoutHistory from '@/composables/workoutHistory';
 
 import Panel from '@/components/shared/Panel.vue'
 import PanelHeader from '@/components/shared/PanelHeader.vue'

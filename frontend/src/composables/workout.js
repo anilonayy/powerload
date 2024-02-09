@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import axios from '@/utils/appAxios';
+import axios from '@/plugins/appAxios';
 import { queryStringBuilder } from '@/utils/helpers';
 import workoutService from "@/services/workoutService";
 

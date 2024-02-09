@@ -272,11 +272,23 @@ export default {
     },
     ERRORS: {
         UNKNOWN: 'Beklenmeyen bir hata oluştu!',
+        VALIDATE: {
+            REQUIRED: 'Bu alan zorunludur!',
+            EMAIL: 'Geçerli bir e-posta adresi giriniz!',
+            MIN: 'Bu alan en az {min} karakter olmalıdır!',
+            MAX: 'Bu alan en fazla {max} karakter olmalıdır!',
+            MATCH: 'Bu alan {field} alanı ile eşleşmelidir!',
+            STRING_LENGTH: 'Bu alan en az {min} en fazla {max} karakter olmalıdır!',
+            ALPHABET: 'Bu alan sadece harf içermelidir!',
+        }
     },
     FIELDS: {
         NAME: 'Ad Soyad',
         EMAIL: 'E-Posta',
         PASSWORD: 'Şifre',
+        CURRENT_PASSWORD: 'Mevcut Şifre',
+        NEW_PASSWORD: 'Yeni Şifre',
+        NEW_PASSWORD_CONFIRM: 'Yeni Şifre Tekrar',
         PASSWORD_CONFIRM: 'Şifre Tekrar',
     },
     ON_WORKOUT: {
