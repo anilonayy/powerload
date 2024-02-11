@@ -3,14 +3,12 @@
 namespace App\Http\Resources\WorkoutLogs;
 
 use App\Traits\Helpers\ConvertHelper;
-use App\Traits\Helpers\DateHelper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WorkoutLogWithDetail extends JsonResource
 {
-    use DateHelper;
     use ConvertHelper;
     /**
      * Transform the resource into an array.
@@ -21,8 +19,10 @@ class WorkoutLogWithDetail extends JsonResource
     {
         return [
             'id' => $this->id,
-            'status' => $this->status,
-            'status_text' => $this->convertLogStatusToText($this->status),
+            'status' => [
+                'code' => $this->status,
+                'text' => $this->convertLogStatusToText($this->status),
+            ],
             'workout' => [
                 'id' => $this->workout->id,
                 'name' => $this->workout->name,

@@ -3,7 +3,6 @@
 namespace App\Http\Resources\WorkoutLogs;
 
 use App\Traits\Helpers\ConvertHelper;
-use App\Traits\Helpers\DateHelper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -12,7 +11,6 @@ class WorkoutLogs extends JsonResource
 {
     protected $collects = \App\Models\WorkoutLogs::class;
 
-    use DateHelper;
     use ConvertHelper;
     /**
      * Transform the resource into an array.
@@ -25,8 +23,10 @@ class WorkoutLogs extends JsonResource
 
         return [
             'id' => $data->id,
-            'status' => $data->status,
-            'status_text' => $this->convertLogStatusToText($data->status),
+            'status' => [
+                'code' => $data->status,
+                'text' => $this->convertLogStatusToText($data->status),
+            ],
             'workout' => [
                 'id' => $data->workout->id,
                 'name' => $data->workout->name
