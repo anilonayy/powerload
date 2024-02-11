@@ -171,7 +171,8 @@ export default {
         DURATION: 'Süre',
         EXERCISES: 'Egzersizler',
         SET: 'Set',
-        KG: 'KG'
+        KG: 'KG',
+        STATUS: 'Durum',
     },
     RESET_PASSWORD: {
         TITLE: 'Şifre Yenile',
@@ -412,5 +413,5 @@ export default {
     },
     EXERCISE: {
         SELECT: 'Egzersiz Seçiniz'
-    }
+    },
 }

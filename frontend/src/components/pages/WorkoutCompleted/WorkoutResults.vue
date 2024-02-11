@@ -13,6 +13,12 @@
                               <DynamicDuration :value="data?.duration" />
                             </td>
                         </tr>
+                        <tr>
+                          <td> {{ $t('WORKOUT_RESULT.STATUS') }}:  </td>
+                          <td>
+                            <WorkoutStatus :code="data?.status?.code" />
+                          </td>
+                        </tr>
                         <slot name="info" />
                     </table>
 
@@ -21,7 +27,7 @@
                             <div v-for="(data, index) in data?.exercises" :key="index"> 
                                 <div class="border border-1 p-3">
                                     <div class="card-header flex items-center gap-2">
-										{{ index + 1  }}.
+										                    {{ index + 1  }}.
                                         <img :src="getIconName(data.exercise?.category?.name)" class="w-8 h-8" />
                                         <span class="font-semibold">{{ data?.exercise?.name  }}</span>
                                     </div>
@@ -56,6 +62,7 @@ import {defineProps} from 'vue';
 import RightIcon from '@/components/icons/RightIcon.vue';
 import {getIconName} from '@/utils/helpers';
 import DynamicDuration from "@/components/date/DynamicDuration.vue";
+import WorkoutStatus from "@/components/shared/WorkoutStatus.vue";
 
 defineProps({
     data: {

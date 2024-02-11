@@ -171,7 +171,8 @@ export default {
         DURATION: 'Duration',
         EXERCISES: 'Exercises',
         SET: 'Set',
-        KG: 'KG'
+        KG: 'KG',
+        STATUS: 'Status',
     },
     RESET_PASSWORD: {
         TITLE: 'Reset Password',

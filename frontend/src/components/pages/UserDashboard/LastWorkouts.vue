@@ -22,15 +22,7 @@
                             </div>
                         </div>
                         <div class="absolute bottom-2 right-2">
-                            <div v-if="data.status.code === 0" class="inline-flex self-center bg-yellow-400 text-white text-[.6rem] rounded-md px-1">
-                                {{ $t('DASHBOARD.LAST_WORKOUTS.STATUS.CONTINUE') }}
-                            </div>
-                            <div v-else-if="data.status.code === 1" class="inline-flex self-center bg-green-400 text-white text-[.6rem] rounded-md px-1">
-                                {{ $t('DASHBOARD.LAST_WORKOUTS.STATUS.COMPLETED') }}
-                            </div>
-                            <div v-else class="inline-flex self-center bg-red-400 text-white text-[.6rem] rounded-md px-1">
-                                {{ $t('DASHBOARD.LAST_WORKOUTS.STATUS.CANCELED') }}
-                            </div>
+                            <WorkoutStatus :code="data?.status?.code" />
                         </div>
                         <div class="flex gap-2">
                             <router-link :to="{ name: 'show-workout-history', params: { workoutLogId: data.id } }" class="font-semibold hover:text-yellow-800 hover:underline cursor-pointer flex gap-1 items-center">
@@ -61,6 +53,7 @@ import LastWorkoutsSkeleton from '@/components/skeletons/UserDashboard/LastWorko
 import RightIcon from '@/components/icons/RightIcon.vue';
 import PassedTimeIcon from '@/components/icons/PassedTimeIcon.vue';
 import DynamicDuration from "@/components/date/DynamicDuration.vue";
+import WorkoutStatus from "@/components/shared/WorkoutStatus.vue";
 
 const { workoutHistories,loaded, getWorkoutHistories } = useWorkoutHistory();
 
