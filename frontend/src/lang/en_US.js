@@ -63,15 +63,15 @@ export default {
             FREQUENCY_OPTIONS: {
                 YEARLY: {
                     TEXT: 'Yearly',
-                    VALUE: 1
+                    VALUE: '1'
                 },
                 MONTHLY: {
                     TEXT: 'Monthly',
-                    VALUE: 2
+                    VALUE: '2'
                 },
                 WEEKLY: {
                     TEXT: 'Weekly',
-                    VALUE: 3
+                    VALUE: '3'
                 }
             }
         },

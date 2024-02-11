@@ -102,7 +102,7 @@ const buildChart = async (options = {}) => {
     setTimeout(async () => {
         loaded.value = false;
 
-        if(chartWrapper?.value?.children?.length === 0) {
+        if(!chartWrapper.value) {
             return;
         }
 
