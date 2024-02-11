@@ -73,7 +73,7 @@ class WorkoutService implements WorkoutServiceInterface
             return $this->workoutRepository->paginate($payload);
         }
 
-        return $this->workoutRepository->all()->toArray();
+        return $this->workoutRepository->all($payload)->toArray();
     }
 
     /**

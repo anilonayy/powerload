@@ -124,7 +124,7 @@ export const validateWorkoutBuilderData = (train) => {
 
 export const getLocale = () =>  {
   const allowedLocales = ['tr_TR', 'en_US'];
-  const fallbackLocale = 'tr_TR';
+  const fallbackLocale = allowedLocales.includes(navigator.language) ? navigator.language?.replace('-', '_') : 'tr_TR';
   const locale = getCookie('locale');
 
   return allowedLocales.includes(locale) ? locale : fallbackLocale;

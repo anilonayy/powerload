@@ -31,14 +31,12 @@ export default function useWorkout()  {
      */
     const removeWorkout = async (config) => {
         try {
-            loaded.value = false;
             await workoutService.deleteWorkout(config.id);
             workouts.value.data = workouts.value.data.filter((workout) => workout.id !== config.id);
 
             config.success();
         } catch (error) {
             loaded.value = false;
-
             config.error(error);
         }
     }

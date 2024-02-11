@@ -390,4 +390,27 @@ export default {
             TITLE: 'Antrenman Tamamlandı - Powerload',
         }
     },
+    PAGINATION: {
+        TEXT: '{total} kayıttan {from} - {to} arasındakiler gösteriliyor.',
+    },
+    DATE: {
+        HOUR:  {
+            SHORT: 's',
+            MEDIUM: 'sa',
+            LONG: 'saat'
+        },
+        MINUTE: {
+            SHORT: 'd',
+            MEDIUM: 'dk',
+            LONG: 'dakika'
+        },
+        SECOND: {
+            SHORT: 's',
+            MEDIUM: 'sn',
+            LONG: 'saniye'
+        },
+    },
+    EXERCISE: {
+        SELECT: 'Egzersiz Seçiniz'
+    }
 }

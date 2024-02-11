@@ -1,5 +1,5 @@
 import Vuex from 'vuex';
-import {getCookie, removeCookie, setCookie} from '@/utils/helpers.js'
+import {getCookie, removeCookie, setCookie, getLocale} from '@/utils/helpers.js'
 import createPersistedState from 'vuex-persistedstate'
 import SecureLS from "secure-ls";
 
@@ -7,8 +7,17 @@ var ls = new SecureLS({ isCompression: true });
 
 const state = {
   user: null,
-  saltKey: '~~C.QSuperSecretPasswordSaltKey!?Ç!ŞÇQÜŞÇCAQ',
   exercises: [],
+  locales: [{
+    name: 'English',
+    value: 'en_US',
+    flag: '/images/flags/en_EN.png',
+  },{
+    name: 'Türkçe',
+    value: 'tr_TR',
+    flag: '/images/flags/tr_TR.png',
+  }],
+  locale: 'tr_TR',
   asideOpen: false,
   trainLogId: 0,
   workouts: [{
@@ -34,7 +43,7 @@ const state = {
       }]
     }]
   }],
-  nextLastLogRequestTime: null
+  nextLastLogRequestTime: null,
 };
 
 const mutations = {
@@ -120,6 +129,9 @@ const mutations = {
   },
   setNextLastLogRequestTime (state, time) {
     state.nextLastLogRequestTime = time;
+  },
+  setLocale (state, locale) {
+      state.locale = locale;
   }
 };
 
@@ -153,6 +165,7 @@ const actions = {
   },
 
   async setExercises({commit},exercisesList) {
+
     commit('setExercises', exercisesList);
   },
 
@@ -186,12 +199,15 @@ const actions = {
   },
   async setNextLastLogRequestTime({ commit }, time) {
     commit('setNextLastLogRequestTime', time);
+  },
+  async setLocale({ commit }, locale) {
+    commit('setLocale', locale);
+    setCookie('locale',locale,365);
   }
 };
 
 const getters = {
   _isAuthenticated: (state) =>  state.user !== null  && getCookie('_token') !== null,
-  _saltKey: state => state.saltKey,
   _currentUser: state => state.user,
   _exerciseList: state => {
     return state.exercises.map((exercise) => {
@@ -210,6 +226,8 @@ const getters = {
   _isWorkoutSelected: state => state.workouts.some((workout) => Boolean(workout.isSelected)),
   _isWorkoutDaySelected: state => state.workouts.some((workout) => workout.days.some((day) => day.isSelected === true)),
   _getNextLastLogRequestTime: state => state.nextLastLogRequestTime,
+  _getLocale: state => state.locale ?? getLocale(),
+  _getLocales: state => state.locales
 };
 
 const plugins = [createPersistedState({

@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {useStore} from 'vuex';
 import routes from '@/router/routes';
+import {updateExercises} from '@/utils/exerciseHelper'
 
 const router = createRouter({
     routes,
@@ -25,6 +26,9 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
+
+    // Fake middlewares
+    updateExercises();
 });
 
 export default router;

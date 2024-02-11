@@ -10,10 +10,8 @@
           </template>
           <hr />
         </PanelHeader>
-        <TableWrapper v-if="workoutHistories.data.length">
-          <table
-            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border"
-          >
+        <TableWrapper v-if="workoutHistories.length">
+          <table  class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border">
             <thead
               class="border bg-neutral-800 font-medium text-white border-black dark:border-neutral-500 dark:bg-neutral-900"
             >
@@ -26,7 +24,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(log, index) in workoutHistories.data"
+                v-for="(log, index) in workoutHistories"
                 :key="index"
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
@@ -36,15 +34,21 @@
                 >
                   <router-link
                     :to="{ name: 'workout', params: { trainId: log.workout.id } }"
-                    class="text-gray-900 font-bold dark:text-blue-500 flex items-center gap-3"
+                    class="text-gray-900 font-bold dark:text-blue-500 flex items-center gap-1"
                   >
                     {{ log.workout?.name }}
                     <RightIcon class="h-4 w-4 inline" />
                     {{ log.workout_day?.name }}
                   </router-link>
                 </th>
-                <td class="px-6 py-4">{{ log?.duration }}</td>
-                <td class="px-6 py-4">{{ log?.workout_date }}</td>
+                <td class="px-6 py-4">
+                  <DynamicDuration :value="log.duration" />
+                </td>
+                <td class="px-6 py-4">
+
+                  <DynamicDate :value="log.workout_date" type="long" />
+
+                </td>
                 <td class="px-6 py-4 flex gap-3">
                   <router-link
                     :to="{ name: 'show-workout-history', params: { workoutLogId: log.id } }"
@@ -77,9 +81,11 @@ import PanelHeader from '@/components/shared/PanelHeader.vue'
 import TableWrapper from '@/components/shared/TableWrapper.vue'
 import RightIcon from '@/components/icons/RightIcon.vue'
 import HistorySkeleton from '@/components/skeletons/HistorySkeleton.vue'
-import Pagination from "@/components/shared/Pagination.vue";
+import Pagination from '@/components/shared/Pagination.vue';
+import DynamicDate from '@/components/date/DynamicDate.vue';
+import DynamicDuration from "@/components/date/DynamicDuration.vue";
 
-const { workoutHistories,loaded, getWorkoutHistories } = useWorkoutHistory();
+const { workoutHistories, loaded, getWorkoutHistories } = useWorkoutHistory();
 
 const params = ref({
   page: 1,
@@ -94,6 +100,6 @@ onMounted(async () => {
 const changePage = async (page) => {
   params.value.page = page;
 
-  await getWorkouts(params.value);
+  await getWorkoutHistories(params.value);
 }
 </script>

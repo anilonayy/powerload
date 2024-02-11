@@ -8,15 +8,20 @@ use Illuminate\Support\Collection;
 class WorkoutRepository implements WorkoutRepositoryInterface
 {
     /**
+     * @param object $payload
      * @return Collection
      */
-    public  function  all(): Collection
+    public  function  all(object $payload): Collection
     {
         return Workout::where([
             ['user_id', auth()->user()->id]
         ])
         ->select(['id', 'name', 'created_at'])
         ->withCount('workout_logs')
+        ->orderBy($payload->orderBy ?? 'id', 'desc')
+        ->when($payload->take ?? false, function($query) use ($payload) {
+            $query->take($payload->take);
+        })
         ->get();
     }
 

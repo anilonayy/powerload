@@ -392,4 +392,27 @@ export default {
             TITLE: 'Antrenman Tamamlandı - Powerload',
         }
     },
+    PAGINATION: {
+        TEXT: 'Showing {from} to {to} of {total} entries',
+    },
+    DATE: {
+        HOUR:  {
+            SHORT: 'h',
+            MEDIUM: 'hr',
+            LONG: 'hour'
+        },
+        MINUTE: {
+            SHORT: 'm',
+            MEDIUM: 'min',
+            LONG: 'minute'
+        },
+        SECOND: {
+            SHORT: 's',
+            MEDIUM: 'sec',
+            LONG: 'second'
+        },
+    },
+    EXERCISE: {
+        SELECT: 'Select Exercise'
+    }
 }

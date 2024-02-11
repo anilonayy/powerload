@@ -33,7 +33,10 @@
             :key="key"
             v-on="slotProps.pageButtonEvents(page)"
         >
-          <div class="px-4 py-2 rounded hover:bg-gray-100" :class="{ 'bg-gray-200 text-gray-900' : slotProps.computed.currentPage === page }">  {{ page }} </div>
+          <div class="px-4 py-2 rounded hover:bg-gray-100"
+               :class="{ 'bg-gray-200 text-gray-900' : slotProps.computed.currentPage === page }">
+            {{ page }}
+          </div>
 
         </button>
 
@@ -51,7 +54,9 @@
           </slot>
         </button>
       </div>
-      <p class="text-gray-500 text-xs  mt-4">Showing {{ slotProps.computed.from}} to {{ slotProps.computed.to }} of {{ slotProps.computed.total }} entires</p>
+      <p class="text-gray-500 text-xs  mt-4">
+        {{  $t('PAGINATION.TEXT', { from: slotProps.computed.from, to: slotProps.computed.to, total: slotProps.computed.total }) }}
+      </p>
     </nav>
   </RenderlessPagination>
 </template>

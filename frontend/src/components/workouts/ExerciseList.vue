@@ -45,7 +45,7 @@
             <input
               v-model="exercise.sets"
               type="number"
-              class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
+              class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-base cursor-default flex items-center text-gray-700 outline-none"
             />
             <button
               type="button"
@@ -131,6 +131,6 @@ const updateModel = (exercise, $event) => {
 }
 
 .default {
-  background-color: none;
+  background-color: unset !important;
 }
 </style>

@@ -12,6 +12,7 @@ use App\Models\WorkoutLogs;
 use App\Repositories\WorkoutLogs\WorkoutLogsRepositoryInterface;
 use App\Traits\Helpers\DateHelper;
 use App\Traits\ResponseMessage;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -189,9 +190,11 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
      */
     public function stats(): array
     {
+        $averageTime = $this->workoutLogsRepository->getWorkoutTimeAverage();
+
         return [
             'workout_count' => $this->workoutLogsRepository->getWorkoutCounts(),
-            'average_workout_time' => $this->workoutLogsRepository->getWorkoutTimeAverage(),
+            'average_workout_time' => Carbon::parse(time())->diff(Carbon::parse(time() + $averageTime)),
             'average_exercise_count' => (double)number_format($this->workoutLogsRepository->getWorkoutExerciseAverage(), 1),
         ];
     }

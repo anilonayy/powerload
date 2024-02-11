@@ -43,9 +43,6 @@ const state = reactive({
     );
   }),
 });
-const selectedText = computed(() => {
-  return state.selectedOption ? state.selectedOption.text : props.placeholder;
-});
 const optionsComp = computed(() => {
   let arr = props.options;
   if (arr.length) {
@@ -197,13 +194,10 @@ watch(
             </div>
         </div>
         <div v-else @click="state.openList = !state.openList"  class="overflow-hidden text-sm text-ellipsis w-full text-gray-400 inline-flex">
-          {{ placeholder }}
+          {{ $t(placeholder) }}
         </div>
         </span
       >
-      <!-- <i @click.stop="onClear" class="clear" v-if="state.selectedOption && !props.search"
-        >&times;</i
-      > -->
     </div>
     <div class="list-wrapper" :class="{ 'show-up': state.openAbove }">
       <div v-if="props.search" class="search">
@@ -332,11 +326,9 @@ watch(
     left: 0;
     transform-origin: 50% 0;
     transform: scale(0.75) translateY(-21px);
-    opacity: 0.15s ease-out;
     transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
     z-index: 9;
     color: rgba(49 46 129);
-    -webkit-text-fill-color: black;
     &:not(.show-up) {
       top: 100%;
       margin-top: 5px;
@@ -418,6 +410,7 @@ watch(
       font-weight: bold;
       padding-left: 14px;
       background-color: rgba(49 ,46 ,129,1);
+      color: white !important;
     }
     &.selected  div {
        color: white !important;

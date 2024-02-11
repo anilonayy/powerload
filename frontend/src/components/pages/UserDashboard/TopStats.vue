@@ -20,8 +20,10 @@
                 </div>
 
                 <div class="text-start" v-if="loaded">
-                    <h6 class="stats-text font-semibold text-deep-purple-accent-400"> {{ data?.average_workout_time ?? '' }} </h6>
-                    <p> {{ $t('DASHBOARD.TOP_STATS.AVG_TIME') }} </p>
+                    <h6 class="stats-text font-semibold text-deep-purple-accent-400">
+                      <DynamicDuration :value="data?.average_workout_time ?? ''" :options="{ s: false }" />
+                    </h6>
+                    <p> {{ $t('DASHBOARD.TOP_STATS.AVG_TIME') }}</p>
                 </div>
                 <TopStatsSkeleton v-else />
             </div>
@@ -62,6 +64,7 @@ import DumbellIcon from '@/components/icons/DumbellIcon.vue';
 import PassedTimeIcon from '@/components/icons/PassedTimeIcon.vue';
 import CountSticksIcon from '@/components/icons/CountSticksIcon.vue';
 import TopStatsSkeleton from '@/components/skeletons/UserDashboard/TopStatsSkeleton.vue';
+import DynamicDuration from "@/components/date/DynamicDuration.vue";
 
 
 const loaded = ref(false);

@@ -10,7 +10,6 @@ class LogSqlQueries
 {
     public function handle($request, Closure $next)
     {
-
         if(!$request->has('_logged_SQL_QUERIES')) {
             $request->merge(['_logged_SQL_QUERIES' => true]);
 
@@ -22,7 +21,6 @@ class LogSqlQueries
                 ]);
             });
         }
-
 
         return $next($request);
     }

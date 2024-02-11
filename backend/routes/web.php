@@ -1,6 +1,5 @@
 <?php
 
-use App\Repositories\GeneralRepository;
 use Illuminate\Support\Facades\Route;
 
 /*

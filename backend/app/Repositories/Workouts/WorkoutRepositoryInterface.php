@@ -10,13 +10,15 @@ interface WorkoutRepositoryInterface
     /**
      * Get all workout resources.
      *
+     * @param object $payload
      * @return Collection
      */
-    public function all(): Collection;
+    public function all(object $payload): Collection;
 
     /**
      * Get all workout resources by paginate.
      *
+     * @param object $payload
      * @return array
      */
     public function paginate(object $payload): array;

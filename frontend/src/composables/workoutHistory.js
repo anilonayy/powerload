@@ -2,7 +2,6 @@ import { ref } from 'vue';
 import axios from '@/plugins/appAxios';
 import { queryStringBuilder } from '@/utils/helpers'
 
-
 export default function useWorkoutHistory()  {
     const workoutHistories = ref([]);
     const loaded = ref(false);
@@ -10,8 +9,10 @@ export default function useWorkoutHistory()  {
 
     const getWorkoutHistories = async (config) => {
         try {
+            loaded.value = false;
+
             const response = await axios.get(`/v1/workout-logs${ queryStringBuilder(config) }`);
-            workoutHistories.value = response.data;
+            workoutHistories.value =  config.paginate ? response.data.data : response.data;
 
             loaded.value = true;
         } catch(error) {

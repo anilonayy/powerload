@@ -60,8 +60,8 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
             SetLocale::class,
             LogSqlQueries::class,
-
         ],
+        'web' => []
     ];
 
     /**

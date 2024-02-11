@@ -89,9 +89,9 @@ interface WorkoutLogsRepositoryInterface
     /**
      * Get total completed workout average time.
      *
-     * @return string
+     * @return int
      */
-    public function getWorkoutTimeAverage(): string;
+    public function getWorkoutTimeAverage(): int;
 
     /**
      * Get total completed workout exercise count average.

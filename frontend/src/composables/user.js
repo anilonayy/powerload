@@ -1,6 +1,6 @@
 import { ref, computed, inject } from "vue";
 import { useStore } from "vuex";
-import { isEmpty, isEmail, isKeysEmpty, isNotNumeric } from '@/utils/validateHelper';
+import { isEmpty, isEmail, isKeysEmpty, isAlphabetic } from '@/utils/validateHelper';
 import userService from '@/services/userService';
 import { useI18n } from 'vue-i18n';
 import axios from "@/plugins/appAxios";
@@ -40,7 +40,7 @@ export default function useUser() {
 
         if(isEmpty(payload.name)) {
             errors.value.name = [{ key: 'ERRORS.VALIDATE.REQUIRED' }];
-        } else if(isNotNumeric(payload.name)) {
+        } else if(!isAlphabetic(payload.name)) {
             errors.value.name = [{ key: 'ERRORS.VALIDATE.ALPHABET' }];
         } else if (payload.name.length > 50 || payload.name.length < 3) {
             errors.value.name = [{ key: 'ERRORS.VALIDATE.STRING_LENGTH', params: { min: 3, max: 50 }}];

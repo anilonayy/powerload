@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="mobile-menu w-full flex md:hidden justify-between px-4 border-b py-2 fixed top-0 bg-white z-20"
+      class="mobile-menu w-full flex md:hidden justify-between px-4 border-b py-2 fixed top-0 bg-white z-20 landscape:hidden"
     >
       <SiteLogo />
 

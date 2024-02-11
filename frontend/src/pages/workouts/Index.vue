@@ -46,7 +46,9 @@
                   </router-link>
                 </th>
                 <td class="px-6 py-4">{{ workout.workout_logs_count }}</td>
-                <td class="px-6 py-4">{{ workout.created_at }}</td>
+                <td class="px-6 py-4">
+                  <DynamicDate :value="workout.created_at" type="short" />
+                </td>
                 <td class="px-6 py-4 flex gap-3">
                   <router-link :to="{ name: 'workout', params: { trainId: workout.id } }">
                     <div class="orange-btn">
@@ -88,6 +90,7 @@ import PanelHeader from '@/components/shared/PanelHeader.vue';
 import TableWrapper from '@/components/shared/TableWrapper.vue';
 import WorkoutListSkeleton from '@/components/skeletons/WorkoutListSkeleton.vue';
 import Pagination from "@/components/shared/Pagination.vue";
+import DynamicDate from "@/components/date/DynamicDate.vue";
 
 const swal = inject('swal');
 const toast = inject('toast');

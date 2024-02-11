@@ -34,7 +34,12 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                 $query->withTrashed()->select(['id', 'name']);
             }
         ])
-        ->orderBy('id', 'desc')
+        ->when($payload['take'] ?? false, function ($query) use ($payload) {
+            $query->take($payload['take']);
+        })
+        ->when($payload['orderBy'] ?? false, function ($query) use ($payload) {
+            $query->orderBy($payload['orderBy'], 'desc');
+        })
         ->get();
     }
 
@@ -220,10 +225,9 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     }
 
     /**
-     *
-     * @return string
+     * @return int
      */
-    public function getWorkoutTimeAverage(): string
+    public function getWorkoutTimeAverage(): int
     {
         $userId = auth()->user()->id;
 
@@ -234,9 +238,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             ->select(DB::raw('avg(UNIX_TIMESTAMP(workout_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
             ->first();
 
-        return !is_null($workoutTime->averageTime)
-            ? $this->calculateDurationForHumans(strtotime(now()), (strtotime(now()) + $workoutTime->averageTime))
-            : '0';
+        return $workoutTime->averageTime ?? 0;
     }
 
     /**

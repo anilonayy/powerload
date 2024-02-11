@@ -28,7 +28,7 @@ class WorkoutLogWithDetail extends JsonResource
                 'name' => $this->workout->name,
                 'workout_day_name' => $this->workoutDay->name,
             ],
-            'duration' => $this->calculateDurationForHumans($this->created_at, $this->workout_end_time),
+            'duration' => Carbon::parse($this->workout_end_time)->diff($this->created_at),
             'workout_date' => Carbon::parse($this->created_at)->format('d F Y'),
             'exercises'=> $this->workoutList
 

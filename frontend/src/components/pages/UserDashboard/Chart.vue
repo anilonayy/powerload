@@ -22,7 +22,7 @@
                         :options="options"
                         read-text="name"
                         read-value="value"
-                        placeholder="Select Exercise"
+                        placeholder="EXERCISE.SELECT"
                         search
                         v-model="currentExercise"
                         @updateModel="updateExercise($event)"

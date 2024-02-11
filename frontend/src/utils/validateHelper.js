@@ -16,11 +16,17 @@ export const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
  * @param {object} value
  * @returns {boolean}
  */
-export const isKeysEmpty = (value) => Object.keys(value).length === 0 && Object.keys(value)
-    .every((key) => isEmpty(value[key]));
+export const isKeysEmpty = (value) => Object.keys(value).length === 0 &&
+    Object.keys(value).every((key) => isEmpty(value[key]));
 
 /**
  * @param {string} value
  * @returns {boolean}
  */
-export const isNotNumeric = (value) => !/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(value);
+export const isNumeric = (value) => !/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(value);
+
+/**
+ * @param {string} value
+ * @returns {boolean}
+ */
+export const isAlphabetic = (value) => /^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/.test(value);
