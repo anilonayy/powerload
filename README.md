@@ -31,3 +31,4 @@ Users can register with their e-mail addresses or with their google accounts. Th
  - Sanctum Auth System
 
 ![App Image](/frontend/public/images/show-app.png)
+![App Image](/frontend/public/images/show-app-2.png)
