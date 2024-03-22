@@ -3,6 +3,17 @@
 Powerload is **Progressive Overload** application who want to track self progress in gym.
 
 
+## How to run the project
+Make deployer.sh executable
+```bash 
+cd deployer
+chmod +x deployer.sh
+```
+Get Build!
+```bash 
+./deployer.sh magic
+```
+
 ## What users can do
 Users can register with their e-mail addresses or with their google accounts. They can save their own Workouts -> Workout Days -> Workout Days -> Movements they will do on workout days to use during workout and can access these saved workouts with 1 click during workout.
 ### User
