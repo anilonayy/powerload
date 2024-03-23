@@ -3,7 +3,7 @@ FROM php:8.3-fpm-alpine
 # Setting environment variables
 ENV PHPGROUP=laravel
 ENV PHPUSER=laravel
-ENV WORKDIR=/var/www
+ENV WORKDIR=/var/www/backend
 
 WORKDIR $WORKDIR
 ADD ./ $WORKDIR
@@ -20,5 +20,7 @@ RUN chown -R 777 $WORKDIR
 
 # Install pdo and pdo_mysql extensions
 RUN docker-php-ext-install pdo pdo_mysql
+
+EXPOSE 9000
 
 CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]

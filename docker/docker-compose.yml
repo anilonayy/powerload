@@ -2,7 +2,7 @@ name: 'powerload'
 version: '3.9'
 services:
   nginx:
-    container_name: powerload_nginx
+    container_name: 'powerload_nginx'
     build:
         context: .
         dockerfile: ./nginx/Dockerfile
@@ -11,9 +11,9 @@ services:
       - 80:80
       # {hostPath}:{imagePath} volumes provide us the way to share data between host and container
     volumes:
-      - ../:/var/www/html
+      - ../:/var/www
     networks:
-      - powerload_network
+      - network
     depends_on:
       - db
       - backend
@@ -26,7 +26,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - powerload_network
+      - network
   frontend:
     container_name: 'powerload_frontend'
     build:
@@ -36,12 +36,10 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ../frontend:/var/www
+      - ../frontend:/var/www/frontend
+    working_dir: /var/www/frontend
     networks:
-      - powerload_network
-    depends_on:
-      - db
-      - backend
+      - network
   backend:
     container_name: 'powerload_backend'
     build:
@@ -49,11 +47,12 @@ services:
       dockerfile: ../backend/Dockerfile
     restart: unless-stopped
     ports:
-      - 5000:5000
+      - 9000:9000
     volumes:
-      - ../backend:/var/www
+      - ../backend:/var/www/backend
+    working_dir: /var/www/backend
     networks:
-      - powerload_network
+      - network
     depends_on:
       - db
   composer:
@@ -62,33 +61,33 @@ services:
       context: .
       dockerfile: composer.dockerfile
     volumes:
-      - ../backend/:/var/www
+      - ../backend/:/var/www/backend
     networks:
-      - powerload_network
+      - network
   artisan:
     container_name: 'powerload_artisan'
     build:
       context: .
       dockerfile: ../backend/Dockerfile
     volumes:
-      - ../backend:/var/www
-    working_dir: /var/www
+      - ../backend:/var/www/backend
+    working_dir: /var/www/backend
     depends_on:
       - db
-    entrypoint: [ 'php', '/var/www/artisan' ]
+    entrypoint: [ 'php', '/var/www/backend/artisan' ]
     networks:
-      - powerload_network
+      - network
   npm:
     container_name: 'powerload_npm'
     build:
       context: .
       dockerfile: ../frontend/Dockerfile
     volumes:
-      - ../frontend:/var/www
-    working_dir: /var/www
-    entrypoint: [ 'npm', 'run', 'dev']
+      - ../frontend:/var/www/frontend
+    working_dir: /var/www/frontend
+    entrypoint: [ 'npm']
     networks:
-      - powerload_network
+      - network
 networks:
-  powerload_network:
+  network:
     driver: bridge
