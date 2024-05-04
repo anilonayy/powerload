@@ -4,6 +4,11 @@ Powerload is **Progressive Overload** application who want to track self progres
 
 
 ## How to run the project
+Clone project
+```bash
+git clone git@github.com:anilonayy/powerload.git
+```
+
 Make deployer.sh executable
 ```bash 
 cd deployer
