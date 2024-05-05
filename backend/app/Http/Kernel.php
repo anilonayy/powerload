@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
         SetLocale::class,
         TrustProxies::class,
         LogSqlQueries::class,
-        HandleCors::class,
+//        HandleCors::class,
         PreventRequestsDuringMaintenance::class,
         ValidatePostSize::class,
         TrimStrings::class,

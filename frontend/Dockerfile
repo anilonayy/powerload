@@ -1,4 +1,4 @@
-FROM node:12-alpine3.12
+FROM node:16-alpine3.16
 
 ENV HOST = 0.0.0.0
 ENV WORKDIR=/var/www/frontend

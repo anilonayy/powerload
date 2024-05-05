@@ -6,7 +6,7 @@ import router from '@/router';
 
 const createAxiosInstance = () => {
 	const instance = axios.create({
-		baseURL: 'http://127.0.0.1:8000/api',
+		baseURL: 'http://api.powerload.com',
 		withCredentials: false,
 		timeout: 30000,
 	});
@@ -44,7 +44,7 @@ const createAxiosInstance = () => {
 				const nextRequestTime = dayjs(error.response
 					.headers['x-ratelimit-reset'] * 1000).format('HH:mm');
 
-				// TODO : Fetch this message from language files.
+				// @TODO : Fetch this message from language files.
 				if(locale === 'en_US') {
 					error.response.data.message = `You have exceeded the rate limit for this action. Please try again after ${nextRequestTime}`;
 				} else if(locale === 'tr_TR') {

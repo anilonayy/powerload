@@ -1,0 +1,60 @@
+version: '3.9'
+services:
+  nginx:
+    container_name: 'powerload_nginx'
+    build:
+      context: ./docker/nginx
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+      - 80:80
+      - 443:443
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/logs:/var/log/nginx
+    networks:
+      - ledger_app_network
+    depends_on:
+      - database
+  database:
+    container_name: 'powerload_database'
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE:-powerload}
+      - MYSQL_USER=${DB_USERNAME:-homestead}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+    ports:
+      - 3306:3306
+    networks:
+      - ledger_app_network
+  frontend:
+    container_name: 'powerload_frontend'
+    build:
+      context: ./frontend
+    command: npm run dev
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/var/www/frontend
+    working_dir: /var/www/frontend
+    networks:
+      - ledger_app_network
+  backend:
+    container_name: 'powerload_backend'
+    build:
+      context: ./backend
+    restart: unless-stopped
+    ports:
+      - 9000:9000
+    volumes:
+      - ./backend:/var/www/backend
+    working_dir: /var/www/backend
+    networks:
+      - ledger_app_network
+    depends_on:
+      - database
+networks:
+  ledger_app_network:
+    driver: bridge

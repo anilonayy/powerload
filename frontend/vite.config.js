@@ -1,15 +1,18 @@
 import {fileURLToPath, URL} from 'node:url'
-
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  cache: false,
-  optimizeDeps: {
-    include: ['esm-dep > cjs-dep'],
-    exclude: ['js-big-decimal']
+  server: {
+    host: true,
+    port: 3000,
+    hmr: {
+      host: 'powerload.com',
+      clientPort: 80,
+    },
   },
+  cache: false,
   plugins: [
     vue(),
   ],
