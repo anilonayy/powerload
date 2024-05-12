@@ -3,7 +3,7 @@ import './assets/components/buttons.css';
 import './assets/components/badges.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
@@ -16,8 +16,8 @@ const app = createApp(App);
 
 app.use(store);
 app.use(router);
-app.use(SweetAlert)
-app.use(Toast)
+app.use(SweetAlert);
+app.use(Toast);
 app.use(axios);
 app.use(i18n);
 

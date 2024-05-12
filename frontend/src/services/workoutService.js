@@ -1,8 +1,8 @@
 import axios from '@/plugins/appAxios';
 
-const getAllWorkouts = async () =>  await axios.get('v1/workouts');
+const getAllWorkouts = async () => await axios.get('v1/workouts');
 
-const getAllWorkoutsWithDetails = async () =>  await axios.get('v1/workouts/details');
+const getAllWorkoutsWithDetails = async () => await axios.get('v1/workouts/details');
 
 const getWorkout = async (id) => await axios.get(`v1/workouts/${id}`);
 
@@ -13,10 +13,10 @@ const updateWorkout = async (id, workout) => await axios.put(`v1/workouts/${id}`
 const deleteWorkout = async (id) => await axios.delete(`v1/workouts/${id}`);
 
 export default {
-    getAllWorkouts,
-    getAllWorkoutsWithDetails,
-    getWorkout,
-    deleteWorkout,
-    createWorkout,
-    updateWorkout
-}
+  getAllWorkouts,
+  getAllWorkoutsWithDetails,
+  getWorkout,
+  deleteWorkout,
+  createWorkout,
+  updateWorkout
+};

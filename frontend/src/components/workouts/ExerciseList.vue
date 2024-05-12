@@ -83,11 +83,7 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="exerciseIndex > 0"
-        @click="$emit('removeExercise', exercise.id)"
-        class="self-end col-span-2"
-      >
+      <div v-if="exerciseIndex > 0" @click="$emit('removeExercise', exercise.id)" class="self-end col-span-2">
         <div class="red-btn h-9 aspect-square px-2 lg:px-2" style="padding: 8px !important">
           <TrashIcon />
         </div>
@@ -100,29 +96,26 @@
   </div>
 </template>
 
-
-
 <script setup>
-import {computed, defineEmits} from 'vue'
-import {useStore} from 'vuex'
-import {getIconName} from '@/utils/helpers'
+import { computed, defineEmits } from 'vue';
+import { useStore } from 'vuex';
+import { getIconName } from '@/utils/helpers';
 
-import TrashIcon from '@/components/icons/TrashIcon.vue'
-import Label from '@/components/form/Label.vue'
-import AgSelect from '@/components/shared/AgSelect.vue'
+import TrashIcon from '@/components/icons/TrashIcon.vue';
+import Label from '@/components/form/Label.vue';
+import AgSelect from '@/components/shared/AgSelect.vue';
 
-const props = defineProps(['day'])
+const props = defineProps(['day']);
 
-const store = useStore()
-const options = computed(() => store.getters['_exerciseList'])
+const store = useStore();
+const options = computed(() => store.getters['_exerciseList']);
 
-const emit = defineEmits(['add-exercise', 'removeExercise', 'addDay'])
+const emit = defineEmits(['add-exercise', 'removeExercise', 'addDay']);
 
 const updateModel = (exercise, $event) => {
-  exercise.selected = $event
-}
+  exercise.selected = $event;
+};
 </script>
-
 
 <style scoped>
 .set-repeats-grid {

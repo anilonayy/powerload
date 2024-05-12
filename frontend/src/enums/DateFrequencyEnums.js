@@ -1,23 +1,23 @@
 export default [
-    {
-        text: {
-            tr_TR: 'Yıllık',
-            en_EN: 'Yearly'
-        },
-        value: 1
+  {
+    text: {
+      tr_TR: 'Yıllık',
+      en_EN: 'Yearly'
     },
-    {
-        text: {
-            tr_TR: 'Aylık',
-            en_EN: 'Monthly'
-        },
-        value: 2
+    value: 1
+  },
+  {
+    text: {
+      tr_TR: 'Aylık',
+      en_EN: 'Monthly'
     },
-    {
-        text: {
-            tr_TR: 'Haftalık',
-            en_EN: 'Weeekly'
-        },
-        value: 3
-    }
-]
+    value: 2
+  },
+  {
+    text: {
+      tr_TR: 'Haftalık',
+      en_EN: 'Weeekly'
+    },
+    value: 3
+  }
+];

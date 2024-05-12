@@ -1,6 +1,6 @@
 <template>
   <span>
-    {{ $d(new Date(value), type, locale.replace('_','-')) }}
+    {{ $d(new Date(value), type, locale.replace('_', '-')) }}
   </span>
 </template>
 

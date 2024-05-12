@@ -1,24 +1,24 @@
 <script setup>
-import {getIconName} from '@/utils/helpers.js'
-import {computed, defineEmits, defineProps, onMounted, reactive, watch,} from "vue";
+import { getIconName } from '@/utils/helpers.js';
+import { computed, defineEmits, defineProps, onMounted, reactive, watch } from 'vue';
 
 const props = defineProps({
   options: {
     type: Array,
-    required: true,
+    required: true
   },
   placeholder: {
     type: String,
-    default: "",
+    default: ''
   },
   readValue: String,
   readText: String,
   search: Boolean,
-  modelValue: [String, Number, Object],
+  modelValue: [String, Number, Object]
 });
-const emit = defineEmits(["updateModel"]);
-const searchId = "search_" + Math.floor(Math.random() * 100);
-const wrapperId = "wrapper_" + Math.floor(Math.random() * 100);
+const emit = defineEmits(['updateModel']);
+const searchId = 'search_' + Math.floor(Math.random() * 100);
+const wrapperId = 'wrapper_' + Math.floor(Math.random() * 100);
 
 onMounted(() => {
   //select list is hidden with opacity and it renders no matter state.openList is, so we need to set the position when mounted aswell.
@@ -28,7 +28,7 @@ const state = reactive({
   selectedOption: null,
   openList: false,
   immediateRan: false,
-  searchVal: "",
+  searchVal: '',
   searchId: searchId,
   wrapperId: wrapperId,
   openAbove: false,
@@ -36,12 +36,9 @@ const state = reactive({
     return (
       props.options &&
       props.options[0] &&
-      !(
-        typeof props.options[0] == "object" ||
-        typeof props.options[0] == "function"
-      )
+      !(typeof props.options[0] == 'object' || typeof props.options[0] == 'function')
     );
-  }),
+  })
 });
 const optionsComp = computed(() => {
   let arr = props.options;
@@ -55,9 +52,7 @@ const optionsComp = computed(() => {
     });
     if (props.search && state.searchVal) {
       return arr.filter((item) =>
-        item.text
-          .toLocaleLowerCase("tr-TR")
-          .includes(state.searchVal.toLocaleLowerCase("tr-TR"))
+        item.text.toLocaleLowerCase('tr-TR').includes(state.searchVal.toLocaleLowerCase('tr-TR'))
       );
     } else {
       return arr;
@@ -67,9 +62,7 @@ const optionsComp = computed(() => {
   }
 });
 const modelPrimitive = computed(() => {
-  return !(
-    typeof props.modelValue == "object" || typeof props.modelValue == "function"
-  );
+  return !(typeof props.modelValue == 'object' || typeof props.modelValue == 'function');
 });
 function onSelectOption(opt) {
   // state.selectedOption.value = opt;
@@ -77,20 +70,12 @@ function onSelectOption(opt) {
   emitModel();
 }
 const onEscape = (e) => {
-  if (
-    !(
-      e.relatedTarget &&
-      (e.relatedTarget.id == state.searchId ||
-        e.relatedTarget.id == state.wrapperId)
-    )
-  ) {
+  if (!(e.relatedTarget && (e.relatedTarget.id == state.searchId || e.relatedTarget.id == state.wrapperId))) {
     state.openList = false;
   }
 };
 function isSelected(opt) {
-  return state.selectedOption
-    ? state.selectedOption.value == (state.isPrimitive ? opt : opt.value)
-    : false;
+  return state.selectedOption ? state.selectedOption.value == (state.isPrimitive ? opt : opt.value) : false;
 }
 const onWrapperClick = (e) => {
   if (e.target !== e.currentTarget) return;
@@ -108,14 +93,14 @@ const onClear = () => {
   state.selectedOption = {
     value: 0,
     text: '',
-    category : ''
+    category: ''
   };
   emitModel();
 };
 
 const emitModel = () => {
   emit(
-    "updateModel",
+    'updateModel',
     modelPrimitive.value || state.isPrimitive
       ? state.selectedOption
         ? state.selectedOption.value
@@ -130,7 +115,7 @@ const setListPosition = () => {
   const elementRect = element.getBoundingClientRect();
   const spaceBelow = window.innerHeight - elementRect.bottom;
 
-  state.openAbove  = false;
+  state.openAbove = false;
   return;
   if (spaceBelow < 300) {
     state.openAbove = true;
@@ -181,32 +166,30 @@ watch(
     :id="state.wrapperId"
   >
     <div class="current" @click="onWrapperClick">
-      <span
-      class="w-full"
-        :class="{ 'is-selected': !!state.selectedOption }"
-        @click="onWrapperClick"
-        >
-        
-        <div class="flex gap-3" v-if="state.selectedOption" @click="state.openList = !state.openList" style="" >
-          <img v-if="state.selectedOption.category" :src="getIconName(state.selectedOption.category)"  width="25" class="object-contain">
+      <span class="w-full" :class="{ 'is-selected': !!state.selectedOption }" @click="onWrapperClick">
+        <div class="flex gap-3" v-if="state.selectedOption" @click="state.openList = !state.openList" style="">
+          <img
+            v-if="state.selectedOption.category"
+            :src="getIconName(state.selectedOption.category)"
+            width="25"
+            class="object-contain"
+          />
           <div class="overflow-hidden text-ellipsis w-full">
-              {{ state.selectedOption.text }}
-            </div>
+            {{ state.selectedOption.text }}
+          </div>
         </div>
-        <div v-else @click="state.openList = !state.openList"  class="overflow-hidden text-sm text-ellipsis w-full text-gray-400 inline-flex">
+        <div
+          v-else
+          @click="state.openList = !state.openList"
+          class="overflow-hidden text-sm text-ellipsis w-full text-gray-400 inline-flex"
+        >
           {{ $t(placeholder) }}
         </div>
-        </span
-      >
+      </span>
     </div>
     <div class="list-wrapper" :class="{ 'show-up': state.openAbove }">
       <div v-if="props.search" class="search">
-        <input
-          @input="onSearchInput"
-          type="text"
-          :id="state.searchId"
-          @blur="onEscape"
-        />
+        <input @input="onSearchInput" type="text" :id="state.searchId" @blur="onEscape" />
       </div>
       <ul class="list" :class="{ 'search-list': props.search }">
         <li
@@ -221,7 +204,7 @@ watch(
             }
           "
         >
-          <slot name="option" v-bind="opt">{{ opt["text"] }}</slot>
+          <slot name="option" v-bind="opt">{{ opt['text'] }}</slot>
         </li>
       </ul>
     </div>
@@ -285,7 +268,7 @@ watch(
   &:after {
     border-bottom: 2px solid #999;
     border-right: 2px solid #999;
-    content: "";
+    content: '';
     display: block;
     height: 5px;
     margin-top: -4px;
@@ -326,7 +309,9 @@ watch(
     left: 0;
     transform-origin: 50% 0;
     transform: scale(0.75) translateY(-21px);
-    transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
+    transition:
+      all 0.2s cubic-bezier(0.5, 0, 0, 1.25),
+      opacity 0.15s ease-out;
     z-index: 9;
     color: rgba(49 46 129);
     &:not(.show-up) {
@@ -360,7 +345,7 @@ watch(
     }
 
     &:hover {
-      color: rgba(49 ,46 ,129,.3);
+      color: rgba(49, 46, 129, 0.3);
     }
 
     &::-webkit-scrollbar {
@@ -394,7 +379,7 @@ watch(
     border-radius: 5px;
 
     &:not(.disabled):not(.selected):hover {
-      background-color: rgba(49 ,46 ,129,.8);
+      background-color: rgba(49, 46, 129, 0.8);
       padding-left: 14px;
       -webkit-text-fill-color: #fff;
     }
@@ -409,11 +394,11 @@ watch(
     &.selected {
       font-weight: bold;
       padding-left: 14px;
-      background-color: rgba(49 ,46 ,129,1);
+      background-color: rgba(49, 46, 129, 1);
       color: white !important;
     }
-    &.selected  div {
-       color: white !important;
+    &.selected div {
+      color: white !important;
     }
   }
 }

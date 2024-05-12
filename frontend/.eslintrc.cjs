@@ -1,6 +1,7 @@
 /* eslint-env node */
 require('@rushstack/eslint-patch/modern-module-resolution')
 const { fileURLToPath } = require('url');
+const path = require('path');
 
 module.exports = {
   root: true,
@@ -19,11 +20,10 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
-          ['@', fileURLToPath(new URL('./src', import.meta.url))]
+          ['@', path.resolve(__dirname, 'src')]
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       },
     },
   },
-
 }

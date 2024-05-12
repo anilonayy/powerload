@@ -1,50 +1,50 @@
 <template>
-    <div>
-        <Panel>
-            <HistoryDetailSkeleton v-if="!loaded" />
-            <div v-else>
-                <BackButton :to="{ name: 'workout-history' }"> {{ $t('WORKOUT_HISTORY.SHOW.BACK_TO_LIST') }}</BackButton>
-                <PanelHeader class="p-2">
-                    <template v-slot:title> {{ $t('WORKOUT_HISTORY.SHOW.TITLE') }} </template>
-                    <template v-slot:description> {{ $t('WORKOUT_HISTORY.SHOW.DESCRIPTION') }} </template>
-                    <hr>
-                </PanelHeader>
+  <div>
+    <Panel>
+      <HistoryDetailSkeleton v-if="!loaded" />
+      <div v-else>
+        <BackButton :to="{ name: 'workout-history' }"> {{ $t('WORKOUT_HISTORY.SHOW.BACK_TO_LIST') }}</BackButton>
+        <PanelHeader class="p-2">
+          <template v-slot:title> {{ $t('WORKOUT_HISTORY.SHOW.TITLE') }} </template>
+          <template v-slot:description> {{ $t('WORKOUT_HISTORY.SHOW.DESCRIPTION') }} </template>
+          <hr />
+        </PanelHeader>
 
-                <WorkoutResults :data="trainLog" />
-            </div>
-        </Panel>
-    </div>
+        <WorkoutResults :data="trainLog" />
+      </div>
+    </Panel>
+  </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
-import {useRoute} from "vue-router";
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import workoutLogService from '@/services/workoutLogService';
-import router from "@/router";
+import router from '@/router';
 
-import Panel from "@/components/shared/Panel.vue";
-import PanelHeader from "@/components/shared/PanelHeader.vue";
-import BackButton from "@/components/buttons/BackButton.vue";
-import WorkoutResults from "@/components/pages/WorkoutCompleted/WorkoutResults.vue";
+import Panel from '@/components/shared/Panel.vue';
+import PanelHeader from '@/components/shared/PanelHeader.vue';
+import BackButton from '@/components/buttons/BackButton.vue';
+import WorkoutResults from '@/components/pages/WorkoutCompleted/WorkoutResults.vue';
 import HistoryDetailSkeleton from '@/components/skeletons/HistoryDetailSkeleton.vue';
 
 const loaded = ref(false);
 const trainLog = ref({});
 
 onMounted(async () => {
-    try {
-        const trainLogId = useRoute().params.workoutLogId;
+  try {
+    const trainLogId = useRoute().params.workoutLogId;
 
-        if(isNaN(Number(trainLogId))) {
-            router.push({ name: 'workout-history' });
+    if (isNaN(Number(trainLogId))) {
+      router.push({ name: 'workout-history' });
 
-            return;
-        }
-
-        trainLog.value = (await workoutLogService.getLog(trainLogId)).data;
-        loaded.value = true;
-    } catch (error) {
-        console.error('error :>> ', error);
+      return;
     }
+
+    trainLog.value = (await workoutLogService.getLog(trainLogId)).data;
+    loaded.value = true;
+  } catch (error) {
+    console.error('error :>> ', error);
+  }
 });
 </script>

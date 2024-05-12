@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <Panel class="w-full p-4">
-            <PanelHeader class="mb-0">
-                <template v-slot:title> <div class="text-center"> {{ $t('DASHBOARD.TITLE') }} </div> </template>
-            </PanelHeader>
+  <div>
+    <Panel class="w-full p-4">
+      <PanelHeader class="mb-0">
+        <template v-slot:title>
+          <div class="text-center">{{ $t('DASHBOARD.TITLE') }}</div>
+        </template>
+      </PanelHeader>
 
-            <div id="stats" class="flex flex-col gap-4">
-                <TopStats />
-                <MiddleStats />
-                <BottomStats />
-            </div>
-        </Panel>
-    </div>
+      <div id="stats" class="flex flex-col gap-4">
+        <TopStats />
+        <MiddleStats />
+        <BottomStats />
+      </div>
+    </Panel>
+  </div>
 </template>
 
 <script setup>

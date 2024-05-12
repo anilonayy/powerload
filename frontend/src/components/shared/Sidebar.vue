@@ -15,10 +15,7 @@
       style="height: 100vh"
       :class="{ hidden: !isAsideOpen }"
     >
-      <div
-        class="close-button ms-auto w-full flex justify-end mb-4 md:hidden"
-        @click="updateAsideOpen(false)"
-      >
+      <div class="close-button ms-auto w-full flex justify-end mb-4 md:hidden" @click="updateAsideOpen(false)">
         <CloseIcon />
       </div>
 
@@ -63,21 +60,20 @@
           </BadgeLink>
         </div>
         <div v-else>
-          <span class="text-xs text-center block"
-            >
+          <span class="text-xs text-center block">
             {{ $t('SIDEBAR.AUTH.FOR_MORE_INFO') }}
-            <router-link :to="{ name: 'login' }" class="underline"> {{ $t('SIDEBAR.AUTH.GO_LOGIN') }} </router-link>
+            <router-link :to="{ name: 'login' }" class="underline">
+              {{ $t('SIDEBAR.AUTH.GO_LOGIN') }}
+            </router-link>
           </span>
         </div>
       </div>
-      
-  
+
       <div
         class="bg-white w-full bottom-4 mt-auto"
         style="width: 90%"
         :class="{ fixed: isAsideOpen, relative: !isAsideOpen }"
       >
-        
         <SelectLanguage />
 
         <div class="aside-bottom mt-auto bottom-4 w-full">
@@ -90,15 +86,11 @@
             >
               <UserIcon />
 
-              <div
-                class="flex flex-col justify-start items-start text-xs w-40 whitespace-nowrap"
-                dropdown-close="true"
-              >
-                <div dropdown-close="true" class="text-gray-500">{{ $t('SIDEBAR.AUTH.MY_ACCOUNT') }}</div>
-                <div
-                  dropdown-close="true"
-                  class="overflow-ellipsis overflow-hidden w-full text-start"
-                >
+              <div class="flex flex-col justify-start items-start text-xs w-40 whitespace-nowrap" dropdown-close="true">
+                <div dropdown-close="true" class="text-gray-500">
+                  {{ $t('SIDEBAR.AUTH.MY_ACCOUNT') }}
+                </div>
+                <div dropdown-close="true" class="overflow-ellipsis overflow-hidden w-full text-start">
                   {{ userData.firstName }}
                 </div>
               </div>
@@ -113,12 +105,7 @@
               dropdown-area
               class="origin-top-right absolute mt-2 w-full left-0 bottom-full mb-4 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
             >
-              <div
-                class="py-2 p-2"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="dropdown-button"
-              >
+              <div class="py-2 p-2" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
                 <BadgeLink :to="{ name: 'home' }" @click="logout()">
                   <PowerIcon />
                   {{ $t('SIDEBAR.AUTH.LOGOUT') }}
@@ -165,46 +152,45 @@ import AngleDownIcon from '@/components/icons/AngleDownIcon.vue';
 import ListIcon from '@/components/icons/ListIcon.vue';
 import SelectLanguage from '@/components/sidebar/SelectLanguage.vue';
 
-import {computed, ref, watchEffect} from 'vue'
-import {useStore} from 'vuex';
+import { computed, ref, watchEffect } from 'vue';
+import { useStore } from 'vuex';
 import authService from '@/services/authService';
-
 
 const store = useStore();
 
-const isAuthenticated = computed(() => store.getters['_isAuthenticated'])
-const currentUser = computed(() => store.getters['_currentUser'])
-const isAsideOpen = computed(() => store.getters['_isAsideOpen'])
+const isAuthenticated = computed(() => store.getters['_isAuthenticated']);
+const currentUser = computed(() => store.getters['_currentUser']);
+const isAsideOpen = computed(() => store.getters['_isAsideOpen']);
 
 const userData = ref({
   firstName: currentUser.value?.name?.split(' ')[0],
   email: currentUser.value?.email
-})
+});
 
-const isOpen = ref(false)
+const isOpen = ref(false);
 
 document.addEventListener('click', (event) => {
-  const isCloseButton = event.target.getAttribute('dropdown-close')
+  const isCloseButton = event.target.getAttribute('dropdown-close');
 
   if (!isCloseButton) {
-    isOpen.value = false
+    isOpen.value = false;
   }
-})
+});
 
 watchEffect(() => {
   userData.value = {
     firstName: currentUser.value?.name,
     email: currentUser.value?.email
-  }
-})
+  };
+});
 
 const updateAsideOpen = (value) => {
-  store.dispatch('updateAsideOpen', value)
-}
+  store.dispatch('updateAsideOpen', value);
+};
 
 const logout = async () => {
   await authService.logout();
-}
+};
 </script>
 
 <style lang="css">

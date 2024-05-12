@@ -1,6 +1,5 @@
 .btn {
-    @apply
-    inline-flex 
+  @apply inline-flex 
     justify-center 
     items-center 
     text-sm
@@ -9,12 +8,11 @@
     font-medium 
     transition-all 
     cursor-pointer
-    rounded-md 
+    rounded-md;
 }
 
 .flat-btn {
-    @apply
-    inline-flex 
+  @apply inline-flex 
     justify-center 
     items-center 
     text-sm
@@ -23,69 +21,69 @@
     font-medium 
     transition-all 
     cursor-pointer
-    rounded-none
+    rounded-none;
 }
 
 .black-btn {
-    @apply btn
+  @apply btn
     bg-black
     hover:bg-gray-600 
     active:bg-gray-700 
-    text-white 
+    text-white;
 }
 
 .yellow-btn {
-    @apply btn
+  @apply btn
     bg-yellow-800 
     hover:bg-yellow-600 
     active:bg-yellow-700 
-    text-white 
+    text-white;
 }
 
 .orange-btn {
-    @apply btn
+  @apply btn
     bg-orange-400 
     hover:bg-orange-300 
     active:bg-orange-700 
-    text-white 
+    text-white;
 }
 
 .red-btn {
-    @apply btn
+  @apply btn
     bg-red-500 
     hover:bg-red-400 
     active:bg-red-700 
-    text-white
+    text-white;
 }
 
 .indigo-btn {
-    @apply btn
+  @apply btn
     bg-indigo-800 
     hover:bg-indigo-600 
     active:bg-indigo-700 
-    text-white
+    text-white;
 }
 
 .dark-gray-btn {
-    @apply btn
+  @apply btn
     bg-gray-800 
     hover:bg-gray-600 
     active:bg-gray-700 
-    text-white
+    text-white;
 }
 
 .green-btn {
-    @apply btn
+  @apply btn
     bg-green-500 
     hover:bg-green-400 
     active:bg-green-700 
-    text-white
+    text-white;
 }
 
 .flat-green-btn {
-    @apply flat-btn
+  @apply flat-btn
     bg-green-500 
     hover:bg-green-400 
     active:bg-green-700 
-    text-white
+    text-white;
 }

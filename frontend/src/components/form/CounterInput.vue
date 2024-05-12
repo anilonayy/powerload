@@ -26,12 +26,10 @@
   </div>
 </template>
 
-
 <script setup>
+import { defineEmits, defineProps } from 'vue';
 
-import {defineEmits, defineProps} from 'vue'
-
-const emit = defineEmits(['increment, decrement'])
+const emit = defineEmits(['increment, decrement']);
 
 defineProps({
   data: {
@@ -43,7 +41,7 @@ defineProps({
     required: true
   },
   errorKey: {
-    type : String,
+    type: String,
     required: false
   },
   index: {
@@ -53,9 +51,9 @@ defineProps({
   validateCurrentExercise: {
     type: Function,
     required: false
-  },
+  }
 });
 
 const IncrementValue = (data) => emit('increment', data);
-const DecrementValue = (data) => emit('decrement', data)
+const DecrementValue = (data) => emit('decrement', data);
 </script>

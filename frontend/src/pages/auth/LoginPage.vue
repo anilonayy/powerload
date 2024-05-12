@@ -6,15 +6,9 @@
         <div>
           <Label for="email" :value="$t('AUTH.LOGIN.FORM.EMAIL')" />
 
-          <Input
-            id="email"
-            type="email"
-            class="mt-1 block w-full"
-            v-model="userData.email"
-            autocomplete="email"
-          />
+          <Input id="email" type="email" class="mt-1 block w-full" v-model="userData.email" autocomplete="email" />
 
-          <ErrorList error-key="email" :errors="errors"  />
+          <ErrorList error-key="email" :errors="errors" />
         </div>
 
         <div class="mt-4">
@@ -33,27 +27,27 @@
           <div class="flex w-full justify-end">
             <router-link :to="{ name: 'forgot-password' }" class="text-sm underline underline-offset-1">
               {{ $t('AUTH.LOGIN.FORM.FORGET_PASSWORD') }}
-            </router-link
-            >
+            </router-link>
           </div>
         </div>
 
         <ErrorList error-key="message" :errors="errors" />
 
-        <button type="submit" class="dark-gray-btn w-full mt-4"> {{ $t('AUTH.LOGIN.FORM.SUBMIT') }} </button>
+        <button type="submit" class="dark-gray-btn w-full mt-4">
+          {{ $t('AUTH.LOGIN.FORM.SUBMIT') }}
+        </button>
 
         <hr class="my-6 border-gray-300 w-full" />
 
         <div class="btn border border-1 w-full">
-            <GoogleIcon />
-            <span class="ml-4">{{ $t('AUTH.LOGIN.FORM.GOOGLE_LOGIN') }}</span>
+          <GoogleIcon />
+          <span class="ml-4">{{ $t('AUTH.LOGIN.FORM.GOOGLE_LOGIN') }}</span>
         </div>
-        
 
         <div class="mt-6 font-">
           {{ $t('AUTH.LOGIN.FORM.NO_ACCOUNT') }}
           <router-link :to="{ name: 'register' }" class="font-semibold text-blue-400">
-          {{ $t('AUTH.LOGIN.FORM.REGISTER') }}
+            {{ $t('AUTH.LOGIN.FORM.REGISTER') }}
           </router-link>
         </div>
       </form>
@@ -62,37 +56,37 @@
 </template>
 
 <script setup>
-import {inject, ref, watch} from 'vue'
-import router from '@/router'
-import authService from '@/services/authService'
-import {useI18n} from 'vue-i18n';
+import { inject, ref, watch } from 'vue';
+import router from '@/router';
+import authService from '@/services/authService';
+import { useI18n } from 'vue-i18n';
 
-import Panel from '@/components/shared/Panel.vue'
-import Input from '@/components/form/Input.vue'
-import ErrorList from "@/components/errors/ErrorList.vue";
-import Label from '@/components/form/Label.vue'
-import HeaderText from '@/components/shared/HeaderText.vue'
-import GoogleIcon from '@/components/icons/GoogleIcon.vue'
+import Panel from '@/components/shared/Panel.vue';
+import Input from '@/components/form/Input.vue';
+import ErrorList from '@/components/errors/ErrorList.vue';
+import Label from '@/components/form/Label.vue';
+import HeaderText from '@/components/shared/HeaderText.vue';
+import GoogleIcon from '@/components/icons/GoogleIcon.vue';
 
 const toast = inject('toast');
 const { t } = useI18n();
 
 const userData = ref({
   email: '',
-  password: '',
+  password: ''
 });
 
 const errors = ref({
   email: [],
   password: [],
   message: ''
-})
+});
 
 const formSubmit = async (event) => {
-  event.preventDefault()
+  event.preventDefault();
 
   try {
-    if(validateForm()) {
+    if (validateForm()) {
       await authService.login(userData.value);
 
       router.push({ name: 'dashboard' });
@@ -102,20 +96,20 @@ const formSubmit = async (event) => {
 
     !errors.value?.message && toast.error(error?.message);
   }
-}
+};
 
 const validateForm = () => {
   errors.value.email = isEmpty(userData?.value?.email) ? [t('AUTH.LOGIN.FORM.EMAIL_EMPTY_ERROR')] : [];
   errors.value.password = isEmpty(userData?.value?.password) ? [t('AUTH.LOGIN.FORM.PASSWORD_EMPTY_ERROR')] : [];
 
-  if(errors.value.message?.length) {
-    errors.value.message = ''
+  if (errors.value.message?.length) {
+    errors.value.message = '';
   }
 
-  return Object.keys(errors.value).every((field) => errors.value[field].length === 0)
-}
+  return Object.keys(errors.value).every((field) => errors.value[field].length === 0);
+};
 
 const isEmpty = (field) => (field ?? '').trim().length === 0;
 
-watch(userData.value, validateForm)
+watch(userData.value, validateForm);
 </script>

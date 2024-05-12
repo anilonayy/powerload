@@ -1,20 +1,20 @@
 <template>
-    <Panel>
-      <BackButton :to="{ name: 'workout-list' }">{{ $t('WORKOUTS.ADD.BACK_WORKOUTS') }}</BackButton>
-      
-      <PanelHeader class="p-2">
-        <template v-slot:title>{{ $t('WORKOUTS.ADD.TITLE') }}</template>
-        <template v-slot:description> {{ $t('WORKOUTS.ADD.DESCRIPTION') }}</template>
-        <hr>
-      </PanelHeader>
+  <Panel>
+    <BackButton :to="{ name: 'workout-list' }">{{ $t('WORKOUTS.ADD.BACK_WORKOUTS') }}</BackButton>
 
-      <WorkoutBuilder />
-    </Panel>
+    <PanelHeader class="p-2">
+      <template v-slot:title>{{ $t('WORKOUTS.ADD.TITLE') }}</template>
+      <template v-slot:description> {{ $t('WORKOUTS.ADD.DESCRIPTION') }}</template>
+      <hr />
+    </PanelHeader>
+
+    <WorkoutBuilder />
+  </Panel>
 </template>
 
 <script setup>
-import Panel from '@/components/shared/Panel.vue'
-import PanelHeader from '@/components/shared/PanelHeader.vue'
-import WorkoutBuilder from '@/components/workouts/WorkoutBuilder.vue'
-import BackButton from '@/components/buttons/BackButton.vue'
+import Panel from '@/components/shared/Panel.vue';
+import PanelHeader from '@/components/shared/PanelHeader.vue';
+import WorkoutBuilder from '@/components/workouts/WorkoutBuilder.vue';
+import BackButton from '@/components/buttons/BackButton.vue';
 </script>

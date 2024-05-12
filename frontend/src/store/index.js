@@ -1,49 +1,60 @@
 import Vuex from 'vuex';
-import {getCookie, removeCookie, setCookie, getLocale} from '@/utils/helpers.js'
-import createPersistedState from 'vuex-persistedstate'
-import SecureLS from "secure-ls";
+import { getCookie, removeCookie, setCookie, getLocale } from '@/utils/helpers.js';
+import createPersistedState from 'vuex-persistedstate';
+import SecureLS from 'secure-ls';
 
 var ls = new SecureLS({ isCompression: true });
 
 const state = {
   user: null,
   exercises: [],
-  locales: [{
-    name: 'English',
-    value: 'en_US',
-    flag: '/images/flags/en_EN.png',
-  },{
-    name: 'Türkçe',
-    value: 'tr_TR',
-    flag: '/images/flags/tr_TR.png',
-  }],
+  locales: [
+    {
+      name: 'English',
+      value: 'en_US',
+      flag: '/images/flags/en_EN.png'
+    },
+    {
+      name: 'Türkçe',
+      value: 'tr_TR',
+      flag: '/images/flags/tr_TR.png'
+    }
+  ],
   locale: 'tr_TR',
   asideOpen: false,
   trainLogId: 0,
-  workouts: [{
-    id: 0,
-    isSelected: false,
-    days: [{
+  workouts: [
+    {
       id: 0,
-      name: '',
       isSelected: false,
-      exercises: [{
-        id: 0,
-        name: '',
-        category: {
-          name : ''
-        },
-        onWorkout: [{
+      days: [
+        {
           id: 0,
-          weight: 0,
-          reps: 0,
-          weightError: false,
-          repsError: false,
-        }]
-      }]
-    }]
-  }],
-  nextLastLogRequestTime: null,
+          name: '',
+          isSelected: false,
+          exercises: [
+            {
+              id: 0,
+              name: '',
+              category: {
+                name: ''
+              },
+              onWorkout: [
+                {
+                  id: 0,
+                  weight: 0,
+                  reps: 0,
+                  weightError: false,
+                  repsError: false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  nextLastLogRequestTime: null
 };
 
 const mutations = {
@@ -52,7 +63,7 @@ const mutations = {
   },
 
   setToken(state, token) {
-    setCookie('_token',token,7);
+    setCookie('_token', token, 7);
     state.token = token ?? '';
   },
 
@@ -67,7 +78,7 @@ const mutations = {
     state.user = null;
   },
 
-  setExercises(state,exercisesList) {
+  setExercises(state, exercisesList) {
     state.exercises = exercisesList ?? [];
   },
 
@@ -75,32 +86,38 @@ const mutations = {
     state.asideOpen = Boolean(data);
   },
 
-  setWorkouts (state, data) {
+  setWorkouts(state, data) {
     state.workouts = data ?? [];
   },
 
-  setWorkoutLogId (state, data) {
+  setWorkoutLogId(state, data) {
     state.trainLogId = data ?? 0;
   },
 
-  setOnWorkoutData (state, data) {
-    state.workouts.find((workout) => workout?.isSelected).days.find((day) => day?.isSelected).exercises.find(
-      (exercise) => exercise.id === data.exercise_id).onWorkout = data.value;
+  setOnWorkoutData(state, data) {
+    state.workouts
+      .find((workout) => workout?.isSelected)
+      .days.find((day) => day?.isSelected)
+      .exercises.find((exercise) => exercise.id === data.exercise_id).onWorkout = data.value;
   },
 
-  selectWorkout (state, workout_id) {
+  selectWorkout(state, workout_id) {
     (state.workouts.find((workout) => workout.isSelected) ?? {}).isSelected = false;
     (state.workouts.find((workout) => workout.id === workout_id) ?? {}).isSelected = true;
   },
 
   // data.day_id
-  selectWorkoutDay (state, day_id) {
-    ((state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}).isSelected = false;
-    ((state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}).isSelected = true;
+  selectWorkoutDay(state, day_id) {
+    (
+      (state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.isSelected === true) ?? {}
+    ).isSelected = false;
+    (
+      (state.workouts.find((workout) => workout.isSelected) ?? []).days?.find((day) => day.id == day_id) ?? {}
+    ).isSelected = true;
   },
   setExercisesOfDay(state, exercises) {
-    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
-      .exercises = exercises.map((exercise) => {
+    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {}).exercises =
+      exercises.map((exercise) => {
         return {
           id: exercise.exercise.id ?? 0,
           name: exercise.exercise.name ?? '',
@@ -108,30 +125,34 @@ const mutations = {
           sets: exercise.sets ?? 0,
           reps: exercise.reps ?? 0,
           isPassed: false,
-          onWorkout: [{
-            id: 0,
-            reps: 5,
-            weight: 0,
-            repsError: false,
-            weightError: false,
-            createTime: new Date().getTime()
-          }]
-        }
-    });
+          onWorkout: [
+            {
+              id: 0,
+              reps: 5,
+              weight: 0,
+              repsError: false,
+              weightError: false,
+              createTime: new Date().getTime()
+            }
+          ]
+        };
+      });
   },
-  setAsNotPassed (state, exerciseId) {
-    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
-      .exercises.find((exercise) => exercise.id === exerciseId).isPassed = false;
+  setAsNotPassed(state, exerciseId) {
+    (
+      (state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {}
+    ).exercises.find((exercise) => exercise.id === exerciseId).isPassed = false;
   },
-  setAsPassed (state, exerciseId) {
-    ((state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {})
-      .exercises.find((exercise) => exercise.id === exerciseId).isPassed = true;
+  setAsPassed(state, exerciseId) {
+    (
+      (state.workouts.find((workout) => workout.isSelected) ?? []).days.find((day) => day.isSelected) ?? {}
+    ).exercises.find((exercise) => exercise.id === exerciseId).isPassed = true;
   },
-  setNextLastLogRequestTime (state, time) {
+  setNextLastLogRequestTime(state, time) {
     state.nextLastLogRequestTime = time;
   },
-  setLocale (state, locale) {
-      state.locale = locale;
+  setLocale(state, locale) {
+    state.locale = locale;
   }
 };
 
@@ -145,14 +166,14 @@ const actions = {
     commit('setToken', data.token);
   },
 
-  async  updateUser({commit}, data) {
+  async updateUser({ commit }, data) {
     commit('setUser', {
       name: data.name,
       email: data.email
     });
   },
 
-  async  login({ commit }, data) {
+  async login({ commit }, data) {
     commit('setUser', data.user);
     commit('setToken', data.token);
   },
@@ -164,34 +185,33 @@ const actions = {
     commit('setWorkoutLogId', 0);
   },
 
-  async setExercises({commit},exercisesList) {
-
+  async setExercises({ commit }, exercisesList) {
     commit('setExercises', exercisesList);
   },
 
-  async  updateAsideOpen({ commit }, data) {
+  async updateAsideOpen({ commit }, data) {
     commit('setAsideOpen', data);
   },
 
-  async  setWorkouts({ commit }, data) {
+  async setWorkouts({ commit }, data) {
     commit('setWorkouts', data);
   },
-  async  setWorkoutLogId({ commit }, data) {
+  async setWorkoutLogId({ commit }, data) {
     commit('setWorkoutLogId', data);
   },
-  async  setOnWorkoutData({ commit }, data) {
+  async setOnWorkoutData({ commit }, data) {
     commit('setOnWorkoutData', data);
   },
   async selectWorkout({ commit }, workout_id) {
     commit('selectWorkout', workout_id);
   },
-  async  selectWorkoutDay({ commit }, dayId) {
+  async selectWorkoutDay({ commit }, dayId) {
     commit('selectWorkoutDay', dayId);
   },
-  async  setExercisesOfDay({ commit }, exercises) {
+  async setExercisesOfDay({ commit }, exercises) {
     commit('setExercisesOfDay', exercises);
   },
-  async  setAsNotPassed({ commit }, exerciseId) {
+  async setAsNotPassed({ commit }, exerciseId) {
     commit('setAsNotPassed', exerciseId);
   },
   async setAsPassed({ commit }, exerciseId) {
@@ -202,41 +222,47 @@ const actions = {
   },
   async setLocale({ commit }, locale) {
     commit('setLocale', locale);
-    setCookie('locale',locale,365);
+    setCookie('locale', locale, 365);
   }
 };
 
 const getters = {
-  _isAuthenticated: (state) =>  state.user !== null  && getCookie('_token') !== null,
-  _currentUser: state => state.user,
-  _exerciseList: state => {
+  _isAuthenticated: (state) => state.user !== null && getCookie('_token') !== null,
+  _currentUser: (state) => state.user,
+  _exerciseList: (state) => {
     return state.exercises.map((exercise) => {
       return {
         category: exercise.category,
-        value : exercise.id,
+        value: exercise.id,
         name: exercise.name
-      }
-    })
+      };
+    });
   },
-  _isAsideOpen: state => state.asideOpen,
-  _userWorkouts: state => state.workouts,
-  _workoutLogId: state => state.trainLogId,
-  _selectedWorkout: state => state.workouts.find((workout) => Boolean(workout.isSelected)),
-  _selectedDay: state => ((state.workouts.find((workout) => Boolean(workout.isSelected)) ?? {}).days ?? []).find((day) => day.isSelected === true) ?? {},
-  _isWorkoutSelected: state => state.workouts.some((workout) => Boolean(workout.isSelected)),
-  _isWorkoutDaySelected: state => state.workouts.some((workout) => workout.days.some((day) => day.isSelected === true)),
-  _getNextLastLogRequestTime: state => state.nextLastLogRequestTime,
-  _getLocale: state => state.locale ?? getLocale(),
-  _getLocales: state => state.locales
+  _isAsideOpen: (state) => state.asideOpen,
+  _userWorkouts: (state) => state.workouts,
+  _workoutLogId: (state) => state.trainLogId,
+  _selectedWorkout: (state) => state.workouts.find((workout) => Boolean(workout.isSelected)),
+  _selectedDay: (state) =>
+    ((state.workouts.find((workout) => Boolean(workout.isSelected)) ?? {}).days ?? []).find(
+      (day) => day.isSelected === true
+    ) ?? {},
+  _isWorkoutSelected: (state) => state.workouts.some((workout) => Boolean(workout.isSelected)),
+  _isWorkoutDaySelected: (state) =>
+    state.workouts.some((workout) => workout.days.some((day) => day.isSelected === true)),
+  _getNextLastLogRequestTime: (state) => state.nextLastLogRequestTime,
+  _getLocale: (state) => state.locale ?? getLocale(),
+  _getLocales: (state) => state.locales
 };
 
-const plugins = [createPersistedState({
-  storage: {
-    getItem: (key) => ls.get(key),
-    setItem: (key, value) => ls.set(key, value),
-    removeItem: (key) => ls.remove(key),
-  }
-})];
+const plugins = [
+  createPersistedState({
+    storage: {
+      getItem: (key) => ls.get(key),
+      setItem: (key, value) => ls.set(key, value),
+      removeItem: (key) => ls.remove(key)
+    }
+  })
+];
 
 export default new Vuex.Store({
   state,
@@ -245,4 +271,3 @@ export default new Vuex.Store({
   getters,
   plugins
 });
-

@@ -6,8 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/",
+    "eslint-fix": "eslint -f table src/ --ext js,vue,ts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "apexcharts": "^3.45.1",
@@ -35,7 +36,8 @@
     "@vitejs/plugin-vue": "^4.4.0",
     "@vue/eslint-config-prettier": "^8.0.0",
     "autoprefixer": "^10.4.16",
-    "eslint": "^8.49.0",
+    "eslint": "^8.57.0",
+    "eslint-formatter-table": "^7.32.1",
     "eslint-plugin-vue": "^9.17.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
