@@ -39,13 +39,11 @@ class Kernel extends HttpKernel
         RequestLogger::class,
         SetLocale::class,
         TrustProxies::class,
-        LogSqlQueries::class,
-//        HandleCors::class,
+        HandleCors::class,
         PreventRequestsDuringMaintenance::class,
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
-
     ];
     /**
      * The application's route middleware groups.
