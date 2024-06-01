@@ -1,14 +1,16 @@
 <?php
 
+use App\Http\Controllers\WorkoutDayController;
+use App\Http\Controllers\WorkoutsController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'auth:sanctum'], function(){
-    Route::get('/', 'WorkoutsController@index');
-    Route::get('/details', 'WorkoutsController@allWithDetails');
-    Route::post('/', 'WorkoutsController@store');
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('/', [WorkoutsController::class, 'index']);
+    Route::get('/details', [WorkoutsController::class, 'allWithDetails']);
+    Route::post('/', [WorkoutsController::class, 'store']);
 
-    Route::get('/{workout:id}', 'WorkoutsController@show');
-    Route::get('/{workout}/days/{workout_day}/exercises', 'WorkoutDayController@showExercises');
-    Route::delete('/{workout}', 'WorkoutsController@destroy');
-    Route::put('/{workout}', 'WorkoutsController@update');
+    Route::get('/{workout:id}', [WorkoutsController::class, 'show']);
+    Route::get('/{workout}/days/{workout_day}/exercises', [WorkoutDayController::class, 'showExercises']);
+    Route::delete('/{workout}',  [WorkoutsController::class, 'destroy']);
+    Route::put('/{workout}',  [WorkoutsController::class, 'update']);
 });

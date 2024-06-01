@@ -1,7 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExerciseController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/', 'ExerciseController@index');
-});
+Route::get('/', [ExerciseController::class, 'index']);
