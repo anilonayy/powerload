@@ -115,8 +115,8 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
             $workoutDayExercises->each(function ($exercise) use ($workoutLog) {
                 WorkoutExerciseListLogs::create([
                     'workout_exercise_log_id' => $workoutLog->id,
-                    'exercise_id'             => $exercise->exercise->id,
-                    'is_passed'               => false,
+                    'exercise_id' => $exercise->exercise->id,
+                    'is_passed' => false,
                 ]);
             });
         }
@@ -124,10 +124,10 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $workoutLog->update($payload);
 
         return [
-            'id'             => $workoutLog->id,
-            'workout_id'     => $workoutLog->workout_id,
+            'id' => $workoutLog->id,
+            'workout_id' => $workoutLog->workout_id,
             'workout_day_id' => $workoutLog->workout_day_id,
-            'exercises'      => WorkoutExerciseListLogs::where('workout_exercise_log_id', $workoutLog->id)->with(['exercise' => function ($query) {
+            'exercises' => WorkoutExerciseListLogs::where('workout_exercise_log_id', $workoutLog->id)->with(['exercise' => function ($query) {
                 $query->select(['id', 'name', 'exercise_categories_id']);
                 $query->with(['category' => function ($query) {
                     $query->select(['id', 'name']);
@@ -146,7 +146,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status'           => WorkoutLogEnums::WORKOUT_COMPLETED,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'workout_end_time' => now(),
         ]);
     }
@@ -166,10 +166,10 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         }
 
         return [
-            'id'             => $lastWorkoutLog->id,
-            'workout_id'     => $lastWorkoutLog->workout_id,
+            'id' => $lastWorkoutLog->id,
+            'workout_id' => $lastWorkoutLog->workout_id,
             'workout_day_id' => $lastWorkoutLog->workout_day_id,
-            'exercises'      => WorkoutExerciseListLogs::where('workout_exercise_log_id', $lastWorkoutLog->id)->get(),
+            'exercises' => WorkoutExerciseListLogs::where('workout_exercise_log_id', $lastWorkoutLog->id)->get(),
         ];
     }
 
@@ -183,7 +183,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status'           => WorkoutLogEnums::WORKOUT_GIVE_UP,
+            'status' => WorkoutLogEnums::WORKOUT_GIVE_UP,
             'workout_end_time' => now(),
         ]);
 
@@ -198,8 +198,8 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $averageTime = $this->workoutLogsRepository->getWorkoutTimeAverage();
 
         return [
-            'workout_count'          => $this->workoutLogsRepository->getWorkoutCounts(),
-            'average_workout_time'   => Carbon::parse(time())->diff(Carbon::parse(time() + $averageTime)),
+            'workout_count' => $this->workoutLogsRepository->getWorkoutCounts(),
+            'average_workout_time' => Carbon::parse(time())->diff(Carbon::parse(time() + $averageTime)),
             'average_exercise_count' => (float) number_format($this->workoutLogsRepository->getWorkoutExerciseAverage(), 1),
         ];
     }
