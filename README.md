@@ -13,6 +13,11 @@ Make deployer.sh executable
 cd deployer
 chmod +x deployer.sh
 ```
+Add domain to /etc/hosts file
+```
+127.0.0.1 powerload.com
+127.0.0.1 api.powerload.com
+```
 Get Build!
 ```bash 
 ./deployer.sh magic

@@ -20,21 +20,11 @@ buildDocker() {
 startDocker() {
     echo "Docker starting..."
     docker-compose -f $DOCKER_COMPOSE_PATH up -d
-    addDomainNameToHosts
-}
-
-addDomainNameToHosts() {
-  echo '127.0.0.1 powerload.com' | sudo tee -a /etc/hosts > /dev/null
 }
 
 stopDocker() {
     echo "Docker stopping..."
-    docker-compose -f $DOCKER_COMPOSE_PATH down
-    removeDomainNameFromHosts
-}
-
-removeDomainNameFromHosts() {
-  sudo sed -i '/127.0.0.1 powerload.com$/d' /etc/hosts
+    docker-compose -f $DOCKER_COMPOSE_PATH kill
 }
 
 composerInstall() {
@@ -51,9 +41,7 @@ prepareLaravel() {
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend cp .env.example .env
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan migrate:fresh --seed
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan view:clear
-    docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan view:cache
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan config:clear
-    docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan config:cache
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan cache:clear
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan route:clear
     docker-compose -f $DOCKER_COMPOSE_PATH run --rm backend php artisan storage:link
