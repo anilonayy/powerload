@@ -1,0 +1,58 @@
+version: 8
+risky: false
+preset: psr2
+tab-width: 4
+use-tabs: false
+enabled:
+  - short_array_syntax
+  - unalign_double_arrow
+  - align_phpdoc
+  - phpdoc_order
+  - no_blank_lines_after_class_opening
+  - no_blank_lines_after_phpdoc
+  - concat_with_spaces
+  - standardize_not_equals
+  - no_trailing_comma_in_singleline_array
+  - trailing_comma_in_multiline_array
+  - no_leading_import_slash
+  - no_leading_namespace_whitespace
+  - array_indentation
+  - binary_operator_spaces
+  - blank_line_before_for
+  - blank_line_before_if
+  - blank_line_before_return
+  - blank_line_before_switch
+  - blank_line_before_while
+  - clean_namespace
+  - blank_line_before_do
+  - lowercase_cast
+  - no_blank_lines_between_traits
+  - no_empty_phpdoc
+  - no_empty_statement
+  - no_spaces_inside_offset
+  - no_unneeded_control_parentheses
+  - no_unneeded_curly_braces
+  - no_unused_imports
+  - no_useless_return
+  - no_whitespace_before_comma_in_array
+  - object_operator_without_whitespace
+  - phpdoc_add_missing_param_annotation
+  - phpdoc_indent
+  - phpdoc_single_line_var_spacing
+  - whitespace_after_comma_in_array
+  - no_useless_else
+  - phpdoc_return_self_reference
+  - phpdoc_types
+  - phpdoc_types_null_last
+disabled:
+  - method_visibility_required
+finder:
+  exclude:
+    - "modules"
+    - "node_modules"
+    - "storage"
+    - "vendor"
+  name: "*.php"
+  not-name:
+    - "*.blade.php"
+    - "_ide_helper.php"
