@@ -9,3 +9,5 @@ class ExerciseCategory extends Model
 {
     use HasFactory;
 }
+
+
