@@ -13,7 +13,7 @@ interface WorkoutLogsServiceInterface
      *
      * @param array $payload
      *
-     * @return array
+     * @return array|JsonResource
      */
     public function index(array $payload): array|JsonResource;
 
