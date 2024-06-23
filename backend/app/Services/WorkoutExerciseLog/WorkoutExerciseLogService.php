@@ -20,8 +20,8 @@ class WorkoutExerciseLogService implements WorkoutExerciseLogServiceInterface
      * @param WorkoutLogs $workoutLog
      * @param object $payload
      *
-     * @return Collection
      * @throws Exception
+     * @return Collection
      */
     public function create(WorkoutLogs $workoutLog, object $payload): Collection
     {
@@ -54,12 +54,12 @@ class WorkoutExerciseLogService implements WorkoutExerciseLogServiceInterface
             $set['exercise_id'] = $exercise_id;
 
             $responseLogs[] = WorkoutExerciseLogs::create([
-                'workout_log_id'               => $workoutLog->id,
-                'exercise_id'                  => $exercise_id,
+                'workout_log_id' => $workoutLog->id,
+                'exercise_id' => $exercise_id,
                 'workout_exercise_list_log_id' => $workout_exercise_log->id,
-                'weight'                       => $set['weight'],
-                'reps'                         => $set['reps'],
-                'started_at'                   => Carbon::createFromTimestampMs($set['createTime'])->format('Y-m-d H:i:s'),
+                'weight' => $set['weight'],
+                'reps' => $set['reps'],
+                'started_at' => Carbon::createFromTimestampMs($set['createTime'])->format('Y-m-d H:i:s'),
             ]);
         }
 
@@ -69,8 +69,8 @@ class WorkoutExerciseLogService implements WorkoutExerciseLogServiceInterface
     /**
      * @param int $logOwnerId
      *
-     * @return void
      * @throws Exception
+     * @return void
      */
     private function checkLogOwner(int $logOwnerId): void
     {

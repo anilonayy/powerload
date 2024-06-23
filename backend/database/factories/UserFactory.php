@@ -22,13 +22,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'              => fake()->name(),
-            'email'             => 'reksnomq@gmail.com',
-            'birthday'          => fake()->date(),
-            'register_device'   => fake()->randomElement(['ios', 'android', 'web']),
+            'name' => fake()->name(),
+            'email' => 'reksnomq@gmail.com',
+            'birthday' => fake()->date(),
+            'register_device' => fake()->randomElement(['ios', 'android', 'web']),
             'email_verified_at' => now(),
-            'password'          => static::$password ??= Hash::make('password'),
-            'remember_token'    => Str::random(10),
+            'password' => static::$password ??= Hash::make('password'),
+            'remember_token' => Str::random(10),
         ];
     }
 
