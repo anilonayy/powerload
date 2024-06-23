@@ -111,7 +111,7 @@ class WorkoutRepository implements WorkoutRepositoryInterface
     {
         $workout = Workout::create([
             'user_id' => auth()->user()->id,
-            'name'    => $payload->train['name'],
+            'name' => $payload->train['name'],
         ]);
 
         $this->addWorkoutDaysByPayload($workout, $payload);
@@ -135,8 +135,8 @@ class WorkoutRepository implements WorkoutRepositoryInterface
             foreach ($day['exercises'] as $exercise) {
                 $workoutDay->exercises()->create([
                     'exercise_id' => $exercise['selected']['value'],
-                    'sets'        => $exercise['sets'],
-                    'reps'        => $exercise['reps'],
+                    'sets' => $exercise['sets'],
+                    'reps' => $exercise['reps'],
                 ]);
             }
         }

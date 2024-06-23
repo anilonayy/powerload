@@ -20,9 +20,9 @@ class Api
         $code = Response::HTTP_OK;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'data'      => $data,
+            'status' => $code,
+            'message' => $message,
+            'data' => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -40,9 +40,9 @@ class Api
         $code = Response::HTTP_CREATED;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'data'      => $data,
+            'status' => $code,
+            'message' => $message,
+            'data' => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -60,9 +60,9 @@ class Api
         $code = Response::HTTP_ACCEPTED;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'data'      => $data,
+            'status' => $code,
+            'message' => $message,
+            'data' => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -90,9 +90,9 @@ class Api
         $code = Response::HTTP_BAD_REQUEST;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => $message,
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -110,9 +110,9 @@ class Api
         $code = Response::HTTP_UNAUTHORIZED;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => $message,
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -130,9 +130,9 @@ class Api
         $code = Response::HTTP_FORBIDDEN;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => $message,
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -149,9 +149,9 @@ class Api
         $code = Response::HTTP_NOT_FOUND;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => 'NOT FOUND',
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => 'NOT FOUND',
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -168,9 +168,9 @@ class Api
         $code = Response::HTTP_METHOD_NOT_ALLOWED;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => 'METHOD NOT ALLOWED',
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => 'METHOD NOT ALLOWED',
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -188,9 +188,9 @@ class Api
         $code = Response::HTTP_UNPROCESSABLE_ENTITY;
 
         return response()->json([
-            'status'    => $code,
-            'message'   => $message,
-            'errors'    => $errors,
+            'status' => $code,
+            'message' => $message,
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -210,9 +210,9 @@ class Api
         string $message = 'ERROR'
     ): JsonResponse {
         return response()->json([
-            'status'    => $statusCode,
-            'message'   => $message,
-            'errors'    => $errors,
+            'status' => $statusCode,
+            'message' => $message,
+            'errors' => $errors,
             'execution' => Api::getExecutionTime(),
         ], $statusCode);
     }
@@ -224,6 +224,6 @@ class Api
      */
     public static function getExecutionTime(): string
     {
-        return number_format((microtime(true) - LARAVEL_START) * 1000, 0).' ms';
+        return number_format((microtime(true) - LARAVEL_START) * 1000, 0) . ' ms';
     }
 }

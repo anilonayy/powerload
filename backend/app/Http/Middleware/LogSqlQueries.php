@@ -15,9 +15,9 @@ class LogSqlQueries
 
             DB::listen(function ($query) {
                 Log::info('SQL Query', [
-                    'query'    => $query->sql,
+                    'query' => $query->sql,
                     'bindings' => $query->bindings,
-                    'time'     => $query->time,
+                    'time' => $query->time,
                 ]);
             });
         }
