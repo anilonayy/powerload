@@ -8,6 +8,7 @@ interface UserServiceInterface
      * Update user resource.
      *
      * @param object $payload
+     *
      * @return array
      */
     public function update(object $payload): array;
@@ -16,6 +17,7 @@ interface UserServiceInterface
      * Update user password.
      *
      * @param object $payload
+     *
      * @return void
      */
     public function updatePassword(object $payload): void;

@@ -15,6 +15,7 @@ class WorkoutDayService implements WorkoutDayServiceInterface
 
     /**
      * @param WorkoutDay $workoutDay
+     *
      * @return Collection
      */
     public function showExercisesOfDay(WorkoutDay $workoutDay): Collection
@@ -26,9 +27,10 @@ class WorkoutDayService implements WorkoutDayServiceInterface
 
     /**
      * @param WorkoutDay $workoutDay
+     *
      * @return void
      */
-    private function checkWorkoutDayOwner (WorkoutDay $workoutDay): void
+    private function checkWorkoutDayOwner(WorkoutDay $workoutDay): void
     {
         if ($workoutDay->workout->user_id !== auth()->user()->id) {
             throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);

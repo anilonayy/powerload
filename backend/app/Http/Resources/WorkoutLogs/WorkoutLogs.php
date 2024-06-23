@@ -12,6 +12,7 @@ class WorkoutLogs extends JsonResource
     protected $collects = \App\Models\WorkoutLogs::class;
 
     use ConvertHelper;
+
     /**
      * Transform the resource into an array.
      *
@@ -22,21 +23,21 @@ class WorkoutLogs extends JsonResource
         $data = json_decode(json_encode($this->resource), false);
 
         return [
-            'id' => $data->id,
+            'id'     => $data->id,
             'status' => [
                 'code' => $data->status,
                 'text' => $this->convertLogStatusToText($data->status),
             ],
             'workout' => [
-                'id' => $data->workout->id,
-                'name' => $data->workout->name
+                'id'   => $data->workout->id,
+                'name' => $data->workout->name,
             ],
             'workout_day' => [
-                'id' => $data->workout_day->id,
-                'name' => $data->workout_day->name
+                'id'   => $data->workout_day->id,
+                'name' => $data->workout_day->name,
             ],
-            'duration' => Carbon::parse($data->workout_end_time)->diff($data->created_at),
-            'workout_date' => $data->created_at,
+            'duration'       => Carbon::parse($data->workout_end_time)->diff($data->created_at),
+            'workout_date'   => $data->created_at,
             'completed_date' => Carbon::parse(Carbon::parse(time()))->diff($data->workout_end_time),
         ];
     }

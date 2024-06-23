@@ -22,11 +22,12 @@ class WorkoutExerciseLogsController extends Controller
 
     /**
      * @param CreateLogRequest $request
-     * @param WorkoutLogs $workoutLog
+     * @param WorkoutLogs      $workoutLog
+     *
      * @return JsonResponse
      */
     public function store(CreateLogRequest $request, WorkoutLogs $workoutLog): JsonResponse
     {
-        return Api::ok($this->workoutExerciseLogService->create($workoutLog, (object)$request));
+        return Api::ok($this->workoutExerciseLogService->create($workoutLog, (object) $request));
     }
 }

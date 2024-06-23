@@ -15,14 +15,15 @@ class UserService implements UserServiceInterface
     use ResponseMessage;
 
     protected UserRepositoryInterface $userRepository;
+
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
-
     /**
      * @param object $payload
+     *
      * @return array
      */
     public function update(object $payload): array
@@ -30,13 +31,14 @@ class UserService implements UserServiceInterface
         $user = $this->userRepository->update(auth()->user()->id, $payload);
 
         return [
-            'name' => $user->name,
-            'email' => $user->email
+            'name'  => $user->name,
+            'email' => $user->email,
         ];
     }
 
     /**
      * @param object $payload
+     *
      * @return void
      */
     public function updatePassword(object $payload): void

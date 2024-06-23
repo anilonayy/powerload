@@ -14,5 +14,5 @@ return [
     'Arka Kol',
     'Forearm',
     'Karın',
-    'Ön Omuz'
+    'Ön Omuz',
 ];

@@ -17,7 +17,8 @@ interface WorkoutDayRepositoryInterface
     /**
      * Find workout day resource by id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return WorkoutDay
      */
     public function find(int $id): WorkoutDay;
@@ -26,14 +27,16 @@ interface WorkoutDayRepositoryInterface
      * Create workout day resource.
      *
      * @param array $data
+     *
      * @return WorkoutDay
      */
-    public function create(array $data) : WorkoutDay;
+    public function create(array $data): WorkoutDay;
 
     /**
      * Update workout day resource.
      *
      * @param array $data
+     *
      * @return WorkoutDay
      */
     public function update(array $data): WorkoutDay;
@@ -41,7 +44,8 @@ interface WorkoutDayRepositoryInterface
     /**
      * Delete workout day resource.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return void
      */
     public function delete(int $id): void;

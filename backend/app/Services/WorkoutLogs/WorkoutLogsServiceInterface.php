@@ -12,6 +12,7 @@ interface WorkoutLogsServiceInterface
      * Get all workout logs.
      *
      * @param array $payload
+     *
      * @return array
      */
     public function index(array $payload): array|JsonResource;
@@ -19,7 +20,8 @@ interface WorkoutLogsServiceInterface
     /**
      * Get workout log by id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return mixed
      */
     public function show(int $id): mixed;
@@ -27,7 +29,8 @@ interface WorkoutLogsServiceInterface
     /**
      * Get workout results by the day.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return mixed
      */
     public function dailyResults(int $id): mixed;
@@ -50,7 +53,8 @@ interface WorkoutLogsServiceInterface
      * Update workout log.
      *
      * @param WorkoutLogs $workoutLog
-     * @param array $payload
+     * @param array       $payload
+     *
      * @return array
      */
     public function update(WorkoutLogs $workoutLog, array $payload): array;
@@ -59,6 +63,7 @@ interface WorkoutLogsServiceInterface
      * Complete workout log.
      *
      * @param WorkoutLogs $workoutLog
+     *
      * @return void
      */
     public function complete(WorkoutLogs $workoutLog): void;
@@ -88,6 +93,7 @@ interface WorkoutLogsServiceInterface
      * Get exercise history.
      *
      * @param object $payload
+     *
      * @return Collection
      */
     public function exerciseHistory(object $payload): Collection;
@@ -96,6 +102,7 @@ interface WorkoutLogsServiceInterface
      * Give up workout.
      *
      * @param WorkoutLogs $workoutLog
+     *
      * @return WorkoutLogs
      */
     public function giveUp(WorkoutLogs $workoutLog): WorkoutLogs;

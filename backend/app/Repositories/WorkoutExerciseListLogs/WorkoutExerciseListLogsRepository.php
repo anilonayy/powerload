@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 class WorkoutExerciseListLogsRepository implements WorkoutExerciseListLogsRepositoryInterface
 {
     /**
-     *
      * @return Collection
      */
     public function all(): Collection
@@ -17,8 +16,8 @@ class WorkoutExerciseListLogsRepository implements WorkoutExerciseListLogsReposi
     }
 
     /**
+     * @param int $id
      *
-     * @param integer $id
      * @return WorkoutExerciseListLogs
      */
     public function find(int $id): WorkoutExerciseListLogs
@@ -27,30 +26,31 @@ class WorkoutExerciseListLogsRepository implements WorkoutExerciseListLogsReposi
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return WorkoutExerciseListLogs
      */
-    public function create(array $data) : WorkoutExerciseListLogs
+    public function create(array $data): WorkoutExerciseListLogs
     {
         return WorkoutExerciseListLogs::create($data);
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return WorkoutExerciseListLogs
      */
     public function update(array $data): WorkoutExerciseListLogs
     {
         $workoutExerciseListLogs = WorkoutExerciseListLogs::findOrFail($data['id']);
         $workoutExerciseListLogs->update($data);
+
         return $workoutExerciseListLogs;
     }
 
     /**
+     * @param int $id
      *
-     * @param integer $id
      * @return void
      */
     public function delete(int $id): void

@@ -4,7 +4,7 @@ namespace App\Traits\Helpers;
 
 use Carbon\Carbon;
 
-Trait DateHelper
+trait DateHelper
 {
     public function calculateDuration(string $start, string $end, string $format): string
     {
@@ -12,6 +12,7 @@ Trait DateHelper
         $endCarbon = Carbon::parse($end);
 
         $duration = $startCarbon->diff($endCarbon);
+
         return $duration->format($format);
     }
 

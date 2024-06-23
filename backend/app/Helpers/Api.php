@@ -9,8 +9,10 @@ class Api
 {
     /**
      * Returns a JSON response for a successful request.
-     * @param mixed $data
+     *
+     * @param mixed  $data
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function ok(mixed $data = null, string $message = 'OK'): JsonResponse
@@ -18,9 +20,9 @@ class Api
         $code = Response::HTTP_OK;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'data' => $data,
+            'status'    => $code,
+            'message'   => $message,
+            'data'      => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -28,18 +30,19 @@ class Api
     /**
      * Returns a JSON response for a resource created.
      *
-     * @param mixed $data
+     * @param mixed  $data
      * @param string $message
+     *
      * @return JsonResponse
      */
-    public static function created(mixed $data = null, string $message = 'CREATED') : JsonResponse
+    public static function created(mixed $data = null, string $message = 'CREATED'): JsonResponse
     {
         $code = Response::HTTP_CREATED;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'data' => $data,
+            'status'    => $code,
+            'message'   => $message,
+            'data'      => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -47,8 +50,9 @@ class Api
     /**
      * Returns a JSON response for a resource accepted.
      *
-     * @param mixed $data
+     * @param mixed  $data
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function accepted(mixed $data = null, string $message = 'ACCEPTED'): JsonResponse
@@ -56,9 +60,9 @@ class Api
         $code = Response::HTTP_ACCEPTED;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'data' => $data,
+            'status'    => $code,
+            'message'   => $message,
+            'data'      => $data,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -76,8 +80,9 @@ class Api
     /**
      * Returns a JSON response for a bad request.
      *
-     * @param mixed $errors
+     * @param mixed  $errors
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function badRequest(mixed $errors = null, string $message = 'BAD REQUEST'): JsonResponse
@@ -85,9 +90,9 @@ class Api
         $code = Response::HTTP_BAD_REQUEST;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => $message,
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -95,8 +100,9 @@ class Api
     /**
      * Returns a JSON response for an unauthorized request.
      *
-     * @param mixed $errors
+     * @param mixed  $errors
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function unauthorized(mixed $errors = null, string $message = 'UNAUTHORIZED'): JsonResponse
@@ -104,9 +110,9 @@ class Api
         $code = Response::HTTP_UNAUTHORIZED;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => $message,
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -114,8 +120,9 @@ class Api
     /**
      * Returns a JSON response for a forbidden request.
      *
-     * @param mixed $errors
+     * @param mixed  $errors
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function forbidden(mixed $errors = null, string $message = 'FORBIDDEN'): JsonResponse
@@ -123,9 +130,9 @@ class Api
         $code = Response::HTTP_FORBIDDEN;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => $message,
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -134,6 +141,7 @@ class Api
      * Returns a JSON response for a not found request.
      *
      * @param mixed $errors
+     *
      * @return JsonResponse
      */
     public static function notFound(mixed $errors = null): JsonResponse
@@ -141,9 +149,9 @@ class Api
         $code = Response::HTTP_NOT_FOUND;
 
         return response()->json([
-            'status' => $code,
-            'message' => 'NOT FOUND',
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => 'NOT FOUND',
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -152,6 +160,7 @@ class Api
      *  Returns a JSON response for a method not allowed request.
      *
      * @param mixed $errors
+     *
      * @return JsonResponse
      */
     public static function methodNotAllowed(mixed $errors = null): JsonResponse
@@ -159,9 +168,9 @@ class Api
         $code = Response::HTTP_METHOD_NOT_ALLOWED;
 
         return response()->json([
-            'status' => $code,
-            'message' => 'METHOD NOT ALLOWED',
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => 'METHOD NOT ALLOWED',
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -169,8 +178,9 @@ class Api
     /**
      * Returns a JSON response for a request that is not acceptable.
      *
-     * @param mixed $errors
+     * @param mixed  $errors
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function unprocessableEntity(mixed $errors = null, string $message = 'UNPROCESSABLE ENTITY'): JsonResponse
@@ -178,9 +188,9 @@ class Api
         $code = Response::HTTP_UNPROCESSABLE_ENTITY;
 
         return response()->json([
-            'status' => $code,
-            'message' => $message,
-            'errors' => $errors,
+            'status'    => $code,
+            'message'   => $message,
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $code);
     }
@@ -188,20 +198,21 @@ class Api
     /**
      * Returns a JSON response for error handling.
      *
-     * @param integer $statusCode
-     * @param mixed $errors
+     * @param int    $statusCode
+     * @param mixed  $errors
      * @param string $message
+     *
      * @return JsonResponse
      */
     public static function dynamic(
         $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR,
         mixed $errors = null,
         string $message = 'ERROR'
-        ): JsonResponse {
+    ): JsonResponse {
         return response()->json([
-            'status' => $statusCode,
-            'message' => $message,
-            'errors' => $errors,
+            'status'    => $statusCode,
+            'message'   => $message,
+            'errors'    => $errors,
             'execution' => Api::getExecutionTime(),
         ], $statusCode);
     }
@@ -211,8 +222,8 @@ class Api
      *
      * @return string
      */
-    public static function getExecutionTime (): string
+    public static function getExecutionTime(): string
     {
-        return number_format(((microtime(true) - LARAVEL_START) * 1000), 0).' ms';
+        return number_format((microtime(true) - LARAVEL_START) * 1000, 0).' ms';
     }
 }

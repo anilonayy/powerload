@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class WorkoutExerciseListLogs extends Model
 {
-
-    protected $hidden = ['updated_at','created_at','workout_exercise_log_id'];
+    protected $hidden = ['updated_at', 'created_at', 'workout_exercise_log_id'];
     protected $fillable = ['exercise_id', 'workout_exercise_log_id', 'is_passed'];
 
-    public function exercise (): BelongsTo
+    public function exercise(): BelongsTo
     {
         return $this->belongsTo(Exercise::class);
     }

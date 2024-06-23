@@ -38,11 +38,12 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param Request $request
+     * @param Request   $request
      * @param Throwable $e
-     * @return Response|JsonResponse
      *
      * @throws Throwable
+     *
+     * @return Response|JsonResponse
      */
     public function render($request, Throwable $e): Response|JsonResponse
     {
@@ -62,7 +63,7 @@ class Handler extends ExceptionHandler
     {
         $message = $e->getMessage();
 
-        return ! empty($message) ? $message : __('requests.error');
+        return !empty($message) ? $message : __('requests.error');
     }
 
     protected function getStatusCode(Throwable $e, Request $request): string

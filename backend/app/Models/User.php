@@ -9,14 +9,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
-    protected $fillable = ['name', 'email','password','birthday', 'register_device'];
-    protected $hidden = ['password', 'remember_token',];
+    protected $fillable = ['name', 'email', 'password', 'birthday', 'register_device'];
+    protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
 
     public function workouts()

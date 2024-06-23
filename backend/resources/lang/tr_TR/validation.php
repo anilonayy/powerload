@@ -3,9 +3,9 @@
 return [
     'email' => [
         'required' => 'E-Posta alanı zorunludur.',
-        'validate' => 'Lütfen geçerli bir E-Posta giriniz. '
+        'validate' => 'Lütfen geçerli bir E-Posta giriniz. ',
     ],
     'password' => [
-        'required' => 'Şifre alanı zorunludur.'
-    ]
+        'required' => 'Şifre alanı zorunludur.',
+    ],
 ];

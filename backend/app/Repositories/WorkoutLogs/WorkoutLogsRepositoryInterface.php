@@ -11,6 +11,7 @@ interface WorkoutLogsRepositoryInterface
      * Get all Workout Logs.
      *
      * @param array $payload
+     *
      * @return mixed
      */
     public function all(array $payload): mixed;
@@ -19,14 +20,16 @@ interface WorkoutLogsRepositoryInterface
      * Get all Workout Logs by Paginated.
      *
      * @param array $payload
+     *
      * @return mixed
      */
     public function paginate(array $payload): mixed;
 
     /**
-     * Find Workout Logs by id
+     * Find Workout Logs by id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return WorkoutLogs
      */
     public function find(int $id): WorkoutLogs;
@@ -34,7 +37,8 @@ interface WorkoutLogsRepositoryInterface
     /**
      * Find Workout Logs by id with details.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return WorkoutLogs
      */
     public function findWithDetails(int $id): WorkoutLogs;
@@ -42,39 +46,44 @@ interface WorkoutLogsRepositoryInterface
     /**
      * Get workout results by the day.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return WorkoutLogs
      */
     public function dailyResults(int $id): WorkoutLogs;
 
     /**
-     * Create Workout Logs
+     * Create Workout Logs.
      *
      * @param array $data
+     *
      * @return WorkoutLogs
      */
-    public function create(array $data) : WorkoutLogs;
+    public function create(array $data): WorkoutLogs;
 
     /**
-     * Create Workout Logs
+     * Create Workout Logs.
      *
      * @param array $data
+     *
      * @return WorkoutLogs
      */
     public function lastOrNew(): WorkoutLogs;
 
     /**
-     * Update Workout Logs
+     * Update Workout Logs.
      *
      * @param array $data
+     *
      * @return WorkoutLogs
      */
     public function update(array $data): WorkoutLogs;
 
     /**
-     * Delete Workout Logs
+     * Delete Workout Logs.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return void
      */
     public function delete(int $id): void;
@@ -82,7 +91,7 @@ interface WorkoutLogsRepositoryInterface
     /**
      * Get total completed workout count.
      *
-     * @return integer
+     * @return int
      */
     public function getWorkoutCounts(): int;
 
@@ -104,12 +113,13 @@ interface WorkoutLogsRepositoryInterface
      * Get workout history.
      *
      * @param object $payload
+     *
      * @return Collection
      */
     public function exerciseHistory(object $payload): Collection;
 
     /**
-     * Get your Personal Records (PR)
+     * Get your Personal Records (PR).
      *
      * @return Collection
      */

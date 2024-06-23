@@ -16,8 +16,8 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     use DateHelper;
 
     /**
-     *
      * @param array $payload
+     *
      * @return mixed
      */
     public function all(array $payload): mixed
@@ -32,7 +32,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
             },
             'workout' => function ($query) {
                 $query->withTrashed()->select(['id', 'name']);
-            }
+            },
         ])
         ->when($payload['take'] ?? false, function ($query) use ($payload) {
             $query->take($payload['take']);
@@ -43,9 +43,9 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         ->get();
     }
 
-
     /**
      * @param array $payload
+     *
      * @return mixed
      */
     public function paginate(array $payload): mixed
@@ -63,15 +63,15 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                 },
                 'workout' => function ($query) {
                     $query->withTrashed()->select(['id', 'name']);
-                }
+                },
             ])
             ->orderBy($descBy, 'desc')->paginate($take)
             ->toArray();
     }
 
     /**
+     * @param int $id
      *
-     * @param integer $id
      * @return WorkoutLogs
      */
     public function find(int $id): WorkoutLogs
@@ -80,8 +80,8 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     }
 
     /**
+     * @param int $id
      *
-     * @param integer $id
      * @return WorkoutLogs
      */
     public function findWithDetails(int $id): WorkoutLogs
@@ -97,37 +97,37 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                     $query->without('exercises');
                     $query->select('id', 'name');
                 },
-                'workout' => fn ($query) => $query->withTrashed(),
-                'workoutList' =>  function ($query) {
+                'workout'     => fn ($query) => $query->withTrashed(),
+                'workoutList' => function ($query) {
                     $query->select(['id', 'workout_exercise_log_id', 'exercise_id', 'is_passed']);
                     $query->with([
                         'exercise' => function ($query) {
                             $query->select(['id', 'name', 'exercise_categories_id']);
                             $query->with(['category:id,name']);
                         },
-                        'exercise_logs:id,weight,reps,workout_exercise_list_log_id'
+                        'exercise_logs:id,weight,reps,workout_exercise_list_log_id',
                     ]);
-                }
+                },
             ])->first();
     }
 
     /**
+     * @param int $id
      *
-     * @param integer $id
      * @return WorkoutLogs
      */
     public function dailyResults(int $id): WorkoutLogs
     {
         return WorkoutLogs::where([
-            ['id', $id]
+            ['id', $id],
         ])
             ->with([
                 'workoutDay' => function ($query) {
                     $query->without('exercises');
                     $query->select('id', 'name');
                 },
-                'workout' => fn ($query) => $query->withTrashed(),
-                'workoutList' =>  function ($query) {
+                'workout'     => fn ($query) => $query->withTrashed(),
+                'workoutList' => function ($query) {
                     $query->select(['id', 'workout_exercise_log_id', 'exercise_id', 'is_passed']);
                     $query->with([
                         'exercise' => function ($query) {
@@ -138,15 +138,15 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                         },
                         'exercise_logs' => function ($query) {
                             $query->select(['id', 'workout_exercise_list_log_id', 'weight', 'reps']);
-                        }
+                        },
                     ]);
-                }
+                },
             ])->first();
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return WorkoutLogs
      */
     public function create(array $data): WorkoutLogs
@@ -155,7 +155,6 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     }
 
     /**
-     *
      * @return WorkoutLogs
      */
     public function lastOrNew(): WorkoutLogs
@@ -164,28 +163,30 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 
         $lastLog = WorkoutLogs::where([
             ['user_id', $user->id],
-            ['status', WorkoutLogEnums::WORKOUT_CONTINUE]
+            ['status', WorkoutLogEnums::WORKOUT_CONTINUE],
         ])->latest()->first();
 
         return $lastLog ?? WorkoutLogs::create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
     }
 
     /**
-     *
      * @param array $data
+     *
      * @return WorkoutLogs
      */
     public function update(array $data): WorkoutLogs
     {
         $workoutLogs = WorkoutLogs::findOrFail($data['id']);
         $workoutLogs->update($data);
+
         return $workoutLogs;
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return void
      */
     public function delete(int $id): void
@@ -195,20 +196,18 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     }
 
     /**
-     *
-     * @return integer
+     * @return int
      */
     public function getWorkoutCounts(): int
     {
         return WorkoutLogs::where([
             ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
-            ['user_id', auth()->user()->id]
+            ['user_id', auth()->user()->id],
         ])
             ->count();
     }
 
     /**
-     *
      * @return float|null
      */
     public function getWorkoutExerciseAverage(): float|null
@@ -233,7 +232,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 
         $workoutTime = WorkoutLogs::where([
             ['status', WorkoutLogEnums::WORKOUT_COMPLETED],
-            ['user_id', $userId]
+            ['user_id', $userId],
         ])
             ->select(DB::raw('avg(UNIX_TIMESTAMP(workout_end_time) - UNIX_TIMESTAMP(created_at)) as averageTime'))
             ->first();
@@ -242,14 +241,13 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
     }
 
     /**
-     *
      * @return Collection
      */
     public function personalRecords(): Collection
     {
         $userId = auth()->user()->id;
 
-        return collect(DB::select("SELECT
+        return collect(DB::select('SELECT
             workout_id,
             workout_end_time,
             workout_exercise_list_log_id,
@@ -301,17 +299,17 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         ) AS numberedResults
         WHERE rowNum = :row_num
         ORDER BY rowNum ASC;
-        ", [
-            'user_id' => $userId,
-            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
+        ', [
+            'user_id'   => $userId,
+            'status'    => WorkoutLogEnums::WORKOUT_COMPLETED,
             'is_passed' => WorkoutListLogEnums::NOT_PASSED,
-            'row_num' => 1
+            'row_num'   => 1,
         ]) ?? []);
     }
 
     /**
-     *
      * @param object $payload
+     *
      * @return Collection
      */
     public function exerciseHistory(object $payload): Collection
@@ -320,7 +318,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         $userId = auth()->user()->id;
         $currentYear = now()->year;
 
-        $baseSql = "SELECT workout_exercise_list_log_id,exercise_id,exercise_name, max, tell.created_at,u.email FROM
+        $baseSql = 'SELECT workout_exercise_list_log_id,exercise_id,exercise_name, max, tell.created_at,u.email FROM
         (SELECT tel.workout_exercise_list_log_id,e.id as exercise_id,e.name as exercise_name,ec.name as category_name ,max(tel.weight) as max
             FROM workout_exercise_logs tel
             LEFT JOIN workout_exercise_list_logs tell ON tell.id = tel.workout_exercise_list_log_id
@@ -331,55 +329,50 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         LEFT JOIN (select id,workout_exercise_log_id, created_at, is_passed from workout_exercise_list_logs) tell ON tell.id = subquery.workout_exercise_list_log_id
         LEFT JOIN (select id,user_id,workout_end_time,status from workout_logs) tl ON tl.id = tell.workout_exercise_log_id
         LEFT JOIN (select id, email from users) u ON tl.user_id = u.id
-        WHERE tell.is_passed = :is_passed AND tl.status = :status  AND u.id = :user_id";
+        WHERE tell.is_passed = :is_passed AND tl.status = :status  AND u.id = :user_id';
         $baseVariables = [
             'exercise_id' => $payload->exercise_id,
-            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
-            'user_id' => $userId,
-            'is_passed' => WorkoutListLogEnums::NOT_PASSED
+            'status'      => WorkoutLogEnums::WORKOUT_COMPLETED,
+            'user_id'     => $userId,
+            'is_passed'   => WorkoutListLogEnums::NOT_PASSED,
         ];
 
-        $endSql = "ORDER BY max DESC";
+        $endSql = 'ORDER BY max DESC';
 
-
-        if($payload->date_frequency === DateEnums::YEARLY_DATE_FREQUENCY)
-        {
+        if ($payload->date_frequency === DateEnums::YEARLY_DATE_FREQUENCY) {
             $targetYear = Carbon::parse(now())->setYears($currentYear - DateEnums::YEARLY_DATE_FREQUENCY_COUNT)->format('Y');
 
-            foreach(range($targetYear, $currentYear) as $year)
-            {
+            foreach (range($targetYear, $currentYear) as $year) {
                 $response->push([
-                    'data' => collect((DB::select($baseSql . " AND YEAR(tell.created_at) = :year {$endSql}", [
+                    'data' => collect(DB::select($baseSql." AND YEAR(tell.created_at) = :year {$endSql}", [
                         ...$baseVariables,
-                        'year' => $year
-                    ])))->first() ?? (object) [],
-                    'label' => $year
+                        'year' => $year,
+                    ]))->first() ?? (object) [],
+                    'label' => $year,
                 ]);
             }
-        } else if($payload->date_frequency === DateEnums::MONTHLY_DATE_FREQUENCY) {
-            foreach(DateEnums::MONTHS_AS_NUMBER as $month)
-            {
+        } elseif ($payload->date_frequency === DateEnums::MONTHLY_DATE_FREQUENCY) {
+            foreach (DateEnums::MONTHS_AS_NUMBER as $month) {
                 $response->push([
-                    'data' => collect((DB::select($baseSql . " AND MONTH(tell.created_at) = :month AND YEAR(tell.created_at) = :year {$endSql}", [
+                    'data' => collect(DB::select($baseSql." AND MONTH(tell.created_at) = :month AND YEAR(tell.created_at) = :year {$endSql}", [
                         ...$baseVariables,
                         'month' => $month,
-                        'year' => $currentYear
-                    ])))->first() ?? (object)[],
-                    'label' => DateEnums::MONTHS_AS_NAME["tr_TR"][$month - 1]
+                        'year'  => $currentYear,
+                    ]))->first() ?? (object) [],
+                    'label' => DateEnums::MONTHS_AS_NAME['tr_TR'][$month - 1],
                 ]);
             }
-        } else if($payload->date_frequency === DateEnums::WEEKLY_DATE_FREQUENCY) {
-            foreach(range(DateEnums::WEEKLY_DATE_FREQUENCY_COUNT, 0) as $weekNumber)
-            {
+        } elseif ($payload->date_frequency === DateEnums::WEEKLY_DATE_FREQUENCY) {
+            foreach (range(DateEnums::WEEKLY_DATE_FREQUENCY_COUNT, 0) as $weekNumber) {
                 $currentWeek = Carbon::parse(now())->week(now()->week - $weekNumber)->format(DateEnums::MYSQL_DATE_FORMAT);
 
                 $response->push([
-                    'data' => collect((DB::select($baseSql . " AND YEAR(tell.created_at) = :year AND WEEK(tell.created_at) = WEEK(:week) {$endSql}", [
+                    'data' => collect(DB::select($baseSql." AND YEAR(tell.created_at) = :year AND WEEK(tell.created_at) = WEEK(:week) {$endSql}", [
                         ...$baseVariables,
                         'year' => $currentYear,
-                        'week' => $currentWeek
-                    ])))->first() ?? (object)[],
-                    'label' => $weekNumber === 0 ? 'Bu hafta.' : "{$weekNumber} hafta önce."
+                        'week' => $currentWeek,
+                    ]))->first() ?? (object) [],
+                    'label' => $weekNumber === 0 ? 'Bu hafta.' : "{$weekNumber} hafta önce.",
                 ]);
             }
         }

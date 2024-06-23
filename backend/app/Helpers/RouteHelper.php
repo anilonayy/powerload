@@ -5,8 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Class RouteHelper
- * @package App\Helpers
+ * Class RouteHelper.
  */
 class RouteHelper
 {
