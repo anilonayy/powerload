@@ -15,8 +15,8 @@ class LoginRequest extends Request
     public function rules(): array
     {
         return [
-            'email'       => 'required|email',
-            'password'    => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string',
             'device_type' => 'required|string',
         ];
     }
@@ -24,9 +24,9 @@ class LoginRequest extends Request
     public function messages(): array
     {
         return [
-            'email.required'       => __('validate.required', ['field' => __('fields.email')]),
-            'email.validate'       => __('validate.validate', ['field' => __('fields.email')]),
-            'password.required'    => __('validate.required', ['field' => __('fields.password')]),
+            'email.required' => __('validate.required', ['field' => __('fields.email')]),
+            'email.validate' => __('validate.validate', ['field' => __('fields.email')]),
+            'password.required' => __('validate.required', ['field' => __('fields.password')]),
             'device_type.required' => __('validate.required', ['field' => __('fields.device_type')]),
         ];
     }

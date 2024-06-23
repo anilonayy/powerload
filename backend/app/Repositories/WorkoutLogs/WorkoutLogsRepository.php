@@ -97,7 +97,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                     $query->without('exercises');
                     $query->select('id', 'name');
                 },
-                'workout'     => fn ($query) => $query->withTrashed(),
+                'workout' => fn ($query) => $query->withTrashed(),
                 'workoutList' => function ($query) {
                     $query->select(['id', 'workout_exercise_log_id', 'exercise_id', 'is_passed']);
                     $query->with([
@@ -126,7 +126,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                     $query->without('exercises');
                     $query->select('id', 'name');
                 },
-                'workout'     => fn ($query) => $query->withTrashed(),
+                'workout' => fn ($query) => $query->withTrashed(),
                 'workoutList' => function ($query) {
                     $query->select(['id', 'workout_exercise_log_id', 'exercise_id', 'is_passed']);
                     $query->with([
@@ -300,10 +300,10 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         WHERE rowNum = :row_num
         ORDER BY rowNum ASC;
         ', [
-            'user_id'   => $userId,
-            'status'    => WorkoutLogEnums::WORKOUT_COMPLETED,
+            'user_id' => $userId,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
             'is_passed' => WorkoutListLogEnums::NOT_PASSED,
-            'row_num'   => 1,
+            'row_num' => 1,
         ]) ?? []);
     }
 
@@ -332,9 +332,9 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         WHERE tell.is_passed = :is_passed AND tl.status = :status  AND u.id = :user_id';
         $baseVariables = [
             'exercise_id' => $payload->exercise_id,
-            'status'      => WorkoutLogEnums::WORKOUT_COMPLETED,
-            'user_id'     => $userId,
-            'is_passed'   => WorkoutListLogEnums::NOT_PASSED,
+            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
+            'user_id' => $userId,
+            'is_passed' => WorkoutListLogEnums::NOT_PASSED,
         ];
 
         $endSql = 'ORDER BY max DESC';
@@ -344,7 +344,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
 
             foreach (range($targetYear, $currentYear) as $year) {
                 $response->push([
-                    'data' => collect(DB::select($baseSql." AND YEAR(tell.created_at) = :year {$endSql}", [
+                    'data' => collect(DB::select($baseSql . " AND YEAR(tell.created_at) = :year {$endSql}", [
                         ...$baseVariables,
                         'year' => $year,
                     ]))->first() ?? (object) [],
@@ -354,10 +354,10 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
         } elseif ($payload->date_frequency === DateEnums::MONTHLY_DATE_FREQUENCY) {
             foreach (DateEnums::MONTHS_AS_NUMBER as $month) {
                 $response->push([
-                    'data' => collect(DB::select($baseSql." AND MONTH(tell.created_at) = :month AND YEAR(tell.created_at) = :year {$endSql}", [
+                    'data' => collect(DB::select($baseSql . " AND MONTH(tell.created_at) = :month AND YEAR(tell.created_at) = :year {$endSql}", [
                         ...$baseVariables,
                         'month' => $month,
-                        'year'  => $currentYear,
+                        'year' => $currentYear,
                     ]))->first() ?? (object) [],
                     'label' => DateEnums::MONTHS_AS_NAME['tr_TR'][$month - 1],
                 ]);
@@ -367,7 +367,7 @@ class WorkoutLogsRepository implements WorkoutLogsRepositoryInterface
                 $currentWeek = Carbon::parse(now())->week(now()->week - $weekNumber)->format(DateEnums::MYSQL_DATE_FORMAT);
 
                 $response->push([
-                    'data' => collect(DB::select($baseSql." AND YEAR(tell.created_at) = :year AND WEEK(tell.created_at) = WEEK(:week) {$endSql}", [
+                    'data' => collect(DB::select($baseSql . " AND YEAR(tell.created_at) = :year AND WEEK(tell.created_at) = WEEK(:week) {$endSql}", [
                         ...$baseVariables,
                         'year' => $currentYear,
                         'week' => $currentWeek,
