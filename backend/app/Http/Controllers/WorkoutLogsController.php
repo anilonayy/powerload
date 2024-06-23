@@ -51,7 +51,7 @@ class WorkoutLogsController extends Controller
     {
         return Api::ok($this->workoutLogsService->index($request->validated()));
     }
-
+    
     /**
      * @return JsonResponse
      */
