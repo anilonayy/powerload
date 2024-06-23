@@ -10,9 +10,9 @@ class UpdateLogRequest extends FormRequest
     {
         return [
             'workout_day_id' => 'sometimes|exists:workout_days,id',
-            'workout_id'     => 'sometimes|exists:workouts,id',
-            'isCompleted'    => 'sometimes|boolean',
-            'is_new'         => 'sometimes|boolean',
+            'workout_id' => 'sometimes|exists:workouts,id',
+            'isCompleted' => 'sometimes|boolean',
+            'is_new' => 'sometimes|boolean',
         ];
     }
 }

@@ -31,7 +31,7 @@ class UserService implements UserServiceInterface
         $user = $this->userRepository->update(auth()->user()->id, $payload);
 
         return [
-            'name'  => $user->name,
+            'name' => $user->name,
             'email' => $user->email,
         ];
     }

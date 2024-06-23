@@ -35,7 +35,7 @@ class AuthService implements AuthServiceInterface
     public function login(object $payload): array
     {
         $credentials = [
-            'email'    => $payload->email,
+            'email' => $payload->email,
             'password' => $payload->password,
         ];
 
@@ -47,7 +47,7 @@ class AuthService implements AuthServiceInterface
         $token = $user->createToken($payload->device_type, ['user'])->plainTextToken;
 
         return [
-            'user'  => UserResource::make($user),
+            'user' => UserResource::make($user),
             'token' => $token,
         ];
     }
@@ -58,7 +58,7 @@ class AuthService implements AuthServiceInterface
         $token = $user->createToken('token')->plainTextToken;
 
         return [
-            'user'  => UserResource::make($user),
+            'user' => UserResource::make($user),
             'token' => $token,
         ];
     }
@@ -78,7 +78,7 @@ class AuthService implements AuthServiceInterface
 
         return [
             'status' => __($status),
-            'code'   => $status,
+            'code' => $status,
         ];
     }
 
@@ -93,14 +93,14 @@ class AuthService implements AuthServiceInterface
     {
         $status = Password::reset(
             [
-                'email'                 => $payload->email,
-                'password'              => $payload->password,
+                'email' => $payload->email,
+                'password' => $payload->password,
                 'password_confirmation' => $payload->password_confirm,
-                'token'                 => $payload->token,
+                'token' => $payload->token,
             ],
             function ($user) use ($payload) {
                 $user->forceFill([
-                    'password'       => Hash::make($payload->password),
+                    'password' => Hash::make($payload->password),
                     'remember_token' => Str::random(60),
                 ])->save();
 

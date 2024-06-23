@@ -10,10 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class WorkoutLogs extends Model
 {
     protected $fillable = ['user_id', 'workout_id', 'workout_day_id', 'status', 'workout_end_time', 'duration'];
-    protected $casts = [
-        'created_at'       => 'datetime:d-m-Y H:i:s',
-        'workout_end_time' => 'datetime:d-m-Y H:i:s',
-    ];
 
     public function workoutList(): hasMany
     {

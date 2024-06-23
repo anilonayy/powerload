@@ -14,7 +14,7 @@ return new class() extends Migration {
             $table->id();
             $table->foreignId('workout_exercise_list_log_id')->constrained('workout_exercise_list_logs')->onDelete('cascade');
             $table->foreignId('exercise_id');
-            $table->foreignId('workout_id');
+            $table->foreignId('workout_log_id')->constrained('workout_logs')->onDelete('cascade');
             $table->integer('weight');
             $table->integer('reps');
             $table->dateTime('started_at');

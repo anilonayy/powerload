@@ -48,7 +48,7 @@
           {{ $t('WORKOUTS.WORKOUT_BUILDER.ADD_DAY') }}
         </div>
       </div>
-      <button type="submit" class="green-btn w-full mt-4">
+      <button type="submit" class="green-btn w-full mt-4 mb-14">
         {{ $t('WORKOUTS.WORKOUT_BUILDER.SUBMIT_FORM') }}
       </button>
     </form>

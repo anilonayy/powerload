@@ -8,6 +8,7 @@
 import { computed, defineProps } from 'vue';
 import store from '@/store';
 
+
 const props = defineProps({
   value: {
     type: String,
@@ -20,4 +21,5 @@ const props = defineProps({
 });
 
 const locale = computed(() => store.getters['_getLocale']);
+console.log(locale.value, props)
 </script>

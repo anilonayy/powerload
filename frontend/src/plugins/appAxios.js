@@ -20,7 +20,6 @@ const createAxiosInstance = () => {
       config.headers.Accept = 'application/json';
       config.headers.ContentType = 'application/json';
       config.headers.Locale = getLocale();
-      config.headers['X-Production'] = true;
 
       return config;
     },
