@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\Exercise;
@@ -29,14 +30,15 @@ class ExerciseFactory extends Factory
      * Define a specific category state.
      *
      * @param string $category
+     *
      * @return ExerciseFactory
      */
     public function forExercise(array $data)
     {
         return $this->state(function (array $attributes) use ($data) {
             return [
-                'name' => $data['name'],
-                'exercise_categories_id' => $data['ec']
+                'name'                   => $data['name'],
+                'exercise_categories_id' => $data['ec'],
             ];
         });
     }

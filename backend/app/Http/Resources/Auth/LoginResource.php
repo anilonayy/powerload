@@ -18,9 +18,9 @@ class LoginResource extends JsonResource
 
         return [
             'token' => $this->when($data->token, $data->token),
-            'user' => [
-                'name' => $data->user->name,
-                'email' => $data->user->email
+            'user'  => [
+                'name'  => $data->user->name,
+                'email' => $data->user->email,
             ],
         ];
     }

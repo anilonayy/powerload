@@ -9,8 +9,8 @@ class UpdatePasswordRequest extends Request
     public function rules(): array
     {
         return [
-            'currentPassword' => 'required',
-            'newPassword' => 'required',
+            'currentPassword'    => 'required',
+            'newPassword'        => 'required',
             'newPasswordConfirm' => 'required', 'same:newPassword',
         ];
     }

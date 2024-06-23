@@ -11,6 +11,7 @@ interface WorkoutServiceInterface
      * Create workout resource.
      *
      * @param Workout $payload
+     *
      * @return array
      */
     public function create(object $payload): Workout;
@@ -18,7 +19,8 @@ interface WorkoutServiceInterface
     /**
      * Find workout resource by id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return Workout
      */
     public function find(int $id): Workout;
@@ -26,8 +28,9 @@ interface WorkoutServiceInterface
     /**
      * Update workout resource.
      *
-     * @param int $id
+     * @param int    $id
      * @param object $payload
+     *
      * @return Workout
      */
     public function update(Workout $workout, object $payload): Workout;
@@ -36,6 +39,7 @@ interface WorkoutServiceInterface
      * Delete workout resource.
      *
      * @param int $id
+     *
      * @return void
      */
     public function delete(Workout $workout): void;
@@ -44,6 +48,7 @@ interface WorkoutServiceInterface
      *  Get all workout resources.
      *
      * @param object $payload
+     *
      * @return array
      */
     public function getAll(object $payload): array;

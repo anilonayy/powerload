@@ -24,6 +24,7 @@ class WorkoutsController extends Controller
 
     /**
      * @param AllWithFiltersRequest $request
+     *
      * @return JsonResponse
      */
     public function index(AllWithFiltersRequest $request): JsonResponse
@@ -40,7 +41,8 @@ class WorkoutsController extends Controller
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
@@ -50,6 +52,7 @@ class WorkoutsController extends Controller
 
     /**
      * @param CreateWorkoutRequest $request
+     *
      * @return JsonResponse
      */
     public function store(CreateWorkoutRequest $request): JsonResponse
@@ -58,8 +61,9 @@ class WorkoutsController extends Controller
     }
 
     /**
-     * @param Workout $workout
+     * @param Workout              $workout
      * @param UpdateWorkoutRequest $request
+     *
      * @return JsonResponse
      */
     public function update(Workout $workout, UpdateWorkoutRequest $request): JsonResponse
@@ -69,6 +73,7 @@ class WorkoutsController extends Controller
 
     /**
      * @param Workout $workout
+     *
      * @return JsonResponse
      */
     public function destroy(Workout $workout): JsonResponse

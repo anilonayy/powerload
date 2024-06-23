@@ -18,7 +18,7 @@ $basePath = base_path('routes/api/');
 $notWithVersions = glob("{$basePath}*.php");
 $versions = glob("{$basePath}*", GLOB_ONLYDIR);
 
-foreach($versions as $version) {
+foreach ($versions as $version) {
     $files = glob("{$version}/*.php");
 
     foreach ($files as $file) {
@@ -29,7 +29,7 @@ foreach($versions as $version) {
     }
 }
 
-foreach($notWithVersions as $file) {
+foreach ($notWithVersions as $file) {
     $path = basename($file, '.php');
 
     Route::prefix($path)->group($file);

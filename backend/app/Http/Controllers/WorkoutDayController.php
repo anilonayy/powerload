@@ -19,9 +19,9 @@ class WorkoutDayController
         $this->workoutDayService = $workoutDayService;
     }
 
-
     /**
      * @param WorkoutDay $workoutDay
+     *
      * @return JsonResponse
      */
     public function showExercises(WorkoutDay $workoutDay): JsonResponse

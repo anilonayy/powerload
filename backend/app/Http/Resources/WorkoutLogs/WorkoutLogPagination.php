@@ -15,7 +15,7 @@ class WorkoutLogPagination extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-//            'data' => WorkoutLogs::collection($this->resource->data),
+            //            'data' => WorkoutLogs::collection($this->resource->data),
         ];
     }
 }

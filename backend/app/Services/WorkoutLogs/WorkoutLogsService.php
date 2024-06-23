@@ -20,16 +20,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class WorkoutLogsService implements WorkoutLogsServiceInterface
 {
-    use ResponseMessage,DateHelper;
+    use ResponseMessage;
+    use DateHelper;
 
     protected WorkoutLogsRepositoryInterface $workoutLogsRepository;
+
     public function __construct(WorkoutLogsRepositoryInterface $workoutLogsRepository)
     {
         $this->workoutLogsRepository = $workoutLogsRepository;
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return mixed
      */
     public function show(int $id): mixed
@@ -42,7 +45,8 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return mixed
      */
     public function dailyResults(int $id): mixed
@@ -51,7 +55,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
         $this->checkIsUsersLog($workoutLog->user_id);
 
-        if($workoutLog->status !== WorkoutLogEnums::WORKOUT_COMPLETED) {
+        if ($workoutLog->status !== WorkoutLogEnums::WORKOUT_COMPLETED) {
             $this->getFailMessage('Bu antrenman tamamlanmamış veya yarıda bırakılmış.');
         }
 
@@ -60,6 +64,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
     /**
      * @param array $payload
+     *
      * @return array|JsonResource
      */
     public function index(array $payload): array|JsonResource
@@ -69,7 +74,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
             return [
                 ...$paginateResults,
-                'data' => WorkoutLogsResource::collection($paginateResults['data'])
+                'data' => WorkoutLogsResource::collection($paginateResults['data']),
             ];
         }
 
@@ -77,7 +82,6 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     }
 
     /**
-     *
      * @return WorkoutLogs
      */
     public function store(): WorkoutLogs
@@ -86,7 +90,6 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     }
 
     /**
-     *
      * @return WorkoutLogs
      */
     public function lastOrNew(): WorkoutLogs
@@ -96,23 +99,24 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
     /**
      * @param WorkoutLogs $workoutLog
-     * @param array $payload
+     * @param array       $payload
+     *
      * @return array
      */
     public function update(WorkoutLogs $workoutLog, array $payload): array
     {
         $this->checkIsUsersLog($workoutLog->user_id);
 
-        if(array_key_exists('workout_day_id', $payload) && array_key_exists('is_new', $payload)) {
+        if (array_key_exists('workout_day_id', $payload) && array_key_exists('is_new', $payload)) {
             WorkoutExerciseListLogs::where('workout_exercise_log_id', $workoutLog->id)->delete();
             $workoutDayExercises = WorkoutDay::find($payload['workout_day_id'])->exercises();
 
             // Antrenman listesindeki egzersizleri, bu antrenman sessionuna ekle.
-            $workoutDayExercises->each(function($exercise) use ($workoutLog) {
+            $workoutDayExercises->each(function ($exercise) use ($workoutLog) {
                 WorkoutExerciseListLogs::create([
                     'workout_exercise_log_id' => $workoutLog->id,
-                    'exercise_id' => $exercise->exercise->id,
-                    'is_passed' => false
+                    'exercise_id'             => $exercise->exercise->id,
+                    'is_passed'               => false,
                 ]);
             });
         }
@@ -120,21 +124,21 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $workoutLog->update($payload);
 
         return [
-            'id' => $workoutLog->id,
-            'workout_id' => $workoutLog->workout_id,
+            'id'             => $workoutLog->id,
+            'workout_id'     => $workoutLog->workout_id,
             'workout_day_id' => $workoutLog->workout_day_id,
-            'exercises' => WorkoutExerciseListLogs::where('workout_exercise_log_id', $workoutLog->id)->with(['exercise' => function($query){
-                $query->select(['id', 'name','exercise_categories_id']);
-                $query->with(['category' => function($query){
+            'exercises'      => WorkoutExerciseListLogs::where('workout_exercise_log_id', $workoutLog->id)->with(['exercise' => function ($query) {
+                $query->select(['id', 'name', 'exercise_categories_id']);
+                $query->with(['category' => function ($query) {
                     $query->select(['id', 'name']);
                 }]);
-            }])->get()
+            }])->get(),
         ];
     }
 
-
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return void
      */
     public function complete(WorkoutLogs $workoutLog): void
@@ -142,8 +146,8 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status' => WorkoutLogEnums::WORKOUT_COMPLETED,
-            'workout_end_time' => now()
+            'status'           => WorkoutLogEnums::WORKOUT_COMPLETED,
+            'workout_end_time' => now(),
         ]);
     }
 
@@ -154,7 +158,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     {
         $lastWorkoutLog = WorkoutLogs::where([
             ['user_id', auth()->user()->id],
-            ['status', WorkoutLogEnums::WORKOUT_CONTINUE]
+            ['status', WorkoutLogEnums::WORKOUT_CONTINUE],
         ])->latest()->first();
 
         if (!$lastWorkoutLog) {
@@ -162,15 +166,16 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         }
 
         return [
-            'id' => $lastWorkoutLog->id,
-            'workout_id' => $lastWorkoutLog->workout_id,
+            'id'             => $lastWorkoutLog->id,
+            'workout_id'     => $lastWorkoutLog->workout_id,
             'workout_day_id' => $lastWorkoutLog->workout_day_id,
-            'exercises' => WorkoutExerciseListLogs::where('workout_exercise_log_id', $lastWorkoutLog->id)->get()
+            'exercises'      => WorkoutExerciseListLogs::where('workout_exercise_log_id', $lastWorkoutLog->id)->get(),
         ];
     }
 
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return WorkoutLogs
      */
     public function giveUp(WorkoutLogs $workoutLog): WorkoutLogs
@@ -178,8 +183,8 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $this->checkIsUsersLog($workoutLog->user_id);
 
         $workoutLog->update([
-            'status' => WorkoutLogEnums::WORKOUT_GIVE_UP,
-            'workout_end_time' => now()
+            'status'           => WorkoutLogEnums::WORKOUT_GIVE_UP,
+            'workout_end_time' => now(),
         ]);
 
         return $workoutLog;
@@ -193,9 +198,9 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
         $averageTime = $this->workoutLogsRepository->getWorkoutTimeAverage();
 
         return [
-            'workout_count' => $this->workoutLogsRepository->getWorkoutCounts(),
-            'average_workout_time' => Carbon::parse(time())->diff(Carbon::parse(time() + $averageTime)),
-            'average_exercise_count' => (double)number_format($this->workoutLogsRepository->getWorkoutExerciseAverage(), 1),
+            'workout_count'          => $this->workoutLogsRepository->getWorkoutCounts(),
+            'average_workout_time'   => Carbon::parse(time())->diff(Carbon::parse(time() + $averageTime)),
+            'average_exercise_count' => (float) number_format($this->workoutLogsRepository->getWorkoutExerciseAverage(), 1),
         ];
     }
 
@@ -209,6 +214,7 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
 
     /**
      * @param object $payload
+     *
      * @return Collection
      */
     public function exerciseHistory(object $payload): Collection
@@ -217,12 +223,13 @@ class WorkoutLogsService implements WorkoutLogsServiceInterface
     }
 
     /**
-     * @param integer $logOwnerId
+     * @param int $logOwnerId
+     *
      * @return void
      */
-    private function checkIsUsersLog (int $logOwnerId): void
+    private function checkIsUsersLog(int $logOwnerId): void
     {
-        if(auth()->user()->id !== $logOwnerId) {
+        if (auth()->user()->id !== $logOwnerId) {
             throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }

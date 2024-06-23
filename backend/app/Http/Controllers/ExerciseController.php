@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 class ExerciseController extends Controller
 {
     protected ExerciseServiceInterface $exerciseService;
+
     public function __construct(ExerciseServiceInterface $exerciseService)
     {
         $this->exerciseService = $exerciseService;

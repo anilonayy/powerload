@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class WorkoutLogsController extends Controller
 {
     protected WorkoutLogsServiceInterface $workoutLogsService;
+
     public function __construct(WorkoutLogsServiceInterface $workoutLogsService)
     {
         $this->workoutLogsService = $workoutLogsService;
@@ -23,6 +24,7 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
@@ -30,9 +32,9 @@ class WorkoutLogsController extends Controller
         return Api::ok($this->workoutLogsService->show($id));
     }
 
-
     /**
      * @param int $id
+     *
      * @return JsonResponse
      */
     public function dailyResults(int $id): JsonResponse
@@ -42,6 +44,7 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param AllWithFiltersRequest $request
+     *
      * @return JsonResponse
      */
     public function index(AllWithFiltersRequest $request): JsonResponse
@@ -67,7 +70,8 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param UpdateLogRequest $request
-     * @param WorkoutLogs $workoutLog
+     * @param WorkoutLogs      $workoutLog
+     *
      * @return JsonResponse
      */
     public function update(UpdateLogRequest $request, WorkoutLogs $workoutLog): JsonResponse
@@ -77,6 +81,7 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return JsonResponse
      */
     public function complete(WorkoutLogs $workoutLog): JsonResponse
@@ -93,7 +98,6 @@ class WorkoutLogsController extends Controller
     {
         return Api::ok($this->workoutLogsService->last());
     }
-
 
     /**
      * @return JsonResponse
@@ -113,6 +117,7 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param ExerciseHistoryRequest $request
+     *
      * @return JsonResponse
      */
     public function exerciseHistory(ExerciseHistoryRequest $request): JsonResponse
@@ -122,6 +127,7 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return JsonResponse
      */
     public function giveUp(WorkoutLogs $workoutLog): JsonResponse
@@ -131,11 +137,12 @@ class WorkoutLogsController extends Controller
 
     /**
      * @param WorkoutLogs $workoutLog
+     *
      * @return void
      */
-    private function checkIsUsersLog (WorkoutLogs $workoutLog): void
+    private function checkIsUsersLog(WorkoutLogs $workoutLog): void
     {
-        if(auth()->user()->id !== $workoutLog->user_id) {
+        if (auth()->user()->id !== $workoutLog->user_id) {
             throw new NotFoundHttpException(ResponseMessageEnums::FORBIDDEN, code: Response::HTTP_FORBIDDEN);
         }
     }

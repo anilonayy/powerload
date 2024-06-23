@@ -11,6 +11,7 @@ interface WorkoutRepositoryInterface
      * Get all workout resources.
      *
      * @param object $payload
+     *
      * @return Collection
      */
     public function all(object $payload): Collection;
@@ -19,6 +20,7 @@ interface WorkoutRepositoryInterface
      * Get all workout resources by paginate.
      *
      * @param object $payload
+     *
      * @return array
      */
     public function paginate(object $payload): array;
@@ -34,6 +36,7 @@ interface WorkoutRepositoryInterface
      * Create workout resource.
      *
      * @param object $payload
+     *
      * @return Workout
      */
     public function create(object $payload): Workout;
@@ -41,7 +44,8 @@ interface WorkoutRepositoryInterface
     /**
      * Find workout resource by id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return Workout
      */
     public function find(int $id): Workout;
@@ -50,7 +54,8 @@ interface WorkoutRepositoryInterface
      * Update workout resource.
      *
      * @param Workout $workout
-     * @param object $payload
+     * @param object  $payload
+     *
      * @return Workout
      */
     public function update(Workout $workout, object $payload): Workout;
@@ -59,6 +64,7 @@ interface WorkoutRepositoryInterface
      * Delete workout resource.
      *
      * @param Workout $workout
+     *
      * @return void
      */
     public function delete(Workout $workout): void;

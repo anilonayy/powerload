@@ -27,17 +27,19 @@ class AuthService implements AuthServiceInterface
 
     /**
      * @param object $payload
-     * @return array
+     *
      * @throws UnauthorizedHttpException
+     *
+     * @return array
      */
     public function login(object $payload): array
     {
         $credentials = [
-            'email' => $payload->email,
-            'password' => $payload->password
+            'email'    => $payload->email,
+            'password' => $payload->password,
         ];
 
-        if(! auth()->attempt($credentials,true)) {
+        if (!auth()->attempt($credentials, true)) {
             throw new UnauthorizedHttpException('Unauthorized', __('auth.failed'), code: Response::HTTP_UNAUTHORIZED);
         }
 
@@ -45,11 +47,10 @@ class AuthService implements AuthServiceInterface
         $token = $user->createToken($payload->device_type, ['user'])->plainTextToken;
 
         return [
-            'user' => UserResource::make($user),
-            'token' => $token
+            'user'  => UserResource::make($user),
+            'token' => $token,
         ];
     }
-
 
     public function register(object $payload): array
     {
@@ -57,50 +58,49 @@ class AuthService implements AuthServiceInterface
         $token = $user->createToken('token')->plainTextToken;
 
         return [
-            'user' => UserResource::make($user),
-            'token' => $token
+            'user'  => UserResource::make($user),
+            'token' => $token,
         ];
     }
 
-
     /**
      * @param object $payload
+     *
      * @return array
      */
     public function forgotPassword(object $payload): array
     {
         try {
-            $status = Password::sendResetLink((array)['email' => $payload->email]);
-        }
-        catch (Exception $e) {
+            $status = Password::sendResetLink((array) ['email' => $payload->email]);
+        } catch (Exception $e) {
             var_dump($e->getMessage());
         }
 
-
         return [
             'status' => __($status),
-            'code' => $status,
+            'code'   => $status,
         ];
     }
 
-
     /**
      * @param object $payload
-     * @return array
+     *
      * @throws HttpClientException
+     *
+     * @return array
      */
     public function resetPassword(object $payload): array
     {
         $status = Password::reset(
             [
-                'email' => $payload->email,
-                'password' => $payload->password,
+                'email'                 => $payload->email,
+                'password'              => $payload->password,
                 'password_confirmation' => $payload->password_confirm,
-                'token' => $payload->token
+                'token'                 => $payload->token,
             ],
             function ($user) use ($payload) {
                 $user->forceFill([
-                    'password' => Hash::make($payload->password),
+                    'password'       => Hash::make($payload->password),
                     'remember_token' => Str::random(60),
                 ])->save();
 

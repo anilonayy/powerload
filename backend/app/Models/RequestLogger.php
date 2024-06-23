@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestLogger extends Model
 {
-    protected $table = "request_logs";
+    protected $table = 'request_logs';
     public $timestamps = false;
     protected $fillable = [
         'path',
@@ -18,6 +18,6 @@ class RequestLogger extends Model
         'user_agent',
         'user_id',
         'duration',
-        'created_at'
+        'created_at',
     ];
 }

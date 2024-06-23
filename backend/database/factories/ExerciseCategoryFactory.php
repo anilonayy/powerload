@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Models\ExerciseCategory;
@@ -29,6 +30,7 @@ class ExerciseCategoryFactory extends Factory
      * Define a specific category state.
      *
      * @param string $category
+     *
      * @return ExerciseCategoryFactory
      */
     public function forCategory(string $category)

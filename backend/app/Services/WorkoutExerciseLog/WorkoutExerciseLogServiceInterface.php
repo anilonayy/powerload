@@ -11,6 +11,7 @@ interface WorkoutExerciseLogServiceInterface
      * Create Workout Exercise Logs.
      *
      * @param object $payload
+     *
      * @return Collection
      */
     public function create(WorkoutLogs $workoutLog, object $payload): Collection;

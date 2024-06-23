@@ -22,6 +22,7 @@ class UserController extends Controller
 
     /**
      * @param UpdateUserRequest $request
+     *
      * @return JsonResponse
      */
     public function update(UpdateUserRequest $request): JsonResponse
@@ -31,6 +32,7 @@ class UserController extends Controller
 
     /**
      * @param UpdatePasswordRequest $request
+     *
      * @return JsonResponse
      */
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse

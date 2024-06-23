@@ -10,13 +10,13 @@ class ExerciseService implements ExerciseServiceInterface
 {
     use ResponseMessage;
     protected ExerciseRepositoryInterface $exerciseRepository;
+
     public function __construct(ExerciseRepositoryInterface $exerciseRepository)
     {
         $this->exerciseRepository = $exerciseRepository;
     }
 
     /**
-
      * @return Collection
      */
     public function getAll(): Collection

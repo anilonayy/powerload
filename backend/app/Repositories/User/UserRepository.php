@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Repositories\User;
+
 use App\Models\User;
 use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
     /**
-     *
      * @return Collection
      */
     public function all(): Collection
@@ -16,8 +16,8 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @param int $userId
      *
-     * @param integer $userId
      * @return User
      */
     public function find(int $userId): User
@@ -26,8 +26,8 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     *
      * @param object $payload
+     *
      * @return User
      */
     public function create(object $payload): User
@@ -36,9 +36,9 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     *
-     * @param integer $userId
+     * @param int    $userId
      * @param object $payload
+     *
      * @return User
      */
     public function update(int $userId, object $payload): User
@@ -51,8 +51,8 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @param int $userId
      *
-     * @param integer $userId
      * @return void
      */
     public function delete(int $userId): void

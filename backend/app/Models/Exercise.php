@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Exercise extends Model
 {
     use HasFactory;
+
     public function category()
     {
         return $this->belongsTo(ExerciseCategory::class, 'exercise_categories_id');

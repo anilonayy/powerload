@@ -12,6 +12,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class Request extends FormRequest
 {
     use ResponseMessage;
+
     public function authorize(): bool
     {
         return true;

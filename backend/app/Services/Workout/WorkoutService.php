@@ -14,6 +14,7 @@ class WorkoutService implements WorkoutServiceInterface
     use ResponseMessage;
 
     protected WorkoutRepositoryInterface $workoutRepository;
+
     public function __construct(WorkoutRepositoryInterface $workoutRepository)
     {
         $this->workoutRepository = $workoutRepository;
@@ -21,6 +22,7 @@ class WorkoutService implements WorkoutServiceInterface
 
     /**
      * @param object $payload
+     *
      * @return Workout
      */
     public function create(object $payload): Workout
@@ -29,7 +31,8 @@ class WorkoutService implements WorkoutServiceInterface
     }
 
     /**
-     * @param integer $id
+     * @param int $id
+     *
      * @return Workout
      */
     public function find(int $id): Workout
@@ -43,7 +46,8 @@ class WorkoutService implements WorkoutServiceInterface
 
     /**
      * @param Workout $workout
-     * @param object $payload
+     * @param object  $payload
+     *
      * @return Workout
      */
     public function update(Workout $workout, object $payload): Workout
@@ -55,6 +59,7 @@ class WorkoutService implements WorkoutServiceInterface
 
     /**
      * @param Workout $workout
+     *
      * @return void
      */
     public function delete(Workout $workout): void
@@ -85,12 +90,13 @@ class WorkoutService implements WorkoutServiceInterface
     }
 
     /**
-     * @param integer $ownerId
+     * @param int $ownerId
+     *
      * @return void
      */
     private function checkOwnerOfModel(int $ownerId = 0): void
     {
-        if($ownerId !== auth()->user()->id) {
+        if ($ownerId !== auth()->user()->id) {
             throw new UnauthorizedException(ResponseMessageEnums::FORBIDDEN);
         }
     }
