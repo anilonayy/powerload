@@ -19,19 +19,19 @@ class WorkoutLogWithDetail extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
+            'id' => $this->id,
             'status' => [
                 'code' => $this->status,
                 'text' => $this->convertLogStatusToText($this->status),
             ],
             'workout' => [
-                'id'               => $this->workout->id,
-                'name'             => $this->workout->name,
+                'id' => $this->workout->id,
+                'name' => $this->workout->name,
                 'workout_day_name' => $this->workoutDay->name,
             ],
-            'duration'     => Carbon::parse($this->workout_end_time)->diff($this->created_at),
+            'duration' => Carbon::parse($this->workout_end_time)->diff($this->created_at),
             'workout_date' => Carbon::parse($this->created_at)->format('d F Y'),
-            'exercises'    => $this->workoutList,
+            'exercises' => $this->workoutList,
 
         ];
     }

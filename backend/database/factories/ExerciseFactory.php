@@ -37,7 +37,7 @@ class ExerciseFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($data) {
             return [
-                'name'                   => $data['name'],
+                'name' => $data['name'],
                 'exercise_categories_id' => $data['ec'],
             ];
         });
